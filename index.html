@@ -51,6 +51,11 @@
             scroll-behavior: smooth;
         }
 
+        body {
+    touch-action: manipulation; /* منع التكبير والاهتزاز غير المقصود */
+    -webkit-text-size-adjust: 100%;
+}
+
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
         .futuristic-bg-glow {
             position: fixed;
@@ -152,29 +157,46 @@
             color: white !important;
         }
 
-       /* 1. نقوم أولاً بتجهيز الكارت ليحتوي الزر بشكل مطلق */
 .premium-product-card {
-    position: relative !important; /* هذا السطر إلزامي */
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px) saturate(140%) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: var(--radius-premium) !important;
+    padding: 15px; /* إضافة مساحة داخلية للمحتوى */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* ضمان توحيد الارتفاع */
+    transition: var(--transition-smooth) !important;
 }
 
-/* 2. إعادة تموضع الزر فوق زاوية الصورة مباشرة */
+.premium-product-card img {
+    width: 100% !important; 
+    height: 160px !important; 
+    object-fit: cover !important;
+    border-radius: 20px; 
+    margin-bottom: 12px;
+}
+
+.card-footer { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: auto; /* دفع الفوتر دائماً للأسفل */
+}
+
 .circle-add-btn {
-    position: absolute !important;
-    top: 24px;   /* مسافة ثابتة من الأعلى */
-    left: 24px;  /* مسافة ثابتة من اليسار ليصبح في الزاوية */
-    z-index: 10; /* ليبقى طافياً فوق الصورة */
-    
-    /* بقية خصائص اللون الفخم والتحجيم التي اعتمدناها سابقاً */
+    position: static !important; /* إلغاء التموضع المطلق المسبب للمشاكل */
+    width: 40px; height: 40px; 
+    border-radius: 50%;
     background: var(--primary-solid) !important;
     color: white !important;
-    border: none !important;
-    width: 42px; height: 42px; border-radius: 50%;
-    font-size: 20px;
-    box-shadow: 0 4px 15px rgba(11, 63, 59, 0.25) !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border: none;
 }
 
+    
 .circle-add-btn:hover {
     transform: scale(1.08) rotate(90deg) !important;
     background: #0f4f4a !important;
@@ -539,7 +561,7 @@
 
         <div class="cart-actions-footer">
             <button class="checkout-btn" onclick="sendCartToWhatsApp()">🚀 إتمام تأكيد وجدولة الطلب</button>
-            <button class="continue-shopping-btn" onclick="toggleCartMenu(false)">☕ إضافة المزيد للمزاج</button>
+            <button class="continue-shopping-btn" onclick="event.stopPropagation(); toggleCartMenu(false);">☕ إضافة المزيد للمزاج</button>
         </div>
     </div>
 
@@ -846,6 +868,21 @@
                 }, 5000);
             }
         });
+
+
+        function toggleCartMenu(openStatus, event) {
+    if (event) event.stopPropagation(); // منع انتقال الضغطة للخلفية
+    const cartMenu = document.getElementById('sidebar-cart-menu');
+    const overlay = document.getElementById('cart-screen-overlay');
+    
+    if(openStatus) {
+        cartMenu.classList.add('open');
+        overlay.classList.add('active');
+    } else {
+        cartMenu.classList.remove('open');
+        overlay.classList.remove('active');
+    }
+}
     </script>
 </body>
 </html>
