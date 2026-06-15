@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
 <meta name="theme-color" content="#06b6d4">
 
-    <title>كافيه حكاية للقهوة المختصة | بداية كل حكاية فنجان قهوة</title>
+    <title>كافيه حكاية للقهوة  | بداية كل حكاية فنجان قهوة</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +23,7 @@
             --black-premium: #0c0d0e;       /* الأسود الفخم والعميق جداً للنصوص الرئيسية */
             --titanium-natural: #ecefed;    /* التيتانيوم الطبيعي النقي والمريح جداً كخلفية للموقع */
             --silver-metallic: #cbd5e1;     /* الفضي المعدني الفاخر للحدود واللمعان الخفيف */
-            --text-gray: #475569;           /* الرمادي الأنيق المعتمد للنصوص الثانوية والمواصفات */
+            --text-gray: #162437;           /* الرمادي الأنيق المعتمد للنصوص الثانوية والمواصفات */
             
             /* 💎 الهوية الزجاجية المعدنية والجزيرة الديناميكية */
             --glass-bg: rgba(255, 255, 255, 0.7); /* زجاجي تيتانيوم ناعم يمرر الإضاءة */
@@ -66,40 +66,42 @@
             background: linear-gradient(180deg, #f3f6f5 0%, #ecefed 100%);
         }
 
-        /* 💎 البطاقات والكروت بنظام الحواف الناعمة الودودة والتكبير الذكي للمحتوى */
-        .premium-product-card, .category-card, .offer-card, .glass-premium-card {
-            background: var(--glass-bg) !important;
-            backdrop-filter: blur(20px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-            border: 1px solid var(--glass-border) !important;
-            box-shadow: var(--card-shadow) !important;
-            border-radius: var(--radius-premium) !important;
-            color: var(--black-premium) !important;
-            transition: var(--transition-smooth) !important;
-            overflow: hidden; /* لضمان عدم خروج الصورة أثناء التكبير الناعم */
-        }
+       /* الحاوية الأم للبطاقات */
+.product-grid-container {
+    display: grid;
+    /* هذا هو السر: توزيع تلقائي للبطاقات حسب عرض الشاشة */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px; /* مسافة متوازنة بين البطاقات */
+    padding: 20px;
+    width: 100%;
+}
 
-        .premium-product-card h4, .category-card h3, .offer-details h3, .glass-premium-card h3 {
-            color: var(--black-premium) !important;
-            font-weight: 800;
-        }
+/* تنسيق البطاقة لتكون متوافقة مع الـ Grid */
+.premium-product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* لضمان تساوي ارتفاع جميع البطاقات */
+    margin: 0 !important; /* إلغاء أي مارجن قد يسبب تداخلاً */
+}
 
-        /* 🎬 تأثير التمرير الذكي الفخم (تتكبر الصورة بنعومة فائقة في مكانها) */
-        .premium-product-card img {
-            width: 100% !important; height: 190px !important; object-fit: cover !important;
-            border-radius: calc(var(--radius-premium) - 10px); margin-bottom: 12px;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important; /* نعومة حركة الصورة */
-        }
-
-        .premium-product-card:hover img {
-            transform: scale(1.06); /* تكبير الصورة بلطف فائق */
-        }
-
-        .premium-product-card:hover {
-            transform: translateY(-4px) !important;
-            background: rgba(255, 255, 255, 0.9) !important;
-            box-shadow: 0 20px 40px rgba(12, 13, 14, 0.05) !important;
-        }
+/* تحسين عرض الصورة للهاتف */
+.premium-product-card img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: cover;
+    border-radius: var(--radius-premium); /* زوايا ناعمة تتماشى مع التصميم */
+}
+@media (max-width: 480px) {
+    .product-grid-container {
+        grid-template-columns: 1fr; /* بطاقة واحدة في السطر للهواتف الصغيرة جداً */
+        gap: 15px;
+        padding: 10px;
+    }
+    
+    .premium-product-card {
+        padding: 10px; /* تقليل الحشوة داخل البطاقة لتوفير مساحة للنص */
+    }
+}
 
         /* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
         .cart-trigger, .premium-load-more-btn, .filter-btn, .category-toggle-btn,
@@ -229,7 +231,7 @@
             padding: 0 20px; box-sizing: border-box;
             
             /* تصميم الجزيرة الطافية المعزولة زجاجياً بفخامة */
-            background: rgba(12, 13, 14, 0.88) !important; /* تيتانيوم أسود فخم مائل للشفافية */
+            background: rgba(59, 86, 115, 0.081) !important; /* تيتانيوم أسود فخم مائل للشفافية */
             backdrop-filter: blur(20px) !important;
             -webkit-backdrop-filter: blur(20px) !important;
             border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -253,21 +255,53 @@
 
         .menu-trigger-btn .bar {
             width: 22px; height: 2.5px;
-            background-color: white !important; /* لون فضي ناصع وواضح جداً للرؤية الفورية */
+            background-color:  #00474e;  /* لون فضي ناصع وواضح جداً للرؤية الفورية */
             border-radius: 10px;
             transition: all 0.3s ease;
         }
 
-        /* نصوص وشعار الجزيرة الذكية */
-        .brand-logo-container h1 {
-            font-size: 17px; font-weight: 800; margin: 0; color: #ffffff !important;
-        }
+        /* الحاوية الأساسية مع الحركة */
+.brand-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    line-height: 1;
+    /* الحركة: ظهور بتكبير طفيف وتلاشي ناعم */
+    animation: revealEffect 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
-        .brand-logo-container span {
-            color: var(--silver-metallic) !important;
-            font-size: 10px; font-weight: 600; opacity: 0.7;
-        }
+@keyframes revealEffect {
+    0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+}
 
+/* العنوان الفخم */
+.brand-logo-container h1 {
+    margin: 0 !important;
+    font-size: 24px;
+    font-weight: 800;
+    color: #0b3f3b; /* لون ذهبي */
+    font-family: 'Cairo', sans-serif;
+    
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+/* الشعار الفرعي */
+.brand-logo-container span {
+    margin-top: -2px !important;
+    font-size: 11px;
+    color: #00474e; /* لون ذهبي أعمق */
+    font-weight: 500;
+    letter-spacing: 3px; /* تباعد يعطي فخامة "مودرن" */
+    font-family: 'Cairo', sans-serif;
+    text-transform: uppercase;
+}
+
+        
         /* 🛒 زر السلة القوي والواضح داخل الجزيرة الذكية بلون التميز */
         #main-basket-btn {
             display: inline-flex !important; align-items: center !important; gap: 8px !important;
@@ -478,9 +512,71 @@
             transform: scale(0.96) !important;
             opacity: 0.9;
         }
+
+        /* تصميم الجزيرة الديناميكية الفاخرة */
+#hikaya-sky-modal {
+    position: fixed !important; top: 0 !important; left: 0 !important; 
+    width: 100% !important; height: 100% !important; 
+    background: rgba(0, 0, 0, 0.2) !important; /* خلفية أغمق وأكثر غموضاً */
+    backdrop-filter: blur(30px) !important; /* ضبابية أعمق */
+    display: flex !important; align-items: center !important; 
+    justify-content: center !important; z-index: 99999 !important; 
+    direction: rtl !important; font-family: 'Cairo', sans-serif !important;
+}
+
+#hikaya-sky-modal > div {
+    background: rgba(255, 255, 255, 0.98) !important; 
+    width: 90% !important; max-width: 400px !important; 
+    padding: 40px !important; border-radius: 50px !important; /* انحناء أكثر */
+    text-align: center !important; 
+    box-shadow: 0 50px 100px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.5) inset !important; /* تأثير الانعكاس الداخلي */
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; /* أنيميشن الظهور */
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px) scale(0.9); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+#hikaya-sky-modal h3 {
+    color: #0b3f3b !important; font-size: 26px !important; margin-bottom: 5px !important;
+    letter-spacing: -1px !important;
+}
+
+/* تصميم المدخلات الفاخر */
+#modal-cust-name {
+    width: 100% !important; padding: 20px !important; 
+    border-radius: 25px !important; border: 2px solid transparent !important;
+    background: #f8fafc !important; font-size: 16px !important;
+    transition: 0.4s !important;
+}
+
+#modal-cust-name:focus {
+    border-color: #0b3f3b !important; /* توهج عند الضغط */
+    background: white !important;
+}
+
+/* زر الموقع الفاخر */
+#geo-location-btn {
+    width: 100% !important; padding: 18px !important; 
+    border-radius: 25px !important; border: none !important;
+    background: #0b3f3b !important; color: white !important; /* قلبنا الألوان للفخامة */
+    font-weight: 800 !important; cursor: pointer !important;
+    transition: 0.4s !important;
+}
+
+#geo-location-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+/* زر الإرسال */
+#modal-submit-btn {
+    flex: 1.5 !important; background: #25D366 !important; /* لون الإجراء يبرز بوضوح */
+    color: white !important; border-radius: 25px !important;
+    padding: 18px !important; font-weight: 900 !important;
+    box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3) !important;
+}
     </style>
 
-    </style>
+   
 </head>
 <body>
 
@@ -492,13 +588,21 @@
         </button>
         
         
-        <div class="brand-logo-container">
-            <h1>☕ كافيه حكاية</h1>
-            <span>للقـهوة المـختصة والحلويات</span>
-        </div>
+       <div class="brand-logo-container">
+    <h1 class="brand-title">COFFEE حكاية</h1>
+    <span class="brand-slogan">
+        لَذَّةُ الحِكَايَةِ تَبدَأ بِفِنُجَانِ قَهُوَةٍ
+        <svg class="glow-line" viewBox="0 0 200 30">
+            <path d="M 190 5 Q 100 25 10 5" fill="none" stroke="#0b3f3b" stroke-width="2" />
+        </svg>
+    </span>
+</div>
+
+
+</style>
 
         <button id="main-basket-btn" onclick="toggleCartMenu(true)">
-            <span>المزاج المختص</span>
+            <span>المزاج الصح</span>
             <div id="main-basket-count">0</div>
         </button>
     </div>
@@ -558,11 +662,13 @@
         </div>
 
         <div class="cart-actions-footer">
-            <button class="checkout-btn" onclick="sendCartToWhatsApp()">🚀 إتمام تأكيد وجدولة الطلب</button>
-            <button class="continue-shopping-btn" onclick="event.stopPropagation(); toggleCartMenu(false);">☕ إضافة المزيد للمزاج</button>
+            <button class="checkout-btn" onclick="sendCartToWhatsApp()">  تأكيد الطلب</button>
+            <button class="continue-shopping-btn" onclick="event.stopPropagation(); toggleCartMenu(false);">☕ إضافة المزيد </button>
         </div>
     </div>
 
+
+    
     <script>
         // قاعدة بيانات منيو كافيه حكاية المحدثة
         const storeProductsDatabase = [
@@ -894,6 +1000,11 @@ document.addEventListener('click', function(event) {
         toggleCartMenu(false);
     }
 });
+
+
+
+
     </script>
+    
 </body>
 </html>
