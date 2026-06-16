@@ -159,41 +159,51 @@
             color: white !important;
         }
 
+
+/* تنسيق البطاقة الأساسي */
 .premium-product-card {
     background: white;
     border-radius: 20px;
     padding: 12px;
     display: flex;
     flex-direction: column;
-    height: 280px;         /* ارتفاع ثابت وموحد للكل */
+    /* نلغي الارتفاع الثابت على الهاتف */
+    height: auto; 
+    min-height: 250px; 
     border: 1px solid rgba(0,0,0,0.05);
     overflow: hidden;
     position: relative;
-    box-sizing: border-box; /* ضروري جداً لمنع أي تمدد في الحواف */
+    box-sizing: border-box;
 }
 
-/* هذا التعديل يضمن أن كل صورة ستصبح مستطيلاً متساوياً تماماً في كل البطاقات */
+/* تنسيق الصورة للهاتف */
 .premium-product-card img {
-    width: 100% !important;        /* العرض يملأ البطاقة */
-    height: 140px !important;      /* ارتفاع ثابت لا يتغير أبداً */
-    min-height: 140px !important;  /* تأكيد الارتفاع */
-    object-fit: cover !important;  /* القص الذكي: يملأ المساحة دون مطّ */
-    object-position: center !important; /* توسيط الصورة */
+    width: 100% !important;
+    height: 180px !important; /* زيادة ارتفاع الصورة قليلاً لتناسب الهاتف */
+    object-fit: cover !important;
+    object-position: center !important;
     border-radius: 15px !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
     display: block !important;
 }
 
-/* 3. تثبيت النص في مساحة محددة */
+/* تحسين النص ليكون مريحاً للعين */
 .premium-product-card h4 {
-    font-size: 14px;
-    margin: 0;
-    line-height: 1.3;
-    height: 38px;          /* ارتفاع ثابت للنص ليمنع التمدد */
+    font-size: 16px; /* تكبير الخط قليلاً للهاتف */
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+    height: auto; /* السماح للنص بأخذ مساحته */
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* سطرين فقط */
-    -webkit-box-orient: vertical;
+}
+
+/* التحكم في عرض البطاقات على الهاتف */
+@media (max-width: 600px) {
+    .product-grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* جعلها بطاقتين بجانب بعضهما (أنيق جداً) */
+        gap: 10px;
+        padding: 10px;
+    }
 }
 
 /* 4. تثبيت زر الزائد والسعر في القاع */
