@@ -8,6 +8,7 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
 <meta name="theme-color" content="#06b6d4">
 
@@ -40,20 +41,26 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 🌌 خلفية الموقع: انسيابية، هادئة، ومريحة للعين */
         body {
-            background-color: var(--titanium-natural) !important;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-            color: var(--black-premium) !important;
-            scroll-behavior: smooth;
-        }
-
-        body {
-    touch-action: manipulation; /* منع التكبير والاهتزاز غير المقصود */
-    -webkit-text-size-adjust: 100%;
+    background-color: var(--titanium-natural) !important;
+    margin: 0 !important; 
+    padding: 0 !important;
+    
+    /* حماية إضافية لمنع التمايل */
+    overflow-x: hidden !important; 
+    width: 100% !important;
+    max-width: 100vw !important; /* يمنع الموقع من تجاوز عرض الشاشة */
+    
+    min-height: 100vh;
+    color: var(--black-premium) !important;
+    scroll-behavior: smooth;
+    
+    /* تحسينات اللمس */
+    touch-action: manipulation !important; 
+    -webkit-text-size-adjust: 100% !important;
+    
+    /* منع الارتداد (Bounce) المزعج في آيفون */
+    overscroll-behavior: none !important; 
 }
 
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
@@ -66,74 +73,60 @@
             background: linear-gradient(180deg, #f3f6f5 0%, #ecefed 100%);
         }
 
-/* 1. الحاوية الأم - التحكم في توزيع البطاقات */
-.product-grid-container {
-    display: grid;
-    /* السر هنا: 140px يجعل البطاقات تترتب بجانب بعضها على الهاتف وتتوسع على الكمبيوتر */
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
-    padding: 10px;
-    width: 100%;
+/* الحاوية - سنستخدم Flexbox بدلاً من Grid لتجاوز أي مشاكل عرض */
+.products-showcase {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* توسيط البطاقات */
+    gap: 15px !important;
+    padding: 15px !important;
+    width: 100% !important;
 }
 
-/* 2. البطاقة - إزالة الارتفاع الثابت لتعطي شكلاً متناسقاً */
+/* البطاقة - نحدد عرضاً مئويًا يضمن عمودين بالضبط في الهاتف */
 .premium-product-card {
+    flex: 0 0 calc(50% - 10px) !important; /* يضمن بالضبط عمودين */
+    max-width: 200px !important; /* يمنعها من أن تصبح عملاقة في الكمبيوتر */
+    
     background: white;
     border-radius: 20px;
-    padding: 10px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    height: auto;       /* جعل الارتفاع تلقائي لمنع التطاول */
-    min-height: 220px;  /* حد أدنى لضمان عدم صغرها أكثر من اللازم */
-    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
     box-sizing: border-box;
-    overflow: hidden;
-}
-/* إعادة تفعيل حركة التكبير */
-.premium-product-card:hover {
-    transform: scale(1.03) !important; /* تكبير بسيط عند المرور */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important; /* إظهار ظل ليعطي عمقاً */
-    z-index: 10;
-}
-/* 3. الصورة - تنسيق احترافي */
-.premium-product-card img {
-    width: 100% !important;
-    height: 140px !important; 
-    object-fit: cover !important;
-    object-position: center !important;
-    border-radius: 15px !important;
-    margin-bottom: 8px !important;
-    display: block !important;
 }
 
-/* 4. النص - تحديد سطرين ومنع التمدد */
+/* حركة التكبير الفاخرة */
+.premium-product-card:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+    z-index: 10;
+}
+
+/* الصورة المربعة (لضمان عدم تطاول البطاقة) */
+.premium-product-card img {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important; 
+    object-fit: cover !important;
+    border-radius: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+/* النص */
 .premium-product-card h4 {
-    font-size: 13px;
+    font-size: 14px;
     margin: 0;
     line-height: 1.3;
-    max-height: 36px;   /* تحديد الارتفاع الأقصى للنص */
+    height: 36px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-.products-showcase {
-    display: grid !important;
-    /* هذا التوزيع يضع 1 عمود على الهاتف، ويزيد تلقائياً كلما كبرت الشاشة */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-    gap: 20px !important;
-    margin-bottom: 50px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
 
-/* لمنع البطاقة من أن تصبح متطاولة */
-.premium-product-card {
-    height: auto !important;
-    min-height: 300px !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
+
 
         /* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
         .cart-trigger, .premium-load-more-btn, .filter-btn, .category-toggle-btn,
@@ -256,6 +249,13 @@
             border-radius: 10px;
             transition: all 0.3s ease;
         }
+
+        #sidebar-cart-menu {
+    background: rgba(255, 255, 255, 0.85); /* شفافية آيفون */
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(0,0,0,0.1);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
 
         /* الحاوية الأساسية مع الحركة */
 .brand-logo-container {
@@ -667,11 +667,55 @@
     opacity: 1;
 }
 
+/*زر عرض المزيد*/
 
+.premium-btn-more {
+    display: block;
+    margin: 30px auto;
+    padding: 16px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
 
-
+.premium-btn-more:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
     
 
+.categories-container {
+    display: flex !important;
+    gap: 12px !important;              /* المسافة بين الأزرار */
+    overflow-x: auto !important;       /* التمرير الأفقي إذا زاد العدد */
+    padding: 15px 20px !important;     /* 20px من اليمين واليسار تمنع الالتصاق بالحواف */
+    
+    white-space: nowrap !important;
+    scrollbar-width: none !important;  /* إخفاء شريط التمرير (لأجهزة الكمبيوتر) */
+    
+    /* ميزة إضافية: تجعل الفئات تبدأ من المنتصف إذا كانت قليلة */
+    justify-content: flex-start !important;
+    align-items: center !important;
+}
+
+/* إخفاء شريط التمرير (لمتصفحات كروم وسفاري) */
+.categories-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* تنسيق أزرار الفئات */
+.category-btn {
+    padding: 10px 22px !important;     /* زيادة التباعد داخل الزر نفسه */
+    border-radius: 15px !important;    /* حواف دائرية أكثر */
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
     
 </style>
 
@@ -766,6 +810,8 @@
         </div>
     </div>
 
+    </div>
+<button id="show-more-btn" class="premium-btn-more">عرض المزيد من المنتجات</button>
 <footer class="premium-footer">
     <div class="footer-grid">
         <div style="text-align: center; color: #1f2937;">
@@ -796,28 +842,45 @@
             { id: 8, name: "مكس عصير الرمان والباشن فروت البارد الفريش", price: 16.00, category: "خلطات", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" }
         ];
 
-        let userCartList = [];
+       let visibleCount = 4; // عدد المنتجات للبدء
 
-        // طباعة وعرض المنتجات بالشبكة
-        function displayStoreItems(itemsToRender) {
-            const gridContainer = document.getElementById('products-grid-container');
-            if(!gridContainer) return;
-            gridContainer.innerHTML = '';
+// دالة العرض الموحدة (تعمل للفلترة ولزر العرض المزيد)
+function displayStoreItems(itemsToRender) {
+    const gridContainer = document.getElementById('products-grid-container');
+    const showMoreBtn = document.getElementById('show-more-btn');
+    if (!gridContainer) return;
 
-            itemsToRender.forEach(product => {
-                const cardHTML = `
-                    <div class="premium-product-card">
-                        <img src="${product.img}" alt="${product.name}">
-                        <h4>${product.name}</h4>
-                        <div class="card-footer">
-                            <span class="price-tag">${product.price.toFixed(2)} ₪</span>
-                            <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
-                        </div>
-                    </div>
-                `;
-                gridContainer.insertAdjacentHTML('beforeend', cardHTML);
-            });
-        }
+    gridContainer.innerHTML = ''; // إفراغ الحاوية
+
+    // نأخذ العدد المطلوب عرضه
+    const itemsToShow = itemsToRender.slice(0, visibleCount);
+
+    itemsToShow.forEach(product => {
+        const cardHTML = `
+            <div class="premium-product-card">
+                <img src="${product.img}" alt="${product.name}">
+                <h4>${product.name}</h4>
+                <div class="card-footer">
+                    <span class="price-tag">${product.price.toFixed(2)} ₪</span>
+                    <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
+                </div>
+            </div>
+        `;
+        gridContainer.insertAdjacentHTML('beforeend', cardHTML);
+    });
+
+    // إظهار أو إخفاء زر المزيد حسب الحاجة
+    if (showMoreBtn) {
+        showMoreBtn.style.display = (visibleCount >= itemsToRender.length) ? 'none' : 'block';
+    }
+}
+
+// دالة زر "عرض المزيد"
+document.getElementById('show-more-btn').addEventListener('click', () => {
+    visibleCount += 4; 
+    // إعادة عرض المنتجات (مع مراعاة إذا كان هناك فلتر مفعل أم لا)
+    displayStoreItems(storeProductsDatabase); 
+});
 
         // فلترة وعرض المنتجات حسب القسم المختار
         function filterBySection(categoryName) {
@@ -1114,7 +1177,6 @@ document.addEventListener('click', function(event) {
         toggleCartMenu(false);
     }
 });
-
 
 
 
