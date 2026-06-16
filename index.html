@@ -118,11 +118,21 @@
     -webkit-box-orient: vertical;
 }
 .products-showcase {
-    display: grid;
-    /* التعديل: التوزيع الذاتي حسب مساحة الشاشة */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 50px;
+    display: grid !important;
+    /* هذا التوزيع يضع 1 عمود على الهاتف، ويزيد تلقائياً كلما كبرت الشاشة */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 20px !important;
+    margin-bottom: 50px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* لمنع البطاقة من أن تصبح متطاولة */
+.premium-product-card {
+    height: auto !important;
+    min-height: 300px !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
         /* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
@@ -374,9 +384,7 @@
             background: var(--primary-solid); margin: 8px auto 0; border-radius: 10px;
         }
 
-        .products-showcase {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px;
-        }
+       
 
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
 
@@ -598,39 +606,7 @@
 }
 
 
-/* الأزرار بنمط النحاس المائي الزجاجي */
-.premium-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 18px 30px;
-    
-    /* التدرج النحاسي الفاخر */
-    background: linear-gradient(145deg, rgba(205, 127, 50, 0.2), rgba(184, 115, 51, 0.1));
-    
-    /* تأثير الزجاج المائي */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    
-    /* الحواف والحدود */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50px; /* حواف ناعمة جداً كقطرة الماء */
-    
-    /* اللمسة الفخمة: الظل والضوء */
-    box-shadow: 
-        inset 0 0 10px rgba(255, 255, 255, 0.4), /* توهج داخلي */
-        0 10px 20px rgba(0,0,0,0.15); /* ظل خارجي */
-        
-    color: #5D4037; /* لون خط نحاسي غامق */
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    text-decoration: none;
-    overflow: hidden;
-}
+
 
 .premium-btn {
     /* التموضع والفراغ */
