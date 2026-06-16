@@ -66,41 +66,63 @@
             background: linear-gradient(180deg, #f3f6f5 0%, #ecefed 100%);
         }
 
-       /* الحاوية الأم للبطاقات */
+/* 1. الحاوية الأم - التحكم في توزيع البطاقات */
 .product-grid-container {
     display: grid;
-    /* هذا هو السر: توزيع تلقائي للبطاقات حسب عرض الشاشة */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px; /* مسافة متوازنة بين البطاقات */
-    padding: 20px;
+    /* السر هنا: 140px يجعل البطاقات تترتب بجانب بعضها على الهاتف وتتوسع على الكمبيوتر */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    padding: 10px;
     width: 100%;
 }
 
-/* تنسيق البطاقة لتكون متوافقة مع الـ Grid */
+/* 2. البطاقة - إزالة الارتفاع الثابت لتعطي شكلاً متناسقاً */
 .premium-product-card {
+    background: white;
+    border-radius: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    height: 100%; /* لضمان تساوي ارتفاع جميع البطاقات */
-    margin: 0 !important; /* إلغاء أي مارجن قد يسبب تداخلاً */
+    height: auto;       /* جعل الارتفاع تلقائي لمنع التطاول */
+    min-height: 220px;  /* حد أدنى لضمان عدم صغرها أكثر من اللازم */
+    border: 1px solid rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    overflow: hidden;
 }
-
-/* تحسين عرض الصورة للهاتف */
+/* إعادة تفعيل حركة التكبير */
+.premium-product-card:hover {
+    transform: scale(1.03) !important; /* تكبير بسيط عند المرور */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important; /* إظهار ظل ليعطي عمقاً */
+    z-index: 10;
+}
+/* 3. الصورة - تنسيق احترافي */
 .premium-product-card img {
     width: 100% !important;
-    height: 200px !important;
-    object-fit: cover;
-    border-radius: var(--radius-premium); /* زوايا ناعمة تتماشى مع التصميم */
+    height: 140px !important; 
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 15px !important;
+    margin-bottom: 8px !important;
+    display: block !important;
 }
-@media (max-width: 480px) {
-    .product-grid-container {
-        grid-template-columns: 1fr; /* بطاقة واحدة في السطر للهواتف الصغيرة جداً */
-        gap: 15px;
-        padding: 10px;
-    }
-    
-    .premium-product-card {
-        padding: 10px; /* تقليل الحشوة داخل البطاقة لتوفير مساحة للنص */
-    }
+
+/* 4. النص - تحديد سطرين ومنع التمدد */
+.premium-product-card h4 {
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.3;
+    max-height: 36px;   /* تحديد الارتفاع الأقصى للنص */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.products-showcase {
+    display: grid;
+    /* التعديل: التوزيع الذاتي حسب مساحة الشاشة */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
 }
 
         /* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
@@ -160,51 +182,6 @@
         }
 
 
-/* تنسيق البطاقة الأساسي */
-.premium-product-card {
-    background: white;
-    border-radius: 20px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    /* نلغي الارتفاع الثابت على الهاتف */
-    height: auto; 
-    min-height: 250px; 
-    border: 1px solid rgba(0,0,0,0.05);
-    overflow: hidden;
-    position: relative;
-    box-sizing: border-box;
-}
-
-/* تنسيق الصورة للهاتف */
-.premium-product-card img {
-    width: 100% !important;
-    height: 180px !important; /* زيادة ارتفاع الصورة قليلاً لتناسب الهاتف */
-    object-fit: cover !important;
-    object-position: center !important;
-    border-radius: 15px !important;
-    margin-bottom: 12px !important;
-    display: block !important;
-}
-
-/* تحسين النص ليكون مريحاً للعين */
-.premium-product-card h4 {
-    font-size: 16px; /* تكبير الخط قليلاً للهاتف */
-    margin: 0 0 10px 0;
-    line-height: 1.4;
-    height: auto; /* السماح للنص بأخذ مساحته */
-    overflow: hidden;
-}
-
-/* التحكم في عرض البطاقات على الهاتف */
-@media (max-width: 600px) {
-    .product-grid-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* جعلها بطاقتين بجانب بعضهما (أنيق جداً) */
-        gap: 10px;
-        padding: 10px;
-    }
-}
 
 /* 4. تثبيت زر الزائد والسعر في القاع */
 .card-footer { 
@@ -621,46 +598,106 @@
 }
 
 
-
-
-
-
-/* 1. تصفير أي قيود لعرض البطاقة على الهاتف */
-@media (max-width: 768px) {
-    .product-grid-container {
-        display: flex !important; /* نستخدم Flex ليتحكم بالترتيب */
-        flex-direction: column !important; /* ترتيب عمودي طولي */
-        width: 100% !important;
-        padding: 10px !important;
-        gap: 20px !important;
-    }
-
-    .premium-product-card {
-        width: 100% !important; /* البطاقة تأخذ كامل العرض */
-        margin: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        border-radius: 20px !important;
-        overflow: hidden;
-    }
-
-    /* 2. تحسين صورة المنتج لتكون واضحة */
-    .premium-product-card img {
-        width: 100% !important;
-        height: 250px !important; /* ارتفاع مناسب للوضوح */
-        object-fit: cover !important; /* قص ذكي للصورة دون تشويه */
-    }
-
-    /* 3. ضمان وضوح النصوص داخل البطاقة */
-    .premium-product-card h3, 
-    .premium-product-card .price {
-        padding: 10px 15px !important;
-        margin: 0 !important;
-        text-align: center;
-    }
+/* الأزرار بنمط النحاس المائي الزجاجي */
+.premium-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 30px;
+    
+    /* التدرج النحاسي الفاخر */
+    background: linear-gradient(145deg, rgba(205, 127, 50, 0.2), rgba(184, 115, 51, 0.1));
+    
+    /* تأثير الزجاج المائي */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* الحواف والحدود */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px; /* حواف ناعمة جداً كقطرة الماء */
+    
+    /* اللمسة الفخمة: الظل والضوء */
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.4), /* توهج داخلي */
+        0 10px 20px rgba(0,0,0,0.15); /* ظل خارجي */
+        
+    color: #5D4037; /* لون خط نحاسي غامق */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-decoration: none;
+    overflow: hidden;
 }
 
-    </style>
+.premium-btn {
+    /* التموضع والفراغ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 22px 40px;
+    
+    /* خلفية زجاجية معتمة (Deep Blur) */
+    background: rgba(255, 255, 255, 0.03) !important; 
+    backdrop-filter: blur(50px) !important;
+    -webkit-backdrop-filter: blur(50px) !important;
+    
+    /* هيكل الزر: انحناء آيفون 16 */
+    border-radius: 30px !important; 
+    border: 0.5px solid rgba(255, 255, 255, 0.2) !important;
+    
+    /* لمسة الظل المجهري */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 
+                inset 0 0 1px rgba(255, 255, 255, 0.3) !important;
+    
+    /* الخط: أناقة مطلقة */
+    color: #0b3f3b !important; /* رمادي فاتح جداً (خامة فضية) */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    
+    /* حركة انسيابية */
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    cursor: pointer;
+}
+
+/* حالة التوهج الملكي عند المرور */
+.premium-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-6px) scale(1.03);
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.15), 
+                inset 0 0 2px rgba(255, 255, 255, 0.5) !important;
+}
+/* إضافة لمعة المائية (Glass Shine) */
+.premium-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.premium-btn:hover::before {
+    opacity: 1;
+}
+
+
+
+
+    
+
+    
+</style>
 
    
 </head>
@@ -753,7 +790,22 @@
         </div>
     </div>
 
+<footer class="premium-footer">
+    <div class="footer-grid">
+        <div style="text-align: center; color: #1f2937;">
+            <p style="font-weight: 800; margin-bottom: 5px;">🕒 ساعات العمل</p>
+            <p style="font-size: 14px; opacity: 0.8;">يومياً | 08:00 - 23:00</p>
+        </div>
 
+        <a href="tel:+972500000000" class="premium-btn phone">
+            <span>📞</span> اتصل الآن
+        </a>
+
+        <a href="waze://?ll=31.2825,34.8252&navigate=yes" class="premium-btn waze">
+            <span>📍</span> توجّه عبر Waze
+        </a>
+    </div>
+</footer>
     
     <script>
         // قاعدة بيانات منيو كافيه حكاية المحدثة
