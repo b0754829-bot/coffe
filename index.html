@@ -1170,18 +1170,7 @@ document.getElementById('show-more-btn').addEventListener('click', () => {
     }
 }
 
-// إضافة مستمع ضغط على مستوى كامل الصفحة
-document.addEventListener('click', function(event) {
-    const cartMenu = document.getElementById('sidebar-cart-menu');
-    const basketBtn = document.getElementById('main-basket-btn');
-    const isClickInsideCart = cartMenu.contains(event.target);
-    const isClickOnBasketBtn = basketBtn.contains(event.target);
 
-    // إذا كانت السلة مفتوحة، والضغطة ليست داخل السلة وليست على زر السلة
-    if (cartMenu.classList.contains('open') && !isClickInsideCart && !isClickOnBasketBtn) {
-        toggleCartMenu(false);
-    }
-});
 
 
 
