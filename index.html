@@ -34,7 +34,44 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
 
-    
+    /* 1. القاعدة الصفرية */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* يسمح بالسكروول الطبيعي للمتصفح دون تداخل */
+    overflow-x: hidden; 
+    overflow-y: auto;
+    background-color: var(--titanium-natural);
+    font-family: 'Cairo', sans-serif;
+}
+
+/* 2. الحماية الذكية (بدون !important) */
+* {
+    box-sizing: border-box;
+    /* يمنع أي عنصر من التمدد خارج حدود الشاشة */
+    max-width: 100%;
+}
+
+/* 3. الهيدر (الثبات الذكي) */
+header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+}
+
+/* 4. السكرول الجانبي (للسلايدرات فقط) */
+.horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch; /* يعطي سلاسة الآيفون */
+}
+* { outline: 1px solid red !important; }
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
         .futuristic-bg-glow {
             position: fixed;
