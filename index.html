@@ -34,30 +34,31 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
 
-       /* 1. إزالة أي قيود ارتفاع تمنع السكرول */
-html, body {
+       html, body {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    height: auto !important; /* هام جداً: لا تستخدم 100% أو 100vh للارتفاع */
+    min-height: 100vh !important;
     
-    /* هذا السطر هو مفتاح الحل: ارتفاع تلقائي حسب المحتوى */
-    height: auto !important; 
-    min-height: 100vh !important; 
+    /* إعدادات التمرير السلس والسريع */
+    overflow-x: hidden !important;
+    overflow-y: scroll !important; /* فرض السكرول العمودي دائماً */
     
-    overflow-x: hidden !important; /* منع التمايل الجانبي */
-    overflow-y: auto !important;   /* إجبار المتصفح على إظهار السكرول */
+    /* سر التمرير كالتطبيقات */
+    -webkit-overflow-scrolling: touch !important;
     
-    position: relative !important;
-    direction: rtl !important;
+    /* إزالة القيود التي تسبب البطء */
+    scroll-behavior: auto !important; /* غيرناه من smooth إلى auto لمنع التداخل */
+    overscroll-behavior: auto !important; /* للسماح للحركة الطبيعية */
+    
     background-color: var(--titanium-natural) !important;
+    direction: rtl !important;
 }
 
-/* 2. تنظيف كل العناصر من أي عرض يتجاوز الشاشة */
+/* تنظيف إضافي لمنع تداخل العناصر */
 * {
     box-sizing: border-box !important;
-    max-width: 100% !important;
-    /* التأكد من عدم وجود أي تأثيرات مخفية تمنع التمرير */
-    touch-action: pan-y !important; 
 }
 
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
