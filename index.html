@@ -11,7 +11,7 @@
     
     <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
 <meta name="theme-color" content="#06b6d4">
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
     <title>كافيه حكاية للقهوة  | بداية كل حكاية فنجان قهوة</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1178,23 +1178,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// تهيئة التمرير السلس
-    const lenis = new Lenis({
-        duration: 1.2,      // سرعة التمرير (كلما زاد الرقم كان أبطأ وأكثر نعومة)
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // معادلة فيزيائية للنعومة
-        direction: 'vertical', 
-        gestureDirection: 'vertical',
-        smooth: true,
-        mouseMultiplier: 1,
-        smoothTouch: true, // مهم جداً: تفعيل السلاسة حتى باللمس (الآيفون)
-        touchMultiplier: 2,
-    });
 
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
 
     </script>
     
