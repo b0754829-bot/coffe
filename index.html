@@ -721,7 +721,11 @@ html, body {
     border: 1px solid rgba(0,0,0,0.08);
     transition: all 0.3s ease;
 }
-    
+    /* فرض السيطرة على أي عنصر متمرد */
+header, section, div, img, video {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
 </style>
 
    
