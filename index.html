@@ -41,6 +41,17 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* كود واحد شامل لجعل التمرير ناعماً وسلساً في كل المتصفحات */
+html {
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important; /* لجعل التمرير كالتطبيقات في الآيفون */
+}
+
+body {
+    overflow-y: auto !important; /* السماح بالتمرير العمودي */
+    overflow-x: hidden !important; /* منع التمايل الأفقي المزعج */
+    height: auto !important;
+}
         body {
     background-color: var(--titanium-natural) !important;
     margin: 0 !important; 
@@ -718,32 +729,9 @@
 }
     
 
-    /* فرض نظام موحد للموقع */
-html, body {
-    overflow-x: hidden !important; /* يمنع التمايل يميناً ويساراً */
-    width: 100% !important;
-    max-width: 100vw !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    direction: rtl !important; /* تثبيت الاتجاه لليمين */
-}
+  
 
-/* توحيد الحاويات الرئيسية */
-.main-wrapper {
-    width: 100% !important;
-    max-width: 600px !important; /* يمنع التشتت في الشاشات العريضة */
-    margin: 0 auto !important;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* كل العناصر ستبدأ من اليمين بانتظام */
-    box-sizing: border-box;
-}
 
-/* حل نهائي لمشكلة تداخل العناصر وتشتتها */
-* {
-    box-sizing: border-box !important;
-    max-width: 100% !important;
-}
 </style>
 
    
@@ -855,7 +843,7 @@ html, body {
         </a>
     </div>
 </footer>
-    
+    </div>
     <script>
         // قاعدة بيانات منيو كافيه حكاية المحدثة
         const storeProductsDatabase = [
@@ -1208,6 +1196,6 @@ document.addEventListener('click', function(event) {
 
 
     </script>
-    </div>
+    
 </body>
 </html>
