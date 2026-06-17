@@ -34,33 +34,23 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            margin: 0; padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* كود واحد شامل لجعل التمرير ناعماً وسلساً في كل المتصفحات */
-html {
-    scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch !important; /* لجعل التمرير كالتطبيقات في الآيفون */
+       * {
+    box-sizing: border-box !important; /* هام جداً لحساب الأبعاد */
+    font-family: 'Cairo', sans-serif !important;
+    margin: 0; 
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    overflow-y: auto !important; /* السماح بالتمرير العمودي */
-    overflow-x: hidden !important; /* منع التمايل الأفقي المزعج */
-    height: auto !important;
-}
-        body {
     background-color: var(--titanium-natural) !important;
     margin: 0 !important; 
     padding: 0 !important;
     
-    /* حماية إضافية لمنع التمايل */
-    overflow-x: hidden !important; 
+    /* التعديلات الجوهرية لمنع الخربطة */
     width: 100% !important;
-    max-width: 100vw !important; /* يمنع الموقع من تجاوز عرض الشاشة */
+    overflow-x: hidden !important; /* منع التمايل الأفقي */
+    overflow-y: auto !important;   /* ضمان عمل السكرول العمودي */
     
     min-height: 100vh;
     color: var(--black-premium) !important;
@@ -69,9 +59,13 @@ body {
     /* تحسينات اللمس */
     touch-action: manipulation !important; 
     -webkit-text-size-adjust: 100% !important;
-    
-    /* منع الارتداد (Bounce) المزعج في آيفون */
     overscroll-behavior: none !important; 
+}
+
+/* هذه الإضافة هي "الحل السحري" لمنع العناصر من الخروج عن الإطار */
+html, body {
+    max-width: 100% !important; /* استبدلنا 100vw بـ 100% لتجنب مشاكل التمدد */
+    overflow-x: hidden !important;
 }
 
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
@@ -728,16 +722,12 @@ body {
     transition: all 0.3s ease;
 }
     
-
-  
-
-
 </style>
 
    
 </head>
 <body>
-<div class="main-wrapper">
+
     <div class="custom-premium-header">
         <button class="menu-trigger-btn" onclick="toggleCartMenu(true)">
             <div class="bar"></div>
@@ -843,7 +833,7 @@ body {
         </a>
     </div>
 </footer>
-    </div>
+    
     <script>
         // قاعدة بيانات منيو كافيه حكاية المحدثة
         const storeProductsDatabase = [
