@@ -716,13 +716,33 @@
     border: 1px solid rgba(0,0,0,0.08);
     transition: all 0.3s ease;
 }
-    .main-wrapper {
-    width: 90% !important;        /* يترك مساحة صغيرة جداً على الجوانب */
-    max-width: 600px !important;  /* يمنع التمدد المزعج في الشاشات الكبيرة */
-    margin: 0 auto !important;    /* السحر الذي يسنتر كل شيء في المنتصف */
+    
+
+    /* فرض نظام موحد للموقع */
+html, body {
+    overflow-x: hidden !important; /* يمنع التمايل يميناً ويساراً */
+    width: 100% !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    direction: rtl !important; /* تثبيت الاتجاه لليمين */
+}
+
+/* توحيد الحاويات الرئيسية */
+.main-wrapper {
+    width: 100% !important;
+    max-width: 600px !important; /* يمنع التشتت في الشاشات العريضة */
+    margin: 0 auto !important;
     display: flex;
     flex-direction: column;
-    align-items: center;          /* يضمن محاذاة كل المحتويات في المركز */
+    align-items: flex-start; /* كل العناصر ستبدأ من اليمين بانتظام */
+    box-sizing: border-box;
+}
+
+/* حل نهائي لمشكلة تداخل العناصر وتشتتها */
+* {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
 }
 </style>
 
@@ -835,7 +855,7 @@
         </a>
     </div>
 </footer>
-     </div>
+    </div>
     <script>
         // قاعدة بيانات منيو كافيه حكاية المحدثة
         const storeProductsDatabase = [
@@ -1188,6 +1208,6 @@ document.addEventListener('click', function(event) {
 
 
     </script>
-   
+    
 </body>
 </html>
