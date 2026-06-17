@@ -33,40 +33,32 @@
             --radius-premium: 28px;         /* انحناءات فائقة النعومة وودودة جداً للهواتف */
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
-/* 1. إعدادات الـ Root والـ Body الأساسية */
+/* إعدادات السكرول الأساسية والأسرع */
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
+    margin: 0; padding: 0; width: 100%; height: 100%;
     background-color: var(--titanium-natural);
     font-family: 'Cairo', sans-serif;
-    
-    /* إعدادات السكرول الطبيعي - الأسرع على الإطلاق */
-    overflow-y: scroll; 
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* سلاسة الآيفون */
     scroll-behavior: auto !important;
 }
 
-/* 2. حماية العناصر وتسريع المعالجة (GPU) */
+/* تنظيف الـ * من العمليات الثقيلة */
 * {
     box-sizing: border-box;
     max-width: 100%;
-    /* will-change تستخدم فقط للعناصر التي تتحرك فعلياً لتقليل الضغط على المعالج */
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* 3. الهيدر (ثابت ونظيف) */
 header {
     width: 100%;
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    background: rgba(236, 239, 237, 0.9); /* لون خلفية التيتانيوم بشفافية */
+    /* قم بإلغاء أو حذف هذا السطر مؤقتاً لتشعر بالفرق في السرعة */
+    /* backdrop-filter: blur(10px); */ 
 }
-
 /* 4. السلايدر (سكرول أفقي سريع) */
 .horizontal-scroll {
     display: flex;
@@ -138,7 +130,14 @@ header {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-
+/* تطاير المنتجات الخيالي */
+        .flying-product-premium {
+            position: fixed; z-index: 10000; width: 60px; height: 60px; border-radius: 50%;
+            background-size: cover; background-position: center;
+            box-shadow: 0 10px 30px rgba(15, 118, 110, 0.6), 0 0 20px rgba(251, 191, 36, 0.5);
+            border: 3px solid var(--accent-gold); pointer-events: none;
+            transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease;
+        }
 
 
         /* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
@@ -1181,7 +1180,24 @@ document.getElementById('show-more-btn').addEventListener('click', () => {
 
 
 
+// 1. مراقب حركة السكرول (Scroll Performer)
+    let scrollTimeout;
+    const header = document.querySelector('.custom-premium-header');
 
+    window.addEventListener('scroll', () => {
+        // عند بدء التمرير، نخفف الضغط عن المعالج فوراً
+        if (header) {
+            header.style.backdropFilter = 'none'; // تعطيل الضبابية أثناء الحركة
+            header.style.backgroundColor = 'rgba(236, 239, 237, 0.95)'; // لون ثابت وخفيف
+        }
+
+        // إرجاع التأثير عند توقف التمرير
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            header.style.backdropFilter = 'blur(10px)'; // إعادة الضبابية
+            header.style.backgroundColor = 'rgba(59, 86, 115, 0.081)';
+        }, 150);
+    }, { passive: true }); // {passive: true} سر من أسرار سلاسة
     </script>
     
 </body>
