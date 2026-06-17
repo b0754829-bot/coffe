@@ -34,33 +34,38 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            margin: 0; padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        /* 1. إصلاح قاعدة الموقع */
+* {
+    box-sizing: border-box !important;
+    margin: 0; 
+    padding: 0;
+    font-family: 'Cairo', sans-serif !important;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        body {
+/* 2. الـ body هو الحارس الذي لا يقطع العناصر */
+body {
     background-color: var(--titanium-natural) !important;
-    margin: 0 !important; 
-    padding: 0 !important;
-    
-    /* حماية إضافية لمنع التمايل */
-    overflow-x: hidden !important; 
     width: 100% !important;
-    max-width: 100vw !important; /* يمنع الموقع من تجاوز عرض الشاشة */
-    
+    /* التغيير الجوهري هنا: */
+    max-width: 100% !important; 
+    overflow-x: hidden !important; 
+    overflow-y: auto !important;
     min-height: 100vh;
     color: var(--black-premium) !important;
-    scroll-behavior: smooth;
-    
-    /* تحسينات اللمس */
-    touch-action: manipulation !important; 
-    -webkit-text-size-adjust: 100% !important;
-    
-    /* منع الارتداد (Bounce) المزعج في آيفون */
-    overscroll-behavior: none !important; 
+    touch-action: manipulation !important;
+    /* إزالة scroll-behavior: smooth مؤقتاً لتجنب تداخل Lenis */
+}
+
+/* 3. إصلاح الهيدر الذي يختفي */
+/* أضف هذا الكود للهيدر الخاص بك ليظل دائماً ضمن العرض */
+header, .custom-premium-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box !important;
+    display: block !important;
 }
 
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
