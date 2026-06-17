@@ -716,13 +716,20 @@
     border: 1px solid rgba(0,0,0,0.08);
     transition: all 0.3s ease;
 }
-    
+    .main-wrapper {
+    width: 90% !important;        /* يترك مساحة صغيرة جداً على الجوانب */
+    max-width: 600px !important;  /* يمنع التمدد المزعج في الشاشات الكبيرة */
+    margin: 0 auto !important;    /* السحر الذي يسنتر كل شيء في المنتصف */
+    display: flex;
+    flex-direction: column;
+    align-items: center;          /* يضمن محاذاة كل المحتويات في المركز */
+}
 </style>
 
    
 </head>
 <body>
-
+<div class="main-wrapper">
     <div class="custom-premium-header">
         <button class="menu-trigger-btn" onclick="toggleCartMenu(true)">
             <div class="bar"></div>
@@ -828,7 +835,7 @@
         </a>
     </div>
 </footer>
-    
+     </div>
     <script>
         // قاعدة بيانات منيو كافيه حكاية المحدثة
         const storeProductsDatabase = [
@@ -1181,6 +1188,6 @@ document.addEventListener('click', function(event) {
 
 
     </script>
-    
+   
 </body>
 </html>
