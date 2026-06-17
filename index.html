@@ -33,27 +33,31 @@
             --radius-premium: 28px;         /* انحناءات فائقة النعومة وودودة جداً للهواتف */
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
-
-    /* 1. القاعدة الصفرية */
+/* 1. إعدادات الـ Root والـ Body الأساسية */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /* يسمح بالسكروول الطبيعي للمتصفح دون تداخل */
-    overflow-x: hidden; 
-    overflow-y: auto;
+    min-height: 100%;
     background-color: var(--titanium-natural);
     font-family: 'Cairo', sans-serif;
+    
+    /* إعدادات السكرول الطبيعي - الأسرع على الإطلاق */
+    overflow-y: scroll; 
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scroll-behavior: auto !important;
 }
 
-/* 2. الحماية الذكية (بدون !important) */
+/* 2. حماية العناصر وتسريع المعالجة (GPU) */
 * {
     box-sizing: border-box;
-    /* يمنع أي عنصر من التمدد خارج حدود الشاشة */
     max-width: 100%;
+    /* will-change تستخدم فقط للعناصر التي تتحرك فعلياً لتقليل الضغط على المعالج */
 }
 
-/* 3. الهيدر (الثبات الذكي) */
+/* 3. الهيدر (ثابت ونظيف) */
 header {
     width: 100%;
     position: sticky;
@@ -62,36 +66,14 @@ header {
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
 }
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    
-    /* السماح للمتصفح بالتحكم الكامل */
-    overflow-y: auto;
-    overflow-x: hidden;
-    
-    /* سر السلاسة في الآيفون */
-    -webkit-overflow-scrolling: touch !important;
-    
-    /* إلغاء أي تأثير "سلس" مبرمج */
-    scroll-behavior: auto !important; 
-    
-    /* السماح بالارتداد الطبيعي */
-    overscroll-behavior-y: auto !important;
-}
 
-/* تحسين استجابة اللمس للتقليل من التأخير */
-* {
-    touch-action: pan-y !important;
-}
-/* 4. السكرول الجانبي (للسلايدرات فقط) */
+/* 4. السلايدر (سكرول أفقي سريع) */
 .horizontal-scroll {
     display: flex;
     overflow-x: auto;
     width: 100%;
     padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch; /* يعطي سلاسة الآيفون */
+    -webkit-overflow-scrolling: touch;
 }
 
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
