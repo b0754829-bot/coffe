@@ -62,7 +62,29 @@ header {
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    
+    /* السماح للمتصفح بالتحكم الكامل */
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    /* سر السلاسة في الآيفون */
+    -webkit-overflow-scrolling: touch !important;
+    
+    /* إلغاء أي تأثير "سلس" مبرمج */
+    scroll-behavior: auto !important; 
+    
+    /* السماح بالارتداد الطبيعي */
+    overscroll-behavior-y: auto !important;
+}
 
+/* تحسين استجابة اللمس للتقليل من التأخير */
+* {
+    touch-action: pan-y !important;
+}
 /* 4. السكرول الجانبي (للسلايدرات فقط) */
 .horizontal-scroll {
     display: flex;
