@@ -34,40 +34,7 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
 
-        /* 1. إصلاح قاعدة الموقع */
-* {
-    box-sizing: border-box !important;
-    margin: 0; 
-    padding: 0;
-    font-family: 'Cairo', sans-serif !important;
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* 2. الـ body هو الحارس الذي لا يقطع العناصر */
-body {
-    background-color: var(--titanium-natural) !important;
-    width: 100% !important;
-    /* التغيير الجوهري هنا: */
-    max-width: 100% !important; 
-    overflow-x: hidden !important; 
-    overflow-y: auto !important;
-    min-height: 100vh;
-    color: var(--black-premium) !important;
-    touch-action: manipulation !important;
-    /* إزالة scroll-behavior: smooth مؤقتاً لتجنب تداخل Lenis */
-}
-
-/* 3. إصلاح الهيدر الذي يختفي */
-/* أضف هذا الكود للهيدر الخاص بك ليظل دائماً ضمن العرض */
-header, .custom-premium-header {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    box-sizing: border-box !important;
-    display: block !important;
-}
-
+    
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
         .futuristic-bg-glow {
             position: fixed;
