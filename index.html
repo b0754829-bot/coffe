@@ -101,15 +101,7 @@ header {
             background: linear-gradient(180deg, #f3f6f5 0%, #ecefed 100%);
         }
 
-/* الحاوية - سنستخدم Flexbox بدلاً من Grid لتجاوز أي مشاكل عرض */
-.products-showcase {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important; /* توسيط البطاقات */
-    gap: 15px !important;
-    padding: 15px !important;
-    width: 100% !important;
-}
+
 
 /* البطاقة - نحدد عرضاً مئويًا يضمن عمودين بالضبط في الهاتف */
 .premium-product-card {
@@ -207,17 +199,7 @@ header {
             left: 150%;
         }
 
-        /* الأزرار غير النشطة الفاخرة لتعكس طابع التيتانيوم الهادئ */
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.8) !important;
-            color: var(--black-premium) !important;
-            border: 1px solid var(--silver-metallic) !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
-        }
-        .filter-btn.active {
-            background: var(--primary-solid) !important;
-            color: white !important;
-        }
+      
 
 
 
@@ -387,28 +369,7 @@ header {
             -webkit-overflow-scrolling: touch !important;
         }
 
-        .futuristic-scrolly-deck::-webkit-scrollbar { display: none !important; }
-
-        .quantum-scifi-card {
-            flex: 0 0 120px !important;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-premium); padding: 14px 8px; text-align: center;
-            cursor: pointer; transition: var(--transition-smooth);
-        }
-
-        .quantum-scifi-card:hover {
-            transform: translateY(-4px);
-            background: #ffffff;
-            border-color: var(--primary-solid);
-        }
-
-        .quantum-scifi-card h3 { font-size: 12px; font-weight: 700; color: var(--black-premium); }
-
-        /* شبكة عرض المنتجات */
-        .main-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
+       
         .title-decorated {
             text-align: center; font-size: 24px; font-weight: 800; margin: 35px 0 20px;
             color: var(--black-premium); position: relative;
@@ -724,32 +685,65 @@ header {
 }
     
 
-.categories-container {
-    display: flex !important;
-    gap: 12px !important;              /* المسافة بين الأزرار */
-    overflow-x: auto !important;       /* التمرير الأفقي إذا زاد العدد */
-    padding: 15px 20px !important;     /* 20px من اليمين واليسار تمنع الالتصاق بالحواف */
-    
-    white-space: nowrap !important;
-    scrollbar-width: none !important;  /* إخفاء شريط التمرير (لأجهزة الكمبيوتر) */
-    
-    /* ميزة إضافية: تجعل الفئات تبدأ من المنتصف إذا كانت قليلة */
-    justify-content: flex-start !important;
-    align-items: center !important;
+/* تنسيق أزرار الفئات الفرعية الجانبية */
+.subcategory-filters {
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-bottom: 20px;
+    direction: rtl;
 }
-
-/* إخفاء شريط التمرير (لمتصفحات كروم وسفاري) */
-.categories-container::-webkit-scrollbar {
-    display: none;
+.subcategory-filters::-webkit-scrollbar {
+    display: none; /* إخفاء شريط التمرير المزعج على الهواتف */
 }
-
-/* تنسيق أزرار الفئات */
-.category-btn {
-    padding: 10px 22px !important;     /* زيادة التباعد داخل الزر نفسه */
-    border-radius: 15px !important;    /* حواف دائرية أكثر */
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
+.filter-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.filter-btn.active {
+    background: #0f766e; /* لون كافيه حكاية الزمردي */
+    color: white;
+    border-color: #0f766e;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+    transform: translateY(-2px);
+}
+/* تصميم شبكة عرض المنتجات */
+.products-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 0 20px 40px 20px;
+}
+@media (min-width: 768px) {
+    .products-showcase {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 25px;
+    }
+}
+.product-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+.product-card:hover img {
+    transform: scale(1.08);
 }
     
 </style>
@@ -797,40 +791,231 @@ header {
         <img id="main-dynamic-slide" src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop" alt="اجواء كافيه حكاية">
     </div>
 
-    <div class="futuristic-scrolly-deck">
-        <div class="quantum-scifi-card" onclick="filterBySection('ساخن')">
-            <span class="icon">☕</span>
-            <h3>قهوة ساخنة</h3>
+<div class="luxury-categories-bar">
+
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
         </div>
-        <div class="quantum-scifi-card" onclick="filterBySection('بارد')">
-            <span class="icon">🧊</span>
-            <h3>مشروبات باردة</h3>
-        </div>
-        <div class="quantum-scifi-card" onclick="filterBySection('مخبوزات')">
-            <span class="icon">🥐</span>
-            <h3> كراسون </h3>
-        </div>
-        <div class="quantum-scifi-card" onclick="filterBySection('حلويات')">
-            <span class="icon">🍰</span>
-            <h3>الكيك والحلوى </h3>
-        </div>
-      
-        <div class="quantum-scifi-card" onclick="filterBySection('خلطات')">
-            <span class="icon">🥤</span>
-            <h3>مكسات وعصائر</h3>
-        </div>
+        <span>قهوة مختصة</span>
     </div>
 
-      <div class="quantum-scifi-card" onclick="filterBySection('حبوب')">
-            <span class="icon">📦</span>
-            <h3>جديدنا </h3>
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
         </div>
-
-    <div class="main-container">
-        <h2 class="title-decorated" id="showcase-title">منيو حكاية  </h2>
-        <div class="products-showcase" id="products-grid-container">
-            </div>
+        <span>مشروبات ساخنة</span>
     </div>
+
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('cold-drinks-anchor')">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>مشروبات باردة</span>
+    </div>
+
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('desserts-anchor')">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>الحلويات الفاخرة</span>
+    </div>
+
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('breakfast-anchor')">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>وجبات الفطور</span>
+    </div>
+
+</div>
+
+<style>
+    /* شريط الفئات الفخم العُلوي */
+    .luxury-categories-bar {
+        display: flex;
+        gap: 20px;
+        padding: 20px 15px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        background: #ffffff;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+        position: relative;
+        z-index: 999;
+    }
+    .luxury-categories-bar::-webkit-scrollbar { display: none; }
+
+    .exclusive-cat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 95px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .crystal-shape-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: 30% 70% 70% 30% / 30% 40% 60% 70%;
+        overflow: hidden;
+        background: #ffffff;
+        border: 2px solid rgba(15, 118, 110, 0.15);
+        box-shadow: 0 8px 20px rgba(15, 118, 110, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .crystal-shape-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .exclusive-cat-item:hover { transform: translateY(-4px); }
+    .exclusive-cat-item:hover .crystal-shape-wrapper {
+        border-radius: 70% 30% 30% 70% / 60% 70% 30% 40%;
+        border-color: #0f766e;
+        box-shadow: 0 12px 24px rgba(15, 118, 110, 0.15);
+    }
+
+    .exclusive-cat-item span {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-top: 10px;
+        font-family: 'Cairo', sans-serif;
+    }
+    .exclusive-cat-item:hover span { color: #0f766e; }
+
+    /* تنسيق أزرار عرض المزيد وعرض أقل الموحدة */
+    .dynamic-view-container {
+        text-align: center;
+        margin: 25px auto 35px auto;
+        width: 100%;
+        display: block;
+        clear: both;
+    }
+    .dynamic-view-btn {
+        background: rgba(15, 118, 110, 0.06) !important;
+        color: #0f766e !important;
+        border: 1px dashed #0f766e !important;
+        padding: 10px 30px !important;
+        border-radius: 30px !important;
+        font-family: 'Cairo', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    .dynamic-view-btn:hover {
+        background: #0f766e !important;
+        color: white !important;
+        border-style: solid !important;
+    }
+    
+    /* كلاس الإخفاء المؤقت للكروت الإضافية */
+    .hidden-product-card-temp {
+        display: none !important;
+    }
+</style>
+
+
+
+   
+<!-- ========================================================
+     عرض الأقسام مع الفلاتر الفرعية الجانبية (Subcategories)
+     ======================================================== -->
+
+<!-- القسم الأول: القهوة المختصة -->
+<div id="specialty-coffee-anchor">
+    <h3 class="title-decorated">القهوة المختصة (Specialty Coffee)</h3>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'specialty', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'v60')">V60 & كيمكس</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'espresso_base')">إسبريسو سينجل ومزدوج</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'cold_brew')">كولد برو مقطر</button>
+    </div>
+    <div class="products-showcase" id="container-specialty"></div>
+</div>
+
+<!-- القسم الثاني: المشروبات الساخنة -->
+<div id="hot-drinks-anchor">
+    <h3 class="title-decorated">المشروبات الساخنة الكلاسيكية</h3>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">لاتيه وكابتشينو وموكا</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">شاي فاخر وأعشاب طبيعية</button>
+    </div>
+    <div class="products-showcase" id="container-hot"></div>
+</div>
+
+<!-- القسم الثالث: المشروبات الباردة -->
+<div id="cold-drinks-anchor">
+    <h3 class="title-decorated">المشروبات الباردة والمنعشة</h3>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')">آيس لاتيه وموكا باردة</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">موهيتو حكاية المنعش</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">سموذي وميلك شيك</button>
+    </div>
+    <div class="products-showcase" id="container-cold"></div>
+</div>
+
+<!-- القسم الرابع: الحلويات الفاخرة -->
+<div id="desserts-anchor">
+    <h3 class="title-decorated">الحلويات الفاخرة</h3>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'desserts', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')">كيك (زعفران، تشيز كيك، شوكولاتة)</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">وافل وبانكيك</button>
+    </div>
+    <div class="products-showcase" id="container-desserts"></div>
+</div>
+
+<!-- القسم الخامس: وجبات الفطور -->
+<div id="breakfast-anchor">
+    <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'breakfast', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'croissant')">كرواسون محشي</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'light_meals')">وجبات خفيفة وساندوتشات</button>
+    </div>
+    <div class="products-showcase" id="container-breakfast"></div>
+</div>
+<style>/* ========================================================
+   تأثيرات الهالات النيون المتوافقة مع كافيه حكاية
+   ======================================================== */
+
+/* 1. قسم القهوة المختصة - ذهبي كهرماني ملكي دافئ */
+.node-specialty:hover { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 25px 45px rgba(251, 191, 36, 0.22); }
+.node-specialty:hover .neon-halo-wrapper { background: linear-gradient(135deg, #fbbf24, #b45309); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+.node-specialty:hover h3 { color: #b45309; }
+.node-specialty::after { background: #fbbf24; }
+
+/* 2. قسم المشروبات الساخنة - بني دافئ مريح */
+.node-hot:hover { border-color: rgba(180, 83, 9, 0.5); box-shadow: 0 25px 45px rgba(180, 83, 9, 0.22); }
+.node-hot:hover .neon-halo-wrapper { background: linear-gradient(135deg, #b45309, #78350f); box-shadow: 0 0 20px rgba(180, 83, 9, 0.5); }
+.node-hot:hover h3 { color: #78350f; }
+.node-hot::after { background: #b45309; }
+
+/* 3. قسم المشروبات الباردة - أزرق سيان ناصع ومنعش */
+.node-cold:hover { border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 25px 45px rgba(56, 189, 248, 0.22); }
+.node-cold:hover .neon-halo-wrapper { background: linear-gradient(135deg, #38bdf8, #0369a1); box-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+.node-cold:hover h3 { color: #0369a1; }
+.node-cold::after { background: #38bdf8; }
+
+/* 4. قسم الحلويات - أرجواني وردي ساحر ومشهي */
+.node-desserts:hover { border-color: rgba(244, 114, 182, 0.5); box-shadow: 0 25px 45px rgba(244, 114, 182, 0.22); }
+.node-desserts:hover .neon-halo-wrapper { background: linear-gradient(135deg, #f472b6, #db2777); box-shadow: 0 0 20px rgba(244, 114, 182, 0.5); }
+.node-desserts:hover h3 { color: #db2777; }
+.node-desserts::after { background: #f472b6; }
+
+/* 5. قسم وجبات الفطور - أخضر عشبي هادئ نضر */
+.node-breakfast:hover { border-color: rgba(74, 222, 128, 0.5); box-shadow: 0 25px 45px rgba(74, 222, 128, 0.22); }
+.node-breakfast:hover .neon-halo-wrapper { background: linear-gradient(135deg, #4ade80, #15803d); box-shadow: 0 0 20px rgba(74, 222, 128, 0.5); }
+.node-breakfast:hover h3 { color: #15803d; }
+.node-breakfast::after { background: #4ade80; }</style>
 
     <div class="cart-overlay" id="cart-screen-overlay" onclick="toggleCartMenu(false)"></div>
     <div class="sidebar-cart" id="sidebar-cart-menu">
@@ -875,57 +1060,230 @@ header {
 </footer>
     
     <script>
-        // قاعدة بيانات منيو كافيه حكاية المحدثة
-        const storeProductsDatabase = [
-            { id: 1, name: "إسبريسو سينجل (بن مختص غواتيمالا)", price: 10.00, category: "ساخن", img: "https://images.unsplash.com/photo-1510707577719-aa7c148c7e84?w=500&auto=format&fit=crop&q=60" },
-            { id: 2, name: "سبانش لاتيه بارد ومسترسل دبل شوت", price: 18.00, category: "بارد", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&auto=format&fit=crop&q=60" },
-            { id: 3, name: "فلات وايت متناسق النكهات برغوة ناعمة", price: 14.00, category: "ساخن", img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=500&auto=format&fit=crop&q=60" },
-            { id: 4, name: "آيس كراميل ماكياتو طبقات فاخرة", price: 18.00, category: "بارد", img: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=500&auto=format&fit=crop&q=60" },
-            { id: 5, name: "كرواسون فرنسي طازج محشي بالزبدة النقية", price: 12.00, category: "مخبوزات", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&auto=format&fit=crop&q=60" },
-            { id: 6, name: "كيكة الزعفران اللذيذة مع حليب السكب الفاخر", price: 22.00, category: "حلويات", img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500&auto=format&fit=crop&q=60" },
-            { id: 7, name: "كيس بن حبوب كولومبيا محمص ومختص 250g", price: 45.00, category: "حبوب", img: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=500&auto=format&fit=crop&q=60" },
-            { id: 8, name: "مكس عصير الرمان والباشن فروت البارد الفريش", price: 16.00, category: "خلطات", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" }
-        ];
+// ========================================================
+// 1. قاعدة البيانات الشاملة والحقيقية لكافيه حكاية
+// ========================================================
+// ========================================================
+// 1. قاعدة البيانات الأصلية لمنتجات منيو حكاية
+// ========================================================
+const storeProductsDatabase = {
+    specialty: [
+        { id: 101, name: "قهوة مقطرة V60 إثيوبية", price: 18.00, sub: "v60", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" },
+        { id: 102, name: "كيمックス مقطر كولومبي فاخر", price: 20.00, sub: "v60", img: "https://images.unsplash.com/photo-1545665225-b23b99e4d45e?auto=format&fit=crop&w=500&q=80" },
+        { id: 103, name: "إسبريسو سينجل شوت", price: 10.00, sub: "espresso_base", img: "https://images.unsplash.com/photo-1510707577719-17ebd3394414?auto=format&fit=crop&w=500&q=80" },
+        { id: 104, name: "كورتادو إسبريسو مثالي", price: 14.00, sub: "espresso_base", img: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=500&q=80" },
+        { id: 105, name: "كولد برو كلاسيك مقطر بارد", price: 22.00, sub: "cold_brew", img: "https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" }
+    ],
+    hot: [
+        { id: 201, name: "سبانش لاتيه ساخن مميز", price: 16.00, sub: "milk_base", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=500&q=80" },
+        { id: 202, name: "كابتشينو برغوة كثيفة", price: 14.00, sub: "milk_base", img: "https://images.unsplash.com/photo-1572442388796-11668a720eb9?auto=format&fit=crop&w=500&q=80" },
+        { id: 203, name: "فلات وايت متوازن", price: 15.00, sub: "milk_base", img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=500&q=80" },
+        { id: 204, name: "شاي مغربي فاخر بالنعناع", price: 8.00, sub: "tea_herbs", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" },
+        { id: 205, name: "شاي إنجليزي أحمر ممتاز", price: 6.00, sub: "tea_herbs", img: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=500&q=80" }
+    ],
+    cold: [
+        { id: 301, name: "آيس سبانش لاتيه حكاية", price: 18.00, sub: "iced_coffee", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" },
+        { id: 302, name: "آيس أمريكانو كلاسيك", price: 12.00, sub: "iced_coffee", img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" },
+        { id: 303, name: "موهيتو بلو بيري المنعش", price: 15.00, sub: "mojito", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
+        { id: 304, name: "موهيتو الفراولة والنعناع", price: 15.00, sub: "mojito", img: "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80" },
+        { id: 305, name: "ميلك شيك شوكولاتة نوتيلا", price: 19.00, sub: "smoothie", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" },
+        { id: 306, name: "سموذي مانجو و فواكه استوائية", price: 17.00, sub: "smoothie", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80" }
+    ],
+    desserts: [
+        { id: 401, name: "تشيز كيك سان سيباستيان", price: 24.00, sub: "cakes", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" },
+        { id: 402, name: "كيكة الزعفران بالحليب", price: 25.00, sub: "cakes", img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=500&q=80" },
+        { id: 403, name: "وافل بلجيكي بالنوتيلا", price: 22.00, sub: "waffles", img: "https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=500&q=80" },
+        { id: 404, name: "بانكيك كلاسيك مع سيرب دافئ", price: 20.00, sub: "waffles", img: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=500&q=80" }
+    ],
+    breakfast: [
+        { id: 501, name: "كرواسون فرنسي بالجبنة", price: 12.00, sub: "croissant", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" },
+        { id: 502, name: "كرواسون بحشوة النوتيلا الغنية", price: 14.00, sub: "croissant", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80" },
+        { id: 503, name: "كلوب ساندوتش حكاية المميز", price: 18.00, sub: "light_meals", img: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80" }
+    ]
+};
+
+// الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
+const MAX_VISIBLE_ITEMS = 4;
+
+// كائن لتخزين حالة الأقسام (هل تم ضغط عرض المزيد أم لا) لكي لا تتداخل الأقسام
+const sectionsExpandedState = {
+    specialty: false,
+    hot: false,
+    cold: false,
+    desserts: false,
+    breakfast: false
+};
+
+// ========================================================
+// 2. المحرك الموحد المطور لعرض المنتجات والتحكم بالأزرار والسحب
+// ========================================================
+
+function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
+    const container = document.getElementById(`container-${mainCategory}`);
+    if (!container) return;
+
+    // تفريغ الحاوية بالكامل لإعادة البناء
+    container.innerHTML = '';
+
+    // تصفية المنتجات بناءً على الفئة الفرعية المطلوبة
+    const productsToRender = storeProductsDatabase[mainCategory].filter(product => {
+        return subCategoryFilter === 'all' || product.sub === subCategoryFilter;
+    });
+
+    if (productsToRender.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#94a3b8; width:100%; padding: 20px;">قريباً في منيو حكاية...</p>`;
+        // إزالة زر عرض المزيد إذا أصبح القسم فارغاً
+        const oldBtn = container.parentElement.querySelector('.dynamic-view-container');
+        if (oldBtn) oldBtn.remove();
+        return;
+    }
+
+    // بناء كروت المنتجات هندسياً داخل الـ HTML
+    productsToRender.forEach((product, index) => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        
+        // إخفاء الكروت التي تتعدى رقم 4 إذا كانت حالة القسم "مغلقة"
+        if (index >= MAX_VISIBLE_ITEMS && !sectionsExpandedState[mainCategory]) {
+            productCard.style.display = 'none';
+        }
+
+        productCard.innerHTML = `
+            <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
+                <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease;">
+            </div>
+            <div class="product-details" style="padding:15px; text-align:right;">
+                <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a; font-family:'Cairo', sans-serif;">${product.name}</h4>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="product-price" style="font-weight:700; color:#0f766e; font-size:16px;">${product.price.toFixed(2)} ₪</span>
+                    <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${mainCategory}')" style="background:#0f766e; color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-family:'Cairo', sans-serif; font-size:12px; transition:all 0.3s;">
+                        إضافة +
+                    </button>
+                </div>
+            </div>
+        `;
+        container.appendChild(productCard);
+    });
+
+    // صناعة وإدارة زر "عرض المزيد / عرض أقل" ديناميكياً لهذا القسم بالتحديد
+    handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
+}
+
+// دالة عزل وصناعة الأزرار لكل قسم لمنع الاختفاء والتعارض
+function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
+    const container = document.getElementById(`container-${mainCategory}`);
+    const parentSection = container.parentElement;
+
+    // إزالة أي أزرار قديمة متواجدة بالقسم لتفادي التكرار عند الفلترة
+    const oldBtn = parentSection.querySelector('.dynamic-view-container');
+    if (oldBtn) oldBtn.remove();
+
+    // إذا كان عدد المنتجات المفلترة 4 أو أقل، لا نقوم بإنشاء الزر مطلقاً
+    if (totalItems <= MAX_VISIBLE_ITEMS) return;
+
+    const btnWrapper = document.createElement('div');
+    btnWrapper.className = 'dynamic-view-container';
+
+    const btn = document.createElement('button');
+    btn.className = 'dynamic-view-btn';
+    
+    // تحديد النص بناءً على حالة القسم الحالية المخزنة
+    if (sectionsExpandedState[mainCategory]) {
+        btn.innerText = 'عرض أقل ↑';
+    } else {
+        btn.innerText = 'عرض المزيد من الأصناف ↓';
+    }
+
+    btn.onclick = function() {
+        if (!sectionsExpandedState[mainCategory]) {
+            // [حالة فتح القسم]
+            sectionsExpandedState[mainCategory] = true;
+            renderCategorySection(mainCategory, currentSubFilter);
+        } else {
+            // [حالة تقليص القسم والعودة لأعلى]
+            sectionsExpandedState[mainCategory] = false;
+            renderCategorySection(mainCategory, currentSubFilter);
+
+            // 🎯 هندسة السحب التلقائي الانسيابي لأعلى الفئات الفرعية الجانبية الصغيرة لنفس القسم
+            const subFilters = parentSection.querySelector('.subcategory-filters');
+            if (subFilters) {
+                const headerOffset = 95; // مسافة أمان لضمان ثبات الشريط تحت الهيدر الثابت لموقعك
+                const elementPosition = subFilters.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            } else {
+                parentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    };
+
+    btnWrapper.appendChild(btn);
+    container.after(btnWrapper); // حقن الزر أسفل شبكة المنتجات الحالية مباشرة
+}
+
+// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
+function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
+    const parentContainer = buttonElement.parentElement;
+    const buttons = parentContainer.getElementsByClassName('filter-btn');
+    for (let btn of buttons) {
+        btn.classList.remove('active');
+    }
+    
+    buttonElement.classList.add('active');
+
+    // عند اختيار فئة فرعية جديدة، نعيد تهيئة حالة القسم للوضع الافتراضي (غير ممتد) لراحة العين
+    sectionsExpandedState[mainCategory] = false;
+    renderCategorySection(mainCategory, subCategory);
+}
+
+// دالة التمرير الانسيابي عند الضغط على الفئات الكريستالية العلوية الرئيسية
+function smoothScrollTo(elementId) {
+    const target = document.getElementById(elementId);
+    if (target) {
+        const headerOffset = 90;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
+function handleLuxuryNav(anchorId) {
+    smoothScrollTo(anchorId);
+}
+
+// دالة السلة الأصلية الخاصة بك
+function addToCart(productId, mainCategory) {
+    const product = storeProductsDatabase[mainCategory].find(p => p.id === productId);
+    if (!product) return;
+    
+    if (typeof openCartWithProduct === "function") {
+        openCartWithProduct(product);
+    } else {
+        console.log("تمت إضافة المنتج للسلة بنجاح:", product);
+    }
+}
+
+// تهيئة وعرض المنيو بالكامل فور فتح الصفحة لأول مرة
+document.addEventListener("DOMContentLoaded", () => {
+    renderCategorySection('specialty', 'all');
+    renderCategorySection('hot', 'all');
+    renderCategorySection('cold', 'all');
+    renderCategorySection('desserts', 'all');
+    renderCategorySection('breakfast', 'all');
+});
 
       // المتغيرات الأساسية
 let visibleCount = 4;
 
-// دالة العرض الذكية
-function displayStoreItems(itemsToRender) {
-    const grid = document.getElementById('products-grid-container');
-    const btn = document.getElementById('show-more-btn');
-    grid.innerHTML = ''; 
-
-    itemsToRender.slice(0, visibleCount).forEach(product => {
-        grid.innerHTML += `
-            <div class="premium-product-card">
-                <img src="${product.img}" alt="${product.name}">
-                <h4>${product.name}</h4>
-                <div class="card-footer">
-                    <span>${product.price} ₪</span>
-                    <button onclick="openDetails(${product.id})">+</button>
-                </div>
-            </div>
-        `;
-    });
-
-    // التحكم في نص الزر
-    if (visibleCount >= itemsToRender.length) {
-        btn.innerText = "عرض أقل";
-    } else {
-        btn.innerText = "عرض المزيد";
-    }
-}
-
-// زر التحكم
-document.getElementById('show-more-btn').addEventListener('click', function() {
-    if (this.innerText === "عرض أقل") {
-        visibleCount = 4;
-    } else {
-        visibleCount += 4;
-    }
-    displayStoreItems(storeProductsDatabase);
-});
 
 
 
@@ -1244,6 +1602,25 @@ document.getElementById('show-more-btn').addEventListener('click', function() {
         setTimeout(() => { loader.style.display = 'none'; }, 800);
     }, 1500); // تظهر الشاشة لمدة ثانية ونصف
 });
+
+// قاعدة بيانات كافيه حكاية (نظام التصنيفات الموحد)
+const storeDatabase = {
+    'ساخن': {
+        subCategories: ['قهوة مختصة', 'مشروبات الحليب'],
+        products: [
+            { id: 1, name: "إسبريسو", price: 10, img: "url...", sub: "قهوة مختصة" },
+            { id: 2, name: "لاتيه", price: 15, img: "url...", sub: "مشروبات الحليب" }
+        ]
+    },
+    'بارد': {
+        subCategories: ['موهيتو', 'قهوة مثلجة'],
+        products: [
+            { id: 3, name: "موهيتو ليمون", price: 18, img: "url...", sub: "موهيتو" }
+        ]
+    },
+    // وهكذا لبقية الفئات...
+};
+
     </script>
     
 </body>
