@@ -33,6 +33,29 @@
             --radius-premium: 28px;         /* انحناءات فائقة النعومة وودودة جداً للهواتف */
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
         }
+
+        #loader-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #ecefed; /* نفس لون خلفية الموقع */
+    display: flex; justify-content: center; align-items: center;
+    z-index: 999999; transition: opacity 0.8s ease;
+}
+.logo-box { text-align: center; }
+.logo-text { font-size: 40px; font-weight: 800; color: #0b3f3b; margin-bottom: 10px; }
+.loader-line { 
+    width: 50px; height: 2px; background: #0b3f3b; 
+    margin: 0 auto; animation: loading 1.5s infinite; 
+}
+@keyframes loading {
+    0% { transform: scaleX(0); }
+    50% { transform: scaleX(1); }
+    100% { transform: scaleX(0); }
+}
+
+* {
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 /* إعدادات السكرول الأساسية والأسرع */
 html, body {
     margin: 0; padding: 0; width: 100%; height: 100%;
@@ -734,6 +757,12 @@ header {
    
 </head>
 <body>
+    <div id="loader-screen">
+    <div class="logo-box">
+        <div class="logo-text">حكاية</div>
+        <div class="loader-line"></div>
+    </div>
+</div>
 
     <div class="custom-premium-header">
         <button class="menu-trigger-btn" onclick="toggleCartMenu(true)">
@@ -757,7 +786,7 @@ header {
 </style>
 
         <button id="main-basket-btn" onclick="toggleCartMenu(true)">
-            <span>المزاج الصح</span>
+            <span>السلة</span>
             <div id="main-basket-count">0</div>
         </button>
     </div>
@@ -779,24 +808,26 @@ header {
         </div>
         <div class="quantum-scifi-card" onclick="filterBySection('مخبوزات')">
             <span class="icon">🥐</span>
-            <h3>مخبوزات طازجة</h3>
+            <h3> كراسون </h3>
         </div>
         <div class="quantum-scifi-card" onclick="filterBySection('حلويات')">
             <span class="icon">🍰</span>
-            <h3>الحلويات الفاخرة</h3>
+            <h3>الكيك والحلوى </h3>
         </div>
-        <div class="quantum-scifi-card" onclick="filterBySection('حبوب')">
-            <span class="icon">📦</span>
-            <h3>حبوب البن والمستلزمات</h3>
-        </div>
+      
         <div class="quantum-scifi-card" onclick="filterBySection('خلطات')">
             <span class="icon">🥤</span>
             <h3>مكسات وعصائر</h3>
         </div>
     </div>
 
+      <div class="quantum-scifi-card" onclick="filterBySection('حبوب')">
+            <span class="icon">📦</span>
+            <h3>جديدنا </h3>
+        </div>
+
     <div class="main-container">
-        <h2 class="title-decorated" id="showcase-title">منيو حكاية للقهوة والمزاج</h2>
+        <h2 class="title-decorated" id="showcase-title">منيو حكاية  </h2>
         <div class="products-showcase" id="products-grid-container">
             </div>
     </div>
@@ -812,23 +843,25 @@ header {
             </div>
 
         <div class="summary-total">
-            <span>الإجمالي الإجمالي:</span>
+            <span> الإجمالي:</span>
             <span style="font-weight: 900; color: var(--accent-gold);"><span id="cart-total-amount">0.00</span> ₪</span>
         </div>
 
         <div class="cart-actions-footer">
             <button class="checkout-btn" onclick="sendCartToWhatsApp()">  تأكيد الطلب</button>
-            <button class="continue-shopping-btn" onclick="event.stopPropagation(); toggleCartMenu(false);">☕ إضافة المزيد </button>
+            <button class="continue-shopping-btn" onclick="event.stopPropagation(); toggleCartMenu(false);"> إضافة المزيد </button>
+            
         </div>
     </div>
 
     </div>
-<button id="show-more-btn" class="premium-btn-more">عرض المزيد من المنتجات</button>
+<button id="show-more-btn" class="premium-btn-more">عرض المزيد  </button>
+
 <footer class="premium-footer">
     <div class="footer-grid">
         <div style="text-align: center; color: #1f2937;">
             <p style="font-weight: 800; margin-bottom: 5px;">🕒 ساعات العمل</p>
-            <p style="font-size: 14px; opacity: 0.8;">يومياً | 08:00 - 23:00</p>
+            <p style="font-size: 14px; opacity: 0.8;">يوميًا | 08:00 - 23:00</p>
         </div>
 
         <a href="tel:+972500000000" class="premium-btn phone">
@@ -854,45 +887,47 @@ header {
             { id: 8, name: "مكس عصير الرمان والباشن فروت البارد الفريش", price: 16.00, category: "خلطات", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" }
         ];
 
-       let visibleCount = 4; // عدد المنتجات للبدء
+      // المتغيرات الأساسية
+let visibleCount = 4;
 
-// دالة العرض الموحدة (تعمل للفلترة ولزر العرض المزيد)
+// دالة العرض الذكية
 function displayStoreItems(itemsToRender) {
-    const gridContainer = document.getElementById('products-grid-container');
-    const showMoreBtn = document.getElementById('show-more-btn');
-    if (!gridContainer) return;
+    const grid = document.getElementById('products-grid-container');
+    const btn = document.getElementById('show-more-btn');
+    grid.innerHTML = ''; 
 
-    gridContainer.innerHTML = ''; // إفراغ الحاوية
-
-    // نأخذ العدد المطلوب عرضه
-    const itemsToShow = itemsToRender.slice(0, visibleCount);
-
-    itemsToShow.forEach(product => {
-        const cardHTML = `
+    itemsToRender.slice(0, visibleCount).forEach(product => {
+        grid.innerHTML += `
             <div class="premium-product-card">
                 <img src="${product.img}" alt="${product.name}">
                 <h4>${product.name}</h4>
                 <div class="card-footer">
-                    <span class="price-tag">${product.price.toFixed(2)} ₪</span>
-                    <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
+                    <span>${product.price} ₪</span>
+                    <button onclick="openDetails(${product.id})">+</button>
                 </div>
             </div>
         `;
-        gridContainer.insertAdjacentHTML('beforeend', cardHTML);
     });
 
-    // إظهار أو إخفاء زر المزيد حسب الحاجة
-    if (showMoreBtn) {
-        showMoreBtn.style.display = (visibleCount >= itemsToRender.length) ? 'none' : 'block';
+    // التحكم في نص الزر
+    if (visibleCount >= itemsToRender.length) {
+        btn.innerText = "عرض أقل";
+    } else {
+        btn.innerText = "عرض المزيد";
     }
 }
 
-// دالة زر "عرض المزيد"
-document.getElementById('show-more-btn').addEventListener('click', () => {
-    visibleCount += 4; 
-    // إعادة عرض المنتجات (مع مراعاة إذا كان هناك فلتر مفعل أم لا)
-    displayStoreItems(storeProductsDatabase); 
+// زر التحكم
+document.getElementById('show-more-btn').addEventListener('click', function() {
+    if (this.innerText === "عرض أقل") {
+        visibleCount = 4;
+    } else {
+        visibleCount += 4;
+    }
+    displayStoreItems(storeProductsDatabase);
 });
+
+
 
         // فلترة وعرض المنتجات حسب القسم المختار
         function filterBySection(categoryName) {
@@ -1198,6 +1233,17 @@ document.getElementById('show-more-btn').addEventListener('click', () => {
             header.style.backgroundColor = 'rgba(59, 86, 115, 0.081)';
         }, 150);
     }, { passive: true }); // {passive: true} سر من أسرار سلاسة
+
+
+
+
+    window.addEventListener('load', () => {
+    const loader = document.getElementById('loader-screen');
+    setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.display = 'none'; }, 800);
+    }, 1500); // تظهر الشاشة لمدة ثانية ونصف
+});
     </script>
     
 </body>
