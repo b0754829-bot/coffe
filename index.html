@@ -32,7 +32,13 @@
             --card-shadow: 0 10px 35px rgba(12, 13, 14, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.8);
             --radius-premium: 28px;         /* انحناءات فائقة النعومة وودودة جداً للهواتف */
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
+            --primary-emerald: 16, 185, 129; /* قم بتغيير هذه الأرقام فقط */
+    --glass-opacity: 0.4;
+            
         }
+        .product-card {
+    background: rgba(var(--primary-emerald), var(--glass-opacity));
+}
 
         #loader-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -858,6 +864,9 @@ header {
     transition: transform 0.2s;
 }
 .circle-add-btn:active { transform: scale(0.9); }
+
+
+
 </style>
 
    
@@ -1142,7 +1151,7 @@ const storeProductsDatabase = {
         { id: 503, name: "كلوب ساندوتش حكاية المميز", price: 18.00, sub: "light_meals", img: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80" }
     ]
 };
-let userCartList = [];
+
 // الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
 const MAX_VISIBLE_ITEMS = 4;
 
@@ -1154,6 +1163,12 @@ const sectionsExpandedState = {
     desserts: false,
     breakfast: false
 };
+
+// 1. التعريف
+let userCartList = []; 
+
+// 2. التحميل فوراً عند بدء تشغيل الملف
+loadCartFromLocalStorage();
 
 // ========================================================
 // 2. المحرك الموحد المطور لعرض المنتجات والتحكم بالأزرار والسحب
@@ -1218,11 +1233,11 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     const parentSection = container.parentElement;
 
-    // إزالة أي أزرار قديمة متواجدة بالقسم لتفادي التكرار عند الفلترة
+    // إزالة أي أزرار قديمة لتفادي التكرار
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
-    // إذا كان عدد المنتجات المفلترة 4 أو أقل، لا نقوم بإنشاء الزر مطلقاً
+    // إذا كان عدد المنتجات 4 أو أقل، لا نقوم بإنشاء الزر
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
     const btnWrapper = document.createElement('div');
@@ -1231,11 +1246,11 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     
-    // تحديد النص بناءً على حالة القسم الحالية المخزنة
+    // تحديد النص بناءً على الحالة
     if (sectionsExpandedState[mainCategory]) {
         btn.innerText = 'عرض أقل ↑';
     } else {
-        btn.innerText = 'عرض المزيد   ↓';
+        btn.innerText = 'عرض المزيد ↓';
     }
 
     btn.onclick = function() {
@@ -1244,29 +1259,29 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         } else {
-            // [حالة تقليص القسم والعودة لأعلى]
+            // [حالة تقليص القسم والعودة لشريط الفئات الفرعية]
             sectionsExpandedState[mainCategory] = false;
             renderCategorySection(mainCategory, currentSubFilter);
 
-            // 🎯 هندسة السحب التلقائي الانسيابي لأعلى الفئات الفرعية الجانبية الصغيرة لنفس القسم
-            const subFilters = parentSection.querySelector('.subcategory-filters');
-            if (subFilters) {
-                const headerOffset = 95; // مسافة أمان لضمان ثبات الشريط تحت الهيدر الثابت لموقعك
-                const elementPosition = subFilters.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            // السحب الذكي لشريط الفئات الفرعية الخاص بهذا القسم فقط
+            setTimeout(() => {
+                const subFilters = parentSection.querySelector('.subcategory-filters');
+                if (subFilters) {
+                    const headerOffset = 120; // عدل هذا الرقم حسب ارتفاع الهيدر لديك
+                    const elementPosition = subFilters.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            } else {
-                parentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-    };
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 150);
+        } // نهاية الـ else الخاصة بالتقليص
+    }; // نهاية دالة الـ onclick
 
     btnWrapper.appendChild(btn);
-    container.after(btnWrapper); // حقن الزر أسفل شبكة المنتجات الحالية مباشرة
+    container.after(btnWrapper); 
 }
 
 // دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
@@ -1325,6 +1340,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCategorySection('breakfast', 'all');
 });
 
+
+
+
       // المتغيرات الأساسية
 let visibleCount = 4;
 
@@ -1351,87 +1369,61 @@ function addNewProductToCart(productId) {
     } else {
         userCartList.push({ ...product, qty: 1 });
     }
+  saveCartToLocalStorage();
     refreshCartInterface();
 }
 
-        // تحديث واجهات حساب الأسعار والسلة بالكامل بذكاء ودقة
-        function refreshCartInterface() {
-            const cartItemsContainer = document.getElementById('cart-items-list-container');
-            const cartTotalElement = document.getElementById('cart-total-amount');
-            const mainBasketCount = document.getElementById('main-basket-count');
-
-            const totalItemsCount = userCartList.reduce((sum, item) => sum + item.qty, 0);
-            if (mainBasketCount) {
-                mainBasketCount.innerText = totalItemsCount;
-            }
-
-            saveCartToLocalStorage();
-
-            if (!cartItemsContainer) return;
-            cartItemsContainer.innerHTML = '';
-
-            let totalPriceSum = 0;
-
-            if (!userCartList || userCartList.length === 0) {
-                cartItemsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 40px 20px; color: #a1a1aa;">
-                        <span style="font-size: 40px; display: block; margin-bottom: 10px;">☕</span>
-                        <p style="margin: 0; font-size: 14px; font-weight: 700; color:#2c1a11;">سلتك فارغة، بانتظار بدء حكايتك ومزاجك الطيب!</p>
-                    </div>
-                `;
-                if (cartTotalElement) cartTotalElement.innerText = "0.00";
-                return;
-            }
-
-            userCartList.forEach(item => {
-                const itemTotal = item.price * item.qty;
-                totalPriceSum += itemTotal;
-
-                const modalHTML = `
-<div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(25px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: -apple-system, sans-serif;">
+function refreshCartInterface() {
+    const cartItemsContainer = document.getElementById('cart-items-list-container');
+    const cartTotalElement = document.getElementById('cart-total-amount');
     
-    <div style="
-        width: 90%; max-width: 400px;
-        background: rgba(236, 239, 237, 0.8); /* لون زمردي فاتح جداً وشفاف */
-        backdrop-filter: blur(40px);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        padding: 30px; 
-        border-radius: 32px; 
-        text-align: center; 
-        box-shadow: 0 20px 40px rgba(39, 78, 19, 0.1);">
-        
-        <h3 style="margin-bottom: 25px; font-size: 22px; font-weight: 700; color: #274e13;">تفاصيل الطلب</h3>
-        
-        <input type="text" id="modal-cust-name" placeholder="اكتب اسمك هنا..." style="width: 100%; padding: 16px; border: 1px solid rgba(39, 78, 19, 0.2); background: rgba(255, 255, 255, 0.5); border-radius: 18px; font-size: 16px; margin-bottom: 16px; outline: none; color: #274e13;">
-        
-        <button id="modal-submit-btn" style="width: 100%; 
-            background: linear-gradient(135deg, rgba(39, 78, 19, 0.6), rgba(12, 52, 61, 0.7)); 
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #ffffff; 
-            padding: 18px; 
-            border-radius: 20px; 
-            font-size: 17px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;">
-            إرسال الطلب عبر الواتساب
-        </button>
+    // --- هذا السطر هو المسؤول عن تحديث العداد في الهيدر ---
+    const mainBasketCount = document.getElementById('main-basket-count');
+    const totalItemsCount = userCartList.reduce((sum, item) => sum + item.qty, 0);
+    if (mainBasketCount) {
+        mainBasketCount.innerText = totalItemsCount;
+    }
+    // ------------------------------------------------------
 
-        <button id="modal-close-btn" style="width: 100%; background: transparent; color: #274e13; border: none; padding: 16px; font-size: 15px; cursor: pointer; opacity: 0.7;">
-            إلغاء
-        </button>
-    </div>
-</div>`;
-                cartItemsContainer.insertAdjacentHTML('beforeend', itemHTML);
-            });
+    if (!cartItemsContainer) return;
+    cartItemsContainer.innerHTML = '';
 
-            if (cartTotalElement) {
-                cartTotalElement.innerText = totalPriceSum.toFixed(2);
-            }
+    if (userCartList.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div style="text-align: center; padding: 30px; color: #064e3b; font-size: 14px; opacity: 0.7;">
+                السلة فارغة، بانتظار اختيارك..
+            </div>`;
+        if (cartTotalElement) cartTotalElement.innerText = "0.00";
+        return;
+    }
 
-            
-        }
+    let totalPriceSum = 0;
+    userCartList.forEach(item => {
+        totalPriceSum += (item.price * item.qty);
+
+        const itemHTML = `
+            <div style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.5); 
+                        padding: 14px 20px; border-radius: 20px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                
+                <span style="font-weight: 700; color: #064e3b; font-size: 15px;">${item.name}</span>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-weight: 600; color: #064e3b; font-size: 15px;">${(item.price * item.qty).toFixed(2)} ₪</span>
+                    
+                    <div style="display: flex; gap: 5px; background: rgba(6, 78, 59, 0.1); padding: 4px; border-radius: 12px;">
+                        <button onclick="changeCartQty(${item.id}, -1)" style="border: none; background: #fff; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #064e3b;">-</button>
+                        <span style="width: 20px; text-align: center; font-size: 13px; font-weight: 700; color: #064e3b;">${item.qty}</span>
+                        <button onclick="changeCartQty(${item.id}, 1)" style="border: none; background: #fff; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #064e3b;">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        cartItemsContainer.insertAdjacentHTML('beforeend', itemHTML);
+    });
+
+    if (cartTotalElement) cartTotalElement.innerText = totalPriceSum.toFixed(2);
+}
+
 
         function changeCartQty(id, change) {
             const match = userCartList.find(item => item.id === id);
@@ -1448,13 +1440,26 @@ function addNewProductToCart(productId) {
             localStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
         }
 
-        function loadCartFromLocalStorage() {
-            const savedCart = localStorage.getItem('hikaya_cafe_cart');
-            if (savedCart) {
-                userCartList = JSON.parse(savedCart);
+       function loadCartFromLocalStorage() {
+    try {
+        const savedCart = localStorage.getItem('hikaya_cafe_cart');
+        if (savedCart) {
+            // تحويل النص إلى مصفوفة
+            const parsedCart = JSON.parse(savedCart);
+            
+            // تحقق بسيط: هل البيانات المسترجعة هي مصفوفة فعلاً؟
+            if (Array.isArray(parsedCart)) {
+                userCartList = parsedCart;
                 refreshCartInterface();
             }
         }
+    } catch (error) {
+        // في حال حدوث أي خطأ في البيانات، نقوم بتنظيف الذاكرة للمستخدم
+        console.error("خطأ في استعادة السلة، يتم إعادة الضبط:", error);
+        localStorage.removeItem('hikaya_cafe_cart');
+       
+    }
+}
 
         function toggleCartMenu(openStatus) {
             const cartMenu = document.getElementById('sidebar-cart-menu');
@@ -1668,8 +1673,9 @@ function addNewProductToCart(productId) {
     setTimeout(() => {
         loader.style.opacity = '0';
         setTimeout(() => { loader.style.display = 'none'; }, 800);
-    }, 1000); // تظهر الشاشة لمدة ثانية ونصف
+    }, 950); // تظهر الشاشة لمدة ثانية ونصف
 });
+
 
 
 
