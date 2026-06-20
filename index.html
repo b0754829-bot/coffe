@@ -692,6 +692,10 @@ header {
     
 
 .subcategory-filters {
+    display: flex;
+    flex-wrap: nowrap; /* هذا أهم سطر: يمنع النزول لسطر جديد نهائياً */
+    overflow-x: auto;   /* يسمح بالتمرير الأفقي عند الحاجة */
+    white-space: nowrap;
     /* التعديل الأنيق */
     background: rgba(255, 255, 255, 0.85); /* شفافية خفيفة */
     backdrop-filter: blur(10px); /* تأثير الضبابية خلف الشريط */
