@@ -716,21 +716,46 @@ header {
     display: none;
 }
 
-/* تصميم الأزرار الفرعية */
 .sub-filter-item {
-    /* 3. منع الزر من الانكماش (مهم جداً!) */
-    flex: 0 0 auto; 
+    flex: 0 0 auto; /* يمنع الزر من الانكماش أو الاختفاء */
     
-    /* 4. زيادة الـ padding داخل الزر ليعطي فخامة */
-    padding: 10px 20px;
-  /* منع التفاف النص داخل الزر */
-    white-space: nowrap;
-    border-radius: 20px;
+    /* استخدام min-width يضمن للزر مساحة أدنى لا يمكنه النزول عنها */
+    min-width: 80px; 
+    
+    /* الـ Padding الجانبي المريح */
+    padding: 12px 24px; 
+    
+    border-radius: 30px;
     background: #f8f8f8;
     color: #4a4a4a;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
     border: 1px solid #e0e0e0;
+    
+    /* أهم سطر: يمنع النص من الانقسام أو القص */
+    white-space: nowrap; 
+    
+    /* إذا كان النص طويلاً جداً، نجعل للزر مساحة تتمدد تلقائياً */
+    width: fit-content; 
+    
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* محاذاة النص داخل الزر */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+@media (max-width: 480px) {
+    .subcategory-filters {
+        padding: 10px 15px; /* تقليل الـ padding قليلاً في الشاشات الصغيرة جداً */
+        gap: 8px; /* تقليل المسافة قليلاً لتوفير مساحة أكبر للأزرار */
+    }
+    
+    .sub-filter-item {
+        font-size: 14px; /* تصغير الخط قليلاً فقط في الشاشات الصغيرة جداً */
+        padding: 10px 18px;
+    }
 }
 
 /* تأثير التحديد (Active State) */
@@ -769,6 +794,9 @@ header {
 .product-card:hover img {
     transform: scale(1.08);
 }
+
+
+
     
 
        /* شريط الفئات الفخم العُلوي */
@@ -889,6 +917,35 @@ header {
 .category-wrapper {
     scroll-margin-top: 100px;
 }
+/* 1. قسم القهوة المختصة - ذهبي كهرماني ملكي دافئ */
+.node-specialty:hover { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 25px 45px rgba(251, 191, 36, 0.22); }
+.node-specialty:hover .neon-halo-wrapper { background: linear-gradient(135deg, #fbbf24, #b45309); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+.node-specialty:hover h3 { color: #b45309; }
+.node-specialty::after { background: #fbbf24; }
+
+/* 2. قسم المشروبات الساخنة - بني دافئ مريح */
+.node-hot:hover { border-color: rgba(180, 83, 9, 0.5); box-shadow: 0 25px 45px rgba(180, 83, 9, 0.22); }
+.node-hot:hover .neon-halo-wrapper { background: linear-gradient(135deg, #b45309, #78350f); box-shadow: 0 0 20px rgba(180, 83, 9, 0.5); }
+.node-hot:hover h3 { color: #78350f; }
+.node-hot::after { background: #b45309; }
+
+/* 3. قسم المشروبات الباردة - أزرق سيان ناصع ومنعش */
+.node-cold:hover { border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 25px 45px rgba(56, 189, 248, 0.22); }
+.node-cold:hover .neon-halo-wrapper { background: linear-gradient(135deg, #38bdf8, #0369a1); box-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+.node-cold:hover h3 { color: #0369a1; }
+.node-cold::after { background: #38bdf8; }
+
+/* 4. قسم الحلويات - أرجواني وردي ساحر ومشهي */
+.node-desserts:hover { border-color: rgba(244, 114, 182, 0.5); box-shadow: 0 25px 45px rgba(244, 114, 182, 0.22); }
+.node-desserts:hover .neon-halo-wrapper { background: linear-gradient(135deg, #f472b6, #db2777); box-shadow: 0 0 20px rgba(244, 114, 182, 0.5); }
+.node-desserts:hover h3 { color: #db2777; }
+.node-desserts::after { background: #f472b6; }
+
+/* 5. قسم وجبات الفطور - أخضر عشبي هادئ نضر */
+.node-breakfast:hover { border-color: rgba(74, 222, 128, 0.5); box-shadow: 0 25px 45px rgba(74, 222, 128, 0.22); }
+.node-breakfast:hover .neon-halo-wrapper { background: linear-gradient(135deg, #4ade80, #15803d); box-shadow: 0 0 20px rgba(74, 222, 128, 0.5); }
+.node-breakfast:hover h3 { color: #15803d; }
+.node-breakfast::after { background: #4ade80; }
 
 /* التأكد من أن العنوان داخل القسم */
 .title-decorated {
@@ -896,9 +953,10 @@ header {
     padding-bottom: 10px;
     margin-top: 0;
 }
+
 </style>
 
-   
+
 </head>
 <body>
     <div id="loader-screen">
@@ -990,19 +1048,7 @@ header {
 
 </div>
 
-
- 
-
-
-
-   
-<!-- ========================================================
-     عرض الأقسام مع الفلاتر الفرعية الجانبية (Subcategories)
-     ======================================================== -->
-
-<!-- القسم الأول: القهوة المختصة -->
-
-
+  
 <!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
     <h3 class="title-decorated">المشروبات الساخنة الكلاسيكية</h3>
@@ -1059,39 +1105,18 @@ header {
     <div class="products-showcase" id="container-specialty"></div>
 </div>
 </div>
-<style>/* ========================================================
-   تأثيرات الهالات النيون المتوافقة مع كافيه حكاية
-   ======================================================== */
 
-/* 1. قسم القهوة المختصة - ذهبي كهرماني ملكي دافئ */
-.node-specialty:hover { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 25px 45px rgba(251, 191, 36, 0.22); }
-.node-specialty:hover .neon-halo-wrapper { background: linear-gradient(135deg, #fbbf24, #b45309); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
-.node-specialty:hover h3 { color: #b45309; }
-.node-specialty::after { background: #fbbf24; }
+<div id="extrasModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:white; padding:20px; border-radius:20px; width:80%; max-width:300px; text-align:center;">
+        <h3>إضافات المنتج</h3>
+        <div style="text-align:right; margin:15px 0;">
+            <label><input type="checkbox" onchange="calcExtra(2)"> صوص كراميل (+2 ₪)</label><br>
+            <label><input type="checkbox" onchange="calcExtra(3)"> حليب لوز (+3 ₪)</label>
+        </div>
+        <button onclick="closeModal()" style="background:#0f766e; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;">تم الحفظ</button>
+    </div>
+</div>
 
-/* 2. قسم المشروبات الساخنة - بني دافئ مريح */
-.node-hot:hover { border-color: rgba(180, 83, 9, 0.5); box-shadow: 0 25px 45px rgba(180, 83, 9, 0.22); }
-.node-hot:hover .neon-halo-wrapper { background: linear-gradient(135deg, #b45309, #78350f); box-shadow: 0 0 20px rgba(180, 83, 9, 0.5); }
-.node-hot:hover h3 { color: #78350f; }
-.node-hot::after { background: #b45309; }
-
-/* 3. قسم المشروبات الباردة - أزرق سيان ناصع ومنعش */
-.node-cold:hover { border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 25px 45px rgba(56, 189, 248, 0.22); }
-.node-cold:hover .neon-halo-wrapper { background: linear-gradient(135deg, #38bdf8, #0369a1); box-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
-.node-cold:hover h3 { color: #0369a1; }
-.node-cold::after { background: #38bdf8; }
-
-/* 4. قسم الحلويات - أرجواني وردي ساحر ومشهي */
-.node-desserts:hover { border-color: rgba(244, 114, 182, 0.5); box-shadow: 0 25px 45px rgba(244, 114, 182, 0.22); }
-.node-desserts:hover .neon-halo-wrapper { background: linear-gradient(135deg, #f472b6, #db2777); box-shadow: 0 0 20px rgba(244, 114, 182, 0.5); }
-.node-desserts:hover h3 { color: #db2777; }
-.node-desserts::after { background: #f472b6; }
-
-/* 5. قسم وجبات الفطور - أخضر عشبي هادئ نضر */
-.node-breakfast:hover { border-color: rgba(74, 222, 128, 0.5); box-shadow: 0 25px 45px rgba(74, 222, 128, 0.22); }
-.node-breakfast:hover .neon-halo-wrapper { background: linear-gradient(135deg, #4ade80, #15803d); box-shadow: 0 0 20px rgba(74, 222, 128, 0.5); }
-.node-breakfast:hover h3 { color: #15803d; }
-.node-breakfast::after { background: #4ade80; }</style>
 
     <div class="cart-overlay" id="cart-screen-overlay" onclick="toggleCartMenu(false)"></div>
     <div class="sidebar-cart" id="sidebar-cart-menu">
@@ -1117,9 +1142,7 @@ header {
 
     </div>
 
-
-    
-<button id="show-more-btn" class="premium-btn-more">عرض المزيد  </button>
+   
 
 <footer class="premium-footer">
     <div class="footer-grid">
@@ -1138,13 +1161,16 @@ header {
     </div>
 </footer>
 
+
+<script>
+function toggleDetails(btn) {
+    let content = btn.nextElementSibling;
+    content.classList.toggle('active');
+    btn.innerText = content.classList.contains('active') ? "إخفاء التفاصيل" : "عرض التفاصيل";
+}
+</script>
+
     <script>
-// ========================================================
-// 1. قاعدة البيانات الشاملة والحقيقية لكافيه حكاية
-// ========================================================
-// ========================================================
-// 1. قاعدة البيانات الأصلية لمنتجات منيو حكاية
-// ========================================================
 const storeProductsDatabase = {
     specialty: [
         { id: 101, name: "قهوة مقطرة V60 إثيوبية", price: 18.00, sub: "v60", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" },
@@ -1233,20 +1259,21 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
             productCard.style.display = 'none';
         }
 
-        productCard.innerHTML = `
+      productCard.innerHTML = `
     <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease;">
+        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div class="product-details" style="padding:15px; text-align:right;">
-        <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a; font-family:'Cairo', sans-serif;">${product.name}</h4>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="product-price" style="font-weight:700; color:#0f766e; font-size:16px;">${product.price.toFixed(2)} ₪</span>
-            
+        <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
+        
+        <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
           
-<button class="circle-add-btn" 
-        onclick="addNewProductToCart(${product.id})">
-    +
-</button>
+            <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button onclick="openExtrasModal(${product.id})" style="background:none; border:1px solid #0f766e; color:#0f766e; border-radius:50%; width:30px; height:30px; cursor:pointer;">⚙️</button>
+            <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
         </div>
     </div>
 `;
@@ -1384,20 +1411,24 @@ let visibleCount = 4;
             document.getElementById('showcase-title').innerText = `قسم الـ ${categoryName} الفاخر`;
         }
 
-      // تأكد أن الدالة تبدو هكذا في ملفك:
-function addNewProductToCart(productId) {
-    // تأكد من اسم قاعدة البيانات هنا مطابق لما عرفته في الأعلى
+     function addNewProductToCart(productId, extras = "لا يوجد") {
+    // 1. استخراج المنتج الأصلي (كودك الأصلي - لم يتغير)
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
     
     if(!product) return;
 
-    const existingItem = userCartList.find(item => item.id === productId);
+    // 2. تحديث المنطق ليدعم الإضافات (بدون حذف المنطق القديم)
+    // نبحث عن منتج بنفس الـ ID وبنفس الإضافات لدمج الكمية
+    const existingItem = userCartList.find(item => item.id === productId && item.selectedExtras === extras);
+    
     if(existingItem) {
         existingItem.qty += 1;
     } else {
-        userCartList.push({ ...product, qty: 1 });
+        // نضع المنتج مع إضافة حقل جديد اسمه selectedExtras
+        userCartList.push({ ...product, qty: 1, selectedExtras: extras });
     }
-  saveCartToLocalStorage();
+    
+    saveCartToLocalStorage();
     refreshCartInterface();
 }
 
@@ -1405,43 +1436,46 @@ function refreshCartInterface() {
     const cartItemsContainer = document.getElementById('cart-items-list-container');
     const cartTotalElement = document.getElementById('cart-total-amount');
     
-    // --- هذا السطر هو المسؤول عن تحديث العداد في الهيدر ---
+    // 1. تحديث عدد المنتجات الكلي (هذا الكود لديك مسبقاً)
     const mainBasketCount = document.getElementById('main-basket-count');
     const totalItemsCount = userCartList.reduce((sum, item) => sum + item.qty, 0);
-    if (mainBasketCount) {
-        mainBasketCount.innerText = totalItemsCount;
-    }
-    // ------------------------------------------------------
+    if (mainBasketCount) { mainBasketCount.innerText = totalItemsCount; }
 
     if (!cartItemsContainer) return;
     cartItemsContainer.innerHTML = '';
 
     if (userCartList.length === 0) {
-        cartItemsContainer.innerHTML = `
-            <div style="text-align: center; padding: 30px; color: #064e3b; font-size: 14px; opacity: 0.7;">
-                السلة فارغة، بانتظار اختيارك..
-            </div>`;
+        cartItemsContainer.innerHTML = `<div style="text-align: center; padding: 30px; color: #064e3b; font-size: 14px; opacity: 0.7;">السلة فارغة، بانتظار اختيارك..</div>`;
         if (cartTotalElement) cartTotalElement.innerText = "0.00";
         return;
     }
 
     let totalPriceSum = 0;
-    userCartList.forEach(item => {
+
+    // 2. التعديل هنا: نعكس الترتيب لعرض الأحدث في الأعلى
+    // ونقوم بتحديث الإجمالي داخل نفس الحلقة
+    [...userCartList].reverse().forEach(item => {
         totalPriceSum += (item.price * item.qty);
 
+        const extrasDisplay = (item.selectedExtras && item.selectedExtras !== "لا يوجد") ? 
+            `<div style="font-size: 11px; color: #0f766e; margin-top: 4px; font-weight: 600;">
+                إضافات: ${item.selectedExtras}
+            </div>` : '';
+
         const itemHTML = `
-            <div style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.5); 
-                        padding: 14px 20px; border-radius: 20px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
-                
-                <span style="font-weight: 700; color: #064e3b; font-size: 15px;">${item.name}</span>
-                
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <span style="font-weight: 600; color: #064e3b; font-size: 15px;">${(item.price * item.qty).toFixed(2)} ₪</span>
-                    
-                    <div style="display: flex; gap: 5px; background: rgba(6, 78, 59, 0.1); padding: 4px; border-radius: 12px;">
-                        <button onclick="changeCartQty(${item.id}, -1)" style="border: none; background: #fff; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #064e3b;">-</button>
-                        <span style="width: 20px; text-align: center; font-size: 13px; font-weight: 700; color: #064e3b;">${item.qty}</span>
-                        <button onclick="changeCartQty(${item.id}, 1)" style="border: none; background: #fff; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #064e3b;">+</button>
+            <div style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.5); padding: 14px 20px; border-radius: 20px; margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <span style="font-weight: 700; color: #064e3b; font-size: 15px;">${item.name}</span>
+                        ${extrasDisplay}
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span style="font-weight: 600; color: #064e3b; font-size: 15px;">${(item.price * item.qty).toFixed(2)} ₪</span>
+                        <div style="display: flex; gap: 5px; background: rgba(6, 78, 59, 0.1); padding: 4px; border-radius: 12px;">
+                            <button onclick="changeCartQty(${item.id}, -1, '${item.selectedExtras}')" style="border:none; background:#fff; width:28px; height:28px; border-radius:8px; cursor:pointer;">-</button>
+                            <span style="width:20px; text-align:center; font-size:13px; font-weight:700;">${item.qty}</span>
+                            <button onclick="changeCartQty(${item.id}, 1, '${item.selectedExtras}')" style="border:none; background:#fff; width:28px; height:28px; border-radius:8px; cursor:pointer;">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1452,17 +1486,24 @@ function refreshCartInterface() {
     if (cartTotalElement) cartTotalElement.innerText = totalPriceSum.toFixed(2);
 }
 
+       function changeCartQty(productId, change, extras) {
+    // نبحث عن المنتج الذي يطابق الـ ID ونوع الإضافات
+    const itemIndex = userCartList.findIndex(item => 
+        item.id === productId && item.selectedExtras === extras
+    );
 
-        function changeCartQty(id, change) {
-            const match = userCartList.find(item => item.id === id);
-            if (match) {
-                match.qty += change;
-                if (match.qty <= 0) {
-                    userCartList = userCartList.filter(item => item.id !== id);
-                }
-                refreshCartInterface();
-            }
+    if (itemIndex > -1) {
+        userCartList[itemIndex].qty += change;
+
+        // إذا أصبحت الكمية صفر أو أقل، نحذف المنتج تماماً
+        if (userCartList[itemIndex].qty <= 0) {
+            userCartList.splice(itemIndex, 1);
         }
+    }
+    
+    saveCartToLocalStorage();
+    refreshCartInterface();
+}
 
         function saveCartToLocalStorage() {
             localStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
@@ -1719,6 +1760,83 @@ function activateSubFilter(element) {
         block: 'nearest',
         inline: 'center' 
     });
+}
+
+
+
+let currentPID = null;
+
+function openExtrasModal(id) {
+    currentPID = id;
+    document.getElementById('extrasModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('extrasModal').style.display = 'none';
+}
+
+// دالة تحديث البطاقة عند الحفظ
+function updateCard(extras, priceIncrease) {
+    const card = document.querySelector(`[onclick*="${currentPID}"]`).closest('.product-card');
+    card.querySelector('.extra-text').innerText = extras;
+    const priceEl = card.querySelector('.price-text');
+    let newPrice = parseFloat(priceEl.innerText) + priceIncrease;
+    priceEl.innerText = newPrice.toFixed(2) + " ₪";
+    closeModal();
+}
+
+
+function saveAndAddToCart(productId) {
+    // 1. جمع الإضافات التي اختارها العميل (يجب أن يكون لديك input من نوع checkbox)
+    let selected = [];
+    document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
+        selected.push(cb.value);
+    });
+    
+    // 2. إذا لم يختر شيئاً، نرسل "لا يوجد"، وإذا اختار نرسل الاختيارات
+    let extrasText = selected.length > 0 ? selected.join('، ') : "لا يوجد";
+    
+    // 3. استدعاء دالة الإضافة للسلة التي كتبتها أنت أعلاه
+    addNewProductToCart(productId, extrasText);
+    
+    // 4. إغلاق النافذة
+    closeModal();
+}
+// 1. الدالة التي تفتح النافذة وتنشئها برمجياً
+function openExtrasModal(productId) {
+    currentPID = productId; // تخزين رقم المنتج المختار
+    
+    // إنشاء النافذة كـ Div جديد وإضافته لصفحة الـ HTML
+    const modalHTML = `
+        <div id="dynamicExtrasModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; display:flex; justify-content:center; align-items:center;">
+            <div style="background:white; padding:20px; border-radius:20px; width:80%; max-width:300px; text-align:center;">
+                <h3 style="color:#064e3b;">اختر الإضافات</h3>
+                <div style="text-align:right; margin:15px 0;">
+                    <label><input type="checkbox" class="extra-checkbox" value="صوص كراميل"> صوص كراميل</label><br>
+                    <label><input type="checkbox" class="extra-checkbox" value="حليب لوز"> حليب لوز</label><br>
+                    <label><input type="checkbox" class="extra-checkbox" value="سكر إضافي"> سكر إضافي</label>
+                </div>
+                <button onclick="saveAndAddToCart(currentPID)" style="background:#064e3b; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer; width:100%;">تم الحفظ</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// 2. دالة الحفظ التي تقرأ الاختيارات وتضيف للسلة
+function saveAndAddToCart(productId) {
+    let selected = [];
+    document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
+        selected.push(cb.value);
+    });
+    
+    let extrasText = selected.length > 0 ? selected.join('، ') : "لا يوجد";
+    
+    // الإضافة الفعلية للسلة
+    addNewProductToCart(productId, extrasText);
+    
+    // إزالة النافذة بعد الحفظ
+    document.getElementById('dynamicExtrasModal').remove();
 }
     </script>
     
