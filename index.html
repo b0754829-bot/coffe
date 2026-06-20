@@ -691,37 +691,40 @@ header {
 }
     
 
-/* تنسيق أزرار الفئات الفرعية الجانبية */
 .subcategory-filters {
-    display: flex;
-    gap: 10px;
-    padding: 10px 20px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin-bottom: 20px;
-    direction: rtl;
+    /* التعديل الأنيق */
+    background: rgba(255, 255, 255, 0.85); /* شفافية خفيفة */
+    backdrop-filter: blur(10px); /* تأثير الضبابية خلف الشريط */
+    -webkit-backdrop-filter: blur(10px); /* دعم متصفحات Apple */
+    border-bottom: 1px solid rgba(0,0,0,0.05); /* حد سفلي ناعم جداً */
+  /* يعطي تلاشي ليعرف الزبون انو فيه كمان فلاتر*/
+    mask-image: linear-gradient(to left, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 85%, transparent 100%);
+
 }
+/* إخفاء شريط التمرير في متصفحات Webkit */
 .subcategory-filters::-webkit-scrollbar {
-    display: none; /* إخفاء شريط التمرير المزعج على الهواتف */
+    display: none;
 }
-.filter-btn {
-    background: #f1f5f9;
-    color: #475569;
-    border: 1px solid #e2e8f0;
+
+/* تصميم الأزرار الفرعية */
+.sub-filter-item {
     padding: 8px 16px;
-    border-radius: 30px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    background: #f8f8f8;
+    color: #4a4a4a;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-.filter-btn.active {
-    background: #0f766e; /* لون كافيه حكاية الزمردي */
-    color: white;
-    border-color: #0f766e;
-    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
-    transform: translateY(-2px);
+
+/* تأثير التحديد (Active State) */
+.sub-filter-item.active {
+   background: #2c1a11;
+    color: #ffffff;
+    /* ظل متوهج بلون الزر */
+    box-shadow: 0 8px 16px -4px rgba(44, 26, 17, 0.4);
+    transform: scale(0.95); /* ينكمش قليلاً عند الضغط عليه قبل التفعيل */
 }
 /* تصميم شبكة عرض المنتجات */
 .products-showcase {
@@ -764,6 +767,9 @@ header {
         border-bottom: 1px solid rgba(0,0,0,0.03);
         position: relative;
         z-index: 999;
+        /* يعطي تلاشي ليعرف الزبون انو فيه كمان فلاتر*/
+    mask-image: linear-gradient(to left, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 85%, transparent 100%);
     }
     .luxury-categories-bar::-webkit-scrollbar { display: none; }
 
@@ -864,9 +870,17 @@ header {
     transition: transform 0.2s;
 }
 .circle-add-btn:active { transform: scale(0.9); }
+/* إجبار الصفحة على ترك مسافة عند الوصول لأي قسم */
+.category-wrapper {
+    scroll-margin-top: 100px;
+}
 
-
-
+/* التأكد من أن العنوان داخل القسم */
+.title-decorated {
+    display: block;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
 </style>
 
    
@@ -1299,17 +1313,16 @@ function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
     renderCategorySection(mainCategory, subCategory);
 }
 
-// دالة التمرير الانسيابي عند الضغط على الفئات الكريستالية العلوية الرئيسية
 function smoothScrollTo(elementId) {
-    const target = document.getElementById(elementId);
-    if (target) {
-        const headerOffset = 90;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    const targetSection = document.getElementById(elementId);
+    if (targetSection) {
+        // نضع هامشاً علوياً فورياً للحاوية لضمان عدم اختفاء العنوان
+        // الـ 120 تعني أن المتصفح سيترك مسافة 120 بكسل من الأعلى قبل بدء الحاوية
+        targetSection.style.scrollMarginTop = "120px"; 
 
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
+        targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
         });
     }
 }
@@ -1678,7 +1691,20 @@ function refreshCartInterface() {
 
 
 
-
+function activateSubFilter(element) {
+    // 1. إزالة التفعيل عن الكل
+    document.querySelectorAll('.sub-filter-item').forEach(el => el.classList.remove('active'));
+    
+    // 2. تفعيل الزر المختار
+    element.classList.add('active');
+    
+    // 3. التمركز الذكي: جعل العنصر المختار في منتصف شريط التمرير
+    element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center' 
+    });
+}
     </script>
     
 </body>
