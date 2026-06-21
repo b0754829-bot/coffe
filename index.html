@@ -1767,8 +1767,7 @@ function refreshCartInterface() {
                 overlay.classList.remove('active');
             }
         }
-
-      // 1. الدالة الأساسية للإرسال
+// 1. الدالة الأساسية للإرسال
 function sendCartToWhatsApp() {
     if (!userCartList || userCartList.length === 0) {
         alert("سلتك فارغة!");
@@ -1797,31 +1796,56 @@ function sendCartToWhatsApp() {
     // ربط الأحداث بعد التأكد من إضافة المودال للـ DOM
     setTimeout(initModalEvents, 100); 
 }
-
-// 2. دالة الأحداث (بشرط أن تستدعى بعد إنشاء المودال)
-function initModalEvents() {
+      function initModalEvents() {
     const modal = document.getElementById('hikaya-sky-modal');
     const submitBtn = document.getElementById('modal-submit-btn');
     const closeBtn = document.getElementById('modal-close-btn');
+    const locationBtn = document.getElementById('geo-location-btn');
+    const locationStatus = document.getElementById('geo-status');
     
-    if (!submitBtn) return; // حماية ضد الأخطاء
+    // متغير لتخزين رابط الويز
+    let customerWazeURL = "لم يتم تحديد الموقع";
 
+    // إغلاق المودال
     closeBtn.onclick = () => { modal.remove(); };
 
-    submitBtn.onclick = function() {
+    // تفعيل زر الموقع (Waze)
+    locationBtn.onclick = () => {
+        if (!navigator.geolocation) {
+            alert("المتصفح لا يدعم تحديد الموقع");
+            return;
+        }
+        
+        locationStatus.style.display = "block";
+        locationStatus.innerHTML = "جاري تحديد موقعك، يرجى الانتظار...";
+        
+        navigator.geolocation.getCurrentPosition((pos) => {
+            // إنشاء رابط الويز
+            customerWazeURL = `https://www.waze.com/ul?ll=${pos.coords.latitude},${pos.coords.longitude}&navigate=yes`;
+            locationBtn.innerHTML = "✅ تم تحديد الموقع بنجاح";
+            locationBtn.style.background = "#dcfce7"; // لون أخضر فاتح للتأكيد
+            locationStatus.innerHTML = "تم الحصول على الإحداثيات";
+        }, (err) => {
+            locationStatus.innerHTML = "تعذر تحديد الموقع. يرجى تفعيل الـ GPS.";
+        });
+    };
+
+    // تفعيل زر الإرسال
+    submitBtn.onclick = () => {
         const name = document.getElementById('modal-cust-name').value;
         if (!name) { alert("يرجى إدخال اسمك الكريم"); return; }
 
-        // تجهيز الرسالة
-        let msg = `طلب جديد | حكاية كافيه\nالاسم: ${name}\n\n*قائمة الطلبات:*\n`;
-        userCartList.forEach(item => {
+        const storeWhatsAppNumber = "972524310286";
+        
+        let msg = `طلب جديد | حكاية كافيه\nالاسم: ${name}\n\n*الطلبات:*\n`;
+        userCartList.forEach((item) => {
             msg += `• ${item.name} (${item.qty}) ${item.selectedExtras ? '| ' + item.selectedExtras : ''}\n`;
         });
-        msg += `\nالإجمالي: ${calculateTotal()} ₪`;
-
-        const url = `https://api.whatsapp.com/send?phone=972524310286&text=${encodeURIComponent(msg)}`;
-        window.open(url, '_blank');
         
+        msg += `\nالإجمالي: ${calculateTotal()} ₪`;
+        msg += `\n\n📍 رابط الموقع للوصول إليك:\n${customerWazeURL}`;
+
+        window.open(`https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`, '_blank');
         modal.remove();
     };
 }
