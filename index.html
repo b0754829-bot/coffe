@@ -513,36 +513,51 @@ header {
             opacity: 0.9;
         }
 
-   /* 1. تصميم الخلفية الضبابية (الضباب الزمردي) */
+  /* 1. تصميم الخلفية الضبابية */
 #hikaya-sky-modal {
     position: fixed !important; top: 0 !important; left: 0 !important; 
     width: 100% !important; height: 100% !important; 
-    background: rgba(4, 47, 46, 0.2) !important; /* خلفية زمردية شفافة جداً */
+    background: rgba(4, 47, 46, 0.2) !important;
     backdrop-filter: blur(20px) !important; 
     -webkit-backdrop-filter: blur(20px) !important;
     display: flex !important; align-items: center !important; 
     justify-content: center !important; z-index: 99999 !important; 
     direction: rtl !important; font-family: 'Cairo', sans-serif !important;
+    font-weight: 600 !important; /* النص سميك */
 }
 
-/* 2. الجزيرة الزجاجية (النافذة الرئيسية) */
+/* 2. الجزيرة الزجاجية */
 #hikaya-sky-modal > div {
-    background: rgba(255, 255, 255, 0.05) !important; /* شفافية زجاجية سائلة */
-    border: 1px solid rgba(16, 185, 129, 0.3) !important; /* حواف مائية زمردية */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
     width: 90% !important; max-width: 400px !important; 
-    padding: 40px !important; border-radius: 60px !important; /* حواف ناعمة جداً */
+    padding: 40px !important; border-radius: 60px !important;
     text-align: center !important; 
     box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 0 0 1px rgba(16, 185, 129, 0.1) inset !important;
     animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* 3. تصميم المدخلات (زجاج سائل شفاف) */
+/* 3. العنوان */
+#hikaya-sky-modal h3 { 
+    color: #ffffff !important; 
+    margin-bottom: 25px !important; 
+    font-weight: 800 !important; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+/* 4. المدخلات */
 #modal-cust-name {
     width: 100% !important; padding: 20px !important; 
     border-radius: 30px !important; border: 1px solid rgba(16, 185, 129, 0.4) !important;
     background: rgba(255, 255, 255, 0.03) !important; 
-    color: #fff !important; font-size: 16px !important;
+    color: #ffffff !important; font-size: 17px !important;
+    font-weight: 700 !important;
     transition: 0.4s !important;
+}
+
+#modal-cust-name::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-weight: 600 !important;
 }
 
 #modal-cust-name:focus {
@@ -551,23 +566,23 @@ header {
     outline: none !important;
 }
 
-/* 4. الأزرار: زجاج سائل بحدود زمردية مائية */
+/* 5. الأزرار */
 #geo-location-btn, #modal-submit-btn {
     width: 100% !important; padding: 20px !important; 
     border-radius: 30px !important; border: 1px solid rgba(16, 185, 129, 0.6) !important;
-    background: rgba(16, 185, 129, 0.05) !important; /* شفافية مائية */
-    color: #d1fae5 !important; font-weight: 700 !important;
+    background: rgba(16, 185, 129, 0.05) !important;
+    color: #ffffff !important; font-weight: 900 !important;
+    font-size: 16px !important;
     cursor: pointer !important; transition: all 0.4s ease !important;
     backdrop-filter: blur(5px) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
 }
 
 #geo-location-btn:hover, #modal-submit-btn:hover {
-    background: rgba(16, 185, 129, 0.2) !important;
+    background: rgba(16, 185, 129, 0.3) !important;
     border-color: #10b981 !important;
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
 }
-
-#hikaya-sky-modal h3 { color: #fff !important; margin-bottom: 25px !important; }
 
 @keyframes slideUp {
     from { transform: translateY(30px) scale(0.95); opacity: 0; }
@@ -1798,21 +1813,32 @@ function initModalEvents() {
     };
 
     submitBtn.onclick = () => {
-        const name = document.getElementById('modal-cust-name').value;
-        if (!name) return alert("يرجى كتابة الاسم");
-        if (!customerWazeURL) return alert("يرجى تحديد الموقع أولاً");
+    const name = document.getElementById('modal-cust-name').value;
+    // ... التحقق من البيانات ...
 
-        const storeWhatsAppNumber = "972524310286";
-        let msg = `*طلب جديد: ${name}*\n *الموقع:* ${customerWazeURL}\n\n🛒 *الطلبات:*\n`;
-        userCartList.forEach(i => msg += `${i.name} (${i.qty}) - ${i.price} ₪\n`);
-        
-        window.location.href = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`;
-        
-        userCartList = [];
-        saveCartToLocalStorage();
-        refreshCartInterface();
-        modal.remove();
-    };
+    const storeWhatsAppNumber = "972524310286";
+    
+    // تصميم الرسالة بأسلوب "الفاتورة المخملية الهادئة"
+    let msg = ` طلب جديد | حكاية كافيه\n`;
+    msg += `────────────────────────\n`;
+    msg += ` الاسم:  ${name}\n`;
+    msg += ` الوقت: ${new Date().toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'})}\n`;
+    msg += `────────────────────────\n\n`;
+    msg += ` *قائمة الطلبات:*\n`;
+    
+    userCartList.forEach((item) => {
+        msg += `• ${item.name}\n  الكمية: ${item.qty} | القيمة: ${item.price.toFixed(2)} ₪\n\n`;
+    });
+    
+    msg += `────────────────────────\n`;
+    msg += ` الإجمالي النهائي: ${calculateTotal()} ₪\n\n`;
+    msg += ` موقع التوصيل:\n.${customerWazeURL}\n`;
+    msg += `────────────────────────\n`;
+    msg += `شكرًا لاختياركم "حكاية كافيه" ✨`;
+
+    window.location.href = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`;
+    modal.remove();
+};
 }
         // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
         document.addEventListener("DOMContentLoaded", function () {
