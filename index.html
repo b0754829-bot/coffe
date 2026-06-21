@@ -1768,20 +1768,24 @@ function refreshCartInterface() {
             }
         }
 
-       // 1. دالة الإرسال المباشرة (تفتح نافذة الطلبات)
+      // 1. الدالة الأساسية للإرسال
 function sendCartToWhatsApp() {
     if (!userCartList || userCartList.length === 0) {
-        alert("سلتك فارغة، يرجى اختيار مشروبك المفضل أولاً!");
+        alert("سلتك فارغة!");
         return;
     }
 
-    // إنشاء المودال الخاص بالبيانات (الاسم والموقع)
+    // تنظيف أي مودال قديم
+    const oldModal = document.getElementById('hikaya-sky-modal');
+    if (oldModal) oldModal.remove();
+
+    // إنشاء المودال
     const modalHTML = `
-    <div id="hikaya-sky-modal" class="glass-island">
-        <div class="glass-container" style="padding:25px; text-align:center;">
+    <div id="hikaya-sky-modal" class="glass-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999999; display:flex; justify-content:center; align-items:center;">
+        <div class="glass-island" style="background:white; padding:25px; border-radius:20px; width:90%; max-width:350px; text-align:center;">
             <h3>تأكيد الطلبية 🛒</h3>
             <input type="text" id="modal-cust-name" placeholder="أدخل اسمك الكريم..." style="width:100%; padding:10px; margin:10px 0; border-radius:10px; border:1px solid #ccc;">
-            <button id="geo-location-btn" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; background:#f0f0f0; cursor:pointer;">📍 تحديد موقعي للـ Waze</button>
+            <button id="geo-location-btn" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; background:#f0f0f0; border:none; cursor:pointer;">📍 تحديد موقعي</button>
             <p id="geo-status" style="font-size:12px; color:#064e3b; display:none;"></p>
             <button id="modal-submit-btn" style="width:100%; padding:12px; background:#064e3b; color:white; border:none; border-radius:10px; cursor:pointer;">إرسال الطلب عبر واتساب</button>
             <button id="modal-close-btn" style="background:none; border:none; margin-top:10px; cursor:pointer;">إلغاء</button>
@@ -1789,62 +1793,37 @@ function sendCartToWhatsApp() {
     </div>`;
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-    initModalEvents(); // تشغيل الأحداث الخاصة بهذا المودال
+    
+    // ربط الأحداث بعد التأكد من إضافة المودال للـ DOM
+    setTimeout(initModalEvents, 100); 
 }
 
+// 2. دالة الأحداث (بشرط أن تستدعى بعد إنشاء المودال)
 function initModalEvents() {
     const modal = document.getElementById('hikaya-sky-modal');
     const submitBtn = document.getElementById('modal-submit-btn');
     const closeBtn = document.getElementById('modal-close-btn');
-    const locationBtn = document.getElementById('geo-location-btn');
-    const locationStatus = document.getElementById('geo-status');
-    let customerWazeURL = "لم يتم تحديد الموقع";
-
-    closeBtn.onclick = () => { modal.style.display = 'none'; };
-
-    locationBtn.onclick = () => {
-        locationStatus.style.display = "block";
-        locationStatus.innerHTML = "جاري تحديد موقعك...";
-        navigator.geolocation.getCurrentPosition((pos) => {
-            customerWazeURL = `https://www.waze.com/ul?ll=${pos.coords.latitude},${pos.coords.longitude}&navigate=yes`;
-            locationBtn.innerHTML = "✅ تم تحديد الموقع";
-        }, () => { locationStatus.innerHTML = "يرجى السماح بالوصول للموقع!"; });
-    };
-
-  submitBtn.onclick = () => {
-    const name = document.getElementById('modal-cust-name').value;
-    if (!name) { alert("يرجى إدخال اسمك الكريم"); return; }
-
-    const storeWhatsAppNumber = "972524310286";
     
-    let msg = ` طلب جديد | حكاية كافيه\n`;
-    msg += `────────────────────────\n`;
-    msg += ` الاسم: ${name}\n`;
-    msg += ` الوقت: ${new Date().toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'})}\n`;
-    msg += `────────────────────────\n\n`;
-    msg += ` *قائمة الطلبات:*\n`;
-    
-    userCartList.forEach((item) => {
-        // هنا التعديل: نتأكد من طباعة الإضافات إذا كانت موجودة
-        const extrasDisplay = (item.selectedExtras && item.selectedExtras !== "لا يوجد") 
-                              ? ` | إضافات: ${item.selectedExtras}` 
-                              : "";
+    if (!submitBtn) return; // حماية ضد الأخطاء
+
+    closeBtn.onclick = () => { modal.remove(); };
+
+    submitBtn.onclick = function() {
+        const name = document.getElementById('modal-cust-name').value;
+        if (!name) { alert("يرجى إدخال اسمك الكريم"); return; }
+
+        // تجهيز الرسالة
+        let msg = `طلب جديد | حكاية كافيه\nالاسم: ${name}\n\n*قائمة الطلبات:*\n`;
+        userCartList.forEach(item => {
+            msg += `• ${item.name} (${item.qty}) ${item.selectedExtras ? '| ' + item.selectedExtras : ''}\n`;
+        });
+        msg += `\nالإجمالي: ${calculateTotal()} ₪`;
+
+        const url = `https://api.whatsapp.com/send?phone=972524310286&text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
         
-        msg += `• ${item.name}\n  الكمية: ${item.qty} | القيمة: ${item.price.toFixed(2)} ₪${extrasDisplay}\n\n`;
-    });
-    
-    msg += `────────────────────────\n`;
-    msg += ` الإجمالي النهائي: ${calculateTotal()} ₪\n\n`;
-    msg += ` موقع التوصيل:\n${customerWazeURL || "لم يتم تحديد الموقع"}\n`;
-    msg += `────────────────────────\n`;
-    msg += `شكرًا لاختياركم "حكاية كافيه" `;
-
-    window.open(`https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`, '_blank');
-    
-    // إغلاق المودال بعد الإرسال
-    const modal = document.getElementById('hikaya-sky-modal');
-    if (modal) modal.style.display = 'none';
-};
+        modal.remove();
+    };
 }
         // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
         document.addEventListener("DOMContentLoaded", function () {
