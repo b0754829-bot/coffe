@@ -1837,7 +1837,7 @@ function initModalEvents() {
     msg += ` الإجمالي النهائي: ${calculateTotal()} ₪\n\n`;
     msg += ` موقع التوصيل:\n${customerWazeURL || "لم يتم تحديد الموقع"}\n`;
     msg += `────────────────────────\n`;
-    msg += `شكرًا لاختياركم "حكاية كافيه" ✨`;
+    msg += `شكرًا لاختياركم "حكاية كافيه" `;
 
     window.open(`https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`, '_blank');
     
