@@ -1796,56 +1796,49 @@ function sendCartToWhatsApp() {
     // ربط الأحداث بعد التأكد من إضافة المودال للـ DOM
     setTimeout(initModalEvents, 100); 
 }
-   function initModalEvents() {
+  
+// 1. ضع هذا السطر في أعلى ملف الجافاسكريبت الخاص بك (خارج أي دالة)
+window.customerWazeURL = "لم يتم تحديد الموقع";
+
+function initModalEvents() {
     const modal = document.getElementById('hikaya-sky-modal');
     const submitBtn = document.getElementById('modal-submit-btn');
     const closeBtn = document.getElementById('modal-close-btn');
     const locationBtn = document.getElementById('geo-location-btn');
     const locationStatus = document.getElementById('geo-status');
-    
-    // متغير لتخزين رابط الويز
-    let customerWazeURL = "لم يتم تحديد الموقع";
 
-    // إغلاق المودال
     closeBtn.onclick = () => { modal.remove(); };
 
-    // تفعيل زر الموقع (Waze)
     locationBtn.onclick = () => {
-        if (!navigator.geolocation) {
-            alert("المتصفح لا يدعم تحديد الموقع");
-            return;
-        }
+        if (!navigator.geolocation) { alert("المتصفح لا يدعم الموقع"); return; }
         
         locationStatus.style.display = "block";
-        locationStatus.innerHTML = "جاري تحديد موقعك، يرجى الانتظار...";
+        locationStatus.innerHTML = "جاري تحديد موقعك...";
         
         navigator.geolocation.getCurrentPosition((pos) => {
-            // إنشاء رابط الويز
-            customerWazeURL = `https://www.waze.com/ul?ll=${pos.coords.latitude},${pos.coords.longitude}&navigate=yes`;
-            locationBtn.innerHTML = "✅ تم تحديد الموقع بنجاح";
-            locationBtn.style.background = "#dcfce7"; // لون أخضر فاتح للتأكيد
-            locationStatus.innerHTML = "تم الحصول على الإحداثيات";
-        }, (err) => {
-            locationStatus.innerHTML = "تعذر تحديد الموقع. يرجى تفعيل الـ GPS.";
-        });
+            // هنا نحدث المتغير العام
+            window.customerWazeURL = `https://www.waze.com/ul?ll=${pos.coords.latitude},${pos.coords.longitude}&navigate=yes`;
+            locationBtn.innerHTML = "✅ تم تحديد الموقع";
+            locationBtn.style.background = "#dcfce7";
+            locationStatus.innerHTML = "تم حفظ الموقع بنجاح";
+        }, () => { locationStatus.innerHTML = "تعذر تحديد الموقع!"; });
     };
 
-    // تفعيل زر الإرسال
     submitBtn.onclick = () => {
         const name = document.getElementById('modal-cust-name').value;
-        if (!name) { alert("يرجى إدخال اسمك الكريم"); return; }
+        if (!name) { alert("يرجى إدخال الاسم"); return; }
 
-        const storeWhatsAppNumber = "972524310286";
-        
         let msg = `طلب جديد | حكاية كافيه\nالاسم: ${name}\n\n*الطلبات:*\n`;
         userCartList.forEach((item) => {
             msg += `• ${item.name} (${item.qty}) ${item.selectedExtras ? '| ' + item.selectedExtras : ''}\n`;
         });
         
         msg += `\nالإجمالي: ${calculateTotal()} ₪`;
-        msg += `\n\n📍 رابط الموقع للوصول إليك:\n${customerWazeURL}`;
+        // هنا نستخدم المتغير العام الذي تم تحديثه
+        msg += `\n\n📍 رابط الموقع:\n${window.customerWazeURL}`;
 
-        window.open(`https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`, '_blank');
+        const url = "https://api.whatsapp.com/send?phone=972524310286&text=" + encodeURIComponent(msg);
+        window.open(url, '_blank');
         modal.remove();
     };
 }
