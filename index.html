@@ -513,66 +513,65 @@ header {
             opacity: 0.9;
         }
 
-        /* تصميم الجزيرة الديناميكية الفاخرة */
+   /* 1. تصميم الخلفية الضبابية (الضباب الزمردي) */
 #hikaya-sky-modal {
     position: fixed !important; top: 0 !important; left: 0 !important; 
     width: 100% !important; height: 100% !important; 
-    background: rgba(0, 0, 0, 0.2) !important; /* خلفية أغمق وأكثر غموضاً */
-    backdrop-filter: blur(30px) !important; /* ضبابية أعمق */
+    background: rgba(4, 47, 46, 0.2) !important; /* خلفية زمردية شفافة جداً */
+    backdrop-filter: blur(20px) !important; 
+    -webkit-backdrop-filter: blur(20px) !important;
     display: flex !important; align-items: center !important; 
     justify-content: center !important; z-index: 99999 !important; 
     direction: rtl !important; font-family: 'Cairo', sans-serif !important;
 }
 
+/* 2. الجزيرة الزجاجية (النافذة الرئيسية) */
 #hikaya-sky-modal > div {
-    background: #f1f5f9 !important; 
+    background: rgba(255, 255, 255, 0.05) !important; /* شفافية زجاجية سائلة */
+    border: 1px solid rgba(16, 185, 129, 0.3) !important; /* حواف مائية زمردية */
     width: 90% !important; max-width: 400px !important; 
-    padding: 40px !important; border-radius: 50px !important; /* انحناء أكثر */
+    padding: 40px !important; border-radius: 60px !important; /* حواف ناعمة جداً */
     text-align: center !important; 
-    box-shadow: 0 50px 100px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.5) inset !important; /* تأثير الانعكاس الداخلي */
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; /* أنيميشن الظهور */
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 0 0 1px rgba(16, 185, 129, 0.1) inset !important;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-@keyframes slideUp {
-    from { transform: translateY(50px) scale(0.9); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-}
-
-#hikaya-sky-modal h3 {
-    color: #0b3f3b !important; font-size: 26px !important; margin-bottom: 5px !important;
-    letter-spacing: -1px !important;
-}
-
-/* تصميم المدخلات الفاخر */
+/* 3. تصميم المدخلات (زجاج سائل شفاف) */
 #modal-cust-name {
     width: 100% !important; padding: 20px !important; 
-    border-radius: 25px !important; border: 2px solid transparent !important;
-    background: #f8fafc !important; font-size: 16px !important;
+    border-radius: 30px !important; border: 1px solid rgba(16, 185, 129, 0.4) !important;
+    background: rgba(255, 255, 255, 0.03) !important; 
+    color: #fff !important; font-size: 16px !important;
     transition: 0.4s !important;
 }
 
 #modal-cust-name:focus {
-    border-color: #0b3f3b !important; /* توهج عند الضغط */
-    background: white !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #10b981 !important;
+    outline: none !important;
 }
 
-/* زر الموقع الفاخر */
-#geo-location-btn {
-    width: 100% !important; padding: 18px !important; 
-    border-radius: 25px !important; border: none !important;
-    background: #0b3f3b !important; color: white !important; /* قلبنا الألوان للفخامة */
-    font-weight: 800 !important; cursor: pointer !important;
-    transition: 0.4s !important;
+/* 4. الأزرار: زجاج سائل بحدود زمردية مائية */
+#geo-location-btn, #modal-submit-btn {
+    width: 100% !important; padding: 20px !important; 
+    border-radius: 30px !important; border: 1px solid rgba(16, 185, 129, 0.6) !important;
+    background: rgba(16, 185, 129, 0.05) !important; /* شفافية مائية */
+    color: #d1fae5 !important; font-weight: 700 !important;
+    cursor: pointer !important; transition: all 0.4s ease !important;
+    backdrop-filter: blur(5px) !important;
 }
 
-#geo-location-btn:hover { opacity: 0.9; transform: scale(1.02); }
+#geo-location-btn:hover, #modal-submit-btn:hover {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
+}
 
-/* زر الإرسال */
-#modal-submit-btn {
-    flex: 1.5 !important; background: #25D366 !important; /* لون الإجراء يبرز بوضوح */
-    color: white !important; border-radius: 25px !important;
-    padding: 18px !important; font-weight: 900 !important;
-    box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3) !important;
+#hikaya-sky-modal h3 { color: #fff !important; margin-bottom: 25px !important; }
+
+@keyframes slideUp {
+    from { transform: translateY(30px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
 }
 .cart-top-bar {
     display: flex;
@@ -603,10 +602,6 @@ header {
     background: rgba(0,0,0,0.1) !important;
     transform: scale(1.1); /* تأثير تفاعلي عند المرور */
 }
-
-
-
-
 .premium-btn {
     /* التموضع والفراغ */
     display: flex;
@@ -1101,6 +1096,57 @@ button[onclick*="saveAndAddToCart"] {
 /* تنعيم إضافي للأيقونات */
 .premium-btn span {
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+}
+/* 1. الجزيرة الزجاجية (المودال) */
+.glass-island {
+    background: rgba(255, 255, 255, 0.05); /* شفافية عالية جداً */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(16, 185, 129, 0.4); /* إطار زمردي مائي */
+    border-radius: 45px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.15); /* ظل زمردي خفيف */
+    transition: transform 0.3s ease;
+}
+
+/* 2. الأزرار: زجاج سائل بحدود زمردية */
+.glass-btn-primary {
+    background: rgba(255, 255, 255, 0.03); /* شفافة جداً */
+    border: 1px solid rgba(16, 185, 129, 0.6); /* حافة زمردية واضحة */
+    backdrop-filter: blur(5px);
+    color: #ecfdf5; /* لون نص زمردي فاتح جداً */
+    padding: 16px 30px;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* تأثير "الماء المتدفق" عند التمرير */
+.glass-btn-primary:hover {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 1); /* اشتداد اللون الزمردي عند اللمس */
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+/* 3. تنسيق المدخلات (الاسم) لتكون بنفس النمط */
+.glass-input {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: white;
+    padding: 15px;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 </style>
 
@@ -1707,139 +1753,67 @@ function refreshCartInterface() {
             }
         }
 
-        // نظام إرسال واستلام الطلبات المروري الفوري المربوط بـ Waze والواتساب المباشر
-        function sendCartToWhatsApp() {
-            if (!userCartList || userCartList.length === 0) {
-                alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ");
-                return;
-            }
-
-            const oldModal = document.getElementById('hikaya-sky-modal');
-            if (oldModal) oldModal.remove();
-
-            let customerLat = "";
-            let customerLon = "";
-            let customerWazeURL = "";
-
-           // داخل دالة فتح النافذة المنبثقة، قم بتعديل زر الحفظ ليصبح كالتالي:
-function openExtrasModal(productId, category) {
-    window.currentPID = productId;
-    
-    // جلب الإضافات حسب الفئة (مع ضمان عدم توقف الكود إذا لم توجد فئة)
-    const extrasList = categoryExtras[category] || []; 
-    
-    // إذا كانت القائمة فارغة، يمكنك إغلاق الدالة أو عرض رسالة
-    if (extrasList.length === 0) {
-        console.warn("لا توجد إضافات لهذا القسم");
+       // 1. دالة الإرسال المباشرة (تفتح نافذة الطلبات)
+function sendCartToWhatsApp() {
+    if (!userCartList || userCartList.length === 0) {
+        alert("سلتك فارغة، يرجى اختيار مشروبك المفضل أولاً!");
+        return;
     }
-    
-    // توليد الـ HTML (بناءً على تصميمك الحالي)
-    let extrasHTML = extrasList.map(extra => `
-        <label style="display:block; margin-bottom:10px;">
-            <input type="checkbox" class="extra-checkbox" value="${extra}"> ${extra}
-        </label>
-    `).join('');
 
-    let modalHTML = `
-    <div id="extra-modal" class="glass-island">
-        <div class="glass-container">
-            <h3>اختر إضافاتك</h3>
-            <div style="text-align:right;">${extrasHTML}</div>
-            <button onclick="saveAndAddToCart()">إضافة للسلة 🛒</button>
-            <button onclick="closeModal()">إلغاء</button>
+    // إنشاء المودال الخاص بالبيانات (الاسم والموقع)
+    const modalHTML = `
+    <div id="hikaya-sky-modal" class="glass-island">
+        <div class="glass-container" style="padding:25px; text-align:center;">
+            <h3>تأكيد الطلبية 🛒</h3>
+            <input type="text" id="modal-cust-name" placeholder="أدخل اسمك الكريم..." style="width:100%; padding:10px; margin:10px 0; border-radius:10px; border:1px solid #ccc;">
+            <button id="geo-location-btn" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; background:#f0f0f0; cursor:pointer;">📍 تحديد موقعي للـ Waze</button>
+            <p id="geo-status" style="font-size:12px; color:#064e3b; display:none;"></p>
+            <button id="modal-submit-btn" style="width:100%; padding:12px; background:#064e3b; color:white; border:none; border-radius:10px; cursor:pointer;">إرسال الطلب عبر واتساب</button>
+            <button id="modal-close-btn" style="background:none; border:none; margin-top:10px; cursor:pointer;">إلغاء</button>
         </div>
-    </div>
-    `;
+    </div>`;
+
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+    initModalEvents(); // تشغيل الأحداث الخاصة بهذا المودال
 }
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-            const modalElement = document.getElementById('hikaya-sky-modal');
-            const submitBtn = document.getElementById('modal-submit-btn');
-            const closeBtn = document.getElementById('modal-close-btn');
-            const locationBtn = document.getElementById('geo-location-btn');
-            const locationStatus = document.getElementById('geo-status');
+// 2. دالة تشغيل أحداث المودال (فصلناها لتكون نظيفة)
+function initModalEvents() {
+    const modal = document.getElementById('hikaya-sky-modal');
+    const submitBtn = document.getElementById('modal-submit-btn');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const locationBtn = document.getElementById('geo-location-btn');
+    const locationStatus = document.getElementById('geo-status');
+    let customerWazeURL = "";
 
-            closeBtn.addEventListener('click', () => modalElement.remove());
+    closeBtn.onclick = () => modal.remove();
 
-            locationBtn.addEventListener('click', () => {
-                if (!navigator.geolocation) {
-                    locationStatus.style.display = "block";
-                    locationStatus.innerHTML = " المتصفح لا يدعم تحديد الموقع التلقائي.";
-                    return;
-                }
+    locationBtn.onclick = () => {
+        locationStatus.style.display = "block";
+        locationStatus.innerHTML = "جاري تحديد موقعك...";
+        navigator.geolocation.getCurrentPosition((pos) => {
+            customerWazeURL = `https://www.waze.com/ul?ll=${pos.coords.latitude},${pos.coords.longitude}&navigate=yes`;
+            locationBtn.innerHTML = "✅ تم تحديد الموقع";
+        }, () => { locationStatus.innerHTML = "يرجى السماح بالوصول للموقع!"; });
+    };
 
-                locationStatus.style.display = "block";
-                locationStatus.innerHTML = " جاري تحديد موقعك بالـ GPS لتجهيز خريطة Waze...";
+    submitBtn.onclick = () => {
+        const name = document.getElementById('modal-cust-name').value;
+        if (!name) return alert("يرجى كتابة الاسم");
+        if (!customerWazeURL) return alert("يرجى تحديد الموقع أولاً");
 
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        customerLat = position.coords.latitude;
-                        customerLon = position.coords.longitude;
-                        customerWazeURL = `https://www.waze.com/ul?ll=${customerLat},${customerLon}&navigate=yes`;
-                        
-                        locationBtn.style.background = "rgba(34, 197, 94, 0.1)";
-                        locationBtn.style.borderColor = "#22c55e";
-                        locationBtn.style.color = "#16a34a";
-                        locationBtn.innerHTML = "✅ تم ربط موقعك بتطبيق Waze بنجاح!";
-                        locationStatus.innerHTML = "🚙 باريستا كافيه حكاية جاهز لاستلام موقعك.";
-                    },
-                    (error) => {
-                        locationStatus.innerHTML = " يرجى تفعيل الـ GPS والسماح بالوصول للموقع لتأكيد خط السير.";
-                    },
-                    { enableHighAccuracy: true, timeout: 10000 }
-                );
-            });
-
-            submitBtn.addEventListener('click', () => {
-                const nameInput = document.getElementById('modal-cust-name');
-                const customerName = nameInput.value.trim();
-
-                if (customerName === "") {
-                    nameInput.style.borderColor = "#ef4444";
-                    nameInput.focus();
-                    return;
-                }
-
-                if (customerWazeURL === "") {
-                    locationBtn.style.borderColor = "#ef4444";
-                    locationStatus.style.display = "block";
-                    locationStatus.innerHTML = "⚠️ خطوة إجبارية: يرجى الضغط على زر الموقع أولاً لتحديد مسار السيارة!";
-                    return;
-                }
-
-                // رقم الواتساب المباشر المخصص للمقهى لاستلام الطلبات تلقائياً
-                const storeWhatsAppNumber = "972524310286"; 
-                let messageText = `*طلب جديد من كافيه حكاية   *\n\n`;
-                messageText += `👤 *اسم الزبون:* ${customerName}\n`;
-                messageText += `📍 *رابط الخريطة المباشر (Waze):* ${customerWazeURL}\n`;
-                messageText += `-----------------------------------\n\n`;
-                messageText += `🛒 *تفاصيل الطلبية المطلوبة:*\n`;
-
-                let finalTotal = 0;
-                userCartList.forEach((item, index) => {
-                    const itemTotal = item.price * item.qty;
-                    finalTotal += itemTotal;
-                    messageText += `${index + 1}) *${item.name}*\n    الكمية: [ ${item.qty} ] ✖️ السعر: ${item.price.toFixed(2)} ₪ ⬅️ *${itemTotal.toFixed(2)} ₪*\n`;
-                });
-
-                messageText += `\n-----------------------------------\n`;
-                messageText += ` *المبلغ الكلي:* [ *${finalTotal.toFixed(2)} ₪* ]\n\n`;
-                messageText += ` _يرجى البدء بتحضير الطلبية._`;
-
-                const encodedMessage = encodeURIComponent(messageText);
-                const whatsappURL = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodedMessage}`;
-                
-                userCartList = [];
-                saveCartToLocalStorage();
-                refreshCartInterface();
-                toggleCartMenu(false);
-                modalElement.remove();
-
-                window.location.href = whatsappURL;
-            });
-        }
-
+        const storeWhatsAppNumber = "972524310286";
+        let msg = `*طلب جديد: ${name}*\n *الموقع:* ${customerWazeURL}\n\n🛒 *الطلبات:*\n`;
+        userCartList.forEach(i => msg += `${i.name} (${i.qty}) - ${i.price} ₪\n`);
+        
+        window.location.href = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`;
+        
+        userCartList = [];
+        saveCartToLocalStorage();
+        refreshCartInterface();
+        modal.remove();
+    };
+}
         // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
         document.addEventListener("DOMContentLoaded", function () {
             displayStoreItems(storeProductsDatabase);
@@ -1939,41 +1913,38 @@ function openExtrasModal(id) {
     currentPID = id;
     document.getElementById('extrasModal').style.display = 'flex';
 }
-// دالة واحدة وموحدة لكل شيء
 function openExtrasModal(productId, category) {
-    window.currentPID = productId; // تخزين الـ ID
+    window.currentPID = productId; 
     
-    // جلب الإضافات من الكائن الذي عرفته مسبقاً menuExtras
     const extrasList = menuExtras[category] || []; 
-    
-    // بناء الخيارات ديناميكياً بناءً على ما تم اختياره من فئة
     const extrasHTML = extrasList.length > 0 
         ? extrasList.map(extra => `
-            <label style="display:block; margin-bottom:10px; color:#fff;">
-                <input type="checkbox" class="extra-checkbox" value="${extra}"> ${extra}
+            <label class="glass-option-label">
+                <input type="checkbox" class="extra-checkbox" value="${extra}"> 
+                <span>${extra}</span>
             </label>
         `).join('')
-        : '<p style="color:rgba(255,255,255,0.7);">لا توجد إضافات لهذا القسم</p>';
+        : '<p class="glass-text">لا توجد إضافات لهذا القسم</p>';
 
     let modalHTML = `
-    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:9999; background:rgba(0,0,0,0.3); backdrop-filter:blur(10px);">
-        <div class="glass-container" style="padding:30px; width:85%; max-width:320px; text-align:center; background:rgba(255,255,255,0.2); border-radius:40px; border:1px solid rgba(255,255,255,0.3);">
-            <h3 style="margin-bottom:20px; font-weight:700; color:#fff;">اختر إضافاتك ✨</h3>
-            <div style="text-align:right; margin:20px 0; font-size:15px; background: rgba(0,0,0,0.1); padding: 15px; border-radius: 20px;">
+    <div id="extra-modal" class="glass-overlay">
+        <div class="glass-island">
+            <h3 class="glass-title">اختر إضافاتك ✨</h3>
+            <div class="glass-list-container">
                 ${extrasHTML}
             </div>
-            
-            <button onclick="saveAndAddToCart()" style="background:#064e3b; border:none; padding:15px; width:100%; font-weight:bold; cursor:pointer; color:white; border-radius:20px; transition: 0.3s;">
-                إضافة للسلة 🛒
-            </button>
-            
-            <button onclick="closeModal()" style="background:transparent; color:rgba(255,255,255,0.7); border:none; margin-top:15px; cursor:pointer; font-size: 13px;">
-                إلغاء
-            </button>
+            <button onclick="saveAndAddToCart()" class="glass-btn-primary">إضافة للسلة 🛒</button>
+            <button onclick="closeModal()" class="glass-btn-cancel">إلغاء</button>
         </div>
     </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// دالة إغلاق موحدة
+function closeModal() {
+    const modal = document.getElementById('extra-modal');
+    if (modal) modal.remove();
 }
 
 // 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
