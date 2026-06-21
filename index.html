@@ -1792,16 +1792,15 @@ function sendCartToWhatsApp() {
     initModalEvents(); // تشغيل الأحداث الخاصة بهذا المودال
 }
 
-// 2. دالة تشغيل أحداث المودال (فصلناها لتكون نظيفة)
 function initModalEvents() {
     const modal = document.getElementById('hikaya-sky-modal');
     const submitBtn = document.getElementById('modal-submit-btn');
     const closeBtn = document.getElementById('modal-close-btn');
     const locationBtn = document.getElementById('geo-location-btn');
     const locationStatus = document.getElementById('geo-status');
-    let customerWazeURL = "";
+    let customerWazeURL = "لم يتم تحديد الموقع";
 
-    closeBtn.onclick = () => modal.remove();
+    closeBtn.onclick = () => { modal.style.display = 'none'; };
 
     locationBtn.onclick = () => {
         locationStatus.style.display = "block";
@@ -1812,32 +1811,39 @@ function initModalEvents() {
         }, () => { locationStatus.innerHTML = "يرجى السماح بالوصول للموقع!"; });
     };
 
-    submitBtn.onclick = () => {
+  submitBtn.onclick = () => {
     const name = document.getElementById('modal-cust-name').value;
-    // ... التحقق من البيانات ...
+    if (!name) { alert("يرجى إدخال اسمك الكريم"); return; }
 
     const storeWhatsAppNumber = "972524310286";
     
-    // تصميم الرسالة بأسلوب "الفاتورة المخملية الهادئة"
     let msg = ` طلب جديد | حكاية كافيه\n`;
     msg += `────────────────────────\n`;
-    msg += ` الاسم:  ${name}\n`;
+    msg += ` الاسم: ${name}\n`;
     msg += ` الوقت: ${new Date().toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'})}\n`;
     msg += `────────────────────────\n\n`;
     msg += ` *قائمة الطلبات:*\n`;
     
     userCartList.forEach((item) => {
-        msg += `• ${item.name}\n  الكمية: ${item.qty} | القيمة: ${item.price.toFixed(2)} ₪\n\n`;
+        // هنا التعديل: نتأكد من طباعة الإضافات إذا كانت موجودة
+        const extrasDisplay = (item.selectedExtras && item.selectedExtras !== "لا يوجد") 
+                              ? ` | إضافات: ${item.selectedExtras}` 
+                              : "";
+        
+        msg += `• ${item.name}\n  الكمية: ${item.qty} | القيمة: ${item.price.toFixed(2)} ₪${extrasDisplay}\n\n`;
     });
     
     msg += `────────────────────────\n`;
     msg += ` الإجمالي النهائي: ${calculateTotal()} ₪\n\n`;
-    msg += ` موقع التوصيل:\n.${customerWazeURL}\n`;
+    msg += ` موقع التوصيل:\n${customerWazeURL || "لم يتم تحديد الموقع"}\n`;
     msg += `────────────────────────\n`;
     msg += `شكرًا لاختياركم "حكاية كافيه" ✨`;
 
-    window.location.href = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`;
-    modal.remove();
+    window.open(`https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodeURIComponent(msg)}`, '_blank');
+    
+    // إغلاق المودال بعد الإرسال
+    const modal = document.getElementById('hikaya-sky-modal');
+    if (modal) modal.style.display = 'none';
 };
 }
         // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
