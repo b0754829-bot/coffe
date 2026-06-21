@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#2c1a11">
     <meta name="apple-mobile-web-app-title" content="كافيه حكاية">
@@ -1900,8 +1900,8 @@ window.customerWazeURL = "لم يتم تحديد الموقع";
                 // رقم الواتساب المباشر المخصص للمقهى لاستلام الطلبات تلقائياً
                 const storeWhatsAppNumber = "972524310286"; 
                 let messageText = `*طلب جديد من كافيه حكاية للقهوة المختصة *\n\n`;
-                messageText += `👤 *اسم الزبون:* ${customerName}\n`;
-                messageText += `📍 *رابط الخريطة المباشر (Waze):* ${customerWazeURL}\n`;
+                messageText += ` *اسم الزبون:* ${customerName}\n`;
+                messageText += ` *رابط الخريطة المباشر (Waze):* ${customerWazeURL}\n`;
                 messageText += `-----------------------------------\n\n`;
                 messageText += `🛒 *تفاصيل الطلبية المطلوبة:*\n`;
 
@@ -1911,6 +1911,11 @@ window.customerWazeURL = "لم يتم تحديد الموقع";
                     finalTotal += itemTotal;
                     messageText += `${index + 1}) *${item.name}*\n    الكمية: [ ${item.qty} ] ✖️ السعر: ${item.price.toFixed(2)} ₪ ⬅️ *${itemTotal.toFixed(2)} ₪*\n`;
                 });
+                // 2. التعديل الأساسي: قراءة الإضافات (نفرض أن الإضافات محفوظة في مصفوفة باسم extras)
+    // إذا كانت الإضافات محفوظة في مصفوفة داخل الكائن، سيتم عرضها هنا
+    if (item.extras && item.extras.length > 0) {
+        messageText += `    📋 الإضافات: ${item.extras.join(", ")}\n`;
+    }
 
                 messageText += `\n-----------------------------------\n`;
                 messageText += ` *المبلغ الكلي:* [ *${finalTotal.toFixed(2)} ₪* ]\n\n`;
