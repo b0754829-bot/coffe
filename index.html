@@ -205,10 +205,7 @@ header {
             left: 150%;
         }
 
-      
-
-
-
+    
 /* 4. تثبيت زر الزائد والسعر في القاع */
 .card-footer { 
     margin-top: auto;      /* دفع الفوتر لأسفل البطاقة دائماً */
@@ -693,64 +690,62 @@ header {
 
 .subcategory-filters {
     display: flex;
-    flex-wrap: nowrap; /* هذا أهم سطر: يمنع النزول لسطر جديد نهائياً */
-    overflow-x: auto;   /* يسمح بالتمرير الأفقي عند الحاجة */
+    flex-wrap: nowrap;
+    overflow-x: auto;
     white-space: nowrap;
-    /* 1. إضافة مسافة بين الأزرار */
-    gap: 12px; 
-    
-    /* 2. إضافة padding يمنع التصاق أول وآخر زر بحواف الشاشة */
+    gap: 12px;
     padding: 12px 20px;
-    /* التعديل الأنيق */
-    background: rgba(255, 255, 255, 0.85); /* شفافية خفيفة */
-    backdrop-filter: blur(10px); /* تأثير الضبابية خلف الشريط */
-    -webkit-backdrop-filter: blur(10px); /* دعم متصفحات Apple */
-    border-bottom: 1px solid rgba(0,0,0,0.05); /* حد سفلي ناعم جداً */
-  /* يعطي تلاشي ليعرف الزبون انو فيه كمان فلاتر*/
+    
+    /* خلفية زجاجية معتمة قليلاً لتأثير مائي */
+    background: rgba(255, 255, 255, 0.6); 
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* قناع التلاشي */
     mask-image: linear-gradient(to left, black 85%, transparent 100%);
     -webkit-mask-image: linear-gradient(to left, black 85%, transparent 100%);
-
 }
 /* إخفاء شريط التمرير في متصفحات Webkit */
 .subcategory-filters::-webkit-scrollbar {
     display: none;
+    
+}
+.sub-filter-item {
+    /* نستخدم لون زمردي دافئ مع شفافية واضحة */
+    background: rgba(16, 185, 129, 0.2) !important;
+    
+    /* تأثير الضبابية */
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    
+    /* حدود زجاجية تعطي "لمعة" للون الزمردي */
+    border: 1px solid rgba(16, 185, 129, 0.6) !important;
+    
+    /* ظل داخلي يعطي إيحاء بأن الزر غائر قليلاً */
+    box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.2) !important;
+    
+    color: #064e3b !important;
+    font-weight: 600;
+    border-radius: 30px !important;
+    transition: all 0.3s ease !important;
 }
 
-.sub-filter-item {
-    flex: 0 0 auto; /* يمنع الزر من الانكماش أو الاختفاء */
-    
-    /* استخدام min-width يضمن للزر مساحة أدنى لا يمكنه النزول عنها */
-    min-width: 80px; 
-    
-    /* الـ Padding الجانبي المريح */
-    padding: 12px 24px; 
-    
-    border-radius: 30px;
-    background: #f8f8f8;
-    color: #4a4a4a;
-    font-size: 15px;
-    font-weight: 600;
-    border: 1px solid #e0e0e0;
-    
-    /* أهم سطر: يمنع النص من الانقسام أو القص */
-    white-space: nowrap; 
-    
-    /* إذا كان النص طويلاً جداً، نجعل للزر مساحة تتمدد تلقائياً */
-    width: fit-content; 
-    
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    
-    /* محاذاة النص داخل الزر */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+/* عند الضغط، اجعله يتوهج */
+.sub-filter-item.active {
+    background: rgba(16, 185, 129, 0.9) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
 }
+
 @media (max-width: 480px) {
     .subcategory-filters {
         padding: 10px 15px; /* تقليل الـ padding قليلاً في الشاشات الصغيرة جداً */
         gap: 8px; /* تقليل المسافة قليلاً لتوفير مساحة أكبر للأزرار */
     }
+    
+
     
     .sub-filter-item {
         font-size: 14px; /* تصغير الخط قليلاً فقط في الشاشات الصغيرة جداً */
@@ -758,14 +753,7 @@ header {
     }
 }
 
-/* تأثير التحديد (Active State) */
-.sub-filter-item.active {
-   background: #2c1a11;
-    color: #ffffff;
-    /* ظل متوهج بلون الزر */
-    box-shadow: 0 8px 16px -4px rgba(44, 26, 17, 0.4);
-    transform: scale(0.95); /* ينكمش قليلاً عند الضغط عليه قبل التفعيل */
-}
+
 /* تصميم شبكة عرض المنتجات */
 .products-showcase {
     display: grid;
@@ -794,11 +782,6 @@ header {
 .product-card:hover img {
     transform: scale(1.08);
 }
-
-
-
-    
-
        /* شريط الفئات الفخم العُلوي */
     .luxury-categories-bar {
         display: flex;
@@ -954,6 +937,171 @@ header {
     margin-top: 0;
 }
 
+
+
+/* خلفية النافذة الزجاجية السائلة */
+#extra-modal {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.4s ease;
+}
+
+/* تنسيق الحاوية البيضاء لتصبح زجاجية أيضاً */
+.glass-container {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 40px !important;
+    color: white !important; /* تغيير اللون للأبيض ليتناسب مع الزجاج */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+}
+
+/* الأزرار الزجاجية */
+button[onclick*="saveAndAddToCart"] {
+    background: linear-gradient(135deg, #064e3b, #0f766e) !important;
+    box-shadow: 0 8px 20px rgba(6, 78, 59, 0.3) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(5px);
+}
+
+/* تنسيق الزر داخل النافذة ليصبح تفاعلياً */
+button[onclick*="saveAndAddToCart"] {
+    transition: transform 0.2s, background 0.3s;
+}
+
+button[onclick*="saveAndAddToCart"]:active {
+    transform: scale(0.95);
+    background: #0f4f4a !important;
+}
+/* تنسيق الهزة لأيقونة السلة */
+.cart-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+/* خلفية النافذة الزجاجية السائلة */
+#extra-modal {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.4s ease;
+}
+
+/* تنسيق الحاوية البيضاء لتصبح زجاجية (Glass container) */
+.glass-container {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 40px !important; /* حواف دائرية جداً */
+    color: white !important; /* لون النص للأبيض ليتناسب مع الزجاج */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+}
+
+/* الأزرار الزجاجية الجوهرية */
+button[onclick*="saveAndAddToCart"] {
+    /* تغيير الخلفية للأبيض ليتناسب مع الزجاج */
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important;
+    backdrop-filter: blur(5px);
+    
+    /* أو استخدم التدرج الفخم التالي لعُمق بصري */
+    /* background: linear-gradient(135deg, #064e3b, #0f766e) !important; */
+    /* box-shadow: 0 8px 20px rgba(6, 78, 59, 0.3) !important; */
+}
+
+   /* الزر في حالته الطبيعية (ساكن) */
+    .magic-btn {
+        transform: scale(1);
+    }
+
+    /* عندما يمر الماوس أو يلمس الزبون الكرت */
+    /* نضع التنسيق على مستوى الـ parent (الكرت) ليتفعل الزر */
+    .product-card:hover .magic-btn,
+    .product-card:active .magic-btn {
+        animation: pulse-trigger 0.8s ease-out;
+        background: rgba(15, 118, 110, 0.3); /* يتغير اللون ليصبح أكثر وضوحاً */
+        transform: scale(1.1); /* يكبر قليلاً عند التفاعل */
+    }
+
+    @keyframes pulse-trigger {
+        0% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.5); }
+        50% { box-shadow: 0 0 0 8px rgba(15, 118, 110, 0); } /* نبضة سريعة واحدة */
+        100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
+    }
+    /* تنسيق الـ Footer كجزيرة زمردية مخملية */
+.premium-footer {
+    padding: 30px 20px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    width: 100%;
+    max-width: 420px;
+    
+    /* خلفية زجاجية سائلة بمسحة زمردية */
+    background: rgba(4, 47, 46, 0.4); /* لون زمردي عميق شفاف */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 50px; /* حواف انسيابية فائقة */
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(4, 47, 46, 0.3);
+}
+
+/* تنسيق الخط الزمردي المخملي */
+.footer-grid p, .footer-grid h3 {
+    color: #d1fae5; /* زمردي فاتح جداً (Emerald Mist) */
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    margin: 0;
+}
+
+/* الأزرار: زجاج سائل مائي */
+.premium-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    color: #ffffff;
+    
+    /* تأثير الزجاج السائل */
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 78, 59, 0.3));
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* لمعة حواف أنيقة */
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* التفاعل: تأثير التغير وفق الخلفية */
+.premium-btn:hover {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(6, 78, 59, 0.5));
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.5);
+}
+
+/* تنعيم إضافي للأيقونات */
+.premium-btn span {
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+}
 </style>
 
 
@@ -1106,16 +1254,7 @@ header {
 </div>
 </div>
 
-<div id="extrasModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
-    <div style="background:white; padding:20px; border-radius:20px; width:80%; max-width:300px; text-align:center;">
-        <h3>إضافات المنتج</h3>
-        <div style="text-align:right; margin:15px 0;">
-            <label><input type="checkbox" onchange="calcExtra(2)"> صوص كراميل (+2 ₪)</label><br>
-            <label><input type="checkbox" onchange="calcExtra(3)"> حليب لوز (+3 ₪)</label>
-        </div>
-        <button onclick="closeModal()" style="background:#0f766e; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;">تم الحفظ</button>
-    </div>
-</div>
+
 
 
     <div class="cart-overlay" id="cart-screen-overlay" onclick="toggleCartMenu(false)"></div>
@@ -1141,9 +1280,6 @@ header {
     </div>
 
     </div>
-
-   
-
 <footer class="premium-footer">
     <div class="footer-grid">
         <div style="text-align: center; color: #1f2937;">
@@ -1171,6 +1307,13 @@ function toggleDetails(btn) {
 </script>
 
     <script>
+        const menuExtras = {
+    'specialty': ['صوص كراميل', 'حليب لوز', 'دبل شوت'],
+    'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
+    'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
+    'desserts': ['توت', 'فانيليا'],
+    'breakfast': ['جبنة', 'زيتون']
+};
 const storeProductsDatabase = {
     specialty: [
         { id: 101, name: "قهوة مقطرة V60 إثيوبية", price: 18.00, sub: "v60", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" },
@@ -1205,6 +1348,14 @@ const storeProductsDatabase = {
         { id: 502, name: "كرواسون بحشوة النوتيلا الغنية", price: 14.00, sub: "croissant", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80" },
         { id: 503, name: "كلوب ساندوتش حكاية المميز", price: 18.00, sub: "light_meals", img: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80" }
     ]
+    
+};
+const categoryExtras = {
+    'specialty': ['صوص كراميل', 'حليب لوز', 'دبل شوت'],
+    'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
+    'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
+    'desserts': ['إضافة صوص توت', 'آيس كريم فانيليا'],
+    'breakfast': ['جبنة إضافية', 'زيتون']
 };
 
 // الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
@@ -1272,8 +1423,29 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <button onclick="openExtrasModal(${product.id})" style="background:none; border:1px solid #0f766e; color:#0f766e; border-radius:50%; width:30px; height:30px; cursor:pointer;">⚙️</button>
+        <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" 
+    class="magic-btn"
+    style="
+        width: 32px; 
+        height: 32px; 
+        border-radius: 50%; 
+        border: none;
+        background: rgba(15, 118, 110, 0.15);
+        backdrop-filter: blur(5px);
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        cursor: pointer; 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
+    "
+>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+    </svg>
+</button>
             <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
+            
         </div>
     </div>
 `;
@@ -1395,15 +1567,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCategorySection('breakfast', 'all');
 });
 
-
-
-
       // المتغيرات الأساسية
 let visibleCount = 4;
-
-
-
-
         // فلترة وعرض المنتجات حسب القسم المختار
         function filterBySection(categoryName) {
             const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
@@ -1545,7 +1710,7 @@ function refreshCartInterface() {
         // نظام إرسال واستلام الطلبات المروري الفوري المربوط بـ Waze والواتساب المباشر
         function sendCartToWhatsApp() {
             if (!userCartList || userCartList.length === 0) {
-                alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ☕");
+                alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ");
                 return;
             }
 
@@ -1556,33 +1721,37 @@ function refreshCartInterface() {
             let customerLon = "";
             let customerWazeURL = "";
 
-            const modalHTML = `
-                <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
-                    <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-                        <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من كافيه حكاية </h3>
-                        <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
-                        
-                        <div style="margin-bottom: 22px; text-align: right;">
-                            <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
-                            <input type="text" id="modal-cust-name" placeholder=" اكتب اسمك هنا لمتابعة وتجهيز فنجانك..." style="width: 100%; padding: 14px 18px; border: 2px solid rgba(217, 119, 6, 0.2); border-radius: 16px; font-size: 14px; outline: none; box-sizing: border-box;">
-                        </div>
-                        
-                        <div style="margin-bottom: 32px; text-align: right;">
-                            <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">🚙 موقع التوصيل أو الاستلام (Waze):</label>
-                            <button id="geo-location-btn" style="width: 100%; padding: 15px; border: 2px dashed #d97706; border-radius: 16px; background: rgba(217, 119, 6, 0.05); color: #d97706; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                <span>📍  مشاركة الموقع لربطه بالويز</span>
-                            </button>
-                            <div id="geo-status" style="font-size: 12px; font-weight: 700; color: #d97706; margin-top: 8px; text-align: center; display: none;"></div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 12px;">
-                            <button id="modal-submit-btn" style="flex: 1.4; background: linear-gradient(135deg, #d97706, #1e110b); color: white; border: none; padding: 16px; border-radius: 50px; font-size: 15px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 20px rgba(217,119,6,0.25);"> إرسال الطلب عبر الواتساب</button>
-                            <button id="modal-close-btn" style="flex: 0.6; background: #e7e5e4; color: #2c1a11; border: none; padding: 16px; border-radius: 50px; font-size: 14px; font-weight: 700; cursor: pointer;">إلغاء</button>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
+           // داخل دالة فتح النافذة المنبثقة، قم بتعديل زر الحفظ ليصبح كالتالي:
+function openExtrasModal(productId, category) {
+    window.currentPID = productId;
+    
+    // جلب الإضافات حسب الفئة (مع ضمان عدم توقف الكود إذا لم توجد فئة)
+    const extrasList = categoryExtras[category] || []; 
+    
+    // إذا كانت القائمة فارغة، يمكنك إغلاق الدالة أو عرض رسالة
+    if (extrasList.length === 0) {
+        console.warn("لا توجد إضافات لهذا القسم");
+    }
+    
+    // توليد الـ HTML (بناءً على تصميمك الحالي)
+    let extrasHTML = extrasList.map(extra => `
+        <label style="display:block; margin-bottom:10px;">
+            <input type="checkbox" class="extra-checkbox" value="${extra}"> ${extra}
+        </label>
+    `).join('');
 
+    let modalHTML = `
+    <div id="extra-modal" class="glass-island">
+        <div class="glass-container">
+            <h3>اختر إضافاتك</h3>
+            <div style="text-align:right;">${extrasHTML}</div>
+            <button onclick="saveAndAddToCart()">إضافة للسلة 🛒</button>
+            <button onclick="closeModal()">إلغاء</button>
+        </div>
+    </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
             document.body.insertAdjacentHTML('beforeend', modalHTML);
 
             const modalElement = document.getElementById('hikaya-sky-modal');
@@ -1770,75 +1939,109 @@ function openExtrasModal(id) {
     currentPID = id;
     document.getElementById('extrasModal').style.display = 'flex';
 }
-
-function closeModal() {
-    document.getElementById('extrasModal').style.display = 'none';
-}
-
-// دالة تحديث البطاقة عند الحفظ
-function updateCard(extras, priceIncrease) {
-    const card = document.querySelector(`[onclick*="${currentPID}"]`).closest('.product-card');
-    card.querySelector('.extra-text').innerText = extras;
-    const priceEl = card.querySelector('.price-text');
-    let newPrice = parseFloat(priceEl.innerText) + priceIncrease;
-    priceEl.innerText = newPrice.toFixed(2) + " ₪";
-    closeModal();
-}
-
-
-function saveAndAddToCart(productId) {
-    // 1. جمع الإضافات التي اختارها العميل (يجب أن يكون لديك input من نوع checkbox)
-    let selected = [];
-    document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
-        selected.push(cb.value);
-    });
+// دالة واحدة وموحدة لكل شيء
+function openExtrasModal(productId, category) {
+    window.currentPID = productId; // تخزين الـ ID
     
-    // 2. إذا لم يختر شيئاً، نرسل "لا يوجد"، وإذا اختار نرسل الاختيارات
-    let extrasText = selected.length > 0 ? selected.join('، ') : "لا يوجد";
+    // جلب الإضافات من الكائن الذي عرفته مسبقاً menuExtras
+    const extrasList = menuExtras[category] || []; 
     
-    // 3. استدعاء دالة الإضافة للسلة التي كتبتها أنت أعلاه
-    addNewProductToCart(productId, extrasText);
-    
-    // 4. إغلاق النافذة
-    closeModal();
-}
-// 1. الدالة التي تفتح النافذة وتنشئها برمجياً
-function openExtrasModal(productId) {
-    currentPID = productId; // تخزين رقم المنتج المختار
-    
-    // إنشاء النافذة كـ Div جديد وإضافته لصفحة الـ HTML
-    const modalHTML = `
-        <div id="dynamicExtrasModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; display:flex; justify-content:center; align-items:center;">
-            <div style="background:white; padding:20px; border-radius:20px; width:80%; max-width:300px; text-align:center;">
-                <h3 style="color:#064e3b;">اختر الإضافات</h3>
-                <div style="text-align:right; margin:15px 0;">
-                    <label><input type="checkbox" class="extra-checkbox" value="صوص كراميل"> صوص كراميل</label><br>
-                    <label><input type="checkbox" class="extra-checkbox" value="حليب لوز"> حليب لوز</label><br>
-                    <label><input type="checkbox" class="extra-checkbox" value="سكر إضافي"> سكر إضافي</label>
-                </div>
-                <button onclick="saveAndAddToCart(currentPID)" style="background:#064e3b; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer; width:100%;">تم الحفظ</button>
+    // بناء الخيارات ديناميكياً بناءً على ما تم اختياره من فئة
+    const extrasHTML = extrasList.length > 0 
+        ? extrasList.map(extra => `
+            <label style="display:block; margin-bottom:10px; color:#fff;">
+                <input type="checkbox" class="extra-checkbox" value="${extra}"> ${extra}
+            </label>
+        `).join('')
+        : '<p style="color:rgba(255,255,255,0.7);">لا توجد إضافات لهذا القسم</p>';
+
+    let modalHTML = `
+    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:9999; background:rgba(0,0,0,0.3); backdrop-filter:blur(10px);">
+        <div class="glass-container" style="padding:30px; width:85%; max-width:320px; text-align:center; background:rgba(255,255,255,0.2); border-radius:40px; border:1px solid rgba(255,255,255,0.3);">
+            <h3 style="margin-bottom:20px; font-weight:700; color:#fff;">اختر إضافاتك ✨</h3>
+            <div style="text-align:right; margin:20px 0; font-size:15px; background: rgba(0,0,0,0.1); padding: 15px; border-radius: 20px;">
+                ${extrasHTML}
             </div>
+            
+            <button onclick="saveAndAddToCart()" style="background:#064e3b; border:none; padding:15px; width:100%; font-weight:bold; cursor:pointer; color:white; border-radius:20px; transition: 0.3s;">
+                إضافة للسلة 🛒
+            </button>
+            
+            <button onclick="closeModal()" style="background:transparent; color:rgba(255,255,255,0.7); border:none; margin-top:15px; cursor:pointer; font-size: 13px;">
+                إلغاء
+            </button>
         </div>
+    </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 
-// 2. دالة الحفظ التي تقرأ الاختيارات وتضيف للسلة
-function saveAndAddToCart(productId) {
+// 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
+function saveAndAddToCart() {
+    let productId = window.currentPID; 
+    
+    // جمع الإضافات
     let selected = [];
     document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
         selected.push(cb.value);
     });
+    let extrasString = selected.length > 0 ? selected.join(", ") : "لا يوجد";
+
+    // استدعاء دالة الإضافة (تأكد أن اسمها مطابق تماماً لما هو لديك)
+    addNewProductToCart(productId, extrasString);
+
+    // إغلاق النافذة
+    closeModal();
     
-    let extrasText = selected.length > 0 ? selected.join('، ') : "لا يوجد";
-    
-    // الإضافة الفعلية للسلة
-    addNewProductToCart(productId, extrasText);
-    
-    // إزالة النافذة بعد الحفظ
-    document.getElementById('dynamicExtrasModal').remove();
+    // تشغيل الحركة
+    triggerCartAnimation();
 }
-    </script>
+
+// 3. دالة الإغلاق (الموحدة)
+function closeModal() {
+    let modal = document.getElementById('extra-modal');
+    if (modal) {
+        modal.remove(); // حذف العنصر نهائياً
+    }
+}
+// دالة الحركة البصرية المتكاملة
+function triggerCartAnimation() {
+    // ضع هنا الكلاس الفعلي لأيقونة السلة لديك (مثلاً .cart-icon أو .basket-btn)
+    let cartIcon = document.querySelector('.cart-icon-selector') || document.querySelector('.cart-icon'); 
+    if (!cartIcon) return;
+
+    // إنشاء أيقونة وهمية تطير
+    let flyElement = document.createElement('div');
+    flyElement.innerHTML = '☕'; // رمز المنتج
+    flyElement.style.position = 'fixed';
+    flyElement.style.fontSize = '30px';
+    flyElement.style.zIndex = '999999';
+    flyElement.style.left = '50%';
+    flyElement.style.top = '50%';
+    flyElement.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    document.body.appendChild(flyElement);
+
+    // تحريك العنصر نحو أيقونة السلة (مع التمركز في المنتصف)
+    setTimeout(() => {
+        let rect = cartIcon.getBoundingClientRect();
+        flyElement.style.left = (rect.left + rect.width/2) + 'px';
+        flyElement.style.top = (rect.top + rect.height/2) + 'px';
+        flyElement.style.opacity = '0';
+        flyElement.style.transform = 'scale(0.2)';
+    }, 50);
+
+    // حذف العنصر بعد انتهاء الحركة
+    setTimeout(() => { flyElement.remove(); }, 900);
+    
+    // إضافة هزة (shake) لأيقونة السلة
+    cartIcon.classList.add('cart-shake');
+    setTimeout(() => {
+        cartIcon.classList.remove('cart-shake');
+    }, 500);
+}
+
+
+   </script>
     
 </body>
 </html>
