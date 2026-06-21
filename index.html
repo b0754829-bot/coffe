@@ -1935,38 +1935,49 @@ function activateSubFilter(element) {
 
 let currentPID = null;
 
-function openExtrasModal(id) {
-    currentPID = id;
-    document.getElementById('extrasModal').style.display = 'flex';
-}
 function openExtrasModal(productId, category) {
     window.currentPID = productId; 
     
+    // إزالة المودال القديم إذا وجد قبل إنشاء جديد
+    const oldModal = document.getElementById('extra-modal');
+    if (oldModal) oldModal.remove();
+
     const extrasList = menuExtras[category] || []; 
     const extrasHTML = extrasList.length > 0 
         ? extrasList.map(extra => `
-            <label class="glass-option-label">
-                <input type="checkbox" class="extra-checkbox" value="${extra}"> 
+            <label class="glass-option-label" style="display:flex; align-items:center; gap:10px; margin-bottom:12px; cursor:pointer; font-size:15px; color:#334155;">
+                <input type="checkbox" class="extra-checkbox" value="${extra}" style="width:18px; height:18px; accent-color:#0f766e;"> 
                 <span>${extra}</span>
             </label>
         `).join('')
-        : '<p class="glass-text">لا توجد إضافات لهذا القسم</p>';
+        : '<p style="text-align:center; color:#94a3b8;">لا توجد إضافات لهذا القسم</p>';
 
     let modalHTML = `
-    <div id="extra-modal" class="glass-overlay">
-        <div class="glass-island">
-            <h3 class="glass-title">اختر إضافاتك ✨</h3>
-            <div class="glass-list-container">
+    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); z-index:999999; display:flex; justify-content:center; align-items:center; padding:20px;">
+        <div class="glass-island" style="background:rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.5); padding:25px; border-radius:24px; width:100%; max-width:320px; box-shadow:0 20px 40px rgba(0,0,0,0.1); text-align:right;">
+            <h3 style="font-size:20px; color:#064e3b; margin-bottom:20px; font-weight:700;">اختر إضافاتك ✨</h3>
+            
+            <div style="max-height:220px; overflow-y:auto; margin-bottom:20px; padding-left:10px;">
                 ${extrasHTML}
             </div>
-            <button onclick="saveAndAddToCart()" class="glass-btn-primary">إضافة للسلة 🛒</button>
-            <button onclick="closeModal()" class="glass-btn-cancel">إلغاء</button>
+
+            <button onclick="saveAndAddToCart()" style="width:100%; padding:14px; border:none; border-radius:16px; background:#064e3b; color:#0b3f3b; font-size:16px; font-weight:600; cursor:pointer; transition:0.3s; box-shadow:0 4px 12px rgba(6,78,59,0.2);">
+                إضافة للسلة 🛒
+            </button>
+            
+            <button onclick="closeModal()" style="width:100%; padding:12px; background:transparent; border:none; color:#64748b; font-size:14px; margin-top:10px; cursor:pointer;">
+                إلغاء
+            </button>
         </div>
     </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
-
+// دالة الإغلاق الموحدة (تحافظ على حذف العنصر لضمان تنظيف الذاكرة)
+function closeModal() {
+    const modal = document.getElementById('extra-modal');
+    if (modal) modal.remove();
+}
 // دالة إغلاق موحدة
 function closeModal() {
     const modal = document.getElementById('extra-modal');
