@@ -1425,8 +1425,8 @@ const sectionsExpandedState = {
     breakfast: false
 };
 
-// 1. التعريف
-let userCartList = []; 
+
+
 
 // 2. التحميل فوراً عند بدء تشغيل الملف
 loadCartFromLocalStorage();
@@ -1631,21 +1631,28 @@ let visibleCount = 4;
             document.getElementById('showcase-title').innerText = `قسم الـ ${categoryName} الفاخر`;
         }
 
-     function addNewProductToCart(productId, extras = "لا يوجد") {
-    // 1. استخراج المنتج الأصلي (كودك الأصلي - لم يتغير)
+   function addNewProductToCart(productId, extras = "لا يوجد") {
+    // 1. استخراج المنتج الأصلي
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
     
     if(!product) return;
 
-    // 2. تحديث المنطق ليدعم الإضافات (بدون حذف المنطق القديم)
-    // نبحث عن منتج بنفس الـ ID وبنفس الإضافات لدمج الكمية
+    // 2. البحث عن المنتج بنفس الـ ID وبنفس الإضافات لدمج الكمية
     const existingItem = userCartList.find(item => item.id === productId && item.selectedExtras === extras);
     
     if(existingItem) {
         existingItem.qty += 1;
     } else {
-        // نضع المنتج مع إضافة حقل جديد اسمه selectedExtras
-        userCartList.push({ ...product, qty: 1, selectedExtras: extras });
+        // نستخدم unshift بدلاً من push ليظهر المنتج الجديد دائماً في أول السلة
+        // ونضيف menuExtras (كمصفوفة) ليفهمها كود الواتساب
+        const newItem = { 
+            ...product, 
+            qty: 1, 
+            selectedExtras: extras,
+            menuExtras: (extras !== "لا يوجد") ? extras.split(", ") : [] 
+        };
+        
+        userCartList.unshift(newItem); 
     }
     
     saveCartToLocalStorage();
@@ -1761,181 +1768,86 @@ function refreshCartInterface() {
                 overlay.classList.remove('active');
             }
         }
-// 1. الدالة الأساسية للإرسال
+// تأكد أن هذا المتغير معرف في بداية الملف
+var userCartList = userCartList || []; 
+
 function sendCartToWhatsApp() {
-    if (!userCartList || userCartList.length === 0) {
-        alert("سلتك فارغة!");
+    // 1. التحقق من وجود السلة
+    if (typeof userCartList === 'undefined' || userCartList.length === 0) {
+        alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ☕");
         return;
     }
 
-    // تنظيف أي مودال قديم
+    // 2. تنظيف أي مودال قديم
     const oldModal = document.getElementById('hikaya-sky-modal');
     if (oldModal) oldModal.remove();
 
-    // إنشاء المودال
+    // 3. إنشاء المودال
     const modalHTML = `
-    <div id="hikaya-sky-modal" class="glass-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999999; display:flex; justify-content:center; align-items:center;">
-        <div class="glass-island" style="background:white; padding:25px; border-radius:20px; width:90%; max-width:350px; text-align:center;">
-            <h3>تأكيد الطلبية 🛒</h3>
-            <input type="text" id="modal-cust-name" placeholder="أدخل اسمك الكريم..." style="width:100%; padding:10px; margin:10px 0; border-radius:10px; border:1px solid #ccc;">
-            <button id="geo-location-btn" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; background:#f0f0f0; border:none; cursor:pointer;">📍 تحديد موقعي</button>
-            <p id="geo-status" style="font-size:12px; color:#064e3b; display:none;"></p>
-            <button id="modal-submit-btn" style="width:100%; padding:12px; background:#064e3b; color:white; border:none; border-radius:10px; cursor:pointer;">إرسال الطلب عبر واتساب</button>
-            <button id="modal-close-btn" style="background:none; border:none; margin-top:10px; cursor:pointer;">إلغاء</button>
+    <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
+        <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من كافيه حكاية </h3>
+            <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
+            <div style="margin-bottom: 22px; text-align: right;">
+                <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
+                <input type="text" id="modal-cust-name" placeholder=" اكتب اسمك هنا..." style="width: 100%; padding: 14px 18px; border: 2px solid rgba(217, 119, 6, 0.2); border-radius: 16px; font-size: 14px; outline: none; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 32px; text-align: right;">
+                <button id="geo-location-btn" style="width: 100%; padding: 15px; border: 2px dashed #d97706; border-radius: 16px; background: rgba(217, 119, 6, 0.05); color: #d97706; font-size: 14px; font-weight: 700; cursor: pointer;">📍 مشاركة الموقع لربطه بالويز</button>
+                <div id="geo-status" style="font-size: 12px; font-weight: 700; color: #d97706; margin-top: 8px; text-align: center; display: none;"></div>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button id="modal-submit-btn" style="flex: 1.4; background: linear-gradient(135deg, #d97706, #1e110b); color: white; border: none; padding: 16px; border-radius: 50px; font-size: 15px; cursor: pointer;"> إرسال الطلب عبر الواتساب</button>
+                <button id="modal-close-btn" style="flex: 0.6; background: #e7e5e4; color: #2c1a11; border: none; padding: 16px; border-radius: 50px; font-size: 14px; cursor: pointer;">إلغاء</button>
+            </div>
         </div>
     </div>`;
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // 4. المتغيرات والأحداث
+    let customerWazeURL = "";
+    const modalElement = document.getElementById('hikaya-sky-modal');
     
-    // ربط الأحداث بعد التأكد من إضافة المودال للـ DOM
-    setTimeout(initModalEvents, 100); 
+    document.getElementById('modal-close-btn').addEventListener('click', () => modalElement.remove());
+
+    document.getElementById('geo-location-btn').addEventListener('click', () => {
+        const status = document.getElementById('geo-status');
+        status.style.display = "block";
+        status.innerHTML = "جاري تحديد الموقع...";
+        navigator.geolocation.getCurrentPosition((pos) => {
+            customerWazeURL = `https://www.waze.com/ul?ll=${pos.coords.latitude},${pos.coords.longitude}&navigate=yes`;
+            document.getElementById('geo-location-btn').innerHTML = "✅ تم ربط الموقع!";
+            status.innerHTML = "🚙 جاهز للإرسال.";
+        }, () => { status.innerHTML = "يرجى السماح بالوصول للموقع."; });
+    });
+
+    document.getElementById('modal-submit-btn').addEventListener('click', () => {
+        const name = document.getElementById('modal-cust-name').value.trim();
+        if (!name) { alert("يرجى كتابة الاسم"); return; }
+        if (!customerWazeURL) { alert("يرجى تحديد الموقع أولاً!"); return; }
+
+        let messageText = `*طلب جديد من كافيه حكاية*\n👤 الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
+        let total = 0;
+
+        userCartList.forEach((item, i) => {
+            messageText += `${i+1}) *${item.name}*\n`;
+            if (item.menuExtras && item.menuExtras.length > 0) messageText += `   📋 إضافات: ${item.menuExtras.join(", ")}\n`;
+            messageText += `   الكمية: ${item.qty} | السعر: ${item.price} ₪\n`;
+            total += (item.price * item.qty);
+        });
+
+        messageText += `\n💰 الإجمالي: ${total.toFixed(2)} ₪`;
+        window.open(`https://wa.me/972524310286?text=${encodeURIComponent(messageText)}`, '_blank');
+        
+        userCartList = [];
+        if(typeof saveCartToLocalStorage === 'function') saveCartToLocalStorage();
+        if(typeof refreshCartInterface === 'function') refreshCartInterface();
+        modalElement.remove();
+    });
 }
-  
-// 1. ضع هذا السطر في أعلى ملف الجافاسكريبت الخاص بك (خارج أي دالة)
-window.customerWazeURL = "لم يتم تحديد الموقع";
 
-// نظام إرسال واستلام الطلبات المروري الفوري المربوط بـ Waze والواتساب المباشر
-        function sendCartToWhatsApp() {
-            if (!userCartList || userCartList.length === 0) {
-                alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ☕");
-                return;
-            }
-
-            const oldModal = document.getElementById('hikaya-sky-modal');
-            if (oldModal) oldModal.remove();
-
-            let customerLat = "";
-            let customerLon = "";
-            let customerWazeURL = "";
-
-            const modalHTML = `
-                <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
-                    <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-                        <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من كافيه حكاية </h3>
-                        <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
-                        
-                        <div style="margin-bottom: 22px; text-align: right;">
-                            <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
-                            <input type="text" id="modal-cust-name" placeholder=" اكتب اسمك هنا لمتابعة وتجهيز فنجانك..." style="width: 100%; padding: 14px 18px; border: 2px solid rgba(217, 119, 6, 0.2); border-radius: 16px; font-size: 14px; outline: none; box-sizing: border-box;">
-                        </div>
-                        
-                        <div style="margin-bottom: 32px; text-align: right;">
-                            <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">🚙 موقع التوصيل أو الاستلام (Waze):</label>
-                            <button id="geo-location-btn" style="width: 100%; padding: 15px; border: 2px dashed #d97706; border-radius: 16px; background: rgba(217, 119, 6, 0.05); color: #d97706; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                <span>📍  مشاركة الموقع لربطه بالويز</span>
-                            </button>
-                            <div id="geo-status" style="font-size: 12px; font-weight: 700; color: #d97706; margin-top: 8px; text-align: center; display: none;"></div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 12px;">
-                            <button id="modal-submit-btn" style="flex: 1.4; background: linear-gradient(135deg, #d97706, #1e110b); color: white; border: none; padding: 16px; border-radius: 50px; font-size: 15px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 20px rgba(217,119,6,0.25);"> إرسال الطلب عبر الواتساب</button>
-                            <button id="modal-close-btn" style="flex: 0.6; background: #e7e5e4; color: #2c1a11; border: none; padding: 16px; border-radius: 50px; font-size: 14px; font-weight: 700; cursor: pointer;">إلغاء</button>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-            const modalElement = document.getElementById('hikaya-sky-modal');
-            const submitBtn = document.getElementById('modal-submit-btn');
-            const closeBtn = document.getElementById('modal-close-btn');
-            const locationBtn = document.getElementById('geo-location-btn');
-            const locationStatus = document.getElementById('geo-status');
-
-            closeBtn.addEventListener('click', () => modalElement.remove());
-
-            locationBtn.addEventListener('click', () => {
-                if (!navigator.geolocation) {
-                    locationStatus.style.display = "block";
-                    locationStatus.innerHTML = " المتصفح لا يدعم تحديد الموقع التلقائي.";
-                    return;
-                }
-
-                locationStatus.style.display = "block";
-                locationStatus.innerHTML = " جاري تحديد موقعك بالـ GPS لتجهيز خريطة Waze...";
-
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        customerLat = position.coords.latitude;
-                        customerLon = position.coords.longitude;
-                        customerWazeURL = `https://www.waze.com/ul?ll=${customerLat},${customerLon}&navigate=yes`;
-                        
-                        locationBtn.style.background = "rgba(34, 197, 94, 0.1)";
-                        locationBtn.style.borderColor = "#22c55e";
-                        locationBtn.style.color = "#16a34a";
-                        locationBtn.innerHTML = "✅ تم ربط موقعك بتطبيق Waze بنجاح!";
-                        locationStatus.innerHTML = "🚙 باريستا كافيه حكاية جاهز لاستلام موقعك.";
-                    },
-                    (error) => {
-                        locationStatus.innerHTML = " يرجى تفعيل الـ GPS والسماح بالوصول للموقع لتأكيد خط السير.";
-                    },
-                    { enableHighAccuracy: true, timeout: 10000 }
-                );
-            });
-
-            submitBtn.addEventListener('click', () => {
-                const nameInput = document.getElementById('modal-cust-name');
-                const customerName = nameInput.value.trim();
-
-                if (customerName === "") {
-                    nameInput.style.borderColor = "#ef4444";
-                    nameInput.focus();
-                    return;
-                }
-
-                if (customerWazeURL === "") {
-                    locationBtn.style.borderColor = "#ef4444";
-                    locationStatus.style.display = "block";
-                    locationStatus.innerHTML = "⚠️ خطوة إجبارية: يرجى الضغط على زر الموقع أولاً لتحديد مسار السيارة!";
-                    return;
-                }
-
-                // رقم الواتساب المباشر المخصص للمقهى لاستلام الطلبات تلقائياً
-                const storeWhatsAppNumber = "972524310286"; 
-                let messageText = `*طلب جديد من كافيه حكاية للقهوة المختصة *\n\n`;
-                messageText += ` *اسم الزبون:* ${customerName}\n`;
-                messageText += ` *رابط الخريطة المباشر (Waze):* ${customerWazeURL}\n`;
-                messageText += `-----------------------------------\n\n`;
-                messageText += `🛒 *تفاصيل الطلبية المطلوبة:*\n`;
-
-                let finalTotal = 0;
-               // داخل حلقة التكرار التي تمر على منتجات السلة
-userCartList.forEach((item, index) => {
-    const itemTotal = item.price * item.qty;
-    finalTotal += itemTotal;
-    
-    // 1. اسم المنتج
-    messageText += `${index + 1}) *${item.name}*\n`;
-    
-    // 2. هنا نستخدم menuExtras للتحقق من وجود إضافات
-    // نتحقق إذا كان المنتج يحتوي على خاصية menuExtras وهي مصفوفة
-    if (item.menuExtras && Array.isArray(item.menuExtras) && item.menuExtras.length > 0) {
-        // نقوم بتحويل المصفوفة إلى نص مفصول بفاصلة
-        messageText += `     الإضافات: ${item.menuExtras.join(", ")}\n`;
-    }
-
-    // 3. الكمية والسعر
-    messageText += `    الكمية: [ ${item.qty} ] ✖️ السعر: ${item.price.toFixed(2)} ₪  *${itemTotal.toFixed(2)} ₪*\n`;
-});
-                messageText += `\n-----------------------------------\n`;
-                messageText += ` *المبلغ الكلي:* [ *${finalTotal.toFixed(2)} ₪* ]\n\n`;
-                messageText += ` _يرجى البدء بتحضير الطلبية._`;
-
-                const encodedMessage = encodeURIComponent(messageText);
-                const whatsappURL = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodedMessage}`;
-                
-                userCartList = [];
-                saveCartToLocalStorage();
-                refreshCartInterface();
-                toggleCartMenu(false);
-                modalElement.remove();
-
-              // استخدم هذا (يفتح في تبويب جديد ويقلل احتمالية الحظر):
-window.open(whatsappURL, '_blank');
-            });
-        }
-        // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
+  // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
         document.addEventListener("DOMContentLoaded", function () {
             displayStoreItems(storeProductsDatabase);
             loadCartFromLocalStorage();
