@@ -1521,9 +1521,11 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
 }
 
-// دالة عزل وصناعة الأزرار لكل قسم لمنع الاختفاء والتعارض
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
+    if (!container) return;
+    
+    // استخدام parentElement لضمان الوصول الصحيح للفلاتر في الهيكل الخاص بك
     const parentSection = container.parentElement;
 
     // إزالة أي أزرار قديمة لتفادي التكرار
@@ -1535,16 +1537,17 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
 
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
+    btnWrapper.style.textAlign = 'center'; // لضمان توسط الزر
 
     const btn = document.createElement('button');
-    btn.className = 'dynamic-view-btn';
+    
+    // [التعديل هنا]: استخدمنا كلاس 'filter-btn' ليأخذ نفس تصميم باقي أزرار الموقع فوراً
+    // وأضفنا dynamic-view-btn للاحتفاظ بالتحكم البرمجي
+    btn.className = 'filter-btn dynamic-view-btn'; 
+    btn.style.marginTop = '15px'; // مسافة بسيطة بين المنتجات والزر
     
     // تحديد النص بناءً على الحالة
-    if (sectionsExpandedState[mainCategory]) {
-        btn.innerText = 'عرض أقل ↑';
-    } else {
-        btn.innerText = 'عرض المزيد ↓';
-    }
+    btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
 
     btn.onclick = function() {
         if (!sectionsExpandedState[mainCategory]) {
@@ -1560,7 +1563,7 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
             setTimeout(() => {
                 const subFilters = parentSection.querySelector('.subcategory-filters');
                 if (subFilters) {
-                    const headerOffset = 120; // عدل هذا الرقم حسب ارتفاع الهيدر لديك
+                    const headerOffset = 120; // المسافة لتفادي الهيدر
                     const elementPosition = subFilters.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -1570,13 +1573,12 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
                     });
                 }
             }, 150);
-        } // نهاية الـ else الخاصة بالتقليص
-    }; // نهاية دالة الـ onclick
+        }
+    };
 
     btnWrapper.appendChild(btn);
-   parentSection.appendChild(btnWrapper);
+    parentSection.appendChild(btnWrapper);
 }
-
 // دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
 function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
     const parentContainer = buttonElement.parentElement;
@@ -2089,84 +2091,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(injectShowMoreButtons, 1000); // تأخير بسيط لضمان تحميل المنتجات أولاً
 });
 
-// تشغيل الدالة عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(injectShowMoreButtons, 1000);
-});
 
-
-function injectShowMoreButtons() {
-    const categoriesWithShowMore = ['desserts', 'breakfast', 'specialty'];
-    
-    categoriesWithShowMore.forEach(cat => {
-        const container = document.getElementById(`container-${cat}`);
-        if (!container) return;
-
-        // منع تكرار إنشاء الزر إذا كان موجوداً
-        if (container.parentElement.querySelector('.custom-toggle-btn')) return;
-
-        // إنشاء الزر
-        const btn = document.createElement('button');
-        btn.innerText = "عرض المزيد ↓";
-        
-        // استخدام كلاس filter-btn ليأخذ نفس تصميم أزرار الفلترة الحالية في موقعك
-        btn.className = "filter-btn custom-toggle-btn"; 
-        btn.style.cssText = "display: block; width: 90%; margin: 20px auto; cursor: pointer; text-align: center;";
-
-        let isExpanded = false;
-
-        btn.onclick = function() {
-            isExpanded = !isExpanded;
-            const items = container.querySelectorAll('.product-card');
-            
-            // إظهار أو إخفاء العناصر (من العنصر الخامس فما فوق)
-            items.forEach((item, index) => {
-                if (index >= 4) {
-                    item.style.display = isExpanded ? 'block' : 'none';
-                }
-            });
-
-            // تحديث نص الزر
-            btn.innerText = isExpanded ? "عرض أقل ↑" : "عرض المزيد ↓";
-
-            // السحب الذكي للأعلى عند إغلاق القسم (عرض أقل)
-            if (!isExpanded) {
-                // البحث عن الحاوية الأم (القسم) ثم العثور على الفلاتر بداخله
-                const parentSection = container.closest('[id$="-anchor"]');
-                if (parentSection) {
-                    const subFilters = parentSection.querySelector('.subcategory-filters');
-                    
-                    if (subFilters) {
-                        setTimeout(() => {
-                            const elementRect = subFilters.getBoundingClientRect();
-                            const absoluteElementTop = elementRect.top + window.pageYOffset;
-                            
-                            // السحب إلى مكان الفلاتر بالضبط
-                            window.scrollTo({
-                                top: absoluteElementTop - 110, 
-                                behavior: 'smooth'
-                            });
-                        }, 150); 
-                    }
-                }
-            }
-        };
-
-        // إضافة الزر تحت الحاوية مباشرة
-        container.parentNode.insertBefore(btn, container.nextSibling);
-        
-        // الإجراء الفوري: إخفاء العناصر الزائدة عند تحميل الصفحة أول مرة
-        const allItems = container.querySelectorAll('.product-card');
-        allItems.forEach((item, index) => {
-            if (index >= 4) item.style.display = 'none';
-        });
-    });
-}
-
-// تشغيل الدالة فور تحميل محتوى الصفحة
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(injectShowMoreButtons, 1000); 
-});
    </script>
     
 </body>
