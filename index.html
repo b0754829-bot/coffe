@@ -1163,6 +1163,16 @@ button[onclick*="saveAndAddToCart"] {
     justify-content: center;
     margin-bottom: 20px;
 }
+
+/*زر عرض المزيد لاخر الفئات الثلاث*/
+.dynamic-view-container {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 20px 0 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 99 !important; /* لضمان ظهوره فوق أي عنصر آخر */
+}
 </style>
 
 
@@ -1564,7 +1574,7 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     }; // نهاية دالة الـ onclick
 
     btnWrapper.appendChild(btn);
-    container.after(btnWrapper); 
+   parentSection.appendChild(btnWrapper);
 }
 
 // دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
@@ -1826,26 +1836,31 @@ function sendCartToWhatsApp() {
         if (!name) { alert("يرجى كتابة الاسم"); return; }
         if (!customerWazeURL) { alert("يرجى تحديد الموقع أولاً!"); return; }
 
-        let messageText = `*طلب جديد من كافيه حكاية*\n👤 الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
+        let messageText = `*طلب جديد من كافيه حكاية*\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
         let total = 0;
 
-        userCartList.forEach((item, i) => {
-            messageText += `${i+1}) *${item.name}*\n`;
-            if (item.menuExtras && item.menuExtras.length > 0) messageText += `   📋 إضافات: ${item.menuExtras.join(", ")}\n`;
-            messageText += `   الكمية: ${item.qty} | السعر: ${item.price} ₪\n`;
-            total += (item.price * item.qty);
-        });
+     userCartList.forEach((item, i) => {
+    messageText += `${i+1}) *${item.name}*\n`;
+    if (item.menuExtras && item.menuExtras.length > 0) {
+        messageText += `    إضافات: ${item.menuExtras.join(", ")}\n`;
+    }
 
-        messageText += `\n💰 الإجمالي: ${total.toFixed(2)} ₪`;
-         // 4. تشفير النص وتحضير الرابط السريع لقاعدة بيانات الـ API للواتساب
-   
+    // 1. حساب السعر الإجمالي للمنتج الحالي بناءً على كميته (داخل اللوب)
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+
+    // 2. تحديث السطر ليظهر إجمالي السعر للمنتج وليس سعر القطعة الواحدة (داخل اللوب)
+    messageText += `   الكمية: ${item.qty} × (${item.price} ₪) | السعر: ${itemTotal} ₪\n\n`;
+}); // <-- هنا تم إغلاق قوس الـ forEach الصحيح بعد طباعة تفاصيل المنتج
+
+// 3. طباعة الإجمالي الكلي مرة واحدة فقط في نهاية الرسالة (خارج اللوب)
+messageText += `---------------------\n💰 الإجمالي: ${total.toFixed(2)} ₪`;
 // 1. تحضير الرابط
 const storeWhatsAppNumber = "972524310286";
 const whatsappURL = `https://wa.me/${storeWhatsAppNumber}?text=${encodeURIComponent(messageText)}`;
 
 // 2. الفتح المباشر
 window.location.href = whatsappURL;
-
 
         // تنظيف السلة وتحديث الواجهة
         userCartList = [];
@@ -2064,6 +2079,94 @@ function triggerCartAnimation() {
 }
 
 
+/*هذا الكود خصصته لاخر ثلاث فئات زر عرض اكثر  اقل*/
+const categoriesWithShowMore = ['desserts', 'breakfast', 'specialty'];
+
+document.addEventListener("DOMContentLoaded", function () {
+    // ... الكود الحالي الخاص بك ...
+    
+    // أضف هذا السطر في النهاية
+    setTimeout(injectShowMoreButtons, 1000); // تأخير بسيط لضمان تحميل المنتجات أولاً
+});
+
+// تشغيل الدالة عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(injectShowMoreButtons, 1000);
+});
+
+
+function injectShowMoreButtons() {
+    const categoriesWithShowMore = ['desserts', 'breakfast', 'specialty'];
+    
+    categoriesWithShowMore.forEach(cat => {
+        const container = document.getElementById(`container-${cat}`);
+        if (!container) return;
+
+        // منع تكرار إنشاء الزر إذا كان موجوداً
+        if (container.parentElement.querySelector('.custom-toggle-btn')) return;
+
+        // إنشاء الزر
+        const btn = document.createElement('button');
+        btn.innerText = "عرض المزيد ↓";
+        
+        // استخدام كلاس filter-btn ليأخذ نفس تصميم أزرار الفلترة الحالية في موقعك
+        btn.className = "filter-btn custom-toggle-btn"; 
+        btn.style.cssText = "display: block; width: 90%; margin: 20px auto; cursor: pointer; text-align: center;";
+
+        let isExpanded = false;
+
+        btn.onclick = function() {
+            isExpanded = !isExpanded;
+            const items = container.querySelectorAll('.product-card');
+            
+            // إظهار أو إخفاء العناصر (من العنصر الخامس فما فوق)
+            items.forEach((item, index) => {
+                if (index >= 4) {
+                    item.style.display = isExpanded ? 'block' : 'none';
+                }
+            });
+
+            // تحديث نص الزر
+            btn.innerText = isExpanded ? "عرض أقل ↑" : "عرض المزيد ↓";
+
+            // السحب الذكي للأعلى عند إغلاق القسم (عرض أقل)
+            if (!isExpanded) {
+                // البحث عن الحاوية الأم (القسم) ثم العثور على الفلاتر بداخله
+                const parentSection = container.closest('[id$="-anchor"]');
+                if (parentSection) {
+                    const subFilters = parentSection.querySelector('.subcategory-filters');
+                    
+                    if (subFilters) {
+                        setTimeout(() => {
+                            const elementRect = subFilters.getBoundingClientRect();
+                            const absoluteElementTop = elementRect.top + window.pageYOffset;
+                            
+                            // السحب إلى مكان الفلاتر بالضبط
+                            window.scrollTo({
+                                top: absoluteElementTop - 110, 
+                                behavior: 'smooth'
+                            });
+                        }, 150); 
+                    }
+                }
+            }
+        };
+
+        // إضافة الزر تحت الحاوية مباشرة
+        container.parentNode.insertBefore(btn, container.nextSibling);
+        
+        // الإجراء الفوري: إخفاء العناصر الزائدة عند تحميل الصفحة أول مرة
+        const allItems = container.querySelectorAll('.product-card');
+        allItems.forEach((item, index) => {
+            if (index >= 4) item.style.display = 'none';
+        });
+    });
+}
+
+// تشغيل الدالة فور تحميل محتوى الصفحة
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(injectShowMoreButtons, 1000); 
+});
    </script>
     
 </body>
