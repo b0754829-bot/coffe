@@ -1302,28 +1302,15 @@ button[onclick*="saveAndAddToCart"] {
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
-<!-- القسم الخامس: وجبات الفطور -->
 <div id="breakfast-anchor">
     <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'breakfast', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'croissant')">كرواسون محشي</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'light_meals')">وجبات خفيفة وساندوتشات</button>
-    </div>
+    <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-breakfast"></div>
-
-
-    <div id="specialty-coffee-anchor">
+</div> <div id="specialty-coffee-anchor">
     <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'specialty', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'v60')">V60 & كيمكس</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'espresso_base')">إسبريسو سينجل ومزدوج</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'cold_brew')">كولد برو مقطر</button>
-    </div>
+    <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-specialty"></div>
-</div>
-</div>
+</div> ```
 
 
 
@@ -1525,14 +1512,18 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     const parentSection = container.parentElement;
 
-    // إزالة الأزرار القديمة
+    // إزالة الزر القديم دائماً لضمان عدم التكرار
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
+    // إذا كانت المنتجات أقل من أو تساوي المسموح به، لا تظهر الزر
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
+    // إنشاء الزر الموحد
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
+    btnWrapper.style.textAlign = 'center';
+    btnWrapper.style.marginTop = '10px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
@@ -1542,18 +1533,16 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
         const isExpanding = !sectionsExpandedState[mainCategory];
         sectionsExpandedState[mainCategory] = isExpanding;
         
-        // 1. إعادة رندر القسم
+        // إعادة عرض المنتجات
         renderCategorySection(mainCategory, currentSubFilter);
 
-        // 2. إذا كنا في حالة "عرض أقل"، نقوم بالسحب إلى شريط الفئات الفرعية
+        // إذا تم الضغط على "عرض أقل"، انتظر لحظة ثم اسحب إلى شريط الفلاتر
         if (!isExpanding) {
             setTimeout(() => {
-                // البحث عن شريط الفئات الفرعية الخاص بهذا القسم بالتحديد
-                const subFiltersBar = parentSection.querySelector('.subcategory-filters');
-                
-                if (subFiltersBar) {
-                    const headerOffset = 130; // ارتفاع الهيدر
-                    const elementPosition = subFiltersBar.getBoundingClientRect().top;
+                const filterBar = parentSection.querySelector('.subcategory-filters');
+                if (filterBar) {
+                    const headerOffset = 130; 
+                    const elementPosition = filterBar.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
                     window.scrollTo({
@@ -1561,14 +1550,13 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
                         behavior: 'smooth'
                     });
                 }
-            }, 150); // تأخير بسيط لضمان تحديث الواجهة قبل الحساب
+            }, 100);
         }
     };
 
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
-}
-// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
+}// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
 function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
     const parentContainer = buttonElement.parentElement;
     const buttons = parentContainer.getElementsByClassName('filter-btn');
