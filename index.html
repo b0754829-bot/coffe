@@ -1821,6 +1821,8 @@ function sendCartToWhatsApp() {
     });
 
     document.getElementById('modal-submit-btn').addEventListener('click', () => {
+          // رقم الواتساب المباشر المخصص للمقهى لاستلام الطلبات تلقائياً
+                const storeWhatsAppNumber = "972524310286"; 
         const name = document.getElementById('modal-cust-name').value.trim();
         if (!name) { alert("يرجى كتابة الاسم"); return; }
         if (!customerWazeURL) { alert("يرجى تحديد الموقع أولاً!"); return; }
@@ -1837,15 +1839,10 @@ function sendCartToWhatsApp() {
 
         messageText += `\n💰 الإجمالي: ${total.toFixed(2)} ₪`;
          // 4. تشفير النص وتحضير الرابط السريع لقاعدة بيانات الـ API للواتساب
-    const encodedMessage = encodeURIComponent(messageText);
- // 4. تشفير النص (تأكد من وضع رقم هاتفك مباشرة هنا إذا لم يكن معرفاً كمتغير)
-        const phone = "972524310286"; 
-       
-        const whatsappURL = `https://wa.me/${phone}?text=${encodedMessage}`;
-        
-        // 5. فتح الرابط مباشرة (window.location.href أنجح من window.open لتفادي الحظر)
-        window.open(whatsappURL, '_blank');
-            
+   
+             const encodedMessage = encodeURIComponent(messageText);
+                const whatsappURL = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodedMessage}`;
+                
         // تنظيف السلة وتحديث الواجهة
         userCartList = [];
         if(typeof saveCartToLocalStorage === 'function') saveCartToLocalStorage();
