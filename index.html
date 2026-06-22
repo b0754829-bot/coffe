@@ -1164,6 +1164,10 @@ button[onclick*="saveAndAddToCart"] {
     margin-bottom: 20px;
 }
 
+.category-section {
+    scroll-margin-top: 130px; /* اضبط هذا الرقم ليكون أكبر قليلاً من ارتفاع الهيدر */
+}
+
 
 </style>
 
@@ -1512,54 +1516,57 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     // صناعة وإدارة زر "عرض المزيد / عرض أقل" ديناميكياً لهذا القسم بالتحديد
     handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
 }
-
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
-    const container = document.getElementById(`container-${mainCategory}`);
-    if (!container) return; // أمان إضافي
+    const section = document.getElementById(`container-${mainCategory}`).parentElement;
     
-    const parentSection = container.parentElement;
+    // إزالة الزر القديم فقط إذا وجد
+    let btnContainer = section.querySelector('.dynamic-view-container');
+    if (btnContainer) btnContainer.remove();
 
-    const oldBtn = parentSection.querySelector('.dynamic-view-container');
-    if (oldBtn) oldBtn.remove();
+    // عدم إظهار الزر إذا كانت المنتجات أقل من الحد المسموح
+    if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
-    // تشخيص المشكلة: هذا السطر سيخبرنا في الـ Console إذا كان الرقم أصغر من 2
-    console.log(`Category: ${mainCategory}, TotalItems: ${totalItems}, Limit: ${MAX_VISIBLE_ITEMS}`);
-
-    // الحل: إذا كان العدد أقل من أو يساوي 2، لا نظهر الزر (هذا هو الكود الأصلي)
-    // إذا كنت تريد إظهار الزر حتى لو كان هناك منتج واحد، احذف السطرين أدناه
-    if (totalItems <= MAX_VISIBLE_ITEMS) return; 
-
+    // إنشاء الزر
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '10px';
+    btnWrapper.style.marginTop = '15px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
+    btn.style.cursor = 'pointer';
+
+    btn.onclick = function(e) {
+    e.preventDefault();
     
-    // باقي الكود كما هو...
-    btn.onclick = function() {
-        const isExpanding = !sectionsExpandedState[mainCategory];
-        const headerTitle = parentSection.querySelector('.title-decorated');
+    // 1. تحديد الحالة الجديدة
+    const isExpanding = !sectionsExpandedState[mainCategory];
+    sectionsExpandedState[mainCategory] = isExpanding;
+
+    // 2. إذا كان الزبون سيضغط "عرض أقل" (أي isExpanding ستصبح false)
+    if (!isExpanding) {
+        // البحث عن العنوان الرئيسي للفئة أو الفلاتر
+        const targetSection = document.getElementById(`container-${mainCategory}`).parentElement;
         
-        sectionsExpandedState[mainCategory] = isExpanding;
+        // إعادة الرسم أولاً
         renderCategorySection(mainCategory, currentSubFilter);
 
-        if (!isExpanding && headerTitle) {
-            setTimeout(() => {
-                const header = document.querySelector('.custom-premium-header');
-                const headerHeight = header ? header.offsetHeight : 130; 
-                const elementPosition = headerTitle.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            }, 100);
-        }
-    };
+        // تأخير بسيط للسحب لضمان اكتمال تحديث الـ DOM
+        setTimeout(() => {
+            targetSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }, 100);
+    } else {
+        // في حالة "عرض المزيد" لا نحتاج لسحب الزبون، فقط إعادة الرسم
+        renderCategorySection(mainCategory, currentSubFilter);
+    }
+};
 
     btnWrapper.appendChild(btn);
-    parentSection.appendChild(btnWrapper);
+    section.appendChild(btnWrapper);
 }
 
 // دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
@@ -1608,24 +1615,36 @@ function addToCart(productId, mainCategory) {
     }
 }
 
-// تهيئة وعرض المنيو بالكامل فور فتح الصفحة لأول مرة
 document.addEventListener("DOMContentLoaded", () => {
-    renderCategorySection('specialty', 'all');
-    renderCategorySection('hot', 'all');
-    renderCategorySection('cold', 'all');
-    renderCategorySection('desserts', 'all');
-    renderCategorySection('breakfast', 'all');
+    // 1. تحميل السلة
+    loadCartFromLocalStorage();
+    
+    // 2. بناء الأقسام (هذا يغنيك عن كتابة كل قسم على حدة)
+    const categories = ['specialty', 'hot', 'cold', 'desserts', 'breakfast'];
+    categories.forEach(cat => renderCategorySection(cat, 'all'));
+
+    // 3. كود السلايدر (أضفته هنا ليكون كل شيء في مكان واحد)
+    const images = [
+        "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop", 
+        "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop", 
+        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1287&auto=format&fit=crop"
+    ];
+    let currentImgIndex = 0;
+    const imgElement = document.getElementById('main-dynamic-slide');
+
+    if (imgElement) {
+        setInterval(() => {
+            imgElement.style.opacity = 0;
+            setTimeout(() => {
+                currentImgIndex = (currentImgIndex + 1) % images.length;
+                imgElement.src = images[currentImgIndex];
+                imgElement.style.opacity = 1;
+            }, 1200);
+        }, 5000);
+    }
 });
 
-      // المتغيرات الأساسية
-let visibleCount = 4;
-        // فلترة وعرض المنتجات حسب القسم المختار
-        function filterBySection(categoryName) {
-            const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
-            displayStoreItems(filtered);
-            document.getElementById('showcase-title').innerText = `قسم الـ ${categoryName} الفاخر`;
-        }
-
+  
    function addNewProductToCart(productId, extras = "لا يوجد") {
     // 1. استخراج المنتج الأصلي
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
@@ -1855,33 +1874,6 @@ window.location.href = whatsappURL;
     });
 }
 
-  // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
-        document.addEventListener("DOMContentLoaded", function () {
-            displayStoreItems(storeProductsDatabase);
-            loadCartFromLocalStorage();
-
-            // سلايدر خلفيات حية ومتحركة تلقائياً
-            const images = [
-                "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop", 
-                "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop", 
-                "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1287&auto=format&fit=crop"
-            ];
-            let currentImgIndex = 0;
-            const imgElement = document.getElementById('main-dynamic-slide');
-
-            if (imgElement) {
-                setInterval(() => {
-                    imgElement.style.opacity = 0;
-                    setTimeout(() => {
-                        currentImgIndex = (currentImgIndex + 1) % images.length;
-                        imgElement.src = images[currentImgIndex];
-                        imgElement.style.opacity = 1;
-                    }, 1200);
-                }, 5000);
-            }
-        });
-
-
         function toggleCartMenu(openStatus, event) {
     if (event) event.stopPropagation(); // منع انتقال الضغطة للخلفية
     const cartMenu = document.getElementById('sidebar-cart-menu');
@@ -1987,11 +1979,6 @@ function openExtrasModal(productId, category) {
     </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-}
-// دالة الإغلاق الموحدة (تحافظ على حذف العنصر لضمان تنظيف الذاكرة)
-function closeModal() {
-    const modal = document.getElementById('extra-modal');
-    if (modal) modal.remove();
 }
 
 
