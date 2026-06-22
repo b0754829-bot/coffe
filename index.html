@@ -1164,8 +1164,10 @@ button[onclick*="saveAndAddToCart"] {
     margin-bottom: 20px;
 }
 
-.category-section {
-    scroll-margin-top: 130px; /* اضبط هذا الرقم ليكون أكبر قليلاً من ارتفاع الهيدر */
+
+/* أضف هذا للكلاس الخاص بحاويات الأقسام الرئيسية */
+.category-wrapper { /* أو أي كلاس يحيط بـ container- */
+    scroll-margin-top: 100px; 
 }
 
 
@@ -1251,14 +1253,14 @@ button[onclick*="saveAndAddToCart"] {
         <span>الكراسون بانواعه</span>
         </a>
     </div>
-    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
-          <a href="#specialty-coffee-anchor" class="exclusive-cat-item">
+   <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-anchor')">
+    <a href="#specialty-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
         </div>
         <span> جديدنا</span>
-        </a>
-    </div>
+    </a>
+</div>
   
 
 </div>
@@ -1298,8 +1300,7 @@ button[onclick*="saveAndAddToCart"] {
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
-<!-- القسم الخامس: وجبات الفطور -->
-<div id="breakfast-anchor">
+<div id="breakfast-anchor" class="section-wrapper">
     <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'breakfast', 'all')">الكل</button>
@@ -1307,10 +1308,10 @@ button[onclick*="saveAndAddToCart"] {
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'light_meals')">وجبات خفيفة وساندوتشات</button>
     </div>
     <div class="products-showcase" id="container-breakfast"></div>
+</div>
 
-
-    <div id="specialty-coffee-anchor">
-    <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
+<div id="specialty-anchor" class="section-wrapper">
+    <h3 class="title-decorated">جديدنا (Specialty Coffee)</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'specialty', 'all')">الكل</button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'v60')">V60 & كيمكس</button>
@@ -1318,7 +1319,6 @@ button[onclick*="saveAndAddToCart"] {
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'cold_brew')">كولد برو مقطر</button>
     </div>
     <div class="products-showcase" id="container-specialty"></div>
-</div>
 </div>
 
 
@@ -1379,7 +1379,7 @@ function toggleDetails(btn) {
     'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
     'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
     'desserts': ['توت', 'فانيليا'],
-    'breakfast': ['جبنة', 'زيتون']
+    'breakfast': ['جبنة', 'زيتون','شوكلاتط']
 };
 const storeProductsDatabase = {
     specialty: [
@@ -1445,157 +1445,99 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
 
-    // تفريغ الحاوية بالكامل لإعادة البناء
-    container.innerHTML = '';
-
-    // تصفية المنتجات بناءً على الفئة الفرعية المطلوبة
+    // 1. تصفية المنتجات
     const productsToRender = storeProductsDatabase[mainCategory].filter(product => {
         return subCategoryFilter === 'all' || product.sub === subCategoryFilter;
     });
 
+    // 2. بناء الحاوية
+    container.innerHTML = '';
+
     if (productsToRender.length === 0) {
         container.innerHTML = `<p style="text-align:center; color:#94a3b8; width:100%; padding: 20px;">قريباً في منيو حكاية...</p>`;
-        // إزالة زر عرض المزيد إذا أصبح القسم فارغاً
+        // إزالة الزر إذا كان القسم فارغاً
         const oldBtn = container.parentElement.querySelector('.dynamic-view-container');
         if (oldBtn) oldBtn.remove();
         return;
     }
 
-    // بناء كروت المنتجات هندسياً داخل الـ HTML
+    // 3. بناء الكروت
     productsToRender.forEach((product, index) => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         
-        // إخفاء الكروت التي تتعدى رقم 4 إذا كانت حالة القسم "مغلقة"
+        // منطق الإخفاء: إظهار فقط إذا كانت الحالة 'موسعة' أو ضمن الحد المسموح
         if (index >= MAX_VISIBLE_ITEMS && !sectionsExpandedState[mainCategory]) {
             productCard.style.display = 'none';
         }
 
-      productCard.innerHTML = `
-    <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
-    </div>
-    <div class="product-details" style="padding:15px; text-align:right;">
-        <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
-        
-        <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
-          
-            <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-        <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" 
-    class="magic-btn"
-    style="
-        width: 32px; 
-        height: 32px; 
-        border-radius: 50%; 
-        border: none;
-        background: rgba(15, 118, 110, 0.15);
-        backdrop-filter: blur(5px);
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        cursor: pointer; 
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
-    "
->
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-    </svg>
-</button>
-            <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
-            
-        </div>
-    </div>
-`;
+        productCard.innerHTML = `
+            <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
+                <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="product-details" style="padding:15px; text-align:right;">
+                <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
+                <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
+                    <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" class="magic-btn" style="width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(15, 118, 110, 0.15); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                    </button>
+                    <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
+                </div>
+            </div>
+        `;
         container.appendChild(productCard);
     });
 
-    // صناعة وإدارة زر "عرض المزيد / عرض أقل" ديناميكياً لهذا القسم بالتحديد
+    // 4. استدعاء دالة الزر الديناميكية
     handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
 }
-function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
-    const section = document.getElementById(`container-${mainCategory}`).parentElement;
-    
-    // إزالة الزر القديم فقط إذا وجد
-    let btnContainer = section.querySelector('.dynamic-view-container');
-    if (btnContainer) btnContainer.remove();
 
-    // عدم إظهار الزر إذا كانت المنتجات أقل من الحد المسموح
+function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
+    const container = document.getElementById(`container-${mainCategory}`);
+    if (!container) return;
+    
+    const parentSection = container.parentElement;
+
+    // إزالة أي زر قديم
+    const oldBtn = parentSection.querySelector('.dynamic-view-container');
+    if (oldBtn) oldBtn.remove();
+
+    // تعديل شرط الظهور: اجعله يظهر دائماً إذا كان هناك أكثر من 0 منتج (أو عدله كما تحب)
+    // حالياً يظهر إذا كان totalItems أكبر من 2
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
-    // إنشاء الزر
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
-    btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '15px';
+    btnWrapper.style.cssText = "text-align: center; margin: 25px 0; width: 100%; clear: both;";
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
-    btn.style.cursor = 'pointer';
 
-    btn.onclick = function(e) {
-    e.preventDefault();
-    
-    // 1. تحديد الحالة الجديدة
-    const isExpanding = !sectionsExpandedState[mainCategory];
-    sectionsExpandedState[mainCategory] = isExpanding;
-
-    // 2. إذا كان الزبون سيضغط "عرض أقل" (أي isExpanding ستصبح false)
-    if (!isExpanding) {
-        // البحث عن العنوان الرئيسي للفئة أو الفلاتر
-        const targetSection = document.getElementById(`container-${mainCategory}`).parentElement;
+    btn.onclick = (e) => {
+        e.preventDefault();
+        sectionsExpandedState[mainCategory] = !sectionsExpandedState[mainCategory];
         
-        // إعادة الرسم أولاً
         renderCategorySection(mainCategory, currentSubFilter);
-
-        // تأخير بسيط للسحب لضمان اكتمال تحديث الـ DOM
-        setTimeout(() => {
-            targetSection.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }, 100);
-    } else {
-        // في حالة "عرض المزيد" لا نحتاج لسحب الزبون، فقط إعادة الرسم
-        renderCategorySection(mainCategory, currentSubFilter);
-    }
-};
+        
+        // إصلاح السحب: السحب يجب أن يكون للـ Anchor الخاص بالقسم (breakfast-anchor)
+        if (!sectionsExpandedState[mainCategory]) {
+            setTimeout(() => {
+                const anchor = document.getElementById(`${mainCategory}-anchor`);
+                if (anchor) {
+                    anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    parentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+    };
 
     btnWrapper.appendChild(btn);
-    section.appendChild(btnWrapper);
-}
-
-// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
-function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
-    const parentContainer = buttonElement.parentElement;
-    const buttons = parentContainer.getElementsByClassName('filter-btn');
-    for (let btn of buttons) {
-        btn.classList.remove('active');
-    }
-    
-    buttonElement.classList.add('active');
-
-    // عند اختيار فئة فرعية جديدة، نعيد تهيئة حالة القسم للوضع الافتراضي (غير ممتد) لراحة العين
-    sectionsExpandedState[mainCategory] = false;
-    renderCategorySection(mainCategory, subCategory);
-}
-
-function smoothScrollTo(elementId) {
-    const targetSection = document.getElementById(elementId);
-    if (targetSection) {
-        // نضع هامشاً علوياً فورياً للحاوية لضمان عدم اختفاء العنوان
-        // الـ 120 تعني أن المتصفح سيترك مسافة 120 بكسل من الأعلى قبل بدء الحاوية
-        targetSection.style.scrollMarginTop = "120px"; 
-
-        targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
+    parentSection.appendChild(btnWrapper);
 }
 
 // دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
