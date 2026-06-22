@@ -1523,48 +1523,37 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
 
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
-    if (!container) return;
-    
-    // استخدام parentElement لضمان الوصول الصحيح للفلاتر في الهيكل الخاص بك
-   const parentSection = container.closest('[id$="-anchor"]') || container.parentElement;
+    const parentSection = container.parentElement;
 
-    // إزالة أي أزرار قديمة لتفادي التكرار
+    // إزالة الأزرار القديمة
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
-    // إذا كان عدد المنتجات 4 أو أقل، لا نقوم بإنشاء الزر
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
-    btnWrapper.style.textAlign = 'center'; // لضمان توسط الزر
 
     const btn = document.createElement('button');
-    
-    // [التعديل هنا]: استخدمنا كلاس 'filter-btn' ليأخذ نفس تصميم باقي أزرار الموقع فوراً
-    // وأضفنا dynamic-view-btn للاحتفاظ بالتحكم البرمجي
-    btn.className = 'filter-btn dynamic-view-btn'; 
-    btn.style.marginTop = '15px'; // مسافة بسيطة بين المنتجات والزر
-    
-    // تحديد النص بناءً على الحالة
+    btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
 
     btn.onclick = function() {
-        if (!sectionsExpandedState[mainCategory]) {
-            // [حالة فتح القسم]
-            sectionsExpandedState[mainCategory] = true;
-            renderCategorySection(mainCategory, currentSubFilter);
-        } else {
-            // [حالة تقليص القسم والعودة لشريط الفئات الفرعية]
-            sectionsExpandedState[mainCategory] = false;
-            renderCategorySection(mainCategory, currentSubFilter);
+        const isExpanding = !sectionsExpandedState[mainCategory];
+        sectionsExpandedState[mainCategory] = isExpanding;
+        
+        // 1. إعادة رندر القسم
+        renderCategorySection(mainCategory, currentSubFilter);
 
-            // السحب الذكي لشريط الفئات الفرعية الخاص بهذا القسم فقط
+        // 2. إذا كنا في حالة "عرض أقل"، نقوم بالسحب إلى شريط الفئات الفرعية
+        if (!isExpanding) {
             setTimeout(() => {
-                const subFilters = parentSection.querySelector('.subcategory-filters');
-                if (subFilters) {
-                    const headerOffset = 120; // المسافة لتفادي الهيدر
-                    const elementPosition = subFilters.getBoundingClientRect().top;
+                // البحث عن شريط الفئات الفرعية الخاص بهذا القسم بالتحديد
+                const subFiltersBar = parentSection.querySelector('.subcategory-filters');
+                
+                if (subFiltersBar) {
+                    const headerOffset = 130; // ارتفاع الهيدر
+                    const elementPosition = subFiltersBar.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
                     window.scrollTo({
@@ -1572,7 +1561,7 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
                         behavior: 'smooth'
                     });
                 }
-            }, 150);
+            }, 150); // تأخير بسيط لضمان تحديث الواجهة قبل الحساب
         }
     };
 
@@ -2010,11 +1999,7 @@ function closeModal() {
     const modal = document.getElementById('extra-modal');
     if (modal) modal.remove();
 }
-// دالة إغلاق موحدة
-function closeModal() {
-    const modal = document.getElementById('extra-modal');
-    if (modal) modal.remove();
-}
+
 
 // 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
 function saveAndAddToCart() {
@@ -2044,15 +2029,13 @@ function closeModal() {
         modal.remove(); // حذف العنصر نهائياً
     }
 }
-// دالة الحركة البصرية المتكاملة
 function triggerCartAnimation() {
-    // ضع هنا الكلاس الفعلي لأيقونة السلة لديك (مثلاً .cart-icon أو .basket-btn)
-    let cartIcon = document.querySelector('.cart-icon-selector') || document.querySelector('.cart-icon'); 
+    // تأكد من وجود كلاس .cart-icon في الـ HTML الخاص بك
+    let cartIcon = document.querySelector('.cart-icon'); 
     if (!cartIcon) return;
 
-    // إنشاء أيقونة وهمية تطير
     let flyElement = document.createElement('div');
-    flyElement.innerHTML = '☕'; // رمز المنتج
+    flyElement.innerHTML = '☕'; 
     flyElement.style.position = 'fixed';
     flyElement.style.fontSize = '30px';
     flyElement.style.zIndex = '999999';
@@ -2061,35 +2044,20 @@ function triggerCartAnimation() {
     flyElement.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     document.body.appendChild(flyElement);
 
-    // تحريك العنصر نحو أيقونة السلة (مع التمركز في المنتصف)
+    // حساب موقع أيقونة السلة
     setTimeout(() => {
         let rect = cartIcon.getBoundingClientRect();
-        flyElement.style.left = (rect.left + rect.width/2) + 'px';
-        flyElement.style.top = (rect.top + rect.height/2) + 'px';
-        flyElement.style.opacity = '0';
+        flyElement.style.left = (rect.left + rect.width / 2) + 'px';
+        flyElement.style.top = (rect.top + rect.height / 2) + 'px';
         flyElement.style.transform = 'scale(0.2)';
+        flyElement.style.opacity = '0';
     }, 50);
 
-    // حذف العنصر بعد انتهاء الحركة
-    setTimeout(() => { flyElement.remove(); }, 900);
-    
-    // إضافة هزة (shake) لأيقونة السلة
-    cartIcon.classList.add('cart-shake');
+    // إزالة العنصر بعد انتهاء الحركة
     setTimeout(() => {
-        cartIcon.classList.remove('cart-shake');
-    }, 500);
+        flyElement.remove();
+    }, 900);
 }
-
-
-/*هذا الكود خصصته لاخر ثلاث فئات زر عرض اكثر  اقل*/
-const categoriesWithShowMore = ['desserts', 'breakfast', 'specialty'];
-
-document.addEventListener("DOMContentLoaded", function () {
-    // ... الكود الحالي الخاص بك ...
-    
-    // أضف هذا السطر في النهاية
-    setTimeout(injectShowMoreButtons, 1000); // تأخير بسيط لضمان تحميل المنتجات أولاً
-});
 
 
    </script>
