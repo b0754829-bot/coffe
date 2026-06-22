@@ -1173,6 +1173,11 @@ button[onclick*="saveAndAddToCart"] {
     position: relative !important;
     z-index: 99 !important; /* لضمان ظهوره فوق أي عنصر آخر */
 }
+/* هذا يضمن أن كل قسم مستقل بصرياً ويمنع التصاقهم */
+.products-showcase {
+    min-height: 100px; /* ضمان وجود مساحة للقسم حتى لو كان فارغاً */
+    padding-bottom: 20px;
+}
 </style>
 
 
@@ -1512,18 +1517,16 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     const parentSection = container.parentElement;
 
-    // إزالة الزر القديم دائماً لضمان عدم التكرار
+    // 1. إزالة أي زر قديم
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
-    // إذا كانت المنتجات أقل من أو تساوي المسموح به، لا تظهر الزر
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
-    // إنشاء الزر الموحد
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '10px';
+    btnWrapper.style.marginTop = '15px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
@@ -1531,46 +1534,35 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
 
     btn.onclick = function() {
         const isExpanding = !sectionsExpandedState[mainCategory];
-        sectionsExpandedState[mainCategory] = isExpanding;
         
-        // إعادة عرض المنتجات
+        // --- الحل هنا: حساب موقع شريط الفلاتر بدقة قبل التغيير ---
+        let scrollTarget = null;
+        if (!isExpanding) {
+            const filterBar = parentSection.querySelector('.subcategory-filters');
+            if (filterBar) {
+                // احسب المسافة من أعلى الصفحة مع خصم ارتفاع الهيدر الثابت
+                scrollTarget = filterBar.getBoundingClientRect().top + window.scrollY - 130;
+            }
+        }
+
+        // تحديث الحالة وإعادة بناء القسم
+        sectionsExpandedState[mainCategory] = isExpanding;
         renderCategorySection(mainCategory, currentSubFilter);
 
-        // إذا تم الضغط على "عرض أقل"، انتظر لحظة ثم اسحب إلى شريط الفلاتر
-        if (!isExpanding) {
+        // --- تنفيذ السحب بعد إعادة البناء (يتم السحب للموقع المحفوظ مسبقاً) ---
+        if (scrollTarget !== null) {
             setTimeout(() => {
-                const filterBar = parentSection.querySelector('.subcategory-filters');
-                if (filterBar) {
-                    const headerOffset = 130; 
-                    const elementPosition = filterBar.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            }, 100);
+                window.scrollTo({
+                    top: scrollTarget,
+                    behavior: 'smooth'
+                });
+            }, 50); // تأخير بسيط جداً لضمان تحديث الـ DOM
         }
     };
 
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
-}// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
-function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
-    const parentContainer = buttonElement.parentElement;
-    const buttons = parentContainer.getElementsByClassName('filter-btn');
-    for (let btn of buttons) {
-        btn.classList.remove('active');
-    }
-    
-    buttonElement.classList.add('active');
-
-    // عند اختيار فئة فرعية جديدة، نعيد تهيئة حالة القسم للوضع الافتراضي (غير ممتد) لراحة العين
-    sectionsExpandedState[mainCategory] = false;
-    renderCategorySection(mainCategory, subCategory);
 }
-
 function smoothScrollTo(elementId) {
     const targetSection = document.getElementById(elementId);
     if (targetSection) {
