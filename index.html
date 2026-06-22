@@ -1424,7 +1424,7 @@ const storeProductsDatabase = {
 
 
 // الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
-const MAX_VISIBLE_ITEMS = 4;
+const MAX_VISIBLE_ITEMS = 2;
 
 // كائن لتخزين حالة الأقسام (هل تم ضغط عرض المزيد أم لا) لكي لا تتداخل الأقسام
 const sectionsExpandedState = {
@@ -1526,7 +1526,7 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     if (!container) return;
     
     // استخدام parentElement لضمان الوصول الصحيح للفلاتر في الهيكل الخاص بك
-    const parentSection = container.parentElement;
+   const parentSection = container.closest('[id$="-anchor"]') || container.parentElement;
 
     // إزالة أي أزرار قديمة لتفادي التكرار
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
@@ -1635,7 +1635,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
       // المتغيرات الأساسية
-let visibleCount = 2;
+let visibleCount = 4;
         // فلترة وعرض المنتجات حسب القسم المختار
         function filterBySection(categoryName) {
             const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
