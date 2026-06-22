@@ -1640,18 +1640,18 @@ let visibleCount = 4;
     // 2. البحث عن المنتج بنفس الـ ID وبنفس الإضافات لدمج الكمية
     const existingItem = userCartList.find(item => item.id === productId && item.selectedExtras === extras);
     
-    if(existingItem) {
+   if(existingItem) {
         existingItem.qty += 1;
+        // نقل المنتج المحدث إلى بداية المصفوفة (لضمان ظهوره في الأعلى)
+        userCartList = [existingItem, ...userCartList.filter(item => item !== existingItem)];
     } else {
-        // نستخدم unshift بدلاً من push ليظهر المنتج الجديد دائماً في أول السلة
-        // ونضيف menuExtras (كمصفوفة) ليفهمها كود الواتساب
+        // (الكود الخاص بك للإضافة الجديدة يبقى كما هو)
         const newItem = { 
             ...product, 
             qty: 1, 
             selectedExtras: extras,
             menuExtras: (extras !== "لا يوجد") ? extras.split(", ") : [] 
         };
-        
         userCartList.unshift(newItem); 
     }
     
@@ -1679,9 +1679,7 @@ function refreshCartInterface() {
 
     let totalPriceSum = 0;
 
-    // 2. التعديل هنا: نعكس الترتيب لعرض الأحدث في الأعلى
-    // ونقوم بتحديث الإجمالي داخل نفس الحلقة
-    [...userCartList].reverse().forEach(item => {
+    userCartList.forEach(item => {
         totalPriceSum += (item.price * item.qty);
 
         const extrasDisplay = (item.selectedExtras && item.selectedExtras !== "لا يوجد") ? 
@@ -1838,7 +1836,12 @@ function sendCartToWhatsApp() {
         });
 
         messageText += `\n💰 الإجمالي: ${total.toFixed(2)} ₪`;
-        window.open(`https://wa.me/972524310286?text=${encodeURIComponent(messageText)}`, '_blank');
+         // 4. تشفير النص وتحضير الرابط السريع لقاعدة بيانات الـ API للواتساب
+    const encodedMessage = encodeURIComponent(messageText);
+    const whatsappURL = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodedMessage}`;
+    
+    // 5. فتح الرابط قسرياً ومباشرة
+    window.open(whatsappURL, '_blank');
         
         userCartList = [];
         if(typeof saveCartToLocalStorage === 'function') saveCartToLocalStorage();
