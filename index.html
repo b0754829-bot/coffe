@@ -1164,20 +1164,7 @@ button[onclick*="saveAndAddToCart"] {
     margin-bottom: 20px;
 }
 
-/*زر عرض المزيد لاخر الفئات الثلاث*/
-.dynamic-view-container {
-    display: flex !important;
-    justify-content: center !important;
-    padding: 20px 0 !important;
-    width: 100% !important;
-    position: relative !important;
-    z-index: 99 !important; /* لضمان ظهوره فوق أي عنصر آخر */
-}
-/* هذا يضمن أن كل قسم مستقل بصرياً ويمنع التصاقهم */
-.products-showcase {
-    min-height: 100px; /* ضمان وجود مساحة للقسم حتى لو كان فارغاً */
-    padding-bottom: 20px;
-}
+
 </style>
 
 
@@ -1307,15 +1294,28 @@ button[onclick*="saveAndAddToCart"] {
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
+<!-- القسم الخامس: وجبات الفطور -->
 <div id="breakfast-anchor">
     <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
-    <div class="subcategory-filters">...</div>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'breakfast', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'croissant')">كرواسون محشي</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'light_meals')">وجبات خفيفة وساندوتشات</button>
+    </div>
     <div class="products-showcase" id="container-breakfast"></div>
-</div> <div id="specialty-coffee-anchor">
+
+
+    <div id="specialty-coffee-anchor">
     <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
-    <div class="subcategory-filters">...</div>
+    <div class="subcategory-filters">
+        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'specialty', 'all')">الكل</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'v60')">V60 & كيمكس</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'espresso_base')">إسبريسو سينجل ومزدوج</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'cold_brew')">كولد برو مقطر</button>
+    </div>
     <div class="products-showcase" id="container-specialty"></div>
-</div> ```
+</div>
+</div>
 
 
 
@@ -1517,16 +1517,14 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     const parentSection = container.parentElement;
 
-    // 1. إزالة أي زر قديم
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
-
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '15px';
+    btnWrapper.style.marginTop = '10px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
@@ -1534,35 +1532,50 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
 
     btn.onclick = function() {
         const isExpanding = !sectionsExpandedState[mainCategory];
+        const headerTitle = parentSection.querySelector('.title-decorated');
         
-        // --- الحل هنا: حساب موقع شريط الفلاتر بدقة قبل التغيير ---
-        let scrollTarget = null;
-        if (!isExpanding) {
-            const filterBar = parentSection.querySelector('.subcategory-filters');
-            if (filterBar) {
-                // احسب المسافة من أعلى الصفحة مع خصم ارتفاع الهيدر الثابت
-                scrollTarget = filterBar.getBoundingClientRect().top + window.scrollY - 130;
-            }
-        }
-
-        // تحديث الحالة وإعادة بناء القسم
         sectionsExpandedState[mainCategory] = isExpanding;
         renderCategorySection(mainCategory, currentSubFilter);
 
-        // --- تنفيذ السحب بعد إعادة البناء (يتم السحب للموقع المحفوظ مسبقاً) ---
-        if (scrollTarget !== null) {
+        if (!isExpanding && headerTitle) {
             setTimeout(() => {
+                // 1. اكتشاف ارتفاع الهيدر الثابت ديناميكياً
+                const header = document.querySelector('.custom-premium-header'); // تأكد من اسم الكلاس
+                const headerHeight = header ? header.offsetHeight : 130; 
+                
+                // 2. حساب موقع العنوان بالنسبة للشاشة
+                const elementPosition = headerTitle.getBoundingClientRect().top;
+                
+                // 3. السحب الدقيق (الموقع الحالي + التمرير - ارتفاع الهيدر - هامش إضافي)
+                const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+
                 window.scrollTo({
-                    top: scrollTarget,
+                    top: offsetPosition,
                     behavior: 'smooth'
                 });
-            }, 50); // تأخير بسيط جداً لضمان تحديث الـ DOM
+            }, 100);
         }
     };
 
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
 }
+
+// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
+function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
+    const parentContainer = buttonElement.parentElement;
+    const buttons = parentContainer.getElementsByClassName('filter-btn');
+    for (let btn of buttons) {
+        btn.classList.remove('active');
+    }
+    
+    buttonElement.classList.add('active');
+
+    // عند اختيار فئة فرعية جديدة، نعيد تهيئة حالة القسم للوضع الافتراضي (غير ممتد) لراحة العين
+    sectionsExpandedState[mainCategory] = false;
+    renderCategorySection(mainCategory, subCategory);
+}
+
 function smoothScrollTo(elementId) {
     const targetSection = document.getElementById(elementId);
     if (targetSection) {
