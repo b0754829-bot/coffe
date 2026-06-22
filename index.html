@@ -1515,11 +1515,19 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
 
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
+    if (!container) return; // أمان إضافي
+    
     const parentSection = container.parentElement;
 
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
-    if (totalItems <= MAX_VISIBLE_ITEMS) return;
+
+    // تشخيص المشكلة: هذا السطر سيخبرنا في الـ Console إذا كان الرقم أصغر من 2
+    console.log(`Category: ${mainCategory}, TotalItems: ${totalItems}, Limit: ${MAX_VISIBLE_ITEMS}`);
+
+    // الحل: إذا كان العدد أقل من أو يساوي 2، لا نظهر الزر (هذا هو الكود الأصلي)
+    // إذا كنت تريد إظهار الزر حتى لو كان هناك منتج واحد، احذف السطرين أدناه
+    if (totalItems <= MAX_VISIBLE_ITEMS) return; 
 
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
@@ -1529,7 +1537,8 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
-
+    
+    // باقي الكود كما هو...
     btn.onclick = function() {
         const isExpanding = !sectionsExpandedState[mainCategory];
         const headerTitle = parentSection.querySelector('.title-decorated');
@@ -1539,20 +1548,12 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
 
         if (!isExpanding && headerTitle) {
             setTimeout(() => {
-                // 1. اكتشاف ارتفاع الهيدر الثابت ديناميكياً
-                const header = document.querySelector('.custom-premium-header'); // تأكد من اسم الكلاس
+                const header = document.querySelector('.custom-premium-header');
                 const headerHeight = header ? header.offsetHeight : 130; 
-                
-                // 2. حساب موقع العنوان بالنسبة للشاشة
                 const elementPosition = headerTitle.getBoundingClientRect().top;
-                
-                // 3. السحب الدقيق (الموقع الحالي + التمرير - ارتفاع الهيدر - هامش إضافي)
                 const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }, 100);
         }
     };
