@@ -1411,13 +1411,7 @@ const storeProductsDatabase = {
     ]
     
 };
-const categoryExtras = {
-    'specialty': ['صوص كراميل', 'حليب لوز', 'دبل شوت'],
-    'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
-    'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
-    'desserts': ['إضافة صوص توت', 'آيس كريم فانيليا'],
-    'breakfast': ['جبنة إضافية', 'زيتون']
-};
+
 
 // الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
 const MAX_VISIBLE_ITEMS = 4;
@@ -1906,17 +1900,24 @@ window.customerWazeURL = "لم يتم تحديد الموقع";
                 messageText += `🛒 *تفاصيل الطلبية المطلوبة:*\n`;
 
                 let finalTotal = 0;
-                userCartList.forEach((item, index) => {
-                    const itemTotal = item.price * item.qty;
-                    finalTotal += itemTotal;
-                    messageText += `${index + 1}) *${item.name}*\n    الكمية: [ ${item.qty} ] ✖️ السعر: ${item.price.toFixed(2)} ₪ ⬅️ *${itemTotal.toFixed(2)} ₪*\n`;
-                });
-                // 2. التعديل الأساسي: قراءة الإضافات (نفرض أن الإضافات محفوظة في مصفوفة باسم extras)
-    // إذا كانت الإضافات محفوظة في مصفوفة داخل الكائن، سيتم عرضها هنا
-    if (item.extras && item.extras.length > 0) {
-        messageText += `     الإضافات: ${item.extras.join(", ")}\n`;
+               // داخل حلقة التكرار التي تمر على منتجات السلة
+userCartList.forEach((item, index) => {
+    const itemTotal = item.price * item.qty;
+    finalTotal += itemTotal;
+    
+    // 1. اسم المنتج
+    messageText += `${index + 1}) *${item.name}*\n`;
+    
+    // 2. هنا نستخدم menuExtras للتحقق من وجود إضافات
+    // نتحقق إذا كان المنتج يحتوي على خاصية menuExtras وهي مصفوفة
+    if (item.menuExtras && Array.isArray(item.menuExtras) && item.menuExtras.length > 0) {
+        // نقوم بتحويل المصفوفة إلى نص مفصول بفاصلة
+        messageText += `     الإضافات: ${item.menuExtras.join(", ")}\n`;
     }
 
+    // 3. الكمية والسعر
+    messageText += `    الكمية: [ ${item.qty} ] ✖️ السعر: ${item.price.toFixed(2)} ₪  *${itemTotal.toFixed(2)} ₪*\n`;
+});
                 messageText += `\n-----------------------------------\n`;
                 messageText += ` *المبلغ الكلي:* [ *${finalTotal.toFixed(2)} ₪* ]\n\n`;
                 messageText += ` _يرجى البدء بتحضير الطلبية._`;
@@ -1930,7 +1931,8 @@ window.customerWazeURL = "لم يتم تحديد الموقع";
                 toggleCartMenu(false);
                 modalElement.remove();
 
-                window.location.href = whatsappURL;
+              // استخدم هذا (يفتح في تبويب جديد ويقلل احتمالية الحظر):
+window.open(whatsappURL, '_blank');
             });
         }
         // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
