@@ -1838,11 +1838,15 @@ function sendCartToWhatsApp() {
         messageText += `\n💰 الإجمالي: ${total.toFixed(2)} ₪`;
          // 4. تشفير النص وتحضير الرابط السريع لقاعدة بيانات الـ API للواتساب
     const encodedMessage = encodeURIComponent(messageText);
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${storeWhatsAppNumber}&text=${encodedMessage}`;
-    
-    // 5. فتح الرابط قسرياً ومباشرة
-    window.open(whatsappURL, '_blank');
+ // 4. تشفير النص (تأكد من وضع رقم هاتفك مباشرة هنا إذا لم يكن معرفاً كمتغير)
+        const phone = "972524310286"; 
+       
+        const whatsappURL = `https://wa.me/${phone}?text=${encodedMessage}`;
         
+        // 5. فتح الرابط مباشرة (window.location.href أنجح من window.open لتفادي الحظر)
+        window.open(whatsappURL, '_blank');
+            
+        // تنظيف السلة وتحديث الواجهة
         userCartList = [];
         if(typeof saveCartToLocalStorage === 'function') saveCartToLocalStorage();
         if(typeof refreshCartInterface === 'function') refreshCartInterface();
