@@ -1376,6 +1376,12 @@ button[onclick*="saveAndAddToCart"] {
     50% { transform: scale(1.6); background-color: #06b6d4; color: white; }
     100% { transform: scale(1); }
 }
+
+/* إعطاء مساحة تنفس للفوتر عند الوصول إليه */
+#phone-footer {
+    scroll-margin-top: 80px; 
+    scroll-margin-bottom: 20px;
+}
 </style>
 
 
@@ -1383,7 +1389,7 @@ button[onclick*="saveAndAddToCart"] {
 <body>
     <div id="loader-screen">
     <div class="logo-box">
-        <div class="logo-text">حكاية</div>
+        <div class="logo-text"> مَلاذCoffee</div>
         <div class="loader-line"></div>
     </div>
 </div>
@@ -1398,9 +1404,9 @@ button[onclick*="saveAndAddToCart"] {
         
         
        <div class="brand-logo-container">
-    <h1 class="brand-title">COFFEE حكاية</h1>
+    <h1 class="brand-title">COFFEE كافيه</h1>
     <span class="brand-slogan">
-        لَذَّةُ الحِكَايَةِ تَبدَأ بِفِنُجَانِ قَهُوَةٍ
+            سَلَامٌ عَلَى رَائِحَةِ القَهْوَةِ، وَهُدُوءِ البَالِ
         <svg class="glow-line" viewBox="0 0 200 30">
             <path d="M 190 5 Q 100 25 10 5" fill="none" stroke="#0b3f3b" stroke-width="2" />
         </svg>
@@ -1548,19 +1554,19 @@ button[onclick*="saveAndAddToCart"] {
 <div class="sidebar-cart" id="sidebar-nav-menu" style="right: 15px; left: auto; transform: translateX(110%); z-index: 99999 !important; background: rgba(248, 250, 252, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid rgba(255,255,255,0.6);">
     
     <div class="cart-top-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px; border-bottom: 1px solid rgba(6, 182, 212, 0.1);">
-        <h3 style="font-weight: 900; color: #0b3f3b; margin: 0; font-size: 18px;">📋 تصفح المنيو</h3>
+        <h3 style="font-weight: 900; color: #0b3f3b; margin: 0; font-size: 18px;"> أقسام محلنا</h3>
         <button onclick="toggleNavMenu(false)" style="background: rgba(6, 182, 212, 0.1); border: none; width: 35px; height: 35px; border-radius: 50px; font-size: 14px; cursor: pointer; color: #0b3f3b; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">✕</button>
     </div>
     
     <div class="cart-scroll-area" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
         
-        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="glass-fluid-btn">✨ جديدنا (Specialty Coffee)</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" class="glass-fluid-btn">☕ المشروبات الساخنة والدافئة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" class="glass-fluid-btn">🍹 المشروبات الباردة والمنعشة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" class="glass-fluid-btn">🍰 الحلويات الفاخرة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" class="glass-fluid-btn">🥐 وجبات الفطور والكرواسون</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="glass-fluid-btn"> جديدنا </a>
+        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" class="glass-fluid-btn"> المشروبات الساخنة والدافئة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" class="glass-fluid-btn"> المشروبات الباردة والمنعشة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" class="glass-fluid-btn"> الكيك والحلوى</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" class="glass-fluid-btn">   كرواسون وباستريز</a>
         
-        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="glass-fluid-btn dark-watery-btn">📞 تواصل معنا وموقعنا</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="glass-fluid-btn dark-watery-btn"> تواصل معنا/ موقعنا</a>
         
     </div>
 </div>
@@ -1992,28 +1998,41 @@ function toggleNavMenu(isOpen) {
     }
 }
 
-// 2️⃣ دالة النقر على القسم (لإغلاق القائمة والنزول للقسم)
+// 2️⃣ دالة النقر على القسم (النسخة الذكية والفاخرة)
 function handleNavClick(anchorId) {
-    // إغلاق القائمة الجانبية فوراً
-    toggleNavMenu(false);
+    // 1. إغلاق القائمة الجانبية فوراً
+    if (typeof toggleNavMenu === 'function') {
+        toggleNavMenu(false);
+    }
     
-    // الانتظار قليلاً حتى تنغلق القائمة ثم النزول السلس
+    // 2. الانتظار قليلاً حتى تنغلق القائمة ثم النزول السلس
     setTimeout(() => {
-        // إذا كان لديك دالة النزول السلس الأصلية
-        if (typeof smoothScrollTo === "function") {
-            smoothScrollTo(anchorId);
-        } else {
-            // بديل تلقائي إذا لم تكن الدالة متوفرة
-            const target = document.getElementById(anchorId);
-            if (target) {
-                target.style.scrollMarginTop = "90px";
-                target.scrollIntoView({ behavior: 'smooth' });
+        const target = document.getElementById(anchorId);
+        
+        if (target) {
+            // 💡 إذا كان الهدف هو "الفوتر/التواصل": ننزلق للمنتصف مع تأثير النبض
+            if (anchorId === 'phone-footer') {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // تأثير النبض للفت الانتباه
+                target.style.transition = "transform 0.3s ease";
+                target.style.transform = "scale(1.02)";
+                setTimeout(() => {
+                    target.style.transform = "scale(1)";
+                }, 300);
+            } 
+            // ☕ وإذا كان الهدف "قسم من أقسام المنيو": ننزلق للأعلى مع ترك مسافة للهيدر
+            else {
+                if (typeof smoothScrollTo === "function") {
+                    smoothScrollTo(anchorId);
+                } else {
+                    target.style.scrollMarginTop = "100px"; // مساحة تنفس ممتازة أسفل الهيدر
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         }
-    }, 350);
+    }, 350); // نفس التوقيت الممتاز الذي اخترته أنت
 }
-// تأكد أن هذا المتغير معرف في بداية الملف
-var userCartList = userCartList || []; 
 
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
