@@ -1518,16 +1518,20 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     
     const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
 
-    // تنظيف الأزرار القديمة لمنع التكرار
+    // 1. تنظيف الأزرار القديمة تماماً
     const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
+    // 2. تطبيق تأثير الأنيميشن السلس على حاوية المنتجات
+    container.style.transition = 'max-height 0.4s ease-in-out';
+    container.style.overflow = 'hidden';
+
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '20px';
+    btnWrapper.style.marginTop = '15px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
@@ -1535,37 +1539,44 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        // حالة عرض المزيد
+        container.style.maxHeight = '460px'; // الارتفاع الافتراضي لمنتجين
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
+        
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
-            renderCategorySection(mainCategory, currentSubFilter);
+            container.style.maxHeight = '6000px'; // فتح بالكامل
+            handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
         };
     } else {
-        // حالة عرض أقل (الكمش الفوري لمنتجين ثم الانتقال المباشر)
+        container.style.maxHeight = '6000px'; 
         btn.innerText = 'عرض أقل 🔼';
         
         btn.onclick = function() {
-            // 1️⃣ أولاً: كمش المنتجات فوراً وإعادتها للعدد الأصلي (منتجين)
+            // 🌟 أولاً: تحديد الفئات الفرعية المستهدفة
+            const targetView = categoryWrapper.querySelector('.subcategory-filters') || 
+                               categoryWrapper.querySelector('.title-decorated') || 
+                               categoryWrapper;
+            
+            // 🌟 ثانياً: الخدعة السحرية للهواتف - حساب الرقم المطلق بالبكسل من أعلى المتصفح "قبل الكمش"
+            // هذا الرقم ثابت رياضي لا يتأثر بانكماش المحتوى الأسفل منه
+            const offset = 90; // مسافة الأمان للهيدر العلوي لموقعك لتبدو الفلاتر واضحة
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = targetView.getBoundingClientRect().top;
+            const absoluteTargetTop = elementRect - bodyRect - offset;
+
+            // 🌟 ثالثاً: تغيير الحالة وكمش المنتجات بالـ CSS فوراً
             sectionsExpandedState[mainCategory] = false;
-            renderCategorySection(mainCategory, currentSubFilter);
+            container.style.maxHeight = '460px'; 
+            
+            // تحديث شكل الزر فوراً ليصبح "عرض المزيد"
+            handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
 
-            // 2️⃣ ثانياً: إجبار المتصفح على الانتقال لعنوان الفئة الحالية رغماً عن انكماش الصفحة
-            // نقوم بالبحث عن عنصر الفئة الفرعية وإعطائه فوكس أو سحب مباشر
-            setTimeout(() => {
-                const freshWrapper = document.getElementById(`container-${mainCategory}`)?.closest('.category-wrapper') || categoryWrapper;
-                const targetView = freshWrapper.querySelector('.subcategory-filters') || 
-                                   freshWrapper.querySelector('.title-decorated') || 
-                                   freshWrapper;
-
-                if (targetView) {
-                    // سطر السحر: ينسحب المتصفح بدقة متناهية إلى أول الفئة الفرعية مجدداً
-                    targetView.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center' // نختار center هنا لكي تضمن أن الفئة تظهر بمنتصف الشاشة تماماً ولا تختفي تحت الهيدر!
-                    });
-                }
-            }, 50); // مهلة ميكروسكوبية جداً ليستقر الـ DOM الجديد
+            // 🌟 رابعاً: إجبار الهاتف والحاسوب على السحب السلس إلى الإحداثي الثابت المحدد مسبقاً
+            // استخدام الرقم الثابت absoluteTargetTop يمنع تماماً قفز المتصفح للفئة التالية
+            window.scrollTo({
+                top: absoluteTargetTop,
+                behavior: 'smooth'
+            });
         };
     }
 
