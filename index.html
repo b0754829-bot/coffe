@@ -1182,6 +1182,11 @@ button[onclick*="saveAndAddToCart"] {
 .hidden-product-card-temp {
     display: none !important;
 }
+
+/* تعطيل خاصية التثبيت التلقائي للمتصفح لمنع القفز العشوائي عند تقليص القوائم */
+#hot-drinks-anchor, #cold-drinks-anchor, #desserts-anchor, #breakfast-anchor, #specialty-coffee-anchor {
+    overflow-anchor: none !important;
+}
 </style>
 
 
@@ -1518,73 +1523,57 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     
     const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
 
-    if (totalItems <= MAX_VISIBLE_ITEMS) {
-        const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
-        if (oldBtn) oldBtn.remove();
-        return;
-    }
+    const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
+    if (oldBtn) oldBtn.remove();
 
-    // 🌟 السر الأول: البحث عن الزر الحالي وإعادة استخدامه بدلاً من حذفه وإعادة بنائه لضمان ثبات الهاتف
-    let btnWrapper = categoryWrapper.querySelector('.dynamic-view-container');
-    let btn;
+    if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
-    if (!btnWrapper) {
-        btnWrapper = document.createElement('div');
-        btnWrapper.className = 'dynamic-view-container';
-        btnWrapper.style.textAlign = 'center';
-        btnWrapper.style.marginTop = '20px';
-        
-        btn = document.createElement('button');
-        btn.className = 'dynamic-view-btn';
-        btnWrapper.appendChild(btn);
-        categoryWrapper.appendChild(btnWrapper);
-    } else {
-        btn = btnWrapper.querySelector('.dynamic-view-btn');
-    }
+    const btnWrapper = document.createElement('div');
+    btnWrapper.className = 'dynamic-view-container';
+    btnWrapper.style.textAlign = 'center';
+    btnWrapper.style.marginTop = '20px';
 
+    const btn = document.createElement('button');
+    btn.className = 'dynamic-view-btn';
+    
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        // --- حالة عرض المزيد ---
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
-        btn.style.backgroundColor = ''; 
-        btn.style.color = '';
-        
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
-        // --- حالة عرض أقل (سلسة وفائقة وبدون أي قفزات عشوائية) ---
         btn.innerText = 'عرض أقل 🔼';
         btn.style.backgroundColor = '#64748b'; 
         btn.style.color = '#ffffff';
         
         btn.onclick = function() {
-            // تحديد أزرار الفلاتر أو عنوان القسم للعودة إليه
-            const targetElement = categoryWrapper.querySelector('.subcategory-filters') || 
-                                  categoryWrapper.querySelector('.title-decorated') || 
-                                  categoryWrapper;
+            // 1. تحديد العنصر المراد الصعود إليه بدقة (العنوان الرئيسي للقسم)
+            const targetElement = categoryWrapper.querySelector('.title-decorated') || categoryWrapper;
 
-            if (targetElement) {
-                // 🌟 السر الثاني: وضع هامش أمان علوي للهيدر الثابت الخاص بك بشكل مباشر ونظيف
-                targetElement.style.scrollMarginTop = "95px";
-                
-                // التمرير الانسيابي الأصلي المدعوم من كرت شاشة الهاتف مباشرة
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+            // 2. حساب موقع القسم الفعلي الثابت من أعلى الصفحة بالكامل (Absolute Y) قبل التقليص
+            const offset = 95; // مسافة أمان لتجنب الاختفاء تحت الهيدر الطافي
+            const targetY = targetElement.getBoundingClientRect().top + window.scrollY - offset;
+
+            // 3. تقليص المنتجات فوراً وإخفاء الزائد منها
+            sectionsExpandedState[mainCategory] = false;
+            renderCategorySection(mainCategory, currentSubFilter);
+
+            // 4. الحل السحري للهواتف: ننتظر جزءاً من الثانية حتى ينتهي الهاتف من إعادة حساب الأبعاد
+            // ثم نجبر المتصفح على الانتقال للموقع الصحيح ومنعه من القفز للأسفل
+            setTimeout(() => {
+                window.scrollTo({
+                    top: targetY,
+                    behavior: 'auto' // استخدام 'auto' بدلاً من 'smooth' يضمن ثبات الحركة فوراً على الموبايل ومنع تذبذب الشاشة
                 });
-
-                // 🌟 السر الثالث: ننتظر المتصفح 400 ملي ثانية فقط لينهي صعوده الانسيابي لعنوان القسم،
-                // وعندما تصبح المنتجات بالأسفل خارج نطاق الشاشة تماماً، نكمشها دون أن يشعر المتصفح بأي قفزة
-                setTimeout(() => {
-                    sectionsExpandedState[mainCategory] = false;
-                    renderCategorySection(mainCategory, currentSubFilter);
-                }, 400);
-            }
+            }, 40); 
         };
     }
+
+    btnWrapper.appendChild(btn);
+    categoryWrapper.appendChild(btnWrapper);
 }
 
 function smoothScrollTo(elementId) {
