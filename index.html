@@ -1211,7 +1211,21 @@ button[onclick*="saveAndAddToCart"] {
     object-fit: contain;
 }
 
+/* حل مشكلة الهيدر وتداخله مع الـ Anchors */
+[id$="-anchor"] {
+    scroll-margin-top: 100px !important; /* يجبر المتصفح على ترك مساحة */
+    display: block !important;
+}
 
+/* التأكد من أن الهيدر لا يغطي الأزرار */
+.custom-premium-header {
+    pointer-events: auto !important;
+}
+
+/* منع أي كود آخر من التأثير على السكرول */
+html {
+    scroll-behavior: smooth !important;
+}
 </style>
 
 
@@ -1568,20 +1582,21 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
 }
-// استبدل دالة التنقل بهذه النسخة المتوافقة تماماً مع هيدرك الطافي:
 function handleLuxuryNav(anchorId) {
     const element = document.getElementById(anchorId);
-    if (element) {
-        // الـ 90 بكسل هنا تغطي ارتفاع الهيدر (60) + المسافة العلوية (12) + هامش أمان إضافي (18)
-        const headerOffset = 90; 
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    if (!element) return;
 
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
-    }
+    // ارتفاع الهيدر لديك + المسافة العلوية (60px + 12px + هامش أمان)
+    const headerOffset = 95; 
+    
+    // حساب الموقع بدقة
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+    });
 }
 // دالة الـ smoothScrollTo المساعدة (إذا لم تكن معرفة لديك بالفعل)
 function smoothScrollTo(anchorId) {
@@ -2010,7 +2025,27 @@ function triggerCartAnimation() {
     }, 900);
 }
 
-
+function toggleCategoryView(btn, containerId) {
+    const container = document.getElementById(containerId);
+    
+    if (container.style.display === 'none' || container.style.display === '') {
+        container.style.display = 'grid'; // أو حسب تصميمك
+        btn.innerText = 'عرض أقل';
+        
+        // بعد العرض، نضمن بقاء القسم في الأعلى
+        setTimeout(() => {
+            const section = container.closest('[id$="-anchor"]');
+            if(section) {
+                // استدعاء دالة الانتقال لنفس القسم لضبط المسافة بعد ظهور المنتجات
+                handleLuxuryNav(section.id);
+            }
+        }, 100);
+        
+    } else {
+        container.style.display = 'none';
+        btn.innerText = 'عرض المزيد';
+    }
+}
 
    </script>
     
