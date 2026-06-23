@@ -1511,13 +1511,15 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
 }
 
+
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
-    const parentSection = container.parentElement;
+    
+    const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
 
-    // 1. تنظيف أي أزرار قديمة تماماً لمنع التكرار
-    const oldBtn = parentSection.querySelector('.dynamic-view-container');
+    // تنظيف الأزرار القديمة لمنع التكرار
+    const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
@@ -1526,38 +1528,51 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
     btnWrapper.style.marginTop = '20px';
-    btnWrapper.style.marginBottom = '10px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     
-    // التحقق هل القسم ممتد بالكامل أم لا
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        // حالة 1: المنتجات مختصرة -> الزر يقوم بعرض المزيد
+        // حالة عرض المزيد
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
-        // حالة 2: المنتجات ممتدة بالكامل -> الزر يتحول إلى "العودة لأعلى الفئة" دون تقليص أو حذف!
-        btn.innerText = 'العودة لأعلى الفئة ⬆️';
-        btn.style.backgroundColor = '#64748b'; // لون هادئ ومميز للعودة للأعلى
+        // حالة عرض أقل (الكمش الفوري لمنتجين ثم الانتقال المباشر)
+        btn.innerText = 'عرض أقل 🔼';
         
         btn.onclick = function() {
-            // سحب ناعم ومباشر ومضمون 100% إلى العنصر الأب (القسم الرئيسي للفئة الحالية)
-            parentSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start' // يأتي بأول القسم عند أعلى الشاشة مباشرة
-            });
+            // 1️⃣ أولاً: كمش المنتجات فوراً وإعادتها للعدد الأصلي (منتجين)
+            sectionsExpandedState[mainCategory] = false;
+            renderCategorySection(mainCategory, currentSubFilter);
+
+            // 2️⃣ ثانياً: إجبار المتصفح على الانتقال لعنوان الفئة الحالية رغماً عن انكماش الصفحة
+            // نقوم بالبحث عن عنصر الفئة الفرعية وإعطائه فوكس أو سحب مباشر
+            setTimeout(() => {
+                const freshWrapper = document.getElementById(`container-${mainCategory}`)?.closest('.category-wrapper') || categoryWrapper;
+                const targetView = freshWrapper.querySelector('.subcategory-filters') || 
+                                   freshWrapper.querySelector('.title-decorated') || 
+                                   freshWrapper;
+
+                if (targetView) {
+                    // سطر السحر: ينسحب المتصفح بدقة متناهية إلى أول الفئة الفرعية مجدداً
+                    targetView.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center' // نختار center هنا لكي تضمن أن الفئة تظهر بمنتصف الشاشة تماماً ولا تختفي تحت الهيدر!
+                    });
+                }
+            }, 50); // مهلة ميكروسكوبية جداً ليستقر الـ DOM الجديد
         };
     }
 
     btnWrapper.appendChild(btn);
-    parentSection.appendChild(btnWrapper);
+    categoryWrapper.appendChild(btnWrapper);
 }
+
 function smoothScrollTo(elementId) {
     const targetSection = document.getElementById(elementId);
     if (targetSection) {
