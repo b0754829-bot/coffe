@@ -1271,9 +1271,8 @@ html {
         <img id="main-dynamic-slide" src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop" alt="اجواء كافيه حكاية">
     </div>
 
-
 <div class="luxury-categories-bar">
-    <div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('container-hot')">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
         </div>
@@ -1309,58 +1308,33 @@ html {
     </div>
 </div>
   
-<!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
     <h3 class="title-decorated">المشروبات الساخنة الكلاسيكية</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">لاتيه وكابتشينو وموكا</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">شاي فاخر وأعشاب طبيعية</button>
-    </div>
+    <div class="subcategory-filters"> ... (أزرار الفلتر الخاصة بالساخن) </div>
     <div class="products-showcase" id="container-hot"></div>
 </div>
 
-<!-- القسم الثالث: المشروبات الباردة -->
 <div id="cold-drinks-anchor">
     <h3 class="title-decorated">المشروبات الباردة والمنعشة</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')">آيس لاتيه وموكا باردة</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">موهيتو حكاية المنعش</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">سموذي وميلك شيك</button>
-    </div>
+    <div class="subcategory-filters"> ... (أزرار الفلتر الخاصة بالبارد) </div>
     <div class="products-showcase" id="container-cold"></div>
 </div>
 
-<!-- القسم الرابع: الحلويات الفاخرة -->
 <div id="desserts-anchor">
     <h3 class="title-decorated">الحلويات الفاخرة</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'desserts', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')">كيك (زعفران، تشيز كيك، شوكولاتة)</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">وافل وبانكيك</button>
-    </div>
+    <div class="subcategory-filters"> ... (أزرار الفلتر الخاصة بالحلويات) </div>
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
 <div id="breakfast-anchor">
     <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'breakfast', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'croissant')">كرواسون محشي</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'light_meals')">وجبات خفيفة وساندوتشات</button>
-    </div>
+    <div class="subcategory-filters"> ... (أزرار الفلتر الخاصة بالفطور) </div>
     <div class="products-showcase" id="container-breakfast"></div>
 </div>
 
 <div id="specialty-anchor">
-    <h3 class="title-decorated">جديدنا </h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'specialty', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'v60')">V60 & كيمكس</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'espresso_base')">إسبريسو سينجل ومزدوج</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'cold_brew')">كولد برو مقطر</button>
-    </div>
+    <h3 class="title-decorated">جديدنا</h3>
+    <div class="subcategory-filters"> ... (أزرار الفلتر الخاصة بجديدنا) </div>
     <div class="products-showcase" id="container-specialty"></div>
 </div>
 
@@ -1390,6 +1364,24 @@ html {
     </div>
 
     </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+   
+    const navItems = document.querySelectorAll('.exclusive-cat-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            
+          
+            if (this.innerText.includes('مشروبات ساخنة')) handleLuxuryNav('hot-drinks-anchor');
+            if (this.innerText.includes('مشروبات باردة')) handleLuxuryNav('cold-drinks-anchor');
+            if (this.innerText.includes('الحلوى')) handleLuxuryNav('desserts-anchor');
+            if (this.innerText.includes('الكراسون')) handleLuxuryNav('breakfast-anchor');
+            if (this.innerText.includes('جديدنا')) handleLuxuryNav('specialty-anchor');
+        });
+    });
+});
+</script>
 <footer class="premium-footer">
     <div class="footer-grid">
         <div style="text-align: center; color: #1f2937;">
@@ -1409,10 +1401,23 @@ html {
 
 
 <script>
-function toggleDetails(btn) {
-    let content = btn.nextElementSibling;
-    content.classList.toggle('active');
-    btn.innerText = content.classList.contains('active') ? "إخفاء التفاصيل" : "عرض التفاصيل";
+// استخدم هذه الدالة الموحدة لجميع عمليات العرض والإخفاء في موقعك
+function toggleCategoryView(btn, containerId, categoryKey) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // تبديل الحالة باستخدام class بدلاً من الاعتماد على ترتيب العناصر
+    const isHidden = window.getComputedStyle(container).display === 'none';
+    
+    if (isHidden) {
+        container.style.display = 'grid'; 
+        btn.innerText = 'إخفاء التفاصيل'; // أو "عرض أقل"
+        sectionsExpandedState[categoryKey] = true;
+    } else {
+        container.style.display = 'none';
+        btn.innerText = 'عرض التفاصيل';
+        sectionsExpandedState[categoryKey] = false;
+    }
 }
 </script>
 
@@ -1584,14 +1589,17 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
 }
 function handleLuxuryNav(anchorId) {
     const element = document.getElementById(anchorId);
-    if (!element) return;
+    if (!element) {
+        console.error("خطأ: القسم غير موجود، تأكد من مطابقة الـ ID: " + anchorId);
+        return;
+    }
 
-    // ارتفاع الهيدر لديك + المسافة العلوية (60px + 12px + هامش أمان)
-    const headerOffset = 95; 
-    
-    // حساب الموقع بدقة
+    // ارتفاع الهيدر الخاص بك (قم بتغيير الرقم 100 إذا كان الهيدر أطول أو أقصر)
+    const headerHeight = 100; 
+
+    // حساب الموقع بدقة مع مراعاة الهيدر الثابت
     const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-    const offsetPosition = elementPosition - headerOffset;
+    const offsetPosition = elementPosition - headerHeight;
 
     window.scrollTo({
         top: offsetPosition,
