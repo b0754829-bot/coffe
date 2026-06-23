@@ -1182,6 +1182,160 @@ button[onclick*="saveAndAddToCart"] {
 .hidden-product-card-temp {
     display: none !important;
 }
+
+/* 📱 التنسيق الأساسي للقائمة الجانبية (مخفية جهة اليمين) */
+#sidebar-nav-menu {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: calc(100% - 30px);
+    max-width: 330px;
+    height: calc(100vh - 30px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 35px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    z-index: 99999 !important;
+    transform: translateX(120%); /* مخفية بالكامل */
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* حالة الفتح (عند إضافة كلاس open) */
+#sidebar-nav-menu.open {
+    transform: translateX(0); /* تظهر على الشاشة */
+}
+
+/* 🌑 التنسيق الأساسي للخلفية المعتمة */
+#nav-menu-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(12, 13, 14, 0.4);
+    z-index: 99998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* حالة الفتح للخلفية (عند إضافة كلاس active) */
+#nav-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+/* 🌊 التصميم الزجاجي المائي السائل لأزرار القائمة الجانبية */
+.glass-fluid-btn {
+    text-decoration: none;
+    color: #0c0d0e;
+    font-weight: 800;
+    font-size: 14.5px;
+    padding: 16px 20px;
+    display: block;
+    
+    /* 💧 الانحناء الناعم جداً (شكل الكبسولة السائلة) */
+    border-radius: 50px; 
+    
+    /* 🧊 تأثير الزجاج الشفاف والانعكاس الضوئي */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    /* 🌊 حواف مائية شفافة مع إضاءة علوية لتبدو كالقطرة */
+    border: 1px solid rgba(6, 182, 212, 0.3); /* لون سماوي مائي شفاف */
+    border-top: 1.5px solid rgba(255, 255, 255, 0.9); /* انعكاس الضوء من الأعلى */
+    
+    /* ✨ ظل مائي ناعم يحيط بالزر */
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    
+    /* 🪄 حركة مرنة جداً عند النقر */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* التفاعل عند النقر (انكماش سائل) */
+.glass-fluid-btn:active {
+    transform: scale(0.95);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+}
+
+/* 🌑 تصميم مائي داكن لزر التواصل */
+.dark-watery-btn {
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.85) 0%, rgba(11, 63, 59, 0.7) 100%);
+    color: #ffffff;
+    border: 1px solid rgba(6, 182, 212, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-top: 10px;
+}
+.dark-watery-btn:active {
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(11, 63, 59, 0.8) 100%);
+}
+/* 💧 تأثير قطرة الماء التفاعلية عند اللمس */
+.magic-water-ripple {
+    position: fixed;
+    border-radius: 50%;
+    /* لون مائي سماوي متدرج يتماشى مع موقعك */
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: scale(0);
+    pointer-events: none; /* لكي لا تعيق النقر على الأزرار */
+    z-index: 9999999; /* تظهر فوق كل شيء */
+    animation: ripple-expansion 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* حركة التوسع والاختفاء */
+@keyframes ripple-expansion {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(3.5); opacity: 0; }
+}
+/* 🏝️ تصميم الجزيرة الذكية (Dynamic Island) */
+.premium-dynamic-island {
+    position: fixed;
+    top: 25px; /* المسافة من أعلى الشاشة */
+    left: 50%;
+    transform: translateX(-50%) translateY(-150%) scale(0.8);
+    
+    /* تصميم زجاجي داكن فاخر جداً */
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 50px; /* شكل الكبسولة */
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    /* ظل فخم وتوهج خفيف */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.2);
+    z-index: 99999999 !important;
+    opacity: 0;
+    
+    /* حركة ارتدادية (Bouncy) تعطي إحساساً بالوزن والواقعية */
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* حالة الظهور على الشاشة */
+.premium-dynamic-island.show {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* أيقونة لامعة داخل الجزيرة */
+.island-icon {
+    font-size: 18px;
+    animation: island-pulse 1.5s infinite;
+}
+
+@keyframes island-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+    100% { transform: scale(1); }
+}
 </style>
 
 
@@ -1195,11 +1349,12 @@ button[onclick*="saveAndAddToCart"] {
 </div>
 
     <div class="custom-premium-header">
-        <button class="menu-trigger-btn" onclick="toggleCartMenu(true)">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </button>
+    <button class="menu-trigger-btn" onclick="toggleNavMenu(true)">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </button>
+    
         
         
        <div class="brand-logo-container">
@@ -1347,7 +1502,31 @@ button[onclick*="saveAndAddToCart"] {
     </div>
 
     </div>
-<footer class="premium-footer">
+
+<div class="cart-overlay" id="nav-menu-overlay" onclick="toggleNavMenu(false)" style="display: none; opacity: 0; transition: opacity 0.4s ease; z-index: 99998;"></div>
+
+<div class="sidebar-cart" id="sidebar-nav-menu" style="right: 15px; left: auto; transform: translateX(110%); z-index: 99999 !important; background: rgba(248, 250, 252, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid rgba(255,255,255,0.6);">
+    
+    <div class="cart-top-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px; border-bottom: 1px solid rgba(6, 182, 212, 0.1);">
+        <h3 style="font-weight: 900; color: #0b3f3b; margin: 0; font-size: 18px;">📋 تصفح المنيو</h3>
+        <button onclick="toggleNavMenu(false)" style="background: rgba(6, 182, 212, 0.1); border: none; width: 35px; height: 35px; border-radius: 50px; font-size: 14px; cursor: pointer; color: #0b3f3b; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">✕</button>
+    </div>
+    
+    <div class="cart-scroll-area" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="glass-fluid-btn">✨ جديدنا (Specialty Coffee)</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" class="glass-fluid-btn">☕ المشروبات الساخنة والدافئة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" class="glass-fluid-btn">🍹 المشروبات الباردة والمنعشة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" class="glass-fluid-btn">🍰 الحلويات الفاخرة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" class="glass-fluid-btn">🥐 وجبات الفطور والكرواسون</a>
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="glass-fluid-btn dark-watery-btn">📞 تواصل معنا وموقعنا</a>
+        
+    </div>
+</div>
+
+
+<footer class="premium-footer" id="phone-footer">
     <div class="footer-grid">
         <div style="text-align: center; color: #1f2937;">
             <p style="font-weight: 800; margin-bottom: 5px;">🕒 ساعات العمل</p>
@@ -1591,9 +1770,9 @@ function addToCart(productId, mainCategory) {
     
     if (typeof openCartWithProduct === "function") {
         openCartWithProduct(product);
-    } else {
-        console.log("تمت إضافة المنتج للسلة بنجاح:", product);
-    }
+    } 
+    // استدعاء الجزيرة السحرية وإخبارها باسم المنتج أو رسالة مخصصة
+showDynamicIsland('تمت الإضافة إلى السلة بنجاح!', '');
 }
 
 // تهيئة وعرض المنيو بالكامل فور فتح الصفحة لأول مرة
@@ -1749,6 +1928,50 @@ function refreshCartInterface() {
                 overlay.classList.remove('active');
             }
         }
+      // 1️⃣ دالة فتح وإغلاق قائمة الأقسام (تتحكم بالستايلات المدمجة مباشرة)
+function toggleNavMenu(isOpen) {
+    const menu = document.getElementById('sidebar-nav-menu');
+    const overlay = document.getElementById('nav-menu-overlay');
+    
+    if (!menu || !overlay) return; // تأمين الكود من الأخطاء
+    
+    if (isOpen) {
+        // حالة الفتح: إظهار الخلفية أولاً ثم سحب القائمة
+        overlay.style.display = 'block';
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+            menu.style.transform = 'translateX(0)'; // جلب القائمة للشاشة
+        }, 10);
+    } else {
+        // حالة الإغلاق: إرجاع القائمة وإخفاء الخلفية
+        menu.style.transform = 'translateX(110%)'; // طرد القائمة للخارج
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
+    }
+}
+
+// 2️⃣ دالة النقر على القسم (لإغلاق القائمة والنزول للقسم)
+function handleNavClick(anchorId) {
+    // إغلاق القائمة الجانبية فوراً
+    toggleNavMenu(false);
+    
+    // الانتظار قليلاً حتى تنغلق القائمة ثم النزول السلس
+    setTimeout(() => {
+        // إذا كان لديك دالة النزول السلس الأصلية
+        if (typeof smoothScrollTo === "function") {
+            smoothScrollTo(anchorId);
+        } else {
+            // بديل تلقائي إذا لم تكن الدالة متوفرة
+            const target = document.getElementById(anchorId);
+            if (target) {
+                target.style.scrollMarginTop = "90px";
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, 350);
+}
 // تأكد أن هذا المتغير معرف في بداية الملف
 var userCartList = userCartList || []; 
 
@@ -2041,6 +2264,70 @@ function triggerCartAnimation() {
     }, 900);
 }
 
+// 🪄 نظام اللمس المائي التفاعلي (Liquid Touch)
+document.addEventListener('click', function(e) {
+    // 1. تحديد ما إذا كان العنصر الملموس زر أو رابط أو كرت منتج (لتفعيل السحر في الأماكن المهمة فقط)
+    const isInteractive = e.target.closest('button, a, .premium-product-card, .exclusive-cat-item');
+    
+    if (isInteractive) {
+        // 2. إنشاء القطرة المائية
+        const ripple = document.createElement('div');
+        ripple.className = 'magic-water-ripple';
+        
+        // 3. تحديد حجم القطرة
+        const size = 100; // 100 بكسل
+        ripple.style.width = size + 'px';
+        ripple.style.height = size + 'px';
+        
+        // 4. جعل القطرة تنطلق من مكان إصبع الزبون بالضبط
+        ripple.style.left = (e.clientX - size / 2) + 'px';
+        ripple.style.top = (e.clientY - size / 2) + 'px';
+        
+        document.body.appendChild(ripple);
+        
+        // 5. 📳 التفاعل الحسي: إحداث اهتزاز خفيف جداً في الهاتف (إذا كان الهاتف يدعم ذلك)
+        // 15 ملي ثانية تعطي إحساساً بـ "نقرة" حقيقية فخمة
+        if (navigator.vibrate) {
+            navigator.vibrate(15); 
+        }
+        
+        // 6. تنظيف الكود وحذف القطرة بعد انتهاء الحركة
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    }
+});
+
+
+// 🪄 دالة إطلاق الجزيرة الذكية عند الإضافة للسلة
+function showDynamicIsland(message, icon = '🛍️') {
+    // التحقق مما إذا كانت الجزيرة موجودة مسبقاً، وإلا نصنعها
+    let island = document.getElementById('smart-dynamic-island');
+    if (!island) {
+        island = document.createElement('div');
+        island.id = 'smart-dynamic-island';
+        island.className = 'premium-dynamic-island';
+        document.body.appendChild(island);
+    }
+
+    // إدخال النص والأيقونة
+    island.innerHTML = `<span class="island-icon">${icon}</span> <span>${message}</span>`;
+    
+    // 📳 تفاعل حسي مزدوج (نبضتان متتاليتان للشعور بالإنجاز)
+    if (navigator.vibrate) {
+        navigator.vibrate([15, 50, 15]); 
+    }
+
+    // إظهار الجزيرة مع الحركة الارتدادية
+    setTimeout(() => {
+        island.classList.add('show');
+    }, 10);
+
+    // إخفاء الجزيرة تلقائياً بعد ثانيتين ونصف
+    setTimeout(() => {
+        island.classList.remove('show');
+    }, 2500);
+}
 
    </script>
     
