@@ -1182,11 +1182,6 @@ button[onclick*="saveAndAddToCart"] {
 .hidden-product-card-temp {
     display: none !important;
 }
-
-/* تعطيل خاصية التثبيت التلقائي للمتصفح لمنع القفز العشوائي عند تقليص القوائم */
-#hot-drinks-anchor, #cold-drinks-anchor, #desserts-anchor, #breakfast-anchor, #specialty-coffee-anchor {
-    overflow-anchor: none !important;
-}
 </style>
 
 
@@ -1521,54 +1516,67 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
     
-    const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
+    // الحصول على القسم الأب
+    const categoryWrapper = container.parentElement;
 
-    const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
-    if (oldBtn) oldBtn.remove();
+    // تنظيف الغلاف القديم للزر لمنع التكرار
+    let oldWrapper = categoryWrapper.querySelector('.dynamic-view-container');
+    if (oldWrapper) oldWrapper.remove();
 
+    // إذا كانت المنتجات قليلة، لا تُظهر الزر أساساً
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
+    // بناء غلاف الزر
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '20px';
+    btnWrapper.style.marginTop = '15px';
+    btnWrapper.style.marginBottom = '25px';
 
     const btn = document.createElement('button');
-    btn.className = 'dynamic-view-btn';
+    
+    // استخدام كلاس الزر الفخم الخاص بك لكي لا ينكسر التصميم
+    btn.className = 'premium-load-more-btn'; 
     
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
+        // --- حالة عرض المزيد ---
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
+        // --- حالة عرض أقل (الحل السحري المستقل للهواتف) ---
         btn.innerText = 'عرض أقل 🔼';
         btn.style.backgroundColor = '#64748b'; 
         btn.style.color = '#ffffff';
         
         btn.onclick = function() {
-            // 1. تحديد العنصر المراد الصعود إليه بدقة (العنوان الرئيسي للقسم)
+            // 1. تحديد بداية القسم للرجوع إليه (العنوان المزين)
             const targetElement = categoryWrapper.querySelector('.title-decorated') || categoryWrapper;
+            
+            // 🌟 2. الخطوة السحرية: تجميد طول الصفحة الكلي مؤقتاً! 🌟
+            // هذا يمنع متصفح الهاتف من الانكماش والقفز العشوائي نهائياً
+            const currentBodyHeight = document.body.scrollHeight;
+            document.body.style.minHeight = currentBodyHeight + 'px';
 
-            // 2. حساب موقع القسم الفعلي الثابت من أعلى الصفحة بالكامل (Absolute Y) قبل التقليص
-            const offset = 95; // مسافة أمان لتجنب الاختفاء تحت الهيدر الطافي
-            const targetY = targetElement.getBoundingClientRect().top + window.scrollY - offset;
+            // 3. الصعود الانسيابي الآمن للأعلى (مع طرح 100 بكسل لترك مساحة للهيدر الخاص بك)
+            const headerOffset = 100; 
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
 
-            // 3. تقليص المنتجات فوراً وإخفاء الزائد منها
-            sectionsExpandedState[mainCategory] = false;
-            renderCategorySection(mainCategory, currentSubFilter);
-
-            // 4. الحل السحري للهواتف: ننتظر جزءاً من الثانية حتى ينتهي الهاتف من إعادة حساب الأبعاد
-            // ثم نجبر المتصفح على الانتقال للموقع الصحيح ومنعه من القفز للأسفل
+            // 4. بعد انتهاء حركة الصعود تماماً (نصف ثانية)، نكمش المنتجات ونفك التجميد في صمت
             setTimeout(() => {
-                window.scrollTo({
-                    top: targetY,
-                    behavior: 'auto' // استخدام 'auto' بدلاً من 'smooth' يضمن ثبات الحركة فوراً على الموبايل ومنع تذبذب الشاشة
-                });
-            }, 40); 
+                sectionsExpandedState[mainCategory] = false;
+                
+                // استدعاء دالتك الأصلية دون تغييرها
+                renderCategorySection(mainCategory, currentSubFilter);
+                
+                // فك تجميد طول الصفحة لتعود طبيعية
+                document.body.style.minHeight = '';
+            }, 500);
         };
     }
 
