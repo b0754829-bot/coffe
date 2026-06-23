@@ -37,6 +37,11 @@
             
         }
     
+
+        /* هذا السطر يضمن أن أول قسم في الصفحة يبدأ بعد الهيدر مباشرة */
+body {
+    padding-top: 80px; /* مسافة أمان تساوي ارتفاع الهيدر + الهوامش */
+}
     .custom-premium-header {
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
@@ -1207,23 +1212,6 @@ button[onclick*="saveAndAddToCart"] {
 }
 
 
-
-
-button, .cart-trigger {
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    /* استخدم زمن أقل بكثير (0.2s) لتبدو سريعة والاستجابة فورية */
-}
-
-/* حل جذري لمنع أي قفزات ناتجة عن الـ Transitions في الـ CSS */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-[id$="-anchor"] {
-    scroll-margin-top: 100px !important;
-    display: block !important;
-}
-
 </style>
 
 
@@ -1580,10 +1568,12 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
 }
+// استبدل دالة التنقل بهذه النسخة المتوافقة تماماً مع هيدرك الطافي:
 function handleLuxuryNav(anchorId) {
     const element = document.getElementById(anchorId);
     if (element) {
-        const headerOffset = 110; // اضبط هذا الرقم ليناسب ارتفاع الهيدر لديك
+        // الـ 90 بكسل هنا تغطي ارتفاع الهيدر (60) + المسافة العلوية (12) + هامش أمان إضافي (18)
+        const headerOffset = 90; 
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -1593,7 +1583,6 @@ function handleLuxuryNav(anchorId) {
         });
     }
 }
-
 // دالة الـ smoothScrollTo المساعدة (إذا لم تكن معرفة لديك بالفعل)
 function smoothScrollTo(anchorId) {
     handleLuxuryNav(anchorId);
