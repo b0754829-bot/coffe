@@ -108,30 +108,59 @@ header {
         }
 
 
-
-/* البطاقة - نحدد عرضاً مئويًا يضمن عمودين بالضبط في الهاتف */
+/* البطاقة - تضمن عمودين بالضبط في الهاتف مع تصميم زجاجي */
 .premium-product-card {
-    flex: 0 0 calc(50% - 10px) !important; /* يضمن بالضبط عمودين */
-    max-width: 200px !important; /* يمنعها من أن تصبح عملاقة في الكمبيوتر */
+    flex: 0 0 calc(50% - 10px) !important; 
+    max-width: 200px !important; 
     
-    background: white;
+    background: rgba(255, 255, 255, 0.95); /* خلفية بيضاء مع شفافية خفيفة */
+    border: 1px solid rgba(6, 182, 212, 0.08); /* إطار مائي سماوي خفيف جداً */
     border-radius: 20px;
     padding: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* حركة انسيابية أكثر */
     box-sizing: border-box;
+    
+    /* الخصائص المطلوبة لعمل اللمعة */
+    position: relative; 
+    overflow: hidden; 
 }
 
-/* حركة التكبير الفاخرة */
+/* ✨ حركة اللمعة الماسية الخاطفة (تمر كل 7 ثوانٍ) */
+.premium-product-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -150%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    z-index: 10;
+    pointer-events: none; /* تمنع اللمعة من إعاقة نقر الزبون */
+    animation: luxury-shimmer 7s infinite; 
+}
+
+@keyframes luxury-shimmer {
+    0% { left: -150%; }
+    15% { left: 200%; } 
+    100% { left: 200%; } 
+}
+
+/* 💻 حركة التكبير للكمبيوتر (الماوس) */
 .premium-product-card:hover {
     transform: translateY(-5px) scale(1.02) !important;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 15px 30px rgba(6, 182, 212, 0.12) !important; /* ظل بلون موقعك السماوي */
     z-index: 10;
 }
 
-/* الصورة المربعة (لضمان عدم تطاول البطاقة) */
+/* 📱 حركة الانكماش المائي للهواتف (عند لمس الزبون للكرت) */
+.premium-product-card:active {
+    transform: scale(0.96) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+}
+
+/* الصورة المربعة */
 .premium-product-card img {
     width: 100% !important;
     aspect-ratio: 1 / 1 !important; 
@@ -1336,6 +1365,17 @@ button[onclick*="saveAndAddToCart"] {
     50% { transform: scale(1.2); text-shadow: 0 0 10px rgba(255,255,255,0.8); }
     100% { transform: scale(1); }
 }
+
+/* حركة النبض لعداد السلة */
+.badge-pulse {
+    animation: pop-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop-bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.6); background-color: #06b6d4; color: white; }
+    100% { transform: scale(1); }
+}
 </style>
 
 
@@ -1646,7 +1686,7 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
 
       productCard.innerHTML = `
     <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
+        <img src="${product.img}" alt="${product.name}" loading="lazy" decoding="async style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div class="product-details" style="padding:15px; text-align:right;">
         <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
@@ -2329,6 +2369,15 @@ function showDynamicIsland(message, icon = '🛍️') {
     }, 2500);
 }
 
+
+// تشغيل حركة النبض للعداد
+let cartBadge = document.getElementById('main-basket-count');
+if(cartBadge) {
+    cartBadge.classList.remove('badge-pulse');
+    // حيلة برمجية صغيرة لإعادة تشغيل الـ Animation
+    void cartBadge.offsetWidth; 
+    cartBadge.classList.add('badge-pulse');
+}
    </script>
     
 </body>
