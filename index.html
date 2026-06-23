@@ -1170,6 +1170,10 @@ button[onclick*="saveAndAddToCart"] {
     scroll-margin-top: 100px; 
 }
 
+/* هذا هو السر: scroll-margin يخبر المتصفح أين يتوقف بالضبط عند السحب */
+#breakfast-anchor, #specialty-anchor, #desserts-anchor, #hot-drinks-anchor, #cold-drinks-anchor {
+    scroll-margin-top: 80px; /* اضبط هذه القيمة حسب ارتفاع الهيدر في هاتفك */
+}
 
 </style>
 
@@ -1516,24 +1520,24 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
-
+// أضف هذا السطر فقط إذا وجدت أن السحب لا يزال غير دقيق
+window.scrollTo(window.scrollX, window.scrollY);
     btn.onclick = (e) => {
         e.preventDefault();
         sectionsExpandedState[mainCategory] = !sectionsExpandedState[mainCategory];
         
         renderCategorySection(mainCategory, currentSubFilter);
         
-        // إصلاح السحب: السحب يجب أن يكون للـ Anchor الخاص بالقسم (breakfast-anchor)
-        if (!sectionsExpandedState[mainCategory]) {
-            setTimeout(() => {
-                const anchor = document.getElementById(`${mainCategory}-anchor`);
-                if (anchor) {
-                    anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    parentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }, 100);
+      // استبدل الجزء الخاص بالسحب داخل دالة الزر بهذا:
+if (!sectionsExpandedState[mainCategory]) {
+    setTimeout(() => {
+        const anchor = document.getElementById(mainCategory + "-anchor");
+        if (anchor) {
+            // استخدام خيار block: 'start' مع padding إضافي في CSS يحل 99% من مشاكل الهاتف
+            anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+    }, 300); // زدنا الوقت لـ 300ms ليتمكن الهاتف من حساب ارتفاع الصفحة بعد توسع العناصر
+}
     };
 
     btnWrapper.appendChild(btn);
