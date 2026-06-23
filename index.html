@@ -1516,22 +1516,20 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
     
+    // تحديد القسم أو الغلاف الحاضن للفئة الحالية لضمان دقة العمل
     const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
 
-    // 1. تنظيف الأزرار القديمة تماماً
+    // 1. تنظيف أي أزرار قديمة تماماً لمنع التكرار
     const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
-    // 2. تطبيق تأثير الأنيميشن السلس على حاوية المنتجات
-    container.style.transition = 'max-height 0.4s ease-in-out';
-    container.style.overflow = 'hidden';
-
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '15px';
+    btnWrapper.style.marginTop = '20px';
+    btnWrapper.style.marginBottom = '10px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
@@ -1539,44 +1537,51 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        container.style.maxHeight = '460px'; // الارتفاع الافتراضي لمنتجين
+        // --- حالة عرض المزيد (ستعمل الآن فوراً على الهاتف وتظهر كل المنتجات) ---
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
-        
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
-            container.style.maxHeight = '6000px'; // فتح بالكامل
-            handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
+            // استدعاء دالتك الأصلية لحقن وعرض كافة المنتجات فوراً
+            renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
-        container.style.maxHeight = '6000px'; 
+        // --- حالة عرض أقل (الحل العبقري والمقاوم لقفزات الهواتف ذكية) ---
         btn.innerText = 'عرض أقل 🔼';
+        btn.style.backgroundColor = '#64748b'; 
+        btn.style.color = '#ffffff';
         
         btn.onclick = function() {
-            // 🌟 أولاً: تحديد الفئات الفرعية المستهدفة
-            const targetView = categoryWrapper.querySelector('.subcategory-filters') || 
-                               categoryWrapper.querySelector('.title-decorated') || 
-                               categoryWrapper;
+            // 1️⃣ خطوة 1: تحديد عنصر الفئات الفرعية (الفلاتر) المستهدف الصعود إليه
+            const targetElement = categoryWrapper.querySelector('.subcategory-filters') || 
+                                  categoryWrapper.querySelector('.title-decorated') || 
+                                  categoryWrapper;
             
-            // 🌟 ثانياً: الخدعة السحرية للهواتف - حساب الرقم المطلق بالبكسل من أعلى المتصفح "قبل الكمش"
-            // هذا الرقم ثابت رياضي لا يتأثر بانكماش المحتوى الأسفل منه
-            const offset = 90; // مسافة الأمان للهيدر العلوي لموقعك لتبدو الفلاتر واضحة
-            const bodyRect = document.body.getBoundingClientRect().top;
-            const elementRect = targetView.getBoundingClientRect().top;
-            const absoluteTargetTop = elementRect - bodyRect - offset;
+            if (targetElement) {
+                // 2️⃣ خطوة 2: الخدعة الكبرى للهواتف - نثبت ارتفاع حاوية المنتجات الحالي "فوراً" بالبكسل
+                // هذا يمنع الصفحة من الانكماش المفاجئ ويحمي المتصفح من الضياع والقفز لأسفل
+                container.style.height = container.offsetHeight + 'px';
 
-            // 🌟 ثالثاً: تغيير الحالة وكمش المنتجات بالـ CSS فوراً
-            sectionsExpandedState[mainCategory] = false;
-            container.style.maxHeight = '460px'; 
-            
-            // تحديث شكل الزر فوراً ليصبح "عرض المزيد"
-            handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
+                // 3️⃣ خطوة 3: حساب الموقع المطلق والثابت للفئات الفرعية من أعلى الصفحة
+                const offset = 90; // مسافة أمان ممتازة أسفل الهيدر الثابت الخاص بموقعك
+                const absoluteTargetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
 
-            // 🌟 رابعاً: إجبار الهاتف والحاسوب على السحب السلس إلى الإحداثي الثابت المحدد مسبقاً
-            // استخدام الرقم الثابت absoluteTargetTop يمنع تماماً قفز المتصفح للفئة التالية
-            window.scrollTo({
-                top: absoluteTargetTop,
-                behavior: 'smooth'
-            });
+                // 4️⃣ خطوة 4: أمر الهاتف بالسحب السلس والناعم للأعلى باتجاه الفئات الفرعية
+                window.scrollTo({
+                    top: absoluteTargetTop,
+                    behavior: 'smooth'
+                });
+
+                // 5️⃣ خطوة 5: ننتظر (500 ملي ثانية) وهي المدة التي تستغرقها الشاشة للوصول للأعلى والاستقرار
+                setTimeout(() => {
+                    // فك قفل الارتفاع المؤقت ليعود مرناً وطبيعياً
+                    container.style.height = '';
+                    
+                    // الآن نكمش المنتجات بأمان لتستقر عند قطعتين فقط (بما أن عين المستخدم أصبحت بالأعلى فلن يرى أي قفزة)
+                    sectionsExpandedState[mainCategory] = false;
+                    renderCategorySection(mainCategory, currentSubFilter);
+                }, 500);
+                
+            }
         };
     }
 
