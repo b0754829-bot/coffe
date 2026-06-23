@@ -1516,72 +1516,53 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
     
-    // الحصول على القسم الأب
-    const categoryWrapper = container.parentElement;
+    // تحديد الحاوية الرئيسية بدقة (العنصر الذي يحمل الـ id مثل #hot-drinks-anchor)
+    const parentSection = container.parentElement;
 
-    // تنظيف الغلاف القديم للزر لمنع التكرار
-    let oldWrapper = categoryWrapper.querySelector('.dynamic-view-container');
-    if (oldWrapper) oldWrapper.remove();
+    const oldBtn = parentSection.querySelector('.dynamic-view-container');
+    if (oldBtn) oldBtn.remove();
 
-    // إذا كانت المنتجات قليلة، لا تُظهر الزر أساساً
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
-    // بناء غلاف الزر
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '15px';
-    btnWrapper.style.marginBottom = '25px';
+    btnWrapper.style.marginTop = '20px';
 
     const btn = document.createElement('button');
-    
-    // استخدام كلاس الزر الفخم الخاص بك لكي لا ينكسر التصميم
-    btn.className = 'premium-load-more-btn'; 
+    btn.className = 'dynamic-view-btn';
     
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        // --- حالة عرض المزيد ---
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
-        // --- حالة عرض أقل (الحل السحري المستقل للهواتف) ---
         btn.innerText = 'عرض أقل 🔼';
         btn.style.backgroundColor = '#64748b'; 
         btn.style.color = '#ffffff';
         
         btn.onclick = function() {
-            // 1. تحديد بداية القسم للرجوع إليه (العنوان المزين)
-            const targetElement = categoryWrapper.querySelector('.title-decorated') || categoryWrapper;
-            
-            // 🌟 2. الخطوة السحرية: تجميد طول الصفحة الكلي مؤقتاً! 🌟
-            // هذا يمنع متصفح الهاتف من الانكماش والقفز العشوائي نهائياً
-            const currentBodyHeight = document.body.scrollHeight;
-            document.body.style.minHeight = currentBodyHeight + 'px';
+            // 1. تقليص المنتجات أولاً
+            sectionsExpandedState[mainCategory] = false;
+            renderCategorySection(mainCategory, currentSubFilter);
 
-            // 3. الصعود الانسيابي الآمن للأعلى (مع طرح 100 بكسل لترك مساحة للهيدر الخاص بك)
-            const headerOffset = 100; 
-            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-
-            // 4. بعد انتهاء حركة الصعود تماماً (نصف ثانية)، نكمش المنتجات ونفك التجميد في صمت
+            // 2. إعطاء الهاتف فترة راحة ميكرو-ثانية (10 ملي ثانية) لمعالجة اختفاء الكروت
+            // 3. التوجيه المباشر لأعلى القسم والفلاتر الأصلية
             setTimeout(() => {
-                sectionsExpandedState[mainCategory] = false;
-                
-                // استدعاء دالتك الأصلية دون تغييرها
-                renderCategorySection(mainCategory, currentSubFilter);
-                
-                // فك تجميد طول الصفحة لتعود طبيعية
-                document.body.style.minHeight = '';
-            }, 500);
+                parentSection.scrollIntoView({
+                    behavior: 'auto', // استخدمنا auto لتكون قفزة فورية دقيقة تمنع تشتت العين
+                    block: 'start'    // التوقف عند أعلى القسم تماماً (مع احترام الـ scroll-margin-top الذي أضفناه في CSS)
+                });
+            }, 10);
         };
     }
 
     btnWrapper.appendChild(btn);
-    categoryWrapper.appendChild(btnWrapper);
+    parentSection.appendChild(btnWrapper);
 }
 
 function smoothScrollTo(elementId) {
