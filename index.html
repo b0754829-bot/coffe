@@ -36,17 +36,6 @@
     --glass-opacity: 0.4;
             
         }
-    
-    .custom-premium-header {
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
-}
-
-.is-scrolling {
-    backdrop-filter: none !important;
-    background-color: rgba(236, 239, 237, 0.95) !important;
-}
-
-
         .product-card {
     background: rgba(var(--primary-emerald), var(--glass-opacity));
 }
@@ -1175,16 +1164,20 @@ button[onclick*="saveAndAddToCart"] {
     margin-bottom: 20px;
 }
 
-
-/* أضف هذا للكلاس الخاص بحاويات الأقسام الرئيسية */
-.category-wrapper { /* أو أي كلاس يحيط بـ container- */
-    scroll-margin-top: 100px; 
+/*زر عرض المزيد لاخر الفئات الثلاث*/
+.dynamic-view-container {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 20px 0 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 99 !important; /* لضمان ظهوره فوق أي عنصر آخر */
 }
-
-[id$="-anchor"] {
-    scroll-margin-top: 100px; /* اضبط القيمة حسب ارتفاع الهيدر عندك */
+/* هذا يضمن أن كل قسم مستقل بصرياً ويمنع التصاقهم */
+.products-showcase {
+    min-height: 100px; /* ضمان وجود مساحة للقسم حتى لو كان فارغاً */
+    padding-bottom: 20px;
 }
-
 </style>
 
 
@@ -1232,41 +1225,53 @@ button[onclick*="saveAndAddToCart"] {
 
 
 <div class="luxury-categories-bar">
-    <div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
+<div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
+        <a href="#hot-drinks-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
         </div>
         <span>مشروبات ساخنة</span>
+        </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('cold-drinks-anchor')">
+          <a href="#cold-drinks-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
         </div>
         <span>مشروبات باردة</span>
+        </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('desserts-anchor')">
+          <a href="#desserts-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
         </div>
-        <span>الكيك والحلوى</span>
+        <span>الكيك والحلوى </span>
+        </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('breakfast-anchor')">
+          <a href="#breakfast-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
         </div>
         <span>الكراسون بانواعه</span>
+        </a>
     </div>
-
-    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-anchor')">
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
+          <a href="#specialty-coffee-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
         </div>
-        <span>جديدنا</span>
+        <span> جديدنا</span>
+        </a>
     </div>
+  
+
 </div>
+
   
 <!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
@@ -1302,26 +1307,15 @@ button[onclick*="saveAndAddToCart"] {
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
-<div id="breakfast-anchor" class="section-wrapper">
+<div id="breakfast-anchor">
     <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'breakfast', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'croissant')">كرواسون محشي</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'breakfast', 'light_meals')">وجبات خفيفة وساندوتشات</button>
-    </div>
+    <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-breakfast"></div>
-</div>
-
-<div id="specialty-anchor" class="section-wrapper">
-    <h3 class="title-decorated">جديدنا (Specialty Coffee)</h3>
-    <div class="subcategory-filters">
-        <button class="filter-btn active" onclick="filterCategoryProducts(this, 'specialty', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'v60')">V60 & كيمكس</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'espresso_base')">إسبريسو سينجل ومزدوج</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'specialty', 'cold_brew')">كولد برو مقطر</button>
-    </div>
+</div> <div id="specialty-coffee-anchor">
+    <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
+    <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-specialty"></div>
-</div>
+</div> ```
 
 
 
@@ -1381,7 +1375,7 @@ function toggleDetails(btn) {
     'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
     'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
     'desserts': ['توت', 'فانيليا'],
-    'breakfast': ['جبنة', 'زيتون','شوكلاتط']
+    'breakfast': ['جبنة', 'زيتون']
 };
 const storeProductsDatabase = {
     specialty: [
@@ -1434,6 +1428,8 @@ const sectionsExpandedState = {
 };
 
 
+
+
 // 2. التحميل فوراً عند بدء تشغيل الملف
 loadCartFromLocalStorage();
 
@@ -1445,121 +1441,147 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
 
-    // 1. تصفية المنتجات
+    // تفريغ الحاوية بالكامل لإعادة البناء
+    container.innerHTML = '';
+
+    // تصفية المنتجات بناءً على الفئة الفرعية المطلوبة
     const productsToRender = storeProductsDatabase[mainCategory].filter(product => {
         return subCategoryFilter === 'all' || product.sub === subCategoryFilter;
     });
 
-    // 2. بناء الحاوية
-    container.innerHTML = '';
-
     if (productsToRender.length === 0) {
         container.innerHTML = `<p style="text-align:center; color:#94a3b8; width:100%; padding: 20px;">قريباً في منيو حكاية...</p>`;
-        // إزالة الزر إذا كان القسم فارغاً
+        // إزالة زر عرض المزيد إذا أصبح القسم فارغاً
         const oldBtn = container.parentElement.querySelector('.dynamic-view-container');
         if (oldBtn) oldBtn.remove();
         return;
     }
 
-    // 3. بناء الكروت
+    // بناء كروت المنتجات هندسياً داخل الـ HTML
     productsToRender.forEach((product, index) => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         
-        // منطق الإخفاء: إظهار فقط إذا كانت الحالة 'موسعة' أو ضمن الحد المسموح
+        // إخفاء الكروت التي تتعدى رقم 4 إذا كانت حالة القسم "مغلقة"
         if (index >= MAX_VISIBLE_ITEMS && !sectionsExpandedState[mainCategory]) {
             productCard.style.display = 'none';
         }
 
-        productCard.innerHTML = `
-            <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-                <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
-            </div>
-            <div class="product-details" style="padding:15px; text-align:right;">
-                <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
-                <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
-                    <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" class="magic-btn" style="width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(15, 118, 110, 0.15); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
-                    </button>
-                    <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
-                </div>
-            </div>
-        `;
+      productCard.innerHTML = `
+    <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
+        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
+    </div>
+    <div class="product-details" style="padding:15px; text-align:right;">
+        <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
+        
+        <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
+          
+            <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" 
+    class="magic-btn"
+    style="
+        width: 32px; 
+        height: 32px; 
+        border-radius: 50%; 
+        border: none;
+        background: rgba(15, 118, 110, 0.15);
+        backdrop-filter: blur(5px);
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        cursor: pointer; 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
+    "
+>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+    </svg>
+</button>
+            <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
+            
+        </div>
+    </div>
+`;
         container.appendChild(productCard);
     });
 
-    // 4. استدعاء دالة الزر الديناميكية
+    // صناعة وإدارة زر "عرض المزيد / عرض أقل" ديناميكياً لهذا القسم بالتحديد
     handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
 }
 
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
-    if (!container) return;
-    
     const parentSection = container.parentElement;
 
-    // إزالة أي زر قديم
+    // 1. إزالة أي زر قديم
     const oldBtn = parentSection.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
-    // تعديل شرط الظهور: اجعله يظهر دائماً إذا كان هناك أكثر من 0 منتج (أو عدله كما تحب)
-    // حالياً يظهر إذا كان totalItems أكبر من 2
     if (totalItems <= MAX_VISIBLE_ITEMS) return;
 
     const btnWrapper = document.createElement('div');
     btnWrapper.className = 'dynamic-view-container';
-    btnWrapper.style.cssText = "text-align: center; margin: 25px 0; width: 100%; clear: both;";
+    btnWrapper.style.textAlign = 'center';
+    btnWrapper.style.marginTop = '15px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
 
-    btn.onclick = (e) => {
-        e.preventDefault();
-        sectionsExpandedState[mainCategory] = !sectionsExpandedState[mainCategory];
+    btn.onclick = function() {
+        const isExpanding = !sectionsExpandedState[mainCategory];
         
+        // --- الحل هنا: حساب موقع شريط الفلاتر بدقة قبل التغيير ---
+        let scrollTarget = null;
+        if (!isExpanding) {
+            const filterBar = parentSection.querySelector('.subcategory-filters');
+            if (filterBar) {
+                // احسب المسافة من أعلى الصفحة مع خصم ارتفاع الهيدر الثابت
+                scrollTarget = filterBar.getBoundingClientRect().top + window.scrollY - 130;
+            }
+        }
+
+        // تحديث الحالة وإعادة بناء القسم
+        sectionsExpandedState[mainCategory] = isExpanding;
         renderCategorySection(mainCategory, currentSubFilter);
-        
-        // إصلاح السحب: السحب يجب أن يكون للـ Anchor الخاص بالقسم (breakfast-anchor)
-        if (!sectionsExpandedState[mainCategory]) {
+
+        // --- تنفيذ السحب بعد إعادة البناء (يتم السحب للموقع المحفوظ مسبقاً) ---
+        if (scrollTarget !== null) {
             setTimeout(() => {
-                const anchor = document.getElementById(`${mainCategory}-anchor`);
-                if (anchor) {
-                    anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    parentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }, 100);
+                window.scrollTo({
+                    top: scrollTarget,
+                    behavior: 'smooth'
+                });
+            }, 50); // تأخير بسيط جداً لضمان تحديث الـ DOM
         }
     };
 
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
 }
+function smoothScrollTo(elementId) {
+    const targetSection = document.getElementById(elementId);
+    if (targetSection) {
+        // نضع هامشاً علوياً فورياً للحاوية لضمان عدم اختفاء العنوان
+        // الـ 120 تعني أن المتصفح سيترك مسافة 120 بكسل من الأعلى قبل بدء الحاوية
+        targetSection.style.scrollMarginTop = "120px"; 
 
-function handleLuxuryNav(anchorId) {
-    const targetElement = document.getElementById(anchorId);
-    
-    if (targetElement) {
-        // 1. التنقل السلس البرمجي
-        targetElement.scrollIntoView({
+        targetSection.scrollIntoView({
             behavior: 'smooth',
-            block: 'start' // يبدأ القسم من أعلى الشاشة
+            block: 'start'
         });
-        
-        // 2. تحديث الرابط في المتصفح يدوياً (اختياري)
-        // هذا يمنع المتصفح من محاولة القفز تلقائياً إذا كان هناك رابط href
-        history.pushState(null, null, '#' + anchorId);
     }
 }
 
-// دالة الـ smoothScrollTo المساعدة (إذا لم تكن معرفة لديك بالفعل)
-function smoothScrollTo(anchorId) {
-    handleLuxuryNav(anchorId);
+// دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
+function handleLuxuryNav(anchorId) {
+    smoothScrollTo(anchorId);
 }
+
 // دالة السلة الأصلية الخاصة بك
 function addToCart(productId, mainCategory) {
     const product = storeProductsDatabase[mainCategory].find(p => p.id === productId);
@@ -1572,36 +1594,24 @@ function addToCart(productId, mainCategory) {
     }
 }
 
+// تهيئة وعرض المنيو بالكامل فور فتح الصفحة لأول مرة
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. تحميل السلة
-    loadCartFromLocalStorage();
-    
-    // 2. بناء الأقسام (هذا يغنيك عن كتابة كل قسم على حدة)
-    const categories = ['specialty', 'hot', 'cold', 'desserts', 'breakfast'];
-    categories.forEach(cat => renderCategorySection(cat, 'all'));
-
-    // 3. كود السلايدر (أضفته هنا ليكون كل شيء في مكان واحد)
-    const images = [
-        "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop", 
-        "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop", 
-        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1287&auto=format&fit=crop"
-    ];
-    let currentImgIndex = 0;
-    const imgElement = document.getElementById('main-dynamic-slide');
-
-    if (imgElement) {
-        setInterval(() => {
-            imgElement.style.opacity = 0;
-            setTimeout(() => {
-                currentImgIndex = (currentImgIndex + 1) % images.length;
-                imgElement.src = images[currentImgIndex];
-                imgElement.style.opacity = 1;
-            }, 1200);
-        }, 5000);
-    }
+    renderCategorySection('specialty', 'all');
+    renderCategorySection('hot', 'all');
+    renderCategorySection('cold', 'all');
+    renderCategorySection('desserts', 'all');
+    renderCategorySection('breakfast', 'all');
 });
 
-  
+      // المتغيرات الأساسية
+let visibleCount = 4;
+        // فلترة وعرض المنتجات حسب القسم المختار
+        function filterBySection(categoryName) {
+            const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
+            displayStoreItems(filtered);
+            document.getElementById('showcase-title').innerText = `قسم الـ ${categoryName} الفاخر`;
+        }
+
    function addNewProductToCart(productId, extras = "لا يوجد") {
     // 1. استخراج المنتج الأصلي
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
@@ -1726,7 +1736,18 @@ function refreshCartInterface() {
     }
 }
 
-       // تأكد أن هذا المتغير معرف في بداية الملف
+        function toggleCartMenu(openStatus) {
+            const cartMenu = document.getElementById('sidebar-cart-menu');
+            const overlay = document.getElementById('cart-screen-overlay');
+            if(openStatus) {
+                cartMenu.classList.add('open');
+                overlay.classList.add('active');
+            } else {
+                cartMenu.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+        }
+// تأكد أن هذا المتغير معرف في بداية الملف
 var userCartList = userCartList || []; 
 
 function sendCartToWhatsApp() {
@@ -1820,6 +1841,33 @@ window.location.href = whatsappURL;
     });
 }
 
+  // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
+        document.addEventListener("DOMContentLoaded", function () {
+            displayStoreItems(storeProductsDatabase);
+            loadCartFromLocalStorage();
+
+            // سلايدر خلفيات حية ومتحركة تلقائياً
+            const images = [
+                "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop", 
+                "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop", 
+                "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1287&auto=format&fit=crop"
+            ];
+            let currentImgIndex = 0;
+            const imgElement = document.getElementById('main-dynamic-slide');
+
+            if (imgElement) {
+                setInterval(() => {
+                    imgElement.style.opacity = 0;
+                    setTimeout(() => {
+                        currentImgIndex = (currentImgIndex + 1) % images.length;
+                        imgElement.src = images[currentImgIndex];
+                        imgElement.style.opacity = 1;
+                    }, 1200);
+                }, 5000);
+            }
+        });
+
+
         function toggleCartMenu(openStatus, event) {
     if (event) event.stopPropagation(); // منع انتقال الضغطة للخلفية
     const cartMenu = document.getElementById('sidebar-cart-menu');
@@ -1835,21 +1883,27 @@ window.location.href = whatsappURL;
 }
 
 
-let scrollTimeout;
-const header = document.querySelector('.custom-premium-header');
 
-window.addEventListener('scroll', () => {
-    if (!header) return;
-    
-    // إضافة كلاس عند البدء
-    header.classList.add('is-scrolling');
 
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        // إزالة الكلاس عند التوقف
-        header.classList.remove('is-scrolling');
-    }, 150);
-}, { passive: true });
+// 1. مراقب حركة السكرول (Scroll Performer)
+    let scrollTimeout;
+    const header = document.querySelector('.custom-premium-header');
+
+    window.addEventListener('scroll', () => {
+        // عند بدء التمرير، نخفف الضغط عن المعالج فوراً
+        if (header) {
+            header.style.backdropFilter = 'none'; // تعطيل الضبابية أثناء الحركة
+            header.style.backgroundColor = 'rgba(236, 239, 237, 0.95)'; // لون ثابت وخفيف
+        }
+
+        // إرجاع التأثير عند توقف التمرير
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            header.style.backdropFilter = 'blur(10px)'; // إعادة الضبابية
+            header.style.backgroundColor = 'rgba(59, 86, 115, 0.081)';
+        }, 150);
+    }, { passive: true }); // {passive: true} سر من أسرار سلاسة
+
 
 
 
@@ -1920,6 +1974,11 @@ function openExtrasModal(productId, category) {
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
+// دالة الإغلاق الموحدة (تحافظ على حذف العنصر لضمان تنظيف الذاكرة)
+function closeModal() {
+    const modal = document.getElementById('extra-modal');
+    if (modal) modal.remove();
+}
 
 
 // 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
@@ -1956,7 +2015,7 @@ function triggerCartAnimation() {
     if (!cartIcon) return;
 
     let flyElement = document.createElement('div');
-    flyElement.innerHTML = ''; 
+    flyElement.innerHTML = '☕'; 
     flyElement.style.position = 'fixed';
     flyElement.style.fontSize = '30px';
     flyElement.style.zIndex = '999999';
