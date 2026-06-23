@@ -1516,9 +1516,10 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
     
+    // الغلاف الرئيسي للقسم بالكامل
     const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
 
-    // 1. تنظيف أي أزرار قديمة تماماً لمنع التكرار
+    // تنظيف الأزرار القديمة
     const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
     if (oldBtn) oldBtn.remove();
 
@@ -1528,7 +1529,6 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     btnWrapper.className = 'dynamic-view-container';
     btnWrapper.style.textAlign = 'center';
     btnWrapper.style.marginTop = '20px';
-    btnWrapper.style.marginBottom = '10px';
 
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
@@ -1536,58 +1536,50 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        // حالة عرض المزيد الأصلية والممتازة
+        // حالة: عرض المزيد
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
-        // حالة عرض أقل المطورة والمضمونة للهواتف والحواسب معاً
+        // حالة: عرض أقل (تم تطبيق خدعة تجميد الارتفاع)
         btn.innerText = 'عرض أقل 🔼';
         btn.style.backgroundColor = '#64748b'; 
         btn.style.color = '#ffffff';
         
         btn.onclick = function() {
-            // تحديد عنصر الفئات الفرعية المستهدف بدقة
+            // 1️⃣ تجميد ارتفاع القسم فوراً لكي لا تنكمش الصفحة عندما نكمش المنتجات
+            const currentWrapperHeight = categoryWrapper.offsetHeight;
+            categoryWrapper.style.minHeight = currentWrapperHeight + 'px';
+
+            // 2️⃣ الآن نكمش المنتجات. بما أن الارتفاع مجمد، المتصفح لن يقفز ولن يلاحظ الانكماش!
+            sectionsExpandedState[mainCategory] = false;
+            renderCategorySection(mainCategory, currentSubFilter);
+
+            // 3️⃣ تحديد الفئة المستهدفة وحساب مكانها الدقيق
             const targetElement = categoryWrapper.querySelector('.subcategory-filters') || 
                                   categoryWrapper.querySelector('.title-decorated') || 
                                   categoryWrapper;
-            
+
             if (targetElement) {
-                // 1️⃣ احسب الإحداثي الثابت والمطلق للفئات الفرعية من أعلى الصفحة وهي ممتدة بالكامل
-                const offset = 95; // مسافة أمان ممتازة أسفل الهيدر الثابت لموقعك
+                const offset = 95; // مسافة أمان الهيدر
                 const bodyRect = document.body.getBoundingClientRect().top;
                 const elementRect = targetElement.getBoundingClientRect().top;
                 const absoluteTargetTop = elementRect - bodyRect - offset;
 
-                // 2️⃣ نأمر الهاتف بالصعود أولاً بسلاسة فائقة إلى الفئات الفرعية والمنيو مفتوح تماماً
+                // 4️⃣ أمر الهاتف بالصعود بسلاسة للفئات الفرعية
                 window.scrollTo({
                     top: absoluteTargetTop,
                     behavior: 'smooth'
                 });
 
-                // 3️⃣ الحل السحري: دالة مراقبة توقف حركة المتصفح (Scroll End)
-                const handleScrollFinished = () => {
-                    // إلغاء المراقب فوراً لمنع التكرار
-                    window.removeEventListener('scrollend', handleScrollFinished);
-                    
-                    // الآن وقد استقرت الشاشة تماماً فوق الفئات الفرعية، نكمش المنتجات بالأسفل في صمت
-                    sectionsExpandedState[mainCategory] = false;
-                    renderCategorySection(mainCategory, currentSubFilter);
-                };
-
-                // تفعيل الاستماع للمتصفح حتى يقف تماماً عند الهدف
-                window.addEventListener('scrollend', handleScrollFinished);
-
-                // 4️⃣ خط أمان إضافي (مهم جداً للهواتف إذا كان المستخدم قريباً أصلاً من الفئات ولم يتحرك السكرول مسافة كبيرة)
+                // 5️⃣ بعد أن ينتهي السكرول تماماً ويستقر المستخدم بالأعلى (بعد 800 ملي ثانية)
+                // نقوم بفك التجميد. ستختفي المساحة الفارغة من الأسفل، وتسحب الفئات التحتية للأعلى
+                // ولأننا نقف في أعلى القسم، لن تتأثر شاشتنا إطلاقاً!
                 setTimeout(() => {
-                    window.removeEventListener('scrollend', handleScrollFinished);
-                    if (sectionsExpandedState[mainCategory] === true) {
-                        sectionsExpandedState[mainCategory] = false;
-                        renderCategorySection(mainCategory, currentSubFilter);
-                    }
-                }, 600); // 600 ملي ثانية كافية لانتهاء الحركة تماماً في أي هاتف
+                    categoryWrapper.style.minHeight = '';
+                }, 800);
             }
         };
     }
