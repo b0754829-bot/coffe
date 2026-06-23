@@ -79,8 +79,8 @@ html, body {
     background-color: var(--titanium-natural);
     font-family: 'Cairo', sans-serif;
     overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; /* سلاسة الآيفون */
-    scroll-behavior: auto !important;
+ scroll-behavior: smooth !important; /* بدلاً من auto */
+    -webkit-overflow-scrolling: touch;
 }
 
 /* تنظيف الـ * من العمليات الثقيلة */
@@ -248,14 +248,17 @@ header {
             position: fixed;
             top: 12px; left: 5% !important;
             width: 90% !important; min-width: 90vw !important; height: 60px; /* نحيف جداً وذكي */
-            z-index: 9999; display: flex; align-items: center; justify-content: space-between;
+            z-index:  100;display: flex; align-items: center; justify-content: space-between;
+              isolation: isolate;
             padding: 0 20px; box-sizing: border-box;
-            
+             transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
             /* تصميم الجزيرة الطافية المعزولة زجاجياً بفخامة */
             background: rgba(59, 86, 115, 0.081) !important; /* تيتانيوم أسود فخم مائل للشفافية */
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        
+           backdrop-filter: blur(10px); /* قلل الدرجة من 20 إلى 10 */
+    -webkit-backdrop-filter: blur(10px);
+    will-change: transform, backdrop-filter; /* تنبيه المعالج بأن هذا العنصر سيتحرك */
+   border: 1px solid rgba(255, 255, 255, 0.08) !important;
             border-radius: 50px !important; /* حواف دائرية كاملة كالجزيرة الذكية */
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             transition: var(--transition-smooth);
@@ -789,7 +792,7 @@ header {
     }
 }
 .product-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.6); /* لون زجاجي ثابت */
     border-radius: 16px;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
     border: 1px solid #f1f5f9;
@@ -1181,6 +1184,11 @@ button[onclick*="saveAndAddToCart"] {
     scroll-margin-top: 100px; 
 }
 
+
+button, .cart-trigger {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    /* استخدم زمن أقل بكثير (0.2s) لتبدو سريعة والاستجابة فورية */
+}
 
 </style>
 
