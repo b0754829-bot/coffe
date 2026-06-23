@@ -886,6 +886,15 @@ header {
     }
     .exclusive-cat-item:hover span { color: #0f766e; }
 
+
+
+/* أضف هذا الجزء في الأعلى لضمان سرعة الانتقالات */
+.node-specialty, .node-hot, .node-cold, .node-desserts, .node-breakfast {
+    will-change: transform, box-shadow, border-color;
+    transition: all 0.3s ease; /* تأكد أن الترانزيشن ليس طويلاً جداً */
+}
+
+
     /* تنسيق أزرار عرض المزيد وعرض أقل الموحدة */
     .dynamic-view-container {
         text-align: center;
@@ -1205,16 +1214,14 @@ button, .cart-trigger {
     /* استخدم زمن أقل بكثير (0.2s) لتبدو سريعة والاستجابة فورية */
 }
 
-.title-decorated {
-    display: block;
-    margin-top: 10px; /* اجعله بسيطاً */
-    padding-bottom: 10px;
+/* حل جذري لمنع أي قفزات ناتجة عن الـ Transitions في الـ CSS */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
-/* هذا يضمن أن أي قسم يحتوي على ID سينتقل بدقة أسفل الهيدر */
+
 [id$="-anchor"] {
-    scroll-margin-top: 90px; /* المسافة التي ستتركها أسفل الهيدر */
-    padding-top: 20px;       /* مساحة إضافية تجميلية */
-    display: block;
+    scroll-margin-top: 100px !important;
+    display: block !important;
 }
 
 </style>
@@ -1573,20 +1580,17 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
 }
-
 function handleLuxuryNav(anchorId) {
-    const targetElement = document.getElementById(anchorId);
-    
-    if (targetElement) {
-        // 1. التنقل السلس البرمجي
-        targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start' // يبدأ القسم من أعلى الشاشة
+    const element = document.getElementById(anchorId);
+    if (element) {
+        const headerOffset = 110; // اضبط هذا الرقم ليناسب ارتفاع الهيدر لديك
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
         });
-        
-        // 2. تحديث الرابط في المتصفح يدوياً (اختياري)
-        // هذا يمنع المتصفح من محاولة القفز تلقائياً إذا كان هناك رابط href
-        history.pushState(null, null, '#' + anchorId);
     }
 }
 
