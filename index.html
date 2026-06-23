@@ -932,10 +932,7 @@ header {
     transition: transform 0.2s;
 }
 .circle-add-btn:active { transform: scale(0.9); }
-/* إجبار الصفحة على ترك مسافة عند الوصول لأي قسم */
-.category-wrapper {
-    scroll-margin-top: 100px;
-}
+
 /* 1. قسم القهوة المختصة - ذهبي كهرماني ملكي دافئ */
 .node-specialty:hover { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 25px 45px rgba(251, 191, 36, 0.22); }
 .node-specialty:hover .neon-halo-wrapper { background: linear-gradient(135deg, #fbbf24, #b45309); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
@@ -1187,19 +1184,37 @@ button[onclick*="saveAndAddToCart"] {
 .logo-wrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    align-items: center; /* لضمان التوسيط الرأسي أيضاً */
+    width: 100%;        /* التأكد من أنه يأخذ كامل العرض المتاح */
+    margin: 0 auto 20px auto; /* تحسين الهوامش */
+    padding: 10px 0;    /* إضافة مساحة تنفس بسيطة */
+}
+
+/* لضمان أن الشعار نفسه لا يتجاوز عرض الشاشة */
+.logo-wrapper img {
+    max-width: 100%; 
+    height: auto;
+    object-fit: contain;
 }
 
 
-/* أضف هذا للكلاس الخاص بحاويات الأقسام الرئيسية */
-.category-wrapper { /* أو أي كلاس يحيط بـ container- */
-    scroll-margin-top: 100px; 
-}
 
 
 button, .cart-trigger {
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     /* استخدم زمن أقل بكثير (0.2s) لتبدو سريعة والاستجابة فورية */
+}
+
+.title-decorated {
+    display: block;
+    margin-top: 10px; /* اجعله بسيطاً */
+    padding-bottom: 10px;
+}
+/* هذا يضمن أن أي قسم يحتوي على ID سينتقل بدقة أسفل الهيدر */
+[id$="-anchor"] {
+    scroll-margin-top: 90px; /* المسافة التي ستتركها أسفل الهيدر */
+    padding-top: 20px;       /* مساحة إضافية تجميلية */
+    display: block;
 }
 
 </style>
