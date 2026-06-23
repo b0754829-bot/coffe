@@ -36,6 +36,17 @@
     --glass-opacity: 0.4;
             
         }
+    
+    .custom-premium-header {
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.is-scrolling {
+    backdrop-filter: none !important;
+    background-color: rgba(236, 239, 237, 0.95) !important;
+}
+
+
         .product-card {
     background: rgba(var(--primary-emerald), var(--glass-opacity));
 }
@@ -1170,9 +1181,8 @@ button[onclick*="saveAndAddToCart"] {
     scroll-margin-top: 100px; 
 }
 
-/* هذا هو السر: scroll-margin يخبر المتصفح أين يتوقف بالضبط عند السحب */
-#breakfast-anchor, #specialty-anchor, #desserts-anchor, #hot-drinks-anchor, #cold-drinks-anchor {
-    scroll-margin-top: 80px; /* اضبط هذه القيمة حسب ارتفاع الهيدر في هاتفك */
+[id$="-anchor"] {
+    scroll-margin-top: 100px; /* اضبط القيمة حسب ارتفاع الهيدر عندك */
 }
 
 </style>
@@ -1222,53 +1232,41 @@ button[onclick*="saveAndAddToCart"] {
 
 
 <div class="luxury-categories-bar">
-<div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
-        <a href="#hot-drinks-anchor" class="exclusive-cat-item">
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
         </div>
         <span>مشروبات ساخنة</span>
-        </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('cold-drinks-anchor')">
-          <a href="#cold-drinks-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
         </div>
         <span>مشروبات باردة</span>
-        </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('desserts-anchor')">
-          <a href="#desserts-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
         </div>
-        <span>الكيك والحلوى </span>
-        </a>
+        <span>الكيك والحلوى</span>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('breakfast-anchor')">
-          <a href="#breakfast-anchor" class="exclusive-cat-item">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
         </div>
         <span>الكراسون بانواعه</span>
-        </a>
     </div>
-   <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-anchor')">
-    <a href="#specialty-anchor" class="exclusive-cat-item">
+
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-anchor')">
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
         </div>
-        <span> جديدنا</span>
-    </a>
+        <span>جديدنا</span>
+    </div>
 </div>
-  
-
-</div>
-
   
 <!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
@@ -1436,8 +1434,6 @@ const sectionsExpandedState = {
 };
 
 
-
-
 // 2. التحميل فوراً عند بدء تشغيل الملف
 loadCartFromLocalStorage();
 
@@ -1520,35 +1516,50 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const btn = document.createElement('button');
     btn.className = 'dynamic-view-btn';
     btn.innerText = sectionsExpandedState[mainCategory] ? 'عرض أقل ↑' : 'عرض المزيد ↓';
-// أضف هذا السطر فقط إذا وجدت أن السحب لا يزال غير دقيق
-window.scrollTo(window.scrollX, window.scrollY);
+
     btn.onclick = (e) => {
         e.preventDefault();
         sectionsExpandedState[mainCategory] = !sectionsExpandedState[mainCategory];
         
         renderCategorySection(mainCategory, currentSubFilter);
         
-      // استبدل الجزء الخاص بالسحب داخل دالة الزر بهذا:
-if (!sectionsExpandedState[mainCategory]) {
-    setTimeout(() => {
-        const anchor = document.getElementById(mainCategory + "-anchor");
-        if (anchor) {
-            // استخدام خيار block: 'start' مع padding إضافي في CSS يحل 99% من مشاكل الهاتف
-            anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // إصلاح السحب: السحب يجب أن يكون للـ Anchor الخاص بالقسم (breakfast-anchor)
+        if (!sectionsExpandedState[mainCategory]) {
+            setTimeout(() => {
+                const anchor = document.getElementById(`${mainCategory}-anchor`);
+                if (anchor) {
+                    anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    parentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
         }
-    }, 300); // زدنا الوقت لـ 300ms ليتمكن الهاتف من حساب ارتفاع الصفحة بعد توسع العناصر
-}
     };
 
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
 }
 
-// دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
 function handleLuxuryNav(anchorId) {
-    smoothScrollTo(anchorId);
+    const targetElement = document.getElementById(anchorId);
+    
+    if (targetElement) {
+        // 1. التنقل السلس البرمجي
+        targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start' // يبدأ القسم من أعلى الشاشة
+        });
+        
+        // 2. تحديث الرابط في المتصفح يدوياً (اختياري)
+        // هذا يمنع المتصفح من محاولة القفز تلقائياً إذا كان هناك رابط href
+        history.pushState(null, null, '#' + anchorId);
+    }
 }
 
+// دالة الـ smoothScrollTo المساعدة (إذا لم تكن معرفة لديك بالفعل)
+function smoothScrollTo(anchorId) {
+    handleLuxuryNav(anchorId);
+}
 // دالة السلة الأصلية الخاصة بك
 function addToCart(productId, mainCategory) {
     const product = storeProductsDatabase[mainCategory].find(p => p.id === productId);
@@ -1715,18 +1726,7 @@ function refreshCartInterface() {
     }
 }
 
-        function toggleCartMenu(openStatus) {
-            const cartMenu = document.getElementById('sidebar-cart-menu');
-            const overlay = document.getElementById('cart-screen-overlay');
-            if(openStatus) {
-                cartMenu.classList.add('open');
-                overlay.classList.add('active');
-            } else {
-                cartMenu.classList.remove('open');
-                overlay.classList.remove('active');
-            }
-        }
-// تأكد أن هذا المتغير معرف في بداية الملف
+       // تأكد أن هذا المتغير معرف في بداية الملف
 var userCartList = userCartList || []; 
 
 function sendCartToWhatsApp() {
@@ -1835,27 +1835,21 @@ window.location.href = whatsappURL;
 }
 
 
+let scrollTimeout;
+const header = document.querySelector('.custom-premium-header');
 
+window.addEventListener('scroll', () => {
+    if (!header) return;
+    
+    // إضافة كلاس عند البدء
+    header.classList.add('is-scrolling');
 
-// 1. مراقب حركة السكرول (Scroll Performer)
-    let scrollTimeout;
-    const header = document.querySelector('.custom-premium-header');
-
-    window.addEventListener('scroll', () => {
-        // عند بدء التمرير، نخفف الضغط عن المعالج فوراً
-        if (header) {
-            header.style.backdropFilter = 'none'; // تعطيل الضبابية أثناء الحركة
-            header.style.backgroundColor = 'rgba(236, 239, 237, 0.95)'; // لون ثابت وخفيف
-        }
-
-        // إرجاع التأثير عند توقف التمرير
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            header.style.backdropFilter = 'blur(10px)'; // إعادة الضبابية
-            header.style.backgroundColor = 'rgba(59, 86, 115, 0.081)';
-        }, 150);
-    }, { passive: true }); // {passive: true} سر من أسرار سلاسة
-
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        // إزالة الكلاس عند التوقف
+        header.classList.remove('is-scrolling');
+    }, 150);
+}, { passive: true });
 
 
 
@@ -1962,7 +1956,7 @@ function triggerCartAnimation() {
     if (!cartIcon) return;
 
     let flyElement = document.createElement('div');
-    flyElement.innerHTML = '☕'; 
+    flyElement.innerHTML = ''; 
     flyElement.style.position = 'fixed';
     flyElement.style.fontSize = '30px';
     flyElement.style.zIndex = '999999';
