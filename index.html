@@ -1516,76 +1516,75 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
     
-    // الغلاف الرئيسي للقسم بالكامل
     const categoryWrapper = container.closest('.category-wrapper') || container.closest('section') || container.parentElement;
 
-    // تنظيف الأزرار القديمة
-    const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
-    if (oldBtn) oldBtn.remove();
+    if (totalItems <= MAX_VISIBLE_ITEMS) {
+        const oldBtn = categoryWrapper.querySelector('.dynamic-view-container');
+        if (oldBtn) oldBtn.remove();
+        return;
+    }
 
-    if (totalItems <= MAX_VISIBLE_ITEMS) return;
+    // 🌟 السر الأول: البحث عن الزر الحالي وإعادة استخدامه بدلاً من حذفه وإعادة بنائه لضمان ثبات الهاتف
+    let btnWrapper = categoryWrapper.querySelector('.dynamic-view-container');
+    let btn;
 
-    const btnWrapper = document.createElement('div');
-    btnWrapper.className = 'dynamic-view-container';
-    btnWrapper.style.textAlign = 'center';
-    btnWrapper.style.marginTop = '20px';
+    if (!btnWrapper) {
+        btnWrapper = document.createElement('div');
+        btnWrapper.className = 'dynamic-view-container';
+        btnWrapper.style.textAlign = 'center';
+        btnWrapper.style.marginTop = '20px';
+        
+        btn = document.createElement('button');
+        btn.className = 'dynamic-view-btn';
+        btnWrapper.appendChild(btn);
+        categoryWrapper.appendChild(btnWrapper);
+    } else {
+        btn = btnWrapper.querySelector('.dynamic-view-btn');
+    }
 
-    const btn = document.createElement('button');
-    btn.className = 'dynamic-view-btn';
-    
     const isExpanded = sectionsExpandedState[mainCategory];
 
     if (!isExpanded) {
-        // حالة: عرض المزيد
+        // --- حالة عرض المزيد ---
         btn.innerText = 'عرض المزيد من المنتجات 🔽';
+        btn.style.backgroundColor = ''; 
+        btn.style.color = '';
+        
         btn.onclick = function() {
             sectionsExpandedState[mainCategory] = true;
             renderCategorySection(mainCategory, currentSubFilter);
         };
     } else {
-        // حالة: عرض أقل (تم تطبيق خدعة تجميد الارتفاع)
+        // --- حالة عرض أقل (سلسة وفائقة وبدون أي قفزات عشوائية) ---
         btn.innerText = 'عرض أقل 🔼';
         btn.style.backgroundColor = '#64748b'; 
         btn.style.color = '#ffffff';
         
         btn.onclick = function() {
-            // 1️⃣ تجميد ارتفاع القسم فوراً لكي لا تنكمش الصفحة عندما نكمش المنتجات
-            const currentWrapperHeight = categoryWrapper.offsetHeight;
-            categoryWrapper.style.minHeight = currentWrapperHeight + 'px';
-
-            // 2️⃣ الآن نكمش المنتجات. بما أن الارتفاع مجمد، المتصفح لن يقفز ولن يلاحظ الانكماش!
-            sectionsExpandedState[mainCategory] = false;
-            renderCategorySection(mainCategory, currentSubFilter);
-
-            // 3️⃣ تحديد الفئة المستهدفة وحساب مكانها الدقيق
+            // تحديد أزرار الفلاتر أو عنوان القسم للعودة إليه
             const targetElement = categoryWrapper.querySelector('.subcategory-filters') || 
                                   categoryWrapper.querySelector('.title-decorated') || 
                                   categoryWrapper;
 
             if (targetElement) {
-                const offset = 95; // مسافة أمان الهيدر
-                const bodyRect = document.body.getBoundingClientRect().top;
-                const elementRect = targetElement.getBoundingClientRect().top;
-                const absoluteTargetTop = elementRect - bodyRect - offset;
-
-                // 4️⃣ أمر الهاتف بالصعود بسلاسة للفئات الفرعية
-                window.scrollTo({
-                    top: absoluteTargetTop,
-                    behavior: 'smooth'
+                // 🌟 السر الثاني: وضع هامش أمان علوي للهيدر الثابت الخاص بك بشكل مباشر ونظيف
+                targetElement.style.scrollMarginTop = "95px";
+                
+                // التمرير الانسيابي الأصلي المدعوم من كرت شاشة الهاتف مباشرة
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
 
-                // 5️⃣ بعد أن ينتهي السكرول تماماً ويستقر المستخدم بالأعلى (بعد 800 ملي ثانية)
-                // نقوم بفك التجميد. ستختفي المساحة الفارغة من الأسفل، وتسحب الفئات التحتية للأعلى
-                // ولأننا نقف في أعلى القسم، لن تتأثر شاشتنا إطلاقاً!
+                // 🌟 السر الثالث: ننتظر المتصفح 400 ملي ثانية فقط لينهي صعوده الانسيابي لعنوان القسم،
+                // وعندما تصبح المنتجات بالأسفل خارج نطاق الشاشة تماماً، نكمشها دون أن يشعر المتصفح بأي قفزة
                 setTimeout(() => {
-                    categoryWrapper.style.minHeight = '';
-                }, 800);
+                    sectionsExpandedState[mainCategory] = false;
+                    renderCategorySection(mainCategory, currentSubFilter);
+                }, 400);
             }
         };
     }
-
-    btnWrapper.appendChild(btn);
-    categoryWrapper.appendChild(btnWrapper);
 }
 
 function smoothScrollTo(elementId) {
