@@ -1991,53 +1991,56 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
-// 🏆 المحرك الاحترافي الموحد - فائق السرعة والسلاسة لجميع الشاشات والهواتف
+// 🏆 المحرك الاحترافي الموحد - فائق السلاسة والسرعة ومتوافق مع الآيفون والشاشات
 function smoothScrollEngine(anchorId) {
-    // 1. منع أي سلوك افتراضي قد يسبب تعارض حركي
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
 
-    // 2. تنظيف المعرّف
     var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
     if (!targetId) return;
 
-    // 3. إغلاق القائمة الجانبية فوراً لإفساح المجال للشاشة وتقليل استهلاك الذاكرة
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false);
-    }
-
-    // 4. جلب العنصر المطلوب
     var target = document.getElementById(targetId);
     
-    // 💡 معالجة ذكية مخصصة لقسم الكيك والحلويات في حال تضارب الحروف (S)
-    if (!target) {
-        if (targetId === 'desserts-anchor') target = document.getElementById('dessert-anchor');
-        else if (targetId === 'dessert-anchor') target = document.getElementById('desserts-anchor');
-    }
-
-    // 5. تنفيذ النزول الفوري والسلس
     if (target) {
-        // تحديد مسافة الأمان لكي لا يختفي العنوان تحت الهيدر الثابت (130 بكسل)
-        target.style.scrollMarginTop = "130px"; 
-        
-        // استخدام الطريقة البرمجية الأكثر استقراراً وتوافقاً مع الهواتف والشاشات
-        target.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-        });
+        // 🛠️ معالجة ذكية مخصصة لقسم التواصل والفوتر لكي يظهر بالكامل في شاشة الهاتف
+        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
+            target.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'end' // يضمن صعود الفوتر بالكامل ليرى الزبون أرقام التواصل والموقع
+            });
+        } else {
+            // مسافة أمان لجميع الأقسام الأخرى (بما فيها الكيك) حتى لا يغطي عليها الهيدر الطافي
+            target.style.scrollMarginTop = "130px";
+            
+            target.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+    } else {
+        console.warn("القسم غير موجود في الصفحة:", targetId);
     }
 }
 
-// 📱 دالة أزرار القائمة الجانبية (تستدعي المحرك مباشرة بدون تأخير)
+// 📱 دالة أزرار القائمة الجانبية (تم تحسين وقت الانتظار ليكون أسرع استجابة)
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
-    smoothScrollEngine(anchorId);
+    
+    // إغلاق المنيو الجانبي فوراً لتوفير مساحة المعالجة للهاتف
+    if (typeof toggleNavMenu === 'function') {
+        toggleNavMenu(false);
+    }
+    
+    // انتقال سريع وتلقائي ومباشر
+    setTimeout(function() {
+        smoothScrollEngine(anchorId);
+    }, 150);
 }
 
-// 💎 دالة شريط الفئات العلوي الكريستالي
+// 💎 دالة شريط الفئات العلوي الكريستالي (تنقل فوري بدون أي تأخير)
 function handleLuxuryNav(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
