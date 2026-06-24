@@ -1820,89 +1820,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
       // المتغيرات الأساسية
-let visibleCount = // 🏆 المحرك الكريستالي الموحد - مصلح ومضمون 100% للمشروبات الباردة والكيك على الهاتف والكمبيوتر
-function smoothScrollEngine(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
-
-    var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
-    if (!targetId) return;
-
-    // 1. إغلاق القائمة الجانبية فوراً لتفريغ معالج الهاتف والآيفون
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false);
-    }
-
-    // 2. 🛠️ استخراج اسم الفئة الذكي والمطابقة الدقيقة مع الـ Database الخاصة بك
-    var isCategory = targetId.indexOf('-anchor') !== -1;
-    var targetCategory = '';
-
-    if (isCategory) {
-        var cleanKey = targetId.replace('-anchor', '').toLowerCase(); 
-        
-        // المطابقة الصارمة مع مفاتيح قاعدة بياناتك (cold, hot, desserts, specialty, breakfast)
-        if (cleanKey.indexOf('cold') !== -1 || cleanKey.indexOf('بارد') !== -1 || cleanKey.indexOf('drink') !== -1) {
-            targetCategory = 'cold'; // المشروبات الباردة
-        } else if (cleanKey.indexOf('hot') !== -1 || cleanKey.indexOf('حار') !== -1) {
-            targetCategory = 'hot';  // المشروبات الساخنة
-        } else if (cleanKey.indexOf('dessert') !== -1 || cleanKey.indexOf('cake') !== -1 || cleanKey.indexOf('حلو') !== -1 || cleanKey.indexOf('كعك') !== -1) {
-            targetCategory = 'desserts'; // الكعك والحلويات
-        } else if (cleanKey.indexOf('breakfast') !== -1 || cleanKey.indexOf('فطور') !== -1) {
-            targetCategory = 'breakfast'; // الفطور
-        } else if (cleanKey.indexOf('specialty') !== -1 || cleanKey.indexOf('مختص') !== -1) {
-            targetCategory = 'specialty'; // القهوة المختصة
-        }
-
-        // تشغيل نظام العرض الحديث المعتمد في موقعك لتحديث المنتجات فوراً
-        if (targetCategory && typeof renderCategorySection === 'function') {
-            try {
-                renderCategorySection(targetCategory, 'all'); 
-            } catch(e) {
-                console.log("إشعار: القسم مبني وجاهز بالفعل.");
-            }
-        }
-    }
-
-    // 3. ⏳ الانتقال الانسيابي الرياضي المحسّن للهواتف (بفاصل 150 ملي ثانية لاستقرار المنتجات)
-    setTimeout(function() {
-        // نبحث عن الحاوية أو الزر بالـ ID الأصلي
-        var target = document.getElementById(targetId);
-        
-        // إذا لم يجد معرفاً دقيقاً بالـ -anchor، يتوجه تلقائياً لحاوية القسم المبنية في المنيو
-        if (!target && isCategory && targetCategory) {
-            target = document.getElementById('container-' + targetCategory);
-        }
-
-        if (target) {
-            // مسافة أمان علوية ثابتة وممتازة لكي لا يختفي العنوان تحت الهيدر العلوي
-            target.style.scrollMarginTop = "140px";
-            
-            // الحساب الدقيق والمضمون 100% لإحداثيات الموبايل متخطياً قيود الـ CSS
-            var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - 140;
-            
-            try {
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            } catch (err) {
-                // حل بديل فوري للمتصفحات القديمة جداً
-                window.scrollTo(0, targetPosition);
-            }
-        } else {
-            // معالجة النزول لقسم التواصل والفوتر بذكاء في نهاية الصفحة
-            var footer = document.querySelector('footer') || document.getElementById('phone-footer');
-            if (footer && (targetId.indexOf('footer') !== -1 || targetId.indexOf('contact') !== -1)) {
-                footer.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    }, 150); 
-}
-
-// 📱 ربط دوال الأزرار والقائمة الجانبية الحالية بالمحرك الجديد لتعمل فوراً
-function handleNavClick(anchorId) { smoothScrollEngine(anchorId); }
-function handleLuxuryNav(anchorId) { smoothScrollEngine(anchorId); };
+let visibleCount = 4;
         // فلترة وعرض المنتجات حسب القسم المختار
         function filterBySection(categoryName) {
             const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
@@ -2068,71 +1986,52 @@ function toggleNavMenu(isOpen) {
         }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
     }
 }
-
-
-// 🏆 المحرك الذكي والديناميكي بالكامل - آمن للفئات الحالية وأي فئة تضيفها في المستقبل
 function smoothScrollEngine(anchorId) {
+    // 1. منع أي قفز تلقائي للمتصفح بأمان تام
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
 
-    var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
-    if (!targetId) return;
-
-    // 1. إغلاق القائمة الجانبية فوراً لتفريغ شاشة الهاتف ومنع التعليق
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false);
+    // 2. تنظيف المعرف والتأكد من أنه نصي
+    var targetId = "";
+    if (typeof anchorId === 'string') {
+        targetId = anchorId.replace('#', '');
+    } else {
+        return; 
     }
 
-    // 2. 🛠️ عبقرية الكود المستقبلي: قراءة الفئة ديناميكياً بدون تسميات جامدة
-    // إذا كان الزر المكبوس ينتهي بـ -anchor (مثل coffee-anchor أو desserts-anchor أو أي فئة مستقبلية)
-    if (targetId.indexOf('-anchor') !== -1) {
-        // يقص كلمة "-anchor" تلقائياً ليأخذ اسم الفئة الصافي (مثلاً: desserts)
-        var dynamicCategoryName = targetId.replace('-anchor', ''); 
-        
-        if (typeof filterBySection === 'function') {
-            try {
-                // تشغيل دالة الفلترة الخاصة بك وتمرير اسم الفئة المستخرجة ديناميكياً
-                filterBySection(dynamicCategoryName); 
-            } catch(e) {
-                console.log("خطأ في تشغيل الفلتر الديناميكي:", e);
-            }
-        }
-    }
-
-    // 3. تحديد عنصر الهدف للنزول إليه بسلاسة
+    // 3. جلب القسم بالطريقة القياسية
     var target = document.getElementById(targetId);
-    
-    // إذا لم يجد عنصراً مستقلاً (لأن موقعك يعرض المنتجات ديناميكياً في مكان واحد)، يتوجه لعنوان القسم المشترك
-    if (!target && targetId.indexOf('-anchor') !== -1) {
-        target = document.getElementById('showcase-title'); 
-    }
 
-    // 4. تنفيذ الانزلاق المنظم فائق السلاسة المتوافق مع الهواتف والآيفون
+    // 4. تنفيذ عملية النزول الفورية والسلسة المستقرة
     if (target) {
-        // مسافة أمان علوية ثابتة لكي لا يختفي العنوان تحت الهيدر العلوي للموقع
-        target.style.scrollMarginTop = "140px";
-        
-        // إذا كان الهدف هو قسم التواصل (الفوتر)، نجعل الشاشة تحاذي نهايته ليظهر بالكامل
         if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
             target.scrollIntoView({ behavior: 'smooth', block: 'end' });
         } else {
+            // تحديد مسافة الأمان لكي لا يختفي العنوان تحت الهيدر الثابت
+            target.style.scrollMarginTop = "130px"; 
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     } else {
-        console.warn("العنصر المطلوب غير موجود في الصفحة:", targetId);
+        console.warn("القسم غير موجود في الصفحة:", targetId);
     }
 }
 
-// 📱 دالة أزرار القائمة الجانبية المباشرة للهواتف
+// دالة القائمة الجانبية (المنيو) - سريعة جداً واستجابة فورية
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
-    smoothScrollEngine(anchorId);
+    if (typeof toggleNavMenu === 'function') {
+        toggleNavMenu(false); // إغلاق المنيو فوراً
+    }
+    // وقت انتظار قليل جداً لسرعة فائقة
+    setTimeout(function() {
+        smoothScrollEngine(anchorId);
+    }, 200);
 }
 
-// 💎 دالة شريط الفئات العلوي الكريستالي للأقسام الرئيسية
+// دالة شريط الفئات العلوي الكريستالي
 function handleLuxuryNav(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
@@ -2146,54 +2045,7 @@ function sendCartToWhatsApp() {
         alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ");
         return;
     }
-// 🏆 الدالة الديناميكية النهائية المستقلة لربط المنيو بالأقسام وقاعدة البيانات
-function navigateToCategoryDirect(categoryKey) {
-    if (!categoryKey) return;
 
-    // 1. إغلاق القائمة الجانبية فوراً إن كانت مفتوحة
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false);
-    } else if (typeof toggleSidebar === 'function') {
-        toggleSidebar(false);
-    }
-
-    // 2. تحديث وعرض المنتجات فوراً من قاعدة البيانات بشكل ديناميكي كامل
-    if (typeof renderCategorySection === 'function') {
-        try {
-            renderCategorySection(categoryKey, 'all');
-        } catch (e) {
-            console.warn("إشعار العرض: القسم جاهز مسبقاً أو مبني تلقائياً.");
-        }
-    }
-
-    // 3. النزول الانسيابي الذكي المحمي للهواتف والآيفون
-    setTimeout(function() {
-        // البحث عن الحاوية المخصصة للقسم في الصفحة
-        var targetContainer = document.getElementById('container-' + categoryKey) || 
-                              document.getElementById(categoryKey) || 
-                              document.getElementById('section-' + categoryKey);
-
-        if (targetContainer) {
-            // ضبط مسافة الأمان العلوية لمنع اختفاء القسم تحت الهيدر الطافي
-            targetContainer.style.scrollMarginTop = "140px";
-            
-            // حساب الإحداثيات الدقيق المتوافق مع الهواتف الذكية
-            var targetPosition = targetContainer.getBoundingClientRect().top + window.pageYOffset - 140;
-            
-            try {
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            } catch (err) {
-                // حل بديل فوري في حال الأجهزة أو المتصفحات القديمة
-                window.scrollTo(0, targetPosition);
-            }
-        } else {
-            console.error("خطأ: لم يتم العثور على حاوية HTML بالمعرف: container-" + categoryKey);
-        }
-    }, 180); // فاصل زمني لضمان استقرار استجابة معالج الهاتف
-}
     // 2. تنظيف أي مودال قديم
     const oldModal = document.getElementById('hikaya-sky-modal');
     if (oldModal) oldModal.remove();
@@ -2418,30 +2270,42 @@ function closeModal() {
 }
 
 
-// 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
+// 2. دالة الحفظ المحدثة (تغلق النافذة وتُشعر الزبون فوراً بالنجاح)
 function saveAndAddToCart() {
-    let productId = window.currentPID; 
+    let productId = window.currentPID; // قراءة معرف المنتج الحالي
     
     // جمع الإضافات
     let selected = [];
     document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
         selected.push(cb.value);
     });
-    let extrasString = selected.length > 0 ? selected.join(", ") : "لا يوجد";
+    let extrasString = selected.length > 0 ? selected.join(", ") : "لا يوجد"; //
 
-    // استدعاء دالة الإضافة (تأكد أن اسمها مطابق تماماً لما هو لديك)
-    addNewProductToCart(productId, extrasString);
+    // استدعاء دالة الإضافة الفعالة في موقعك
+    addNewProductToCart(productId, extrasString); //
 
-    // إغلاق النافذة
+    // ✨ 1. إغلاق النافذة (المودال) فوراً وبدون أي تأخير ليشعر الزبون بالسرعة
     closeModal();
     
-    // تشغيل الحركة
-    triggerCartAnimation();
+    // 📳 2. اهتزاز حسي خفيف للهاتف (يعطي شعوراً ميكانيكياً بالضغط والإضافة)
+    if (navigator.vibrate) {
+        navigator.vibrate([20, 40, 20]); 
+    }
+    
+    // 🏝️ 3. تشغيل الجزيرة الذكية المدمجة في متجرك لإشعار الزبون بنص رائع
+    if (typeof showDynamicIsland === 'function') {
+        showDynamicIsland('تمت إضافة طلبك مع الإضافات بنجاح! 🛍️✨', '✨');
+    }
+
+    // 🪄 4. تشغيل حركة طيران المنتج الكرتونية
+    if (typeof triggerCartAnimation === 'function') {
+        try { triggerCartAnimation(); } catch(e) {} //
+    }
 }
 
 // 3. دالة الإغلاق (الموحدة)
 function closeModal() {
-    let modal = document.getElementById('extra-modal');
+    let modal = document.getElementById('extra-modal'); //
     if (modal) {
         modal.remove(); // حذف العنصر نهائياً
     }
