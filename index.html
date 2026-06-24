@@ -1992,76 +1992,71 @@ function toggleNavMenu(isOpen) {
 // ==========================================
 
 // =========================================================
-// محرك التنقل المطور والمقاوم لتشنج المتصفحات على الهواتف
+// محرك التنقل السريع والمقاوم للانهيار على متصفحات الهواتف
 // =========================================================
 
 function smoothScrollEngine(anchorId) {
-    // 1. إيقاف أي قفز تلقائي للمتصفح فوراً لمنع التصادم الحركي على الهاتف
+    // 1. منع السلوك التلقائي للمتصفح إذا كان النقر داخل رابط لمنع التضارب الحركي
     if (window.event) {
-        window.event.preventDefault();
+        try { window.event.preventDefault(); } catch(e) {}
     }
 
-    // 2. البحث عن القسم المطلوب بذكاء وتحديد النسخة النشطة
-    const targets = document.querySelectorAll(`[id="${anchorId}"]`);
-    let target = null;
+    // 2. تنظيف الـ ID من علامة # لو كانت قادمة من الـ HTML بالخطأ لضمان استقرار البحث
+    if (typeof anchorId === 'string') {
+        anchorId = anchorId.replace('#', '');
+    }
+
+    // 3. جلب العناصر بالأسلوب المتوافق 100% مع الهواتف الذكية
+    var targets = document.querySelectorAll('[id="' + anchorId + '"]');
+    var target = null;
     
-    targets.forEach(function(el) {
+    // استخدام loop تقليدي بدلاً من forEach لتفادي انهيار الكود في الهواتف والآيفون
+    for (var i = 0; i < targets.length; i++) {
+        var el = targets[i];
         if (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0) {
-            target = el; 
+            target = el;
+            break; // وجدنا النسخة النشطة والظاهرة فوراً
         }
-    });
+    }
     
+    // إذا لم يجد نسخة ظاهرة، يأخذ النسخة الأولى كاحتمال احتياطي
     if (!target && targets.length > 0) {
         target = targets[0];
     }
 
-    // 3. النزول الحسابي المطلق المستقر 100% على الموبايل
+    // 4. بدء عملية النزول المنسابة والسريعة
     if (target) {
-        if (anchorId === 'phone-footer' || anchorId.includes('footer')) {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: 'smooth'
-            });
-            return;
+        if (anchorId === 'phone-footer' || anchorId.indexOf('footer') !== -1) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+            // مسافة الأمان العلوية لكي لا يختفي العنوان خلف الهيدر الثابت
+            target.style.scrollMarginTop = "130px"; 
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-
-        // 📐 الحساب الرقمي المطلق: يحسب موقع القسم بالبكسل من أعلى الصفحة بالكامل
-        // هذه الطريقة تلغي عيوب scrollIntoView وتعمل بسلاسة تامة حتى لو كانت القائمة تغلق
-        let absoluteTop = 0;
-        let currentElement = target;
-        while (currentElement) {
-            absoluteTop += currentElement.offsetTop || 0;
-            currentElement = currentElement.offsetParent;
-        }
-
-        // مسافة الأمان لكي لا يختفي عنوان القسم تحت الهيدر الثابت المرتفع
-        const headerOffset = 135; 
-        const finalPosition = absoluteTop - headerOffset;
-
-        // إجبار المتصفح على الذهاب للموقع الدقيق بنعومة فائقة
-        window.scrollTo({
-            top: finalPosition,
-            behavior: 'smooth'
-        });
     } else {
-        console.warn("تنبيه: لم يتم العثور على أي قسم نشط يحمل المعرف: " + anchorId);
+        console.warn("تنبيه: لم يتم العثور على المعرف: " + anchorId);
     }
 }
 
 // دالة القائمة الجانبية (المنيو)
 function handleNavClick(anchorId) {
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false); // إغلاق المنيو
+    if (window.event) {
+        try { window.event.preventDefault(); } catch(e) {}
     }
-    
-    // ⏱️ جعلناها 550 ملي ثانية لكي تختفي القائمة تماماً وتتحرر شاشة الهاتف، ثم ينزل بسلاسة وبدون أي تعليق
+    if (typeof toggleNavMenu === 'function') {
+        toggleNavMenu(false); // إغلاق المنيو فوراً
+    }
+    // النزول السريع والمباشر بعد قفل المنيو بـ 300 ملي ثانية فقط
     setTimeout(function() {
         smoothScrollEngine(anchorId);
-    }, 550);
+    }, 300);
 }
 
 // دالة شريط الفئات العلوي الكريستالي
 function handleLuxuryNav(anchorId) {
+    if (window.event) {
+        try { window.event.preventDefault(); } catch(e) {}
+    }
     smoothScrollEngine(anchorId);
 }
 
