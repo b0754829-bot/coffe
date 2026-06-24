@@ -1991,7 +1991,7 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
-// 🏆 المحرك الاحترافي النهائي لإصلاح تعليق الكيك وهواتف الآيفون والموبايل
+// 🏆 المحرك الاحترافي المطور للهواتف - يكسر الارتباط الشرطي ويضمن سلاسة تامة
 function smoothScrollEngine(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
@@ -2000,22 +2000,24 @@ function smoothScrollEngine(anchorId) {
     var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
     if (!targetId) return;
 
-    // 1. إغلاق القائمة الجانبية فوراً لتوفير مساحة المعالجة للهاتف
+    // 1. إغلاق القائمة الجانبية فوراً لتوفير مساحة المعالجة لشاشة الهاتف
     if (typeof toggleNavMenu === 'function') {
         toggleNavMenu(false);
     }
 
-    // 2. 🛠️ حل اللغز: إذا كان الهدف الكيك، نجبر الحاوية على أخذ أبعادها الحقيقية فوراً برمجياً
-    if (targetId === 'desserts-anchor' || targetId === 'dessert-anchor') {
-        // تشغيل الفلتر الافتراضي برمجياً كأن المستخدم ضغط على زر الفئة
-        if (typeof filterCategoryProducts === 'function') {
-            try { filterCategoryProducts(null, 'desserts', 'all'); } catch(e) {}
+    // 2. 🛠️ حل اللغز: إذا كان الهدف الكيك، نشغل دالة الفلترة الخاصة بك فوراً لمنحه الأبعاد الحقيقية
+    if (targetId.indexOf('dessert') !== -1 || targetId === 'desserts-anchor') {
+        if (typeof filterBySection === 'function') {
+            try { 
+                // استدعاء دالتك الأصلية لتهيئة وعرض المنتجات برمجياً فوراً
+                filterBySection('desserts'); 
+            } catch(e) {
+                console.log("محاولة الفلترة البديلة...");
+                try { filterCategoryProducts(null, 'desserts', 'all'); } catch(err) {}
+            }
         }
-        if (typeof filterProducts === 'function') {
-            try { filterProducts('desserts'); } catch(e) {}
-        }
-
-        // إلغاء أي display: none أو ارتفاع صفر قد تسببت به الفئات الأخرى
+        
+        // التأكد من إلغاء أي إخفاء قديم على حاوية الكيك والحلويات
         var cakeBox = document.getElementById('desserts-anchor') || document.getElementById('dessert-anchor');
         if (cakeBox) {
             cakeBox.style.display = 'block';
@@ -2025,23 +2027,23 @@ function smoothScrollEngine(anchorId) {
         }
     }
 
-    // 3. مهلة ذكية (150ms) غير ملحوظة بالعين ليرتب المتصفح العناصر ويبدأ النزول المستقل
+    // 3. مهلة ذكية جداً (150 ملي ثانية) غير ملحوظة بالعين ليقوم الفلتر ببناء المنتجات ثم يبدأ النزول المستقل
     setTimeout(function() {
         var target = document.getElementById(targetId);
         
-        // التحقق من الاسم بالجمع أو المفرد لضمان عدم حدوث خطأ
+        // حماية إضافية للتحقق من اسم القسم (بالجمع أو المفرد)
         if (!target && targetId === 'dessert-anchor') target = document.getElementById('desserts-anchor');
         if (!target && targetId === 'desserts-anchor') target = document.getElementById('dessert-anchor');
 
         if (target) {
-            // معالجة قسم التواصل (الفوتر) ليظهر بالكامل في شاشة الهاتف الطولية
+            // معالجة قسم التواصل (الفوتر) ليظهر بالكامل ومنظماً في شاشات الموبايل الطولية
             if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
                 target.scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'end' 
                 });
             } else {
-                // مسافة أمان ذهبية ومنظمة مريحة للعين لكي لا يختفي العنوان خلف المنيو العلوي الثابت
+                // مسافة أمان علوية مريحة للعين لكي لا يختفي عنوان القسم تحت الهيدر الثابت للموقع
                 target.style.scrollMarginTop = "130px";
                 
                 target.scrollIntoView({ 
@@ -2049,13 +2051,11 @@ function smoothScrollEngine(anchorId) {
                     block: 'start' 
                 });
             }
-        } else {
-            console.warn("القسم غير موجود في الصفحة:", targetId);
         }
     }, 150);
 }
 
-// 📱 دالة أزرار القائمة الجانبية المباشرة للهواتف
+// 📱 دالة أزرار القائمة الجانبية (استجابة فورية للمس)
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
