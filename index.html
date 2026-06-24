@@ -4,7 +4,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#2c1a11">
-    <meta name="apple-mobile-web-app-title" content="كافيه ">
+    <meta name="apple-mobile-web-app-title" content="كافيه حكاية">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
 <meta name="theme-color" content="#06b6d4">
 
-    <title> COFFEE مَلاذ</title>
+    <title>كافيه حكاية</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,59 +108,30 @@ header {
         }
 
 
-/* البطاقة - تضمن عمودين بالضبط في الهاتف مع تصميم زجاجي */
+
+/* البطاقة - نحدد عرضاً مئويًا يضمن عمودين بالضبط في الهاتف */
 .premium-product-card {
-    flex: 0 0 calc(50% - 10px) !important; 
-    max-width: 200px !important; 
+    flex: 0 0 calc(50% - 10px) !important; /* يضمن بالضبط عمودين */
+    max-width: 200px !important; /* يمنعها من أن تصبح عملاقة في الكمبيوتر */
     
-    background: rgba(255, 255, 255, 0.95); /* خلفية بيضاء مع شفافية خفيفة */
-    border: 1px solid rgba(6, 182, 212, 0.08); /* إطار مائي سماوي خفيف جداً */
+    background: white;
     border-radius: 20px;
     padding: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* حركة انسيابية أكثر */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
     box-sizing: border-box;
-    
-    /* الخصائص المطلوبة لعمل اللمعة */
-    position: relative; 
-    overflow: hidden; 
 }
 
-/* ✨ حركة اللمعة الماسية الخاطفة (تمر كل 7 ثوانٍ) */
-.premium-product-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -150%;
-    width: 50%; height: 100%;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
-    transform: skewX(-25deg);
-    z-index: 10;
-    pointer-events: none; /* تمنع اللمعة من إعاقة نقر الزبون */
-    animation: luxury-shimmer 7s infinite; 
-}
-
-@keyframes luxury-shimmer {
-    0% { left: -150%; }
-    15% { left: 200%; } 
-    100% { left: 200%; } 
-}
-
-/* 💻 حركة التكبير للكمبيوتر (الماوس) */
+/* حركة التكبير الفاخرة */
 .premium-product-card:hover {
     transform: translateY(-5px) scale(1.02) !important;
-    box-shadow: 0 15px 30px rgba(6, 182, 212, 0.12) !important; /* ظل بلون موقعك السماوي */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
     z-index: 10;
 }
 
-/* 📱 حركة الانكماش المائي للهواتف (عند لمس الزبون للكرت) */
-.premium-product-card:active {
-    transform: scale(0.96) !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-}
-
-/* الصورة المربعة */
+/* الصورة المربعة (لضمان عدم تطاول البطاقة) */
 .premium-product-card img {
     width: 100% !important;
     aspect-ratio: 1 / 1 !important; 
@@ -1251,137 +1222,6 @@ button[onclick*="saveAndAddToCart"] {
     opacity: 1;
     visibility: visible;
 }
-/* 🌊 التصميم الزجاجي المائي السائل لأزرار القائمة الجانبية */
-.glass-fluid-btn {
-    text-decoration: none;
-    color: #0c0d0e;
-    font-weight: 800;
-    font-size: 14.5px;
-    padding: 16px 20px;
-    display: block;
-    
-    /* 💧 الانحناء الناعم جداً (شكل الكبسولة السائلة) */
-    border-radius: 50px; 
-    
-    /* 🧊 تأثير الزجاج الشفاف والانعكاس الضوئي */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    
-    /* 🌊 حواف مائية شفافة مع إضاءة علوية لتبدو كالقطرة */
-    border: 1px solid rgba(6, 182, 212, 0.3); /* لون سماوي مائي شفاف */
-    border-top: 1.5px solid rgba(255, 255, 255, 0.9); /* انعكاس الضوء من الأعلى */
-    
-    /* ✨ ظل مائي ناعم يحيط بالزر */
-    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.5);
-    
-    /* 🪄 حركة مرنة جداً عند النقر */
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* التفاعل عند النقر (انكماش سائل) */
-.glass-fluid-btn:active {
-    transform: scale(0.95);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
-    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
-}
-
-/* 🌑 تصميم مائي داكن لزر التواصل */
-.dark-watery-btn {
-    background: linear-gradient(135deg, rgba(31, 41, 55, 0.85) 0%, rgba(11, 63, 59, 0.7) 100%);
-    color: #ffffff;
-    border: 1px solid rgba(6, 182, 212, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    text-align: center;
-    margin-top: 10px;
-}
-.dark-watery-btn:active {
-    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(11, 63, 59, 0.8) 100%);
-}
-/* 💧 تأثير قطرة الماء التفاعلية عند اللمس */
-.magic-water-ripple {
-    position: fixed;
-    border-radius: 50%;
-    /* لون مائي سماوي متدرج يتماشى مع موقعك */
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
-    transform: scale(0);
-    pointer-events: none; /* لكي لا تعيق النقر على الأزرار */
-    z-index: 9999999; /* تظهر فوق كل شيء */
-    animation: ripple-expansion 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-/* حركة التوسع والاختفاء */
-@keyframes ripple-expansion {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(3.5); opacity: 0; }
-}
-/* 🏝️ تصميم الجزيرة الذكية (Dynamic Island) */
-.premium-dynamic-island {
-    position: fixed;
-    top: 25px; /* المسافة من أعلى الشاشة */
-    left: 50%;
-    transform: translateX(-50%) translateY(-150%) scale(0.8);
-    
-    /* تصميم زجاجي داكن فاخر جداً */
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    
-    color: #ffffff;
-    padding: 14px 28px;
-    border-radius: 50px; /* شكل الكبسولة */
-    font-size: 14px;
-    font-weight: 800;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    
-    /* ظل فخم وتوهج خفيف */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.2);
-    z-index: 99999999 !important;
-    opacity: 0;
-    
-    /* حركة ارتدادية (Bouncy) تعطي إحساساً بالوزن والواقعية */
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* حالة الظهور على الشاشة */
-.premium-dynamic-island.show {
-    transform: translateX(-50%) translateY(0) scale(1);
-    opacity: 1;
-}
-
-/* أيقونة لامعة داخل الجزيرة */
-.island-icon {
-    font-size: 18px;
-    animation: island-pulse 1.5s infinite;
-}
-
-@keyframes island-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    100% { transform: scale(1); }
-}
-
-/* حركة النبض لعداد السلة */
-.badge-pulse {
-    animation: pop-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes pop-bounce {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.6); background-color: #06b6d4; color: white; }
-    100% { transform: scale(1); }
-}
-
-/* إعطاء مساحة تنفس للفوتر عند الوصول إليه */
-#phone-footer {
-    scroll-margin-top: 80px; 
-    scroll-margin-bottom: 20px;
-}
 </style>
 
 
@@ -1389,7 +1229,7 @@ button[onclick*="saveAndAddToCart"] {
 <body>
     <div id="loader-screen">
     <div class="logo-box">
-        <div class="logo-text"> مَلاذCoffee</div>
+        <div class="logo-text">حكاية</div>
         <div class="loader-line"></div>
     </div>
 </div>
@@ -1404,9 +1244,9 @@ button[onclick*="saveAndAddToCart"] {
         
         
        <div class="brand-logo-container">
-    <h1 class="brand-title">COFFEE مَلاذ</h1>
+    <h1 class="brand-title">COFFEE حكاية</h1>
     <span class="brand-slogan">
-            سَلَامٌ عَلَى رَائِحَةِ القَهْوَةِ، وَهُدُوءِ البَالِ
+        لَذَّةُ الحِكَايَةِ تَبدَأ بِفِنُجَانِ قَهُوَةٍ
         <svg class="glow-line" viewBox="0 0 200 30">
             <path d="M 190 5 Q 100 25 10 5" fill="none" stroke="#0b3f3b" stroke-width="2" />
         </svg>
@@ -1430,63 +1270,61 @@ button[onclick*="saveAndAddToCart"] {
 
 
 <div class="luxury-categories-bar">
-    <div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
-        <a href="javascript:void(0)" class="exclusive-cat-item">
-            <div class="crystal-shape-wrapper">
-                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
-            </div>
-            <span>مشروبات ساخنة</span>
+<div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
+        <a href="#hot-drinks-anchor" class="exclusive-cat-item">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>مشروبات ساخنة</span>
         </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('cold-drinks-anchor')">
-        <a href="javascript:void(0)" class="exclusive-cat-item">
-            <div class="crystal-shape-wrapper">
-                <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
-            </div>
-            <span>مشروبات باردة</span>
+          <a href="#cold-drinks-anchor" class="exclusive-cat-item">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>مشروبات باردة</span>
         </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('desserts-anchor')">
-        <a href="javascript:void(0)" class="exclusive-cat-item">
-            <div class="crystal-shape-wrapper">
-                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
-            </div>
-            <span>الكيك والحلوى</span>
+          <a href="#desserts-anchor" class="exclusive-cat-item">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>الكيك والحلوى </span>
         </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('breakfast-anchor')">
-        <a href="javascript:void(0)" class="exclusive-cat-item">
-            <div class="crystal-shape-wrapper">
-                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
-            </div>
-            <span>الكراسون وباستريز</span>
+          <a href="#breakfast-anchor" class="exclusive-cat-item">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span>الكراسون بانواعه</span>
         </a>
     </div>
-
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
-        <a href="javascript:void(0)" class="exclusive-cat-item">
-            <div class="crystal-shape-wrapper">
-                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
-            </div>
-            <span>جديدنا</span>
+          <a href="#specialty-coffee-anchor" class="exclusive-cat-item">
+        <div class="crystal-shape-wrapper">
+            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
+        </div>
+        <span> جديدنا</span>
         </a>
     </div>
+  
+
 </div>
 
   
 <!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
-    <h3 class="title-decorated">المشروبات الساخنة </h3>
+    <h3 class="title-decorated">المشروبات الساخنة الكلاسيكية</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'espresso_base')">  اسبريسو وقهوة سادة</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">  قهوة بالحليب </button>
-                <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')"> كابتشينو ولاتيه  </button>
-                        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">  شاي بانواعه </button>
-                                <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')"> هوت شوكلت وسحلب  </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">لاتيه وكابتشينو وموكا</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">شاي فاخر وأعشاب طبيعية</button>
     </div>
     <div class="products-showcase" id="container-hot"></div>
 </div>
@@ -1496,34 +1334,31 @@ button[onclick*="saveAndAddToCart"] {
     <h3 class="title-decorated">المشروبات الباردة والمنعشة</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')"> ايس لاتيه وقهوة باردة  </button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">  نكهات الموهيتو</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')"> ميلك شيك ومثلجات </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')">آيس لاتيه وموكا باردة</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">موهيتو حكاية المنعش</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">سموذي وميلك شيك</button>
     </div>
     <div class="products-showcase" id="container-cold"></div>
 </div>
 
 <!-- القسم الرابع: الحلويات الفاخرة -->
 <div id="desserts-anchor">
-    <h3 class="title-decorated">الكيك والحلوة</h3>
+    <h3 class="title-decorated">الحلويات الفاخرة</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'desserts', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')"> كعك بقوام مكثف</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">كعك بقوام خفيف </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')">كيك (زعفران، تشيز كيك، شوكولاتة)</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">وافل وبانكيك</button>
     </div>
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
 <div id="breakfast-anchor">
-    <h3 class="title-decorated">كرواسون وباستريز </h3>
-    <div class="subcategory-filters">
-
-    </div>
+    <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
+    <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-breakfast"></div>
-</div>
- <div id="specialty-coffee-anchor">
+</div> <div id="specialty-coffee-anchor">
     <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
-    <div class="subcategory-filters"></div>
+    <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-specialty"></div>
 </div> ```
 
@@ -1556,29 +1391,26 @@ button[onclick*="saveAndAddToCart"] {
 
 <div class="cart-overlay" id="nav-menu-overlay" onclick="toggleNavMenu(false)" style="display: none; opacity: 0; transition: opacity 0.4s ease; z-index: 99998;"></div>
 
-<div class="sidebar-cart" id="sidebar-nav-menu" style="right: 15px; left: auto; transform: translateX(110%); z-index: 99999 !important; background: rgba(248, 250, 252, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid rgba(255,255,255,0.6);">
-    
-    <div class="cart-top-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px; border-bottom: 1px solid rgba(6, 182, 212, 0.1);">
-        <h3 style="font-weight: 900; color: #0b3f3b; margin: 0; font-size: 18px;"> أقسام محلنا</h3>
-        <button onclick="toggleNavMenu(false)" style="background: rgba(6, 182, 212, 0.1); border: none; width: 35px; height: 35px; border-radius: 50px; font-size: 14px; cursor: pointer; color: #0b3f3b; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">✕</button>
+<div class="sidebar-cart" id="sidebar-nav-menu" style="right: 15px; left: auto; transform: translateX(110%); z-index: 99999 !important; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(30px); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+    <div class="cart-top-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid rgba(0,0,0,0.05);">
+        <h3 style="font-weight: 900; color: #0b3f3b; margin: 0; font-size: 18px;">📋 تصفح أقسام المنيو</h3>
+        <button onclick="toggleNavMenu(false)" style="background: rgba(0,0,0,0.05); border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
     </div>
     
-    <div class="cart-scroll-area" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+    <div class="cart-scroll-area" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">✨ جديدنا (Specialty Coffee)</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">☕ المشروبات الساخنة والدافئة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">🍹 المشروبات الباردة والمنعشة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">🍰 الحلويات الفاخرة</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">🥐 وجبات الفطور والكرواسون</a>
         
-        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="glass-fluid-btn"> جديدنا </a>
-        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" class="glass-fluid-btn"> المشروبات الساخنة والدافئة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" class="glass-fluid-btn"> المشروبات الباردة والمنعشة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" class="glass-fluid-btn"> الكيك والحلوى</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" class="glass-fluid-btn">   كرواسون وباستريز</a>
-        
-        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="glass-fluid-btn dark-watery-btn"> تواصل معنا/ موقعنا</a>
-        
+        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" style="text-decoration: none; color: #ffffff; font-weight: 800; padding: 15px 18px; background: #1f2937; border-radius: 20px; margin-top: 15px; text-align: center; box-shadow: 0 8px 20px rgba(31, 41, 55, 0.2); font-size: 14px; display: block;">📞 تواصل معنا وموقعنا</a>
     </div>
 </div>
 
 
 <footer class="premium-footer" id="phone-footer">
-    <div class="footer-grid">
+    <div class="footer-grid">p
         <div style="text-align: center; color: #1f2937;">
             <p style="font-weight: 800; margin-bottom: 5px;">🕒 ساعات العمل</p>
             <p style="font-size: 14px; opacity: 0.8;">يوميًا | 08:00 - 23:00</p>
@@ -1697,7 +1529,7 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
 
       productCard.innerHTML = `
     <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-        <img src="${product.img}" alt="${product.name}" loading="lazy" decoding="async style="width:100%; height:100%; object-fit:cover;">
+        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div class="product-details" style="padding:15px; text-align:right;">
         <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
@@ -1795,8 +1627,24 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     parentSection.appendChild(btnWrapper);
 }
 
+function smoothScrollTo(elementId) {
+    const targetSection = document.getElementById(elementId);
+    if (targetSection) {
+        // نضع هامشاً علوياً فورياً للحاوية لضمان عدم اختفاء العنوان
+        // الـ 120 تعني أن المتصفح سيترك مسافة 120 بكسل من الأعلى قبل بدء الحاوية
+        targetSection.style.scrollMarginTop = "120px"; 
 
+        targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
 
+// دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
+function handleLuxuryNav(anchorId) {
+    smoothScrollTo(anchorId);
+}
 
 // دالة السلة الأصلية الخاصة بك
 function addToCart(productId, mainCategory) {
@@ -1805,9 +1653,9 @@ function addToCart(productId, mainCategory) {
     
     if (typeof openCartWithProduct === "function") {
         openCartWithProduct(product);
-    } 
-    // استدعاء الجزيرة السحرية وإخبارها باسم المنتج أو رسالة مخصصة
-showDynamicIsland('تمت الإضافة إلى السلة بنجاح!', '');
+    } else {
+        console.log("تمت إضافة المنتج للسلة بنجاح:", product);
+    }
 }
 
 // تهيئة وعرض المنيو بالكامل فور فتح الصفحة لأول مرة
@@ -1986,63 +1834,34 @@ function toggleNavMenu(isOpen) {
         }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
     }
 }
-function smoothScrollEngine(anchorId) {
-    // 1. منع أي قفز تلقائي للمتصفح بأمان تام
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
 
-    // 2. تنظيف المعرف والتأكد من أنه نصي
-    var targetId = "";
-    if (typeof anchorId === 'string') {
-        targetId = anchorId.replace('#', '');
-    } else {
-        return; 
-    }
-
-    // 3. جلب القسم بالطريقة القياسية
-    var target = document.getElementById(targetId);
-
-    // 4. تنفيذ عملية النزول الفورية والسلسة المستقرة
-    if (target) {
-        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        } else {
-            // تحديد مسافة الأمان لكي لا يختفي العنوان تحت الهيدر الثابت
-            target.style.scrollMarginTop = "130px"; 
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    } else {
-        console.warn("القسم غير موجود في الصفحة:", targetId);
-    }
-}
-
-// دالة القائمة الجانبية (المنيو) - سريعة جداً واستجابة فورية
+// 2️⃣ دالة النقر على القسم (لإغلاق القائمة والنزول للقسم)
 function handleNavClick(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false); // إغلاق المنيو فوراً
-    }
-    // وقت انتظار قليل جداً لسرعة فائقة
-    setTimeout(function() {
-        smoothScrollEngine(anchorId);
-    }, 200);
+    // إغلاق القائمة الجانبية فوراً
+    toggleNavMenu(false);
+    
+    // الانتظار قليلاً حتى تنغلق القائمة ثم النزول السلس
+    setTimeout(() => {
+        // إذا كان لديك دالة النزول السلس الأصلية
+        if (typeof smoothScrollTo === "function") {
+            smoothScrollTo(anchorId);
+        } else {
+            // بديل تلقائي إذا لم تكن الدالة متوفرة
+            const target = document.getElementById(anchorId);
+            if (target) {
+                target.style.scrollMarginTop = "90px";
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, 350);
 }
-
-// دالة شريط الفئات العلوي الكريستالي
-function handleLuxuryNav(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
-    smoothScrollEngine(anchorId);
-}
+// تأكد أن هذا المتغير معرف في بداية الملف
+var userCartList = userCartList || []; 
 
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
     if (typeof userCartList === 'undefined' || userCartList.length === 0) {
-        alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ");
+        alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ☕");
         return;
     }
 
@@ -2054,7 +1873,7 @@ function sendCartToWhatsApp() {
     const modalHTML = `
     <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
         <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;">تفاصيل طلبك من كافيه مَلاذ</h3>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من كافيه حكاية </h3>
             <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
             <div style="margin-bottom: 22px; text-align: right;">
                 <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
@@ -2096,7 +1915,7 @@ function sendCartToWhatsApp() {
         if (!name) { alert("يرجى كتابة الاسم"); return; }
         if (!customerWazeURL) { alert("يرجى تحديد الموقع أولاً!"); return; }
 
-        let messageText = `*طلب جديد من كافيه *\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
+        let messageText = `*طلب جديد من كافيه حكاية*\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
         let total = 0;
 
      userCartList.forEach((item, i) => {
@@ -2270,42 +2089,30 @@ function closeModal() {
 }
 
 
-// 2. دالة الحفظ المحدثة (تغلق النافذة وتُشعر الزبون فوراً بالنجاح)
+// 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
 function saveAndAddToCart() {
-    let productId = window.currentPID; // قراءة معرف المنتج الحالي
+    let productId = window.currentPID; 
     
     // جمع الإضافات
     let selected = [];
     document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
         selected.push(cb.value);
     });
-    let extrasString = selected.length > 0 ? selected.join(", ") : "لا يوجد"; //
+    let extrasString = selected.length > 0 ? selected.join(", ") : "لا يوجد";
 
-    // استدعاء دالة الإضافة الفعالة في موقعك
-    addNewProductToCart(productId, extrasString); //
+    // استدعاء دالة الإضافة (تأكد أن اسمها مطابق تماماً لما هو لديك)
+    addNewProductToCart(productId, extrasString);
 
-    // ✨ 1. إغلاق النافذة (المودال) فوراً وبدون أي تأخير ليشعر الزبون بالسرعة
+    // إغلاق النافذة
     closeModal();
     
-    // 📳 2. اهتزاز حسي خفيف للهاتف (يعطي شعوراً ميكانيكياً بالضغط والإضافة)
-    if (navigator.vibrate) {
-        navigator.vibrate([20, 40, 20]); 
-    }
-    
-    // 🏝️ 3. تشغيل الجزيرة الذكية المدمجة في متجرك لإشعار الزبون بنص رائع
-    if (typeof showDynamicIsland === 'function') {
-        showDynamicIsland('تمت إضافة طلبك مع الإضافات بنجاح! 🛍️✨', '✨');
-    }
-
-    // 🪄 4. تشغيل حركة طيران المنتج الكرتونية
-    if (typeof triggerCartAnimation === 'function') {
-        try { triggerCartAnimation(); } catch(e) {} //
-    }
+    // تشغيل الحركة
+    triggerCartAnimation();
 }
 
 // 3. دالة الإغلاق (الموحدة)
 function closeModal() {
-    let modal = document.getElementById('extra-modal'); //
+    let modal = document.getElementById('extra-modal');
     if (modal) {
         modal.remove(); // حذف العنصر نهائياً
     }
@@ -2340,80 +2147,7 @@ function triggerCartAnimation() {
     }, 900);
 }
 
-// 🪄 نظام اللمس المائي التفاعلي (Liquid Touch)
-document.addEventListener('click', function(e) {
-    // 1. تحديد ما إذا كان العنصر الملموس زر أو رابط أو كرت منتج (لتفعيل السحر في الأماكن المهمة فقط)
-    const isInteractive = e.target.closest('button, a, .premium-product-card, .exclusive-cat-item');
-    
-    if (isInteractive) {
-        // 2. إنشاء القطرة المائية
-        const ripple = document.createElement('div');
-        ripple.className = 'magic-water-ripple';
-        
-        // 3. تحديد حجم القطرة
-        const size = 100; // 100 بكسل
-        ripple.style.width = size + 'px';
-        ripple.style.height = size + 'px';
-        
-        // 4. جعل القطرة تنطلق من مكان إصبع الزبون بالضبط
-        ripple.style.left = (e.clientX - size / 2) + 'px';
-        ripple.style.top = (e.clientY - size / 2) + 'px';
-        
-        document.body.appendChild(ripple);
-        
-        // 5. 📳 التفاعل الحسي: إحداث اهتزاز خفيف جداً في الهاتف (إذا كان الهاتف يدعم ذلك)
-        // 15 ملي ثانية تعطي إحساساً بـ "نقرة" حقيقية فخمة
-        if (navigator.vibrate) {
-            navigator.vibrate(15); 
-        }
-        
-        // 6. تنظيف الكود وحذف القطرة بعد انتهاء الحركة
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    }
-});
 
-
-// 🪄 دالة إطلاق الجزيرة الذكية عند الإضافة للسلة
-function showDynamicIsland(message, icon = '🛍️') {
-    // التحقق مما إذا كانت الجزيرة موجودة مسبقاً، وإلا نصنعها
-    let island = document.getElementById('smart-dynamic-island');
-    if (!island) {
-        island = document.createElement('div');
-        island.id = 'smart-dynamic-island';
-        island.className = 'premium-dynamic-island';
-        document.body.appendChild(island);
-    }
-
-    // إدخال النص والأيقونة
-    island.innerHTML = `<span class="island-icon">${icon}</span> <span>${message}</span>`;
-    
-    // 📳 تفاعل حسي مزدوج (نبضتان متتاليتان للشعور بالإنجاز)
-    if (navigator.vibrate) {
-        navigator.vibrate([15, 50, 15]); 
-    }
-
-    // إظهار الجزيرة مع الحركة الارتدادية
-    setTimeout(() => {
-        island.classList.add('show');
-    }, 10);
-
-    // إخفاء الجزيرة تلقائياً بعد ثانيتين ونصف
-    setTimeout(() => {
-        island.classList.remove('show');
-    }, 2500);
-}
-
-
-// تشغيل حركة النبض للعداد
-let cartBadge = document.getElementById('main-basket-count');
-if(cartBadge) {
-    cartBadge.classList.remove('badge-pulse');
-    // حيلة برمجية صغيرة لإعادة تشغيل الـ Animation
-    void cartBadge.offsetWidth; 
-    cartBadge.classList.add('badge-pulse');
-}
    </script>
     
 </body>
