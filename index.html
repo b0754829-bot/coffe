@@ -1820,7 +1820,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
       // المتغيرات الأساسية
-let visibleCount = 4;
+let visibleCount = 5;
         // فلترة وعرض المنتجات حسب القسم المختار
         function filterBySection(categoryName) {
             const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
@@ -1987,9 +1987,6 @@ function toggleNavMenu(isOpen) {
     }
 }
 
-// ==========================================
-// محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
-// ==========================================
 
 // 🏆 المحرك الذكي والديناميكي بالكامل - آمن للفئات الحالية وأي فئة تضيفها في المستقبل
 function smoothScrollEngine(anchorId) {
