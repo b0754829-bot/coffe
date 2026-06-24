@@ -1991,47 +1991,73 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
+// =========================================================
+// محرك التنقل المطور والمقاوم لتشنج المتصفحات على الهواتف
+// =========================================================
+
 function smoothScrollEngine(anchorId) {
-    // 1. نبحث عن جميع العناصر التي تحمل هذا الـ ID في الصفحة بالكامل (لتفادي مشكلة التكرار)
+    // 1. إيقاف أي قفز تلقائي للمتصفح فوراً لمنع التصادم الحركي على الهاتف
+    if (window.event) {
+        window.event.preventDefault();
+    }
+
+    // 2. البحث عن القسم المطلوب بذكاء وتحديد النسخة النشطة
     const targets = document.querySelectorAll(`[id="${anchorId}"]`);
     let target = null;
     
-    // 2. الفحص الذكي: نمر على الأقسام ونختار القسم الظاهر والنشط فعلياً على شاشة الهاتف
     targets.forEach(function(el) {
-        const rect = el.getBoundingClientRect();
-        // إذا كان العنصر يمتلك أبعاداً حقيقية وليس مخفياً بـ display: none
         if (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0) {
             target = el; 
         }
     });
     
-    // إذا لم يجد نسخة ظاهر (كاحتمال احتياطي) يأخذ النسخة الأولى
     if (!target && targets.length > 0) {
         target = targets[0];
     }
 
-    // 3. بدء عملية النزول المضمونة
+    // 3. النزول الحسابي المطلق المستقر 100% على الموبايل
     if (target) {
         if (anchorId === 'phone-footer' || anchorId.includes('footer')) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        } else {
-            // نضع هامش الأمان لكي لا يختفي العنوان خلف الهيدر الثابت
-            target.style.scrollMarginTop = "120px"; 
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
+            return;
         }
+
+        // 📐 الحساب الرقمي المطلق: يحسب موقع القسم بالبكسل من أعلى الصفحة بالكامل
+        // هذه الطريقة تلغي عيوب scrollIntoView وتعمل بسلاسة تامة حتى لو كانت القائمة تغلق
+        let absoluteTop = 0;
+        let currentElement = target;
+        while (currentElement) {
+            absoluteTop += currentElement.offsetTop || 0;
+            currentElement = currentElement.offsetParent;
+        }
+
+        // مسافة الأمان لكي لا يختفي عنوان القسم تحت الهيدر الثابت المرتفع
+        const headerOffset = 135; 
+        const finalPosition = absoluteTop - headerOffset;
+
+        // إجبار المتصفح على الذهاب للموقع الدقيق بنعومة فائقة
+        window.scrollTo({
+            top: finalPosition,
+            behavior: 'smooth'
+        });
     } else {
         console.warn("تنبيه: لم يتم العثور على أي قسم نشط يحمل المعرف: " + anchorId);
     }
 }
 
-// دالة القائمة الجانبية
+// دالة القائمة الجانبية (المنيو)
 function handleNavClick(anchorId) {
     if (typeof toggleNavMenu === 'function') {
         toggleNavMenu(false); // إغلاق المنيو
     }
+    
+    // ⏱️ جعلناها 550 ملي ثانية لكي تختفي القائمة تماماً وتتحرر شاشة الهاتف، ثم ينزل بسلاسة وبدون أي تعليق
     setTimeout(function() {
         smoothScrollEngine(anchorId);
-    }, 350);
+    }, 550);
 }
 
 // دالة شريط الفئات العلوي الكريستالي
@@ -2054,7 +2080,7 @@ function sendCartToWhatsApp() {
     const modalHTML = `
     <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
         <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;">تفاصيل طلبك من كافيه مَلاذ/h3>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;">تفاصيل طلبك من كافيه مَلاذ</h3>
             <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
             <div style="margin-bottom: 22px; text-align: right;">
                 <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
