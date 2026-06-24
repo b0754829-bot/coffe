@@ -1986,17 +1986,8 @@ function toggleNavMenu(isOpen) {
         }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
     }
 }
-
-// ==========================================
-// محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
-// ==========================================
-
-// =========================================================
-// المحرك الفاخر والنهائي للتنقل السريع والمقاوم للأقسام المخفية
-// =========================================================
-
 function smoothScrollEngine(anchorId) {
-    // 1. منع أي قفز تلقائي للمتصفح بأمان تام لمنع التضارب الحركي
+    // 1. منع أي قفز تلقائي للمتصفح بأمان تام
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
@@ -2012,56 +2003,6 @@ function smoothScrollEngine(anchorId) {
     // 3. جلب القسم بالطريقة القياسية
     var target = document.getElementById(targetId);
 
-    // 💡 ذكاء اصطناعي مخصص للكيك والحلوى والأقسام المخفية على الهاتف:
-    // إذا لم يجد العنصر، أو وجده ولكن حجمه (0) أي أنه مخفي لنسخة الكمبيوتر!
-    if (!target || target.offsetHeight === 0 || targetId.indexOf('dessert') !== -1 || targetId.indexOf('cake') !== -1) {
-        
-        var allElements = document.getElementsByTagName('*');
-        var foundVisible = false;
-
-        // أولاً: البحث عن عنصر يحمل نفس الـ ID تماماً ولكنه (ظاهر ومرئي) على شاشة الهاتف
-        for (var i = 0; i < allElements.length; i++) {
-            var el = allElements[i];
-            if (el.getAttribute('id') === targetId && el.offsetHeight > 0) {
-                target = el;
-                foundVisible = true;
-                break;
-            }
-        }
-
-        // ثانياً: إذا لم يجد نفس الـ ID ظاهراً، يبحث بالكلمات الدلالية عن (الكيك والحلوى) المخصصة للموبايل
-        if (!foundVisible) {
-            for (var j = 0; j < allElements.length; j++) {
-                var currentEl = allElements[j];
-                
-                // شرط أساسي: يجب أن يكون القسم ظاهراً وله أبعاد حقيقية على الهاتف
-                if (currentEl.offsetHeight > 0 || currentEl.offsetWidth > 0) {
-                    var idAttr = (currentEl.getAttribute('id') || '').toLowerCase();
-                    var className = (currentEl.className || '').toLowerCase();
-                    var textContent = (currentEl.textContent || currentEl.innerText || '').toLowerCase();
-
-                    // الفحص الشامل للمعطيات البرمجية والنصوص العربية والإنجليزية
-                    if (idAttr.indexOf('dessert') !== -1 || idAttr.indexOf('cake') !== -1 || idAttr.indexOf('sweet') !== -1 ||
-                        idAttr.indexOf('كيك') !== -1 || idAttr.indexOf('حلو') !== -1 ||
-                        className.indexOf('dessert') !== -1 || className.indexOf('cake') !== -1) {
-                        target = currentEl;
-                        foundVisible = true;
-                        break;
-                    }
-
-                    // الفحص الإضافي داخل عناوين الأقسام الرئيسية المكتوبة بالعربي
-                    if (currentEl.tagName.match(/^H[1-6]$/) || className.indexOf('title') !== -1) {
-                        if (textContent.indexOf('كيك') !== -1 || textContent.indexOf('حلو') !== -1 || textContent.indexOf('الحل') !== -1) {
-                            target = currentEl;
-                            foundVisible = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // 4. تنفيذ عملية النزول الفورية والسلسة المستقرة
     if (target) {
         if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
@@ -2071,6 +2012,8 @@ function smoothScrollEngine(anchorId) {
             target.style.scrollMarginTop = "130px"; 
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+    } else {
+        console.warn("القسم غير موجود في الصفحة:", targetId);
     }
 }
 
