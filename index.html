@@ -1995,80 +1995,49 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل السريع والمقاوم للانهيار على متصفحات الهواتف
 // =========================================================
 
-// =========================================================
-// المحرك النهائي (يحل مشكلة الأقسام المكررة والمخفية بين الهاتف والحاسوب)
-// =========================================================
-
 function smoothScrollEngine(anchorId) {
+    // 1. منع السلوك التلقائي للمتصفح إذا كان النقر داخل رابط لمنع التضارب الحركي
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
 
-    var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : anchorId;
-    var target = null;
+    // 2. تنظيف الـ ID من علامة # لو كانت قادمة من الـ HTML بالخطأ لضمان استقرار البحث
+    if (typeof anchorId === 'string') {
+        anchorId = anchorId.replace('#', '');
+    }
 
-    // 1. جلب كل العناصر التي تحمل هذا الاسم (سواء للكمبيوتر أو للهاتف)
-    var query = '[id="' + targetId + '"]';
-    // مصحح أخطاء الكيك والحلوى:
-    if (targetId.indexOf('dessert') !== -1) {
-        query = '[id*="dessert"]'; 
+    // 3. جلب العناصر بالأسلوب المتوافق 100% مع الهواتف الذكية
+    var targets = document.querySelectorAll('[id="' + anchorId + '"]');
+    var target = null;
+    
+    // استخدام loop تقليدي بدلاً من forEach لتفادي انهيار الكود في الهواتف والآيفون
+    for (var i = 0; i < targets.length; i++) {
+        var el = targets[i];
+        if (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0) {
+            target = el;
+            break; // وجدنا النسخة النشطة والظاهرة فوراً
+        }
     }
     
-    var targets = document.querySelectorAll(query);
-
-    // 2. الفحص الذكي: البحث عن القسم (الظاهر فعلياً) على شاشة الهاتف وتجاهل المخفي!
-    for (var i = 0; i < targets.length; i++) {
-        // إذا كان القسم له طول وعرض حقيقي (غير مخفي بـ display:none)
-        if (targets[i].offsetHeight > 0 || targets[i].offsetWidth > 0) {
-            target = targets[i];
-            break; // وجدنا النسخة الخاصة بالهاتف! نتوقف عن البحث.
-        }
+    // إذا لم يجد نسخة ظاهرة، يأخذ النسخة الأولى كاحتمال احتياطي
+    if (!target && targets.length > 0) {
+        target = targets[0];
     }
 
-    // 3. النزول الدقيق والمضمون
+    // 4. بدء عملية النزول المنسابة والسريعة
     if (target) {
-        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
-            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        if (anchorId === 'phone-footer' || anchorId.indexOf('footer') !== -1) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
         } else {
-            // حساب المسافة بالبكسل (أفضل طريقة للهواتف الذكية)
-            var absoluteTop = 0;
-            var currentElement = target;
-            while (currentElement) {
-                absoluteTop += currentElement.offsetTop || 0;
-                currentElement = currentElement.offsetParent;
-            }
-            
-            // 130 بكسل مسافة أمان لكي لا يغطي الهيدر عنوان القسم
-            window.scrollTo({
-                top: absoluteTop - 130,
-                behavior: 'smooth'
-            });
+            // مسافة الأمان العلوية لكي لا يختفي العنوان خلف الهيدر الثابت
+            target.style.scrollMarginTop = "130px"; 
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     } else {
-        alert("⚠️ تنبيه: قسم الكيك غير متواجد أو مخفي تماماً في نسخة الهاتف!");
+        console.warn("تنبيه: لم يتم العثور على المعرف: " + anchorId);
     }
 }
 
-// دالة القائمة الجانبية (المنيو)
-function handleNavClick(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
-    if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false); // إغلاق المنيو
-    }
-    setTimeout(function() {
-        smoothScrollEngine(anchorId);
-    }, 350);
-}
-
-// دالة شريط الفئات العلوي الكريستالي
-function handleLuxuryNav(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
-    smoothScrollEngine(anchorId);
-}
 // دالة القائمة الجانبية (المنيو)
 function handleNavClick(anchorId) {
     if (window.event) {
