@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
 <meta name="theme-color" content="#06b6d4">
 
-    <title>كافيه حكاية</title>
+    <title> مَلاذ Coffee</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1229,7 +1229,7 @@ button[onclick*="saveAndAddToCart"] {
 <body>
     <div id="loader-screen">
     <div class="logo-box">
-        <div class="logo-text">حكاية</div>
+        <div class="logo-text">مَلاذ Coffee</div>
         <div class="loader-line"></div>
     </div>
 </div>
@@ -1244,9 +1244,9 @@ button[onclick*="saveAndAddToCart"] {
         
         
        <div class="brand-logo-container">
-    <h1 class="brand-title">COFFEE حكاية</h1>
+    <h1 class="brand-title">مَلاذ Coffee </h1>
     <span class="brand-slogan">
-        لَذَّةُ الحِكَايَةِ تَبدَأ بِفِنُجَانِ قَهُوَةٍ
+        لَذَّةاليوم تَبدَأ بِفِنُجَانِ قَهُوَةٍ
         <svg class="glow-line" viewBox="0 0 200 30">
             <path d="M 190 5 Q 100 25 10 5" fill="none" stroke="#0b3f3b" stroke-width="2" />
         </svg>
@@ -1320,7 +1320,7 @@ button[onclick*="saveAndAddToCart"] {
   
 <!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
-    <h3 class="title-decorated">المشروبات الساخنة الكلاسيكية</h3>
+    <h3 class="title-decorated">المشروبات الساخنة </h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">لاتيه وكابتشينو وموكا</button>
@@ -1343,7 +1343,7 @@ button[onclick*="saveAndAddToCart"] {
 
 <!-- القسم الرابع: الحلويات الفاخرة -->
 <div id="desserts-anchor">
-    <h3 class="title-decorated">الحلويات الفاخرة</h3>
+    <h3 class="title-decorated">الكيك والحلوى </h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'desserts', 'all')">الكل</button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')">كيك (زعفران، تشيز كيك، شوكولاتة)</button>
@@ -1353,10 +1353,11 @@ button[onclick*="saveAndAddToCart"] {
 </div>
 
 <div id="breakfast-anchor">
-    <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
+    <h3 class="title-decorated">  الكرواسون وباستريز</h3>
     <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-breakfast"></div>
-</div> <div id="specialty-coffee-anchor">
+</div> 
+<div id="specialty-coffee-anchor">
     <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
     <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-specialty"></div>
@@ -1410,7 +1411,7 @@ button[onclick*="saveAndAddToCart"] {
 
 
 <footer class="premium-footer" id="phone-footer">
-    <div class="footer-grid">p
+    <div class="footer-grid">
         <div style="text-align: center; color: #1f2937;">
             <p style="font-weight: 800; margin-bottom: 5px;">🕒 ساعات العمل</p>
             <p style="font-size: 14px; opacity: 0.8;">يوميًا | 08:00 - 23:00</p>
@@ -1487,7 +1488,52 @@ const sectionsExpandedState = {
     breakfast: false
 };
 
+function smoothScrollTo(elementId) {
+    const targetSection = document.getElementById(elementId);
+    if (targetSection) {
+        // حساب المسافة بدقة وطرح مساحة الهيدر لكي لا يغطي على القسم
+        const headerOffset = 110; 
+        const elementPosition = targetSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+             top: offsetPosition,
+             behavior: "smooth"
+        });
+    }
+}
 
+// أبقينا على الدالة العلوية كما هي
+function handleLuxuryNav(anchorId) {
+    smoothScrollTo(anchorId);
+}
+
+function handleNavClick(anchorId) {
+    // 1. إغلاق القائمة الجانبية فوراً
+    if (typeof toggleNavMenu === "function") {
+        toggleNavMenu(false);
+    }
+
+    // 2. إجبار المتصفح على الانتظار حتى تختفي القائمة
+    setTimeout(() => {
+        const targetSection = document.getElementById(anchorId);
+        
+        // 🚨 أداة كشف الخطأ: إذا كان الاسم غير متطابق سيظهر لك تنبيه!
+        if (!targetSection) {
+            alert("عذراً، المتصفح لم يجد قسماً يحمل الاسم: " + anchorId + " ... يرجى التأكد من تطابق الأسماء في كود الـ HTML.");
+            return; // نوقف الكود هنا
+        }
+
+        // 3. القفز الإجباري للقسم (بدون تأثير smooth الذي يسبب مشاكل في الآيفون)
+        targetSection.scrollIntoView({ behavior: 'auto', block: 'start' });
+        
+        // 4. إزاحة الشاشة قليلاً للأسفل لكي لا يغطي الهيدر على اسم القسم
+        setTimeout(() => {
+            window.scrollBy({ top: -110, behavior: 'smooth' });
+        }, 50);
+
+    }, 350);
+}
 
 
 // 2. التحميل فوراً عند بدء تشغيل الملف
@@ -1561,7 +1607,7 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
     </svg>
 </button>
-            <button class="circle-add-btn" onclick="addNewProductToCart(${product.id})">+</button>
+          <button class="circle-add-btn" onclick="addNewProductToCart(${product.id}); triggerCartAnimation();">+</button>
             
         </div>
     </div>
@@ -1627,24 +1673,9 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     parentSection.appendChild(btnWrapper);
 }
 
-function smoothScrollTo(elementId) {
-    const targetSection = document.getElementById(elementId);
-    if (targetSection) {
-        // نضع هامشاً علوياً فورياً للحاوية لضمان عدم اختفاء العنوان
-        // الـ 120 تعني أن المتصفح سيترك مسافة 120 بكسل من الأعلى قبل بدء الحاوية
-        targetSection.style.scrollMarginTop = "120px"; 
 
-        targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
 
-// دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
-function handleLuxuryNav(anchorId) {
-    smoothScrollTo(anchorId);
-}
+
 
 // دالة السلة الأصلية الخاصة بك
 function addToCart(productId, mainCategory) {
@@ -1669,13 +1700,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // المتغيرات الأساسية
 let visibleCount = 4;
-        // فلترة وعرض المنتجات حسب القسم المختار
-        function filterBySection(categoryName) {
-            const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
-            displayStoreItems(filtered);
-            document.getElementById('showcase-title').innerText = `قسم الـ ${categoryName} الفاخر`;
-        }
-
+       
    function addNewProductToCart(productId, extras = "لا يوجد") {
     // 1. استخراج المنتج الأصلي
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
@@ -1800,17 +1825,6 @@ function refreshCartInterface() {
     }
 }
 
-        function toggleCartMenu(openStatus) {
-            const cartMenu = document.getElementById('sidebar-cart-menu');
-            const overlay = document.getElementById('cart-screen-overlay');
-            if(openStatus) {
-                cartMenu.classList.add('open');
-                overlay.classList.add('active');
-            } else {
-                cartMenu.classList.remove('open');
-                overlay.classList.remove('active');
-            }
-        }
       // 1️⃣ دالة فتح وإغلاق قائمة الأقسام (تتحكم بالستايلات المدمجة مباشرة)
 function toggleNavMenu(isOpen) {
     const menu = document.getElementById('sidebar-nav-menu');
@@ -1834,29 +1848,6 @@ function toggleNavMenu(isOpen) {
         }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
     }
 }
-
-// 2️⃣ دالة النقر على القسم (لإغلاق القائمة والنزول للقسم)
-function handleNavClick(anchorId) {
-    // إغلاق القائمة الجانبية فوراً
-    toggleNavMenu(false);
-    
-    // الانتظار قليلاً حتى تنغلق القائمة ثم النزول السلس
-    setTimeout(() => {
-        // إذا كان لديك دالة النزول السلس الأصلية
-        if (typeof smoothScrollTo === "function") {
-            smoothScrollTo(anchorId);
-        } else {
-            // بديل تلقائي إذا لم تكن الدالة متوفرة
-            const target = document.getElementById(anchorId);
-            if (target) {
-                target.style.scrollMarginTop = "90px";
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    }, 350);
-}
-// تأكد أن هذا المتغير معرف في بداية الملف
-var userCartList = userCartList || []; 
 
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
@@ -1951,7 +1942,7 @@ window.location.href = whatsappURL;
 
   // تشغيل التهيئة وعرض المنتجات عند فتح الصفحة مباشرة
         document.addEventListener("DOMContentLoaded", function () {
-            displayStoreItems(storeProductsDatabase);
+          
             loadCartFromLocalStorage();
 
             // سلايدر خلفيات حية ومتحركة تلقائياً
@@ -2086,6 +2077,9 @@ function openExtrasModal(productId, category) {
 function closeModal() {
     const modal = document.getElementById('extra-modal');
     if (modal) modal.remove();
+    if (typeof refreshCartInterface === 'function') {
+        refreshCartInterface(); 
+    }
 }
 
 
@@ -2110,43 +2104,62 @@ function saveAndAddToCart() {
     triggerCartAnimation();
 }
 
-// 3. دالة الإغلاق (الموحدة)
-function closeModal() {
-    let modal = document.getElementById('extra-modal');
-    if (modal) {
-        modal.remove(); // حذف العنصر نهائياً
-    }
-}
+
 function triggerCartAnimation() {
-    // تأكد من وجود كلاس .cart-icon في الـ HTML الخاص بك
-    let cartIcon = document.querySelector('.cart-icon'); 
+    let cartIcon = document.getElementById('main-basket-btn'); 
     if (!cartIcon) return;
 
     let flyElement = document.createElement('div');
-    flyElement.innerHTML = '☕'; 
+    
+    // 1. استبدال الإيموجي العادي برسمة SVG فخمة وملونة بلون موقعك الأنيق (#0f766e)
+    flyElement.innerHTML = `
+        <svg width="45" height="45" viewBox="0 0 24 24" fill="#0f766e" stroke="#064e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+            <path d="M6 2v3"/>
+            <path d="M10 2v3"/>
+            <path d="M14 2v3"/>
+        </svg>
+    `; 
+    
     flyElement.style.position = 'fixed';
-    flyElement.style.fontSize = '30px';
     flyElement.style.zIndex = '999999';
+    // الانطلاق من منتصف الشاشة
     flyElement.style.left = '50%';
     flyElement.style.top = '50%';
-    flyElement.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    // 2. تبطيء الحركة هنا (جعلناها 1.5 ثانية بدلاً من 0.8 ثانية)
+    flyElement.style.transition = 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    // إضافة ظل فخم أسفل الفنجان أثناء طيرانه
+    flyElement.style.filter = 'drop-shadow(0 15px 15px rgba(15, 118, 110, 0.4))';
+    
     document.body.appendChild(flyElement);
 
-    // حساب موقع أيقونة السلة
     setTimeout(() => {
         let rect = cartIcon.getBoundingClientRect();
-        flyElement.style.left = (rect.left + rect.width / 2) + 'px';
-        flyElement.style.top = (rect.top + rect.height / 2) + 'px';
-        flyElement.style.transform = 'scale(0.2)';
+        // توجيه الفنجان بدقة نحو السلة
+        flyElement.style.left = (rect.left + (rect.width / 2) - 22) + 'px'; 
+        flyElement.style.top = (rect.top + (rect.height / 2) - 22) + 'px';
+        
+        // تصغير الفنجان ببطء وإخفاؤه عند وصوله للسلة
+        flyElement.style.transform = 'scale(0.15) rotate(15deg)';
         flyElement.style.opacity = '0';
+        
+        // نبض زر السلة ليتناسب مع الحركة البطيئة
+        cartIcon.style.transition = 'transform 0.4s ease';
+        cartIcon.style.transform = 'scale(1.15)';
+        setTimeout(() => {
+            cartIcon.style.transform = 'scale(1)';
+        }, 500);
+        
     }, 50);
 
-    // إزالة العنصر بعد انتهاء الحركة
+    // 3. زيادة وقت إزالة العنصر من الذاكرة ليتناسب مع السرعة الجديدة (1600 ملي ثانية)
     setTimeout(() => {
         flyElement.remove();
-    }, 900);
+    }, 1600); 
 }
-
 
    </script>
     
