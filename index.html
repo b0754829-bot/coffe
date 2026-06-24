@@ -1988,42 +1988,53 @@ function toggleNavMenu(isOpen) {
 }
 
 // ==========================================
-// كود التنقل الموحد والآمن (خالي من الأخطاء 100%)
+// محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
-// 1️⃣ المحرك المركزي للتمرير السلس (متوافق تماماً مع تصميم موقعك)
 function smoothScrollEngine(anchorId) {
-    const target = document.getElementById(anchorId);
+    // 1. نبحث عن جميع العناصر التي تحمل هذا الـ ID في الصفحة بالكامل (لتفادي مشكلة التكرار)
+    const targets = document.querySelectorAll(`[id="${anchorId}"]`);
+    let target = null;
     
+    // 2. الفحص الذكي: نمر على الأقسام ونختار القسم الظاهر والنشط فعلياً على شاشة الهاتف
+    targets.forEach(function(el) {
+        const rect = el.getBoundingClientRect();
+        // إذا كان العنصر يمتلك أبعاداً حقيقية وليس مخفياً بـ display: none
+        if (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0) {
+            target = el; 
+        }
+    });
+    
+    // إذا لم يجد نسخة ظاهر (كاحتمال احتياطي) يأخذ النسخة الأولى
+    if (!target && targets.length > 0) {
+        target = targets[0];
+    }
+
+    // 3. بدء عملية النزول المضمونة
     if (target) {
-        // إذا كان المستخدم يريد النزول للفوتر (تواصل معنا)
         if (anchorId === 'phone-footer' || anchorId.includes('footer')) {
             target.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        } 
-        // لباقي أقسام المنيو (المشروبات الساخنة والباردة، الحلويات، جديدنا، الكراسون)
-        else {
-            // نضع مسافة أمان علوية 120 بكسل لكي لا يختفي العنوان تحت الهيدر الثابت الخاص بك
+        } else {
+            // نضع هامش الأمان لكي لا يختفي العنوان خلف الهيدر الثابت
             target.style.scrollMarginTop = "120px"; 
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     } else {
-        console.warn("تنبيه: لم يتم العثور على قسم يحمل المعرف: " + anchorId);
+        console.warn("تنبيه: لم يتم العثور على أي قسم نشط يحمل المعرف: " + anchorId);
     }
 }
 
-// 2️⃣ دالة القائمة الجانبية (تغلق القائمة الجانبية أولاً بنعومة ثم تتحرك للقسم)
+// دالة القائمة الجانبية
 function handleNavClick(anchorId) {
     if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false); // إغلاق المنيو الجانبي فوراً
+        toggleNavMenu(false); // إغلاق المنيو
     }
-    
-    // انتظار 350 ملي ثانية حتى يختفي المنيو تماماً من الشاشة ثم يبدأ السكرول
     setTimeout(function() {
         smoothScrollEngine(anchorId);
     }, 350);
 }
 
-// 3️⃣ دالة شريط الفئات العلوي (تنتقل فوراً للقسم بدون أي تأخير)
+// دالة شريط الفئات العلوي الكريستالي
 function handleLuxuryNav(anchorId) {
     smoothScrollEngine(anchorId);
 }
