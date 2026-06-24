@@ -1430,51 +1430,50 @@ button[onclick*="saveAndAddToCart"] {
 
 
 <div class="luxury-categories-bar">
-<div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
-        <a href="#hot-drinks-anchor" class="exclusive-cat-item">
-        <div class="crystal-shape-wrapper">
-            <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
-        </div>
-        <span>مشروبات ساخنة</span>
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('hot-drinks-anchor')">
+        <a href="javascript:void(0)" class="exclusive-cat-item">
+            <div class="crystal-shape-wrapper">
+                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80">
+            </div>
+            <span>مشروبات ساخنة</span>
         </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('cold-drinks-anchor')">
-          <a href="#cold-drinks-anchor" class="exclusive-cat-item">
-        <div class="crystal-shape-wrapper">
-            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
-        </div>
-        <span>مشروبات باردة</span>
+        <a href="javascript:void(0)" class="exclusive-cat-item">
+            <div class="crystal-shape-wrapper">
+                <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80">
+            </div>
+            <span>مشروبات باردة</span>
         </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('desserts-anchor')">
-          <a href="#desserts-anchor" class="exclusive-cat-item">
-        <div class="crystal-shape-wrapper">
-            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
-        </div>
-        <span>الكيك والحلوى </span>
+        <a href="javascript:void(0)" class="exclusive-cat-item">
+            <div class="crystal-shape-wrapper">
+                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80">
+            </div>
+            <span>الكيك والحلوى</span>
         </a>
     </div>
 
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('breakfast-anchor')">
-          <a href="#breakfast-anchor" class="exclusive-cat-item">
-        <div class="crystal-shape-wrapper">
-            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
-        </div>
-        <span>الكراسون وباستريز</span>
+        <a href="javascript:void(0)" class="exclusive-cat-item">
+            <div class="crystal-shape-wrapper">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
+            </div>
+            <span>الكراسون وباستريز</span>
         </a>
     </div>
-    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
-          <a href="#specialty-coffee-anchor" class="exclusive-cat-item">
-        <div class="crystal-shape-wrapper">
-            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
-        </div>
-        <span> جديدنا</span>
-        </a>
-    </div>
-  
 
+    <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
+        <a href="javascript:void(0)" class="exclusive-cat-item">
+            <div class="crystal-shape-wrapper">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80">
+            </div>
+            <span>جديدنا</span>
+        </a>
+    </div>
 </div>
 
   
@@ -1796,24 +1795,8 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     parentSection.appendChild(btnWrapper);
 }
 
-function smoothScrollTo(elementId) {
-    const targetSection = document.getElementById(elementId);
-    if (targetSection) {
-        // نضع هامشاً علوياً فورياً للحاوية لضمان عدم اختفاء العنوان
-        // الـ 120 تعني أن المتصفح سيترك مسافة 120 بكسل من الأعلى قبل بدء الحاوية
-        targetSection.style.scrollMarginTop = "120px"; 
 
-        targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
 
-// دالة تبادلية لضمان استدعاء الفئات العلوية للاسم الصحيح للتمرير
-function handleLuxuryNav(anchorId) {
-    smoothScrollTo(anchorId);
-}
 
 // دالة السلة الأصلية الخاصة بك
 function addToCart(productId, mainCategory) {
@@ -2004,46 +1987,51 @@ function toggleNavMenu(isOpen) {
     }
 }
 
-// 2️⃣ دالة النقر على القسم (النسخة الذكية والفاخرة)
+// ==========================================
+// كود التنقل الموحد والآمن (خالي من الأخطاء 100%)
+// ==========================================
+
+// 1️⃣ المحرك المركزي للتمرير السلس (متوافق تماماً مع تصميم موقعك)
+function smoothScrollEngine(anchorId) {
+    const target = document.getElementById(anchorId);
+    
+    if (target) {
+        // إذا كان المستخدم يريد النزول للفوتر (تواصل معنا)
+        if (anchorId === 'phone-footer' || anchorId.includes('footer')) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } 
+        // لباقي أقسام المنيو (المشروبات الساخنة والباردة، الحلويات، جديدنا، الكراسون)
+        else {
+            // نضع مسافة أمان علوية 120 بكسل لكي لا يختفي العنوان تحت الهيدر الثابت الخاص بك
+            target.style.scrollMarginTop = "120px"; 
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    } else {
+        console.warn("تنبيه: لم يتم العثور على قسم يحمل المعرف: " + anchorId);
+    }
+}
+
+// 2️⃣ دالة القائمة الجانبية (تغلق القائمة الجانبية أولاً بنعومة ثم تتحرك للقسم)
 function handleNavClick(anchorId) {
-    // 1. إغلاق القائمة الجانبية فوراً
     if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false);
+        toggleNavMenu(false); // إغلاق المنيو الجانبي فوراً
     }
     
-    // 2. الانتظار قليلاً حتى تنغلق القائمة ثم النزول السلس
-    setTimeout(() => {
-        const target = document.getElementById(anchorId);
-        
-        if (target) {
-            // 💡 إذا كان الهدف هو "الفوتر/التواصل": ننزلق للمنتصف مع تأثير النبض
-            if (anchorId === 'phone-footer') {
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // تأثير النبض للفت الانتباه
-                target.style.transition = "transform 0.3s ease";
-                target.style.transform = "scale(1.02)";
-                setTimeout(() => {
-                    target.style.transform = "scale(1)";
-                }, 300);
-            } 
-            // ☕ وإذا كان الهدف "قسم من أقسام المنيو": ننزلق للأعلى مع ترك مسافة للهيدر
-            else {
-                if (typeof smoothScrollTo === "function") {
-                    smoothScrollTo(anchorId);
-                } else {
-                    target.style.scrollMarginTop = "100px"; // مساحة تنفس ممتازة أسفل الهيدر
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        }
-    }, 350); // نفس التوقيت الممتاز الذي اخترته أنت
+    // انتظار 350 ملي ثانية حتى يختفي المنيو تماماً من الشاشة ثم يبدأ السكرول
+    setTimeout(function() {
+        smoothScrollEngine(anchorId);
+    }, 350);
+}
+
+// 3️⃣ دالة شريط الفئات العلوي (تنتقل فوراً للقسم بدون أي تأخير)
+function handleLuxuryNav(anchorId) {
+    smoothScrollEngine(anchorId);
 }
 
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
     if (typeof userCartList === 'undefined' || userCartList.length === 0) {
-        alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ☕");
+        alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ");
         return;
     }
 
@@ -2055,7 +2043,7 @@ function sendCartToWhatsApp() {
     const modalHTML = `
     <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
         <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من كافيه حكاية </h3>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;">تفاصيل طلبك من كافيه مَلاذ/h3>
             <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
             <div style="margin-bottom: 22px; text-align: right;">
                 <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
@@ -2097,7 +2085,7 @@ function sendCartToWhatsApp() {
         if (!name) { alert("يرجى كتابة الاسم"); return; }
         if (!customerWazeURL) { alert("يرجى تحديد الموقع أولاً!"); return; }
 
-        let messageText = `*طلب جديد من كافيه حكاية*\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
+        let messageText = `*طلب جديد من كافيه *\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
         let total = 0;
 
      userCartList.forEach((item, i) => {
