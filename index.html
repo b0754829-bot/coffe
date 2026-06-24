@@ -1819,15 +1819,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCategorySection('breakfast', 'all');
 });
 
-      // المتغيرات الأساسية
-let visibleCount = 5;
-        // فلترة وعرض المنتجات حسب القسم المختار
-        function filterBySection(categoryName) {
-            const filtered = storeProductsDatabase.filter(p => p.category === categoryName);
-            displayStoreItems(filtered);
-            document.getElementById('showcase-title').innerText = `قسم الـ ${categoryName} الفاخر`;
-        }
-
+  
    function addNewProductToCart(productId, extras = "لا يوجد") {
     // 1. استخراج المنتج الأصلي
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
