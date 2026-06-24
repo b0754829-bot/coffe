@@ -1991,60 +1991,51 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
-// 🏆 المحرك الاحترافي الموحد - فائق السلاسة والسرعة ومتوافق مع الآيفون والشاشات
 function smoothScrollEngine(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
+    // 1. نبحث عن جميع العناصر التي تحمل هذا الـ ID في الصفحة بالكامل (لتفادي مشكلة التكرار)
+    const targets = document.querySelectorAll(`[id="${anchorId}"]`);
+    let target = null;
+    
+    // 2. الفحص الذكي: نمر على الأقسام ونختار القسم الظاهر والنشط فعلياً على شاشة الهاتف
+    targets.forEach(function(el) {
+        const rect = el.getBoundingClientRect();
+        // إذا كان العنصر يمتلك أبعاداً حقيقية وليس مخفياً بـ display: none
+        if (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0) {
+            target = el; 
+        }
+    });
+    
+    // إذا لم يجد نسخة ظاهر (كاحتمال احتياطي) يأخذ النسخة الأولى
+    if (!target && targets.length > 0) {
+        target = targets[0];
     }
 
-    var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
-    if (!targetId) return;
-
-    var target = document.getElementById(targetId);
-    
+    // 3. بدء عملية النزول المضمونة
     if (target) {
-        // 🛠️ معالجة ذكية مخصصة لقسم التواصل والفوتر لكي يظهر بالكامل في شاشة الهاتف
-        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
-            target.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'end' // يضمن صعود الفوتر بالكامل ليرى الزبون أرقام التواصل والموقع
-            });
+        if (anchorId === 'phone-footer' || anchorId.includes('footer')) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
         } else {
-            // مسافة أمان لجميع الأقسام الأخرى (بما فيها الكيك) حتى لا يغطي عليها الهيدر الطافي
-            target.style.scrollMarginTop = "130px";
-            
-            target.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            // نضع هامش الأمان لكي لا يختفي العنوان خلف الهيدر الثابت
+            target.style.scrollMarginTop = "120px"; 
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     } else {
-        console.warn("القسم غير موجود في الصفحة:", targetId);
+        console.warn("تنبيه: لم يتم العثور على أي قسم نشط يحمل المعرف: " + anchorId);
     }
 }
 
-// 📱 دالة أزرار القائمة الجانبية (تم تحسين وقت الانتظار ليكون أسرع استجابة)
+// دالة القائمة الجانبية
 function handleNavClick(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
-    
-    // إغلاق المنيو الجانبي فوراً لتوفير مساحة المعالجة للهاتف
     if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false);
+        toggleNavMenu(false); // إغلاق المنيو
     }
-    
-    // انتقال سريع وتلقائي ومباشر
     setTimeout(function() {
         smoothScrollEngine(anchorId);
-    }, 150);
+    }, 350);
 }
 
-// 💎 دالة شريط الفئات العلوي الكريستالي (تنقل فوري بدون أي تأخير)
+// دالة شريط الفئات العلوي الكريستالي
 function handleLuxuryNav(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
     smoothScrollEngine(anchorId);
 }
 
