@@ -1991,7 +1991,7 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
-// 🏆 المحرك الاحترافي المطور للهواتف - يكسر الارتباط الشرطي ويضمن سلاسة تامة
+// 🏆 المحرك الذكي والديناميكي بالكامل - آمن للفئات الحالية وأي فئة تضيفها في المستقبل
 function smoothScrollEngine(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
@@ -2000,62 +2000,52 @@ function smoothScrollEngine(anchorId) {
     var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
     if (!targetId) return;
 
-    // 1. إغلاق القائمة الجانبية فوراً لتوفير مساحة المعالجة لشاشة الهاتف
+    // 1. إغلاق القائمة الجانبية فوراً لتفريغ شاشة الهاتف ومنع التعليق
     if (typeof toggleNavMenu === 'function') {
         toggleNavMenu(false);
     }
 
-    // 2. 🛠️ حل اللغز: إذا كان الهدف الكيك، نشغل دالة الفلترة الخاصة بك فوراً لمنحه الأبعاد الحقيقية
-    if (targetId.indexOf('dessert') !== -1 || targetId === 'desserts-anchor') {
-        if (typeof filterBySection === 'function') {
-            try { 
-                // استدعاء دالتك الأصلية لتهيئة وعرض المنتجات برمجياً فوراً
-                filterBySection('desserts'); 
-            } catch(e) {
-                console.log("محاولة الفلترة البديلة...");
-                try { filterCategoryProducts(null, 'desserts', 'all'); } catch(err) {}
-            }
-        }
+    // 2. 🛠️ عبقرية الكود المستقبلي: قراءة الفئة ديناميكياً بدون تسميات جامدة
+    // إذا كان الزر المكبوس ينتهي بـ -anchor (مثل coffee-anchor أو desserts-anchor أو أي فئة مستقبلية)
+    if (targetId.indexOf('-anchor') !== -1) {
+        // يقص كلمة "-anchor" تلقائياً ليأخذ اسم الفئة الصافي (مثلاً: desserts)
+        var dynamicCategoryName = targetId.replace('-anchor', ''); 
         
-        // التأكد من إلغاء أي إخفاء قديم على حاوية الكيك والحلويات
-        var cakeBox = document.getElementById('desserts-anchor') || document.getElementById('dessert-anchor');
-        if (cakeBox) {
-            cakeBox.style.display = 'block';
-            cakeBox.style.visibility = 'visible';
-            cakeBox.style.height = 'auto';
-            cakeBox.style.opacity = '1';
+        if (typeof filterBySection === 'function') {
+            try {
+                // تشغيل دالة الفلترة الخاصة بك وتمرير اسم الفئة المستخرجة ديناميكياً
+                filterBySection(dynamicCategoryName); 
+            } catch(e) {
+                console.log("خطأ في تشغيل الفلتر الديناميكي:", e);
+            }
         }
     }
 
-    // 3. مهلة ذكية جداً (150 ملي ثانية) غير ملحوظة بالعين ليقوم الفلتر ببناء المنتجات ثم يبدأ النزول المستقل
-    setTimeout(function() {
-        var target = document.getElementById(targetId);
-        
-        // حماية إضافية للتحقق من اسم القسم (بالجمع أو المفرد)
-        if (!target && targetId === 'dessert-anchor') target = document.getElementById('desserts-anchor');
-        if (!target && targetId === 'desserts-anchor') target = document.getElementById('dessert-anchor');
+    // 3. تحديد عنصر الهدف للنزول إليه بسلاسة
+    var target = document.getElementById(targetId);
+    
+    // إذا لم يجد عنصراً مستقلاً (لأن موقعك يعرض المنتجات ديناميكياً في مكان واحد)، يتوجه لعنوان القسم المشترك
+    if (!target && targetId.indexOf('-anchor') !== -1) {
+        target = document.getElementById('showcase-title'); 
+    }
 
-        if (target) {
-            // معالجة قسم التواصل (الفوتر) ليظهر بالكامل ومنظماً في شاشات الموبايل الطولية
-            if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
-                target.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'end' 
-                });
-            } else {
-                // مسافة أمان علوية مريحة للعين لكي لا يختفي عنوان القسم تحت الهيدر الثابت للموقع
-                target.style.scrollMarginTop = "130px";
-                
-                target.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-            }
+    // 4. تنفيذ الانزلاق المنظم فائق السلاسة المتوافق مع الهواتف والآيفون
+    if (target) {
+        // مسافة أمان علوية ثابتة لكي لا يختفي العنوان تحت الهيدر العلوي للموقع
+        target.style.scrollMarginTop = "140px";
+        
+        // إذا كان الهدف هو قسم التواصل (الفوتر)، نجعل الشاشة تحاذي نهايته ليظهر بالكامل
+        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        } else {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, 150);
+    } else {
+        console.warn("العنصر المطلوب غير موجود في الصفحة:", targetId);
+    }
 }
 
-// 📱 دالة أزرار القائمة الجانبية (استجابة فورية للمس)
+// 📱 دالة أزرار القائمة الجانبية المباشرة للهواتف
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
