@@ -1986,59 +1986,58 @@ function toggleNavMenu(isOpen) {
         }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
     }
 }
+// 🚀 المحرك الأساسي الذكي والمصلح لمشكلة قسم الكيك (dessert vs desserts)
 function smoothScrollEngine(anchorId) {
-    // 1. منع أي قفز تلقائي للمتصفح بأمان تام
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
 
-    // 2. تنظيف المعرف والتأكد من أنه نصي
-    var targetId = "";
-    if (typeof anchorId === 'string') {
-        targetId = anchorId.replace('#', '');
-    } else {
-        return; 
-    }
+    var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
+    if (!targetId) return;
 
-    // 3. جلب القسم بالطريقة القياسية
-    var target = document.getElementById(targetId);
-
-    // 4. تنفيذ عملية النزول الفورية والسلسة المستقرة
-    if (target) {
-        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        } else {
-            // تحديد مسافة الأمان لكي لا يختفي العنوان تحت الهيدر الثابت
-            target.style.scrollMarginTop = "130px"; 
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    } else {
-        console.warn("القسم غير موجود في الصفحة:", targetId);
-    }
-}
-
-// دالة القائمة الجانبية (المنيو) - سريعة جداً واستجابة فورية
-function handleNavClick(anchorId) {
-    if (window.event) {
-        try { window.event.preventDefault(); } catch(e) {}
-    }
+    // إغلاق المنيو فوراً لإفساح المجال للشاشة
     if (typeof toggleNavMenu === 'function') {
-        toggleNavMenu(false); // إغلاق المنيو فوراً
+        toggleNavMenu(false);
     }
-    // وقت انتظار قليل جداً لسرعة فائقة
+
+    // الانتظار قليلاً حتى تختفي القائمة الجانبية تماماً (مهم جداً للموبايل)
     setTimeout(function() {
-        smoothScrollEngine(anchorId);
-    }, 200);
+        // 🛠️ حل الفخ: التحقق من الاسمين (بالجمع وبدون الجمع) لضمان الوصول لقسم الكيك
+        var target = document.getElementById(targetId);
+        
+        if (!target && targetId === 'desserts-anchor') {
+            target = document.getElementById('dessert-anchor');
+        } else if (!target && targetId === 'dessert-anchor') {
+            target = document.getElementById('desserts-anchor');
+        }
+
+        if (target) {
+            // إضافة مسافة أمان للهيدر لكي لا يغطي على عنوان القسم
+            target.style.scrollMarginTop = "130px"; 
+            
+            // استخدام دالة النزول المتوافقة مع نظام موقعك والـ CSS
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            console.warn("القسم غير موجود في الصفحة:", targetId);
+        }
+    }, 250); 
 }
 
-// دالة شريط الفئات العلوي الكريستالي
-function handleLuxuryNav(anchorId) {
+// 2. دالة القائمة الجانبية (المنيو)
+function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
     smoothScrollEngine(anchorId);
 }
 
+// 3. دالة شريط الفئات العلوي الكريستالي
+function handleLuxuryNav(anchorId) {
+    if (window.event) {
+        try { window.event.preventDefault(); } catch(e) {}
+    }
+    smoothScrollEngine(anchorId);
+}
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
     if (typeof userCartList === 'undefined' || userCartList.length === 0) {
