@@ -1986,7 +1986,6 @@ function toggleNavMenu(isOpen) {
         }, 400); // 400 ملي ثانية هي مدة الحركة (Transition)
     }
 }
-// 🚀 المحرك الأساسي الذكي والمصلح لمشكلة قسم الكيك (dessert vs desserts)
 function smoothScrollEngine(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
@@ -2000,44 +1999,45 @@ function smoothScrollEngine(anchorId) {
         toggleNavMenu(false);
     }
 
-    // الانتظار قليلاً حتى تختفي القائمة الجانبية تماماً (مهم جداً للموبايل)
+    // الانتظار قليلاً حتى تختفي القائمة الجانبية تماماً (مهم جداً للآيفون وسفاري)
     setTimeout(function() {
-        // 🛠️ حل الفخ: التحقق من الاسمين (بالجمع وبدون الجمع) لضمان الوصول لقسم الكيك
         var target = document.getElementById(targetId);
-        
-        if (!target && targetId === 'desserts-anchor') {
-            target = document.getElementById('dessert-anchor');
-        } else if (!target && targetId === 'dessert-anchor') {
-            target = document.getElementById('desserts-anchor');
-        }
 
+        // النزول الجبري الإجباري (الطريقة التي لا تفشل على الهاتف)
         if (target) {
-            // إضافة مسافة أمان للهيدر لكي لا يغطي على عنوان القسم
-            target.style.scrollMarginTop = "130px"; 
-            
-            // استخدام دالة النزول المتوافقة مع نظام موقعك والـ CSS
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            console.warn("القسم غير موجود في الصفحة:", targetId);
+            var headerOffset = 130; // مسافة أمان للهيدر
+            var elementPosition = target.getBoundingClientRect().top;
+            var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
         }
-    }, 250); 
+    }, 350); 
 }
-
-// 2. دالة القائمة الجانبية (المنيو)
+// دالة القائمة الجانبية (المنيو) - سريعة جداً واستجابة فورية
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
-    smoothScrollEngine(anchorId);
+    if (typeof toggleNavMenu === 'function') {
+        toggleNavMenu(false); // إغلاق المنيو فوراً
+    }
+    // وقت انتظار قليل جداً لسرعة فائقة
+    setTimeout(function() {
+        smoothScrollEngine(anchorId);
+    }, 200);
 }
 
-// 3. دالة شريط الفئات العلوي الكريستالي
+// دالة شريط الفئات العلوي الكريستالي
 function handleLuxuryNav(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
     smoothScrollEngine(anchorId);
 }
+
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
     if (typeof userCartList === 'undefined' || userCartList.length === 0) {
