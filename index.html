@@ -1992,53 +1992,89 @@ function toggleNavMenu(isOpen) {
 // ==========================================
 
 // =========================================================
-// محرك التنقل السريع والمقاوم للانهيار على متصفحات الهواتف
+// المحرك الفاخر والنهائي للتنقل السريع والمقاوم للأقسام المخفية
 // =========================================================
 
 function smoothScrollEngine(anchorId) {
-    // 1. منع السلوك التلقائي للمتصفح إذا كان النقر داخل رابط لمنع التضارب الحركي
+    // 1. منع أي قفز تلقائي للمتصفح بأمان تام لمنع التضارب الحركي
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
     }
 
-    // 2. تنظيف الـ ID من علامة # لو كانت قادمة من الـ HTML بالخطأ لضمان استقرار البحث
+    // 2. تنظيف المعرف والتأكد من أنه نصي
+    var targetId = "";
     if (typeof anchorId === 'string') {
-        anchorId = anchorId.replace('#', '');
+        targetId = anchorId.replace('#', '');
+    } else {
+        return; 
     }
 
-    // 3. جلب العناصر بالأسلوب المتوافق 100% مع الهواتف الذكية
-    var targets = document.querySelectorAll('[id="' + anchorId + '"]');
-    var target = null;
-    
-    // استخدام loop تقليدي بدلاً من forEach لتفادي انهيار الكود في الهواتف والآيفون
-    for (var i = 0; i < targets.length; i++) {
-        var el = targets[i];
-        if (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0) {
-            target = el;
-            break; // وجدنا النسخة النشطة والظاهرة فوراً
+    // 3. جلب القسم بالطريقة القياسية
+    var target = document.getElementById(targetId);
+
+    // 💡 ذكاء اصطناعي مخصص للكيك والحلوى والأقسام المخفية على الهاتف:
+    // إذا لم يجد العنصر، أو وجده ولكن حجمه (0) أي أنه مخفي لنسخة الكمبيوتر!
+    if (!target || target.offsetHeight === 0 || targetId.indexOf('dessert') !== -1 || targetId.indexOf('cake') !== -1) {
+        
+        var allElements = document.getElementsByTagName('*');
+        var foundVisible = false;
+
+        // أولاً: البحث عن عنصر يحمل نفس الـ ID تماماً ولكنه (ظاهر ومرئي) على شاشة الهاتف
+        for (var i = 0; i < allElements.length; i++) {
+            var el = allElements[i];
+            if (el.getAttribute('id') === targetId && el.offsetHeight > 0) {
+                target = el;
+                foundVisible = true;
+                break;
+            }
+        }
+
+        // ثانياً: إذا لم يجد نفس الـ ID ظاهراً، يبحث بالكلمات الدلالية عن (الكيك والحلوى) المخصصة للموبايل
+        if (!foundVisible) {
+            for (var j = 0; j < allElements.length; j++) {
+                var currentEl = allElements[j];
+                
+                // شرط أساسي: يجب أن يكون القسم ظاهراً وله أبعاد حقيقية على الهاتف
+                if (currentEl.offsetHeight > 0 || currentEl.offsetWidth > 0) {
+                    var idAttr = (currentEl.getAttribute('id') || '').toLowerCase();
+                    var className = (currentEl.className || '').toLowerCase();
+                    var textContent = (currentEl.textContent || currentEl.innerText || '').toLowerCase();
+
+                    // الفحص الشامل للمعطيات البرمجية والنصوص العربية والإنجليزية
+                    if (idAttr.indexOf('dessert') !== -1 || idAttr.indexOf('cake') !== -1 || idAttr.indexOf('sweet') !== -1 ||
+                        idAttr.indexOf('كيك') !== -1 || idAttr.indexOf('حلو') !== -1 ||
+                        className.indexOf('dessert') !== -1 || className.indexOf('cake') !== -1) {
+                        target = currentEl;
+                        foundVisible = true;
+                        break;
+                    }
+
+                    // الفحص الإضافي داخل عناوين الأقسام الرئيسية المكتوبة بالعربي
+                    if (currentEl.tagName.match(/^H[1-6]$/) || className.indexOf('title') !== -1) {
+                        if (textContent.indexOf('كيك') !== -1 || textContent.indexOf('حلو') !== -1 || textContent.indexOf('الحل') !== -1) {
+                            target = currentEl;
+                            foundVisible = true;
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
-    
-    // إذا لم يجد نسخة ظاهرة، يأخذ النسخة الأولى كاحتمال احتياطي
-    if (!target && targets.length > 0) {
-        target = targets[0];
-    }
 
-    // 4. بدء عملية النزول المنسابة والسريعة
+    // 4. تنفيذ عملية النزول الفورية والسلسة المستقرة
     if (target) {
-        if (anchorId === 'phone-footer' || anchorId.indexOf('footer') !== -1) {
+        if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
             target.scrollIntoView({ behavior: 'smooth', block: 'end' });
         } else {
-            // مسافة الأمان العلوية لكي لا يختفي العنوان خلف الهيدر الثابت
+            // تحديد مسافة الأمان لكي لا يختفي العنوان تحت الهيدر الثابت
             target.style.scrollMarginTop = "130px"; 
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    } else {
-        console.warn("تنبيه: لم يتم العثور على المعرف: " + anchorId);
     }
 }
 
-// دالة القائمة الجانبية (المنيو)
+// دالة القائمة الجانبية (المنيو) - سريعة جداً واستجابة فورية
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
@@ -2046,10 +2082,10 @@ function handleNavClick(anchorId) {
     if (typeof toggleNavMenu === 'function') {
         toggleNavMenu(false); // إغلاق المنيو فوراً
     }
-    // النزول السريع والمباشر بعد قفل المنيو بـ 300 ملي ثانية فقط
+    // وقت انتظار قليل جداً لسرعة فائقة
     setTimeout(function() {
         smoothScrollEngine(anchorId);
-    }, 300);
+    }, 200);
 }
 
 // دالة شريط الفئات العلوي الكريستالي
