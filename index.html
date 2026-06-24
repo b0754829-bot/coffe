@@ -4,7 +4,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#2c1a11">
-    <meta name="apple-mobile-web-app-title" content="كافيه حكاية">
+    <meta name="apple-mobile-web-app-title" content="كافيه ">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
 <meta name="theme-color" content="#06b6d4">
 
-    <title>كافيه حكاية</title>
+    <title> COFFEE مَلاذ</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1404,7 +1404,7 @@ button[onclick*="saveAndAddToCart"] {
         
         
        <div class="brand-logo-container">
-    <h1 class="brand-title">COFFEE كافيه</h1>
+    <h1 class="brand-title">COFFEE مَلاذ</h1>
     <span class="brand-slogan">
             سَلَامٌ عَلَى رَائِحَةِ القَهْوَةِ، وَهُدُوءِ البَالِ
         <svg class="glow-line" viewBox="0 0 200 30">
@@ -1462,7 +1462,7 @@ button[onclick*="saveAndAddToCart"] {
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
         </div>
-        <span>الكراسون بانواعه</span>
+        <span>الكراسون وباستريز</span>
         </a>
     </div>
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
@@ -1480,11 +1480,14 @@ button[onclick*="saveAndAddToCart"] {
   
 <!-- القسم الثاني: المشروبات الساخنة -->
 <div id="hot-drinks-anchor">
-    <h3 class="title-decorated">المشروبات الساخنة الكلاسيكية</h3>
+    <h3 class="title-decorated">المشروبات الساخنة </h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">لاتيه وكابتشينو وموكا</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">شاي فاخر وأعشاب طبيعية</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'espresso_base')">  اسبريسو وقهوة سادة</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">  قهوة بالحليب </button>
+                <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')"> كابتشينو ولاتيه  </button>
+                        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">  شاي بانواعه </button>
+                                <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')"> هوت شوكلت وسحلب  </button>
     </div>
     <div class="products-showcase" id="container-hot"></div>
 </div>
@@ -1494,31 +1497,34 @@ button[onclick*="saveAndAddToCart"] {
     <h3 class="title-decorated">المشروبات الباردة والمنعشة</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')">آيس لاتيه وموكا باردة</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">موهيتو حكاية المنعش</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">سموذي وميلك شيك</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')"> ايس لاتيه وقهوة باردة  </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">  نكهات الموهيتو</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')"> ميلك شيك ومثلجات </button>
     </div>
     <div class="products-showcase" id="container-cold"></div>
 </div>
 
 <!-- القسم الرابع: الحلويات الفاخرة -->
 <div id="desserts-anchor">
-    <h3 class="title-decorated">الحلويات الفاخرة</h3>
+    <h3 class="title-decorated">الكيك والحلوة</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'desserts', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')">كيك (زعفران، تشيز كيك، شوكولاتة)</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">وافل وبانكيك</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')"> كعك بقوام مكثف</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">كعك بقوام خفيف </button>
     </div>
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
 <div id="breakfast-anchor">
-    <h3 class="title-decorated">وجبات الفطور والكرواسون</h3>
-    <div class="subcategory-filters">...</div>
+    <h3 class="title-decorated">كرواسون وباستريز </h3>
+    <div class="subcategory-filters">
+
+    </div>
     <div class="products-showcase" id="container-breakfast"></div>
-</div> <div id="specialty-coffee-anchor">
+</div>
+ <div id="specialty-coffee-anchor">
     <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
-    <div class="subcategory-filters">...</div>
+    <div class="subcategory-filters"></div>
     <div class="products-showcase" id="container-specialty"></div>
 </div> ```
 
