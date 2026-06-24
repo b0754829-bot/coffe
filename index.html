@@ -2146,7 +2146,54 @@ function sendCartToWhatsApp() {
         alert("سلتك فارغة، يرجى اختيار مشروبك أو حلاك المفضل أولاً! ");
         return;
     }
+// 🏆 الدالة الديناميكية النهائية المستقلة لربط المنيو بالأقسام وقاعدة البيانات
+function navigateToCategoryDirect(categoryKey) {
+    if (!categoryKey) return;
 
+    // 1. إغلاق القائمة الجانبية فوراً إن كانت مفتوحة
+    if (typeof toggleNavMenu === 'function') {
+        toggleNavMenu(false);
+    } else if (typeof toggleSidebar === 'function') {
+        toggleSidebar(false);
+    }
+
+    // 2. تحديث وعرض المنتجات فوراً من قاعدة البيانات بشكل ديناميكي كامل
+    if (typeof renderCategorySection === 'function') {
+        try {
+            renderCategorySection(categoryKey, 'all');
+        } catch (e) {
+            console.warn("إشعار العرض: القسم جاهز مسبقاً أو مبني تلقائياً.");
+        }
+    }
+
+    // 3. النزول الانسيابي الذكي المحمي للهواتف والآيفون
+    setTimeout(function() {
+        // البحث عن الحاوية المخصصة للقسم في الصفحة
+        var targetContainer = document.getElementById('container-' + categoryKey) || 
+                              document.getElementById(categoryKey) || 
+                              document.getElementById('section-' + categoryKey);
+
+        if (targetContainer) {
+            // ضبط مسافة الأمان العلوية لمنع اختفاء القسم تحت الهيدر الطافي
+            targetContainer.style.scrollMarginTop = "140px";
+            
+            // حساب الإحداثيات الدقيق المتوافق مع الهواتف الذكية
+            var targetPosition = targetContainer.getBoundingClientRect().top + window.pageYOffset - 140;
+            
+            try {
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            } catch (err) {
+                // حل بديل فوري في حال الأجهزة أو المتصفحات القديمة
+                window.scrollTo(0, targetPosition);
+            }
+        } else {
+            console.error("خطأ: لم يتم العثور على حاوية HTML بالمعرف: container-" + categoryKey);
+        }
+    }, 180); // فاصل زمني لضمان استقرار استجابة معالج الهاتف
+}
     // 2. تنظيف أي مودال قديم
     const oldModal = document.getElementById('hikaya-sky-modal');
     if (oldModal) oldModal.remove();
