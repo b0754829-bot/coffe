@@ -1991,7 +1991,7 @@ function toggleNavMenu(isOpen) {
 // محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
 // ==========================================
 
-// 🏆 المحرك الاحترافي الذكي المخصص للهواتف - يكسر الارتباط الشرطي تماماً
+// 🏆 المحرك الاحترافي النهائي لإصلاح تعليق الكيك وهواتف الآيفون والموبايل
 function smoothScrollEngine(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
@@ -2000,30 +2000,32 @@ function smoothScrollEngine(anchorId) {
     var targetId = typeof anchorId === 'string' ? anchorId.replace('#', '') : '';
     if (!targetId) return;
 
-    // 1. إغلاق القائمة الجانبية فوراً لتهيئة معالج شاشة الهاتف
+    // 1. إغلاق القائمة الجانبية فوراً لتوفير مساحة المعالجة للهاتف
     if (typeof toggleNavMenu === 'function') {
         toggleNavMenu(false);
     }
 
-    // 2. 🛠️ حل اللغز: إذا كان الهدف هو الكيك، نقوم بتنشيط فئة الحلويات وإجبارها على الظهور فوراً
+    // 2. 🛠️ حل اللغز: إذا كان الهدف الكيك، نجبر الحاوية على أخذ أبعادها الحقيقية فوراً برمجياً
     if (targetId === 'desserts-anchor' || targetId === 'dessert-anchor') {
-        // إذا كان لديك زر فئة الكيك في الشريط الرئيسي، نضغط عليه برمجياً لتفعيل الفلتر الأصلي للموقع
-        var cakeTab = document.querySelector('[onclick*="desserts"]') || document.querySelector('[onclick*="dessert"]');
-        if (cakeTab && typeof filterCategoryProducts === 'function') {
-            try { filterCategoryProducts(cakeTab, 'desserts', 'all'); } catch(e) {}
+        // تشغيل الفلتر الافتراضي برمجياً كأن المستخدم ضغط على زر الفئة
+        if (typeof filterCategoryProducts === 'function') {
+            try { filterCategoryProducts(null, 'desserts', 'all'); } catch(e) {}
+        }
+        if (typeof filterProducts === 'function') {
+            try { filterProducts('desserts'); } catch(e) {}
         }
 
-        // إجبار حاوية الكيك والحلويات على أخذ الأبعاد الكاملة لكي يراها الهاتف
-        var cakeContainer = document.getElementById('desserts-anchor') || document.getElementById('dessert-anchor');
-        if (cakeContainer) {
-            cakeContainer.style.display = 'block';
-            cakeContainer.style.visibility = 'visible';
-            cakeContainer.style.height = 'auto';
-            cakeContainer.style.opacity = '1';
+        // إلغاء أي display: none أو ارتفاع صفر قد تسببت به الفئات الأخرى
+        var cakeBox = document.getElementById('desserts-anchor') || document.getElementById('dessert-anchor');
+        if (cakeBox) {
+            cakeBox.style.display = 'block';
+            cakeBox.style.visibility = 'visible';
+            cakeBox.style.height = 'auto';
+            cakeBox.style.opacity = '1';
         }
     }
 
-    // 3. مهلة 150 ملي ثانية فقط (غير ملحوظة بالعين) ليرتب المتصفح العناصر ويبدأ النزول
+    // 3. مهلة ذكية (150ms) غير ملحوظة بالعين ليرتب المتصفح العناصر ويبدأ النزول المستقل
     setTimeout(function() {
         var target = document.getElementById(targetId);
         
@@ -2032,14 +2034,14 @@ function smoothScrollEngine(anchorId) {
         if (!target && targetId === 'desserts-anchor') target = document.getElementById('dessert-anchor');
 
         if (target) {
-            // معالجة قسم التواصل (الفوتر) ليظهر بالكامل في منتصف الشاشة الطولية للهاتف
+            // معالجة قسم التواصل (الفوتر) ليظهر بالكامل في شاشة الهاتف الطولية
             if (targetId === 'phone-footer' || targetId.indexOf('footer') !== -1) {
                 target.scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'end' 
                 });
             } else {
-                // مسافة أمان منظمة ومريحة للعين لكي لا يختفي العنوان خلف الهيدر العلوي الثابت
+                // مسافة أمان ذهبية ومنظمة مريحة للعين لكي لا يختفي العنوان خلف المنيو العلوي الثابت
                 target.style.scrollMarginTop = "130px";
                 
                 target.scrollIntoView({ 
@@ -2047,11 +2049,13 @@ function smoothScrollEngine(anchorId) {
                     block: 'start' 
                 });
             }
+        } else {
+            console.warn("القسم غير موجود في الصفحة:", targetId);
         }
     }, 150);
 }
 
-// 📱 دالة أزرار القائمة الجانبية (تستدعي المحرك مباشرة بدون تعقيد)
+// 📱 دالة أزرار القائمة الجانبية المباشرة للهواتف
 function handleNavClick(anchorId) {
     if (window.event) {
         try { window.event.preventDefault(); } catch(e) {}
