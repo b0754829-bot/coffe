@@ -1987,6 +1987,10 @@ function toggleNavMenu(isOpen) {
     }
 }
 
+// ==========================================
+// محرك التنقل الذكي (المضاد لتكرار الـ IDs والأقسام المخفية)
+// ==========================================
+
 // 🏆 المحرك الاحترافي الموحد - فائق السرعة والسلاسة لجميع الشاشات والهواتف
 function smoothScrollEngine(anchorId) {
     // 1. منع أي سلوك افتراضي قد يسبب تعارض حركي
@@ -2040,6 +2044,7 @@ function handleLuxuryNav(anchorId) {
     }
     smoothScrollEngine(anchorId);
 }
+
 function sendCartToWhatsApp() {
     // 1. التحقق من وجود السلة
     if (typeof userCartList === 'undefined' || userCartList.length === 0) {
