@@ -1921,25 +1921,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 🌌 1. بين الفجر والشروق (قطرات الندى وسكون الكوب)
     if (decimalTime >= 3.5 && decimalTime < 6) { 
-        greetingText = "طاب فجرك بنقاء الندى وسكون كوبك";
+        greetingText = "طاب فجرك";
         // أيقونة قطرة الندى العذبة مع حركة تساقط ناعمة (drop-dew)
         iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
     } 
     // ☀️ 2. الصباح (أشعة الشمس المشرقة والمسرات)
     else if (decimalTime >= 6 && decimalTime < 12) {
-        greetingText = "صباح الخير والمسرات";
+        greetingText = "صباح الخير ";
         // أيقونة الشمس المشرقة مع حركة دوران بطيئة ومبهرة لأشعتها (rotate-sun)
         iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
     } 
     // ☕ 3. الظهيرة (جمال الفنجان وطاب يومك)
     else if (decimalTime >= 12 && decimalTime < 17) {
-        greetingText = "طاب يومك بمَلاذ وجمال فنجانك";
+        greetingText = "طاب يومك بمَلاذ  ";
         // أيقونة خطوط تبخر القهوة الفاخرة
         iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
     } 
     // 🌙 4. الليل والمساء (وميض الليل والسكينة)
     else if (decimalTime >= 17 || decimalTime < 3.5) {
-        greetingText = "مساء الخير والسكينة";
+        greetingText = "مساءالخير ";
         // أيقونة الهلال مع نجوم الليل التي تومض ذكياً بنبضات ناعمة (pulse-stars)
         iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
@@ -1995,191 +1995,207 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
+
+
+
 <style>
-/* 1. تأثير الكرت عندما يتذكر أن المنتج مضاف مسبقاً (توهج مائي نابض) */
-.premium-product-card.remembered-card {
-    border-color: rgba(26, 156, 125, 0.6) !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    /* توهج زمردي خفيف يشبه موجة الماء المتنفسة */
-    box-shadow: 
-        inset 0 0 15px rgba(26, 156, 125, 0.2), 
-        inset 0 1px 3px rgba(255, 255, 255, 0.6),
-        0 15px 35px rgba(11, 63, 59, 0.08) !important;
-    animation: liquid-breath 3s infinite alternate ease-in-out !important;
-}
-
-@keyframes liquid-breath {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.015); border-color: rgba(26, 156, 125, 0.9) !important; }
-}
-
-/* 2. الشارة الكريستالية العائمة التي تعرض خيار الزبون السابق */
-.proximity-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(11, 63, 59, 0.85);
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 4px 10px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-5px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.premium-product-card.remembered-card .proximity-badge {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* 3. نافذة الخيارات المائية السريعة التي تظهر داخل الكرت بسلاسة */
-.ice-options-overlay {
-    position: absolute;
-    bottom: 0;
+/* 1. تصميم شاشة التوقف الزجاجية الشفافة والفائقة النقاء */
+#malath-screensaver {
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 24px;
+    
+    /* 🪞 السر هنا: شفافية عالية جداً ليمر لون الموقع من خلالها */
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(35px) saturate(180%);
+    -webkit-backdrop-filter: blur(35px) saturate(180%);
+    
+    /* إضاءة مجهرية حول حواف الشاشة لتبدو كلوح زجاجي حقيقي */
+    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.5);
+    
+    z-index: 999999;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    z-index: 20;
+    
     opacity: 0;
     pointer-events: none;
-    transform: translateY(100%);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.ice-options-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
+    transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* أزرار الخيارات الزجاجية الناعمة */
-.ice-btn {
-    width: 80%;
-    padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.6);
-    color: #0b3f3b;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-    transition: all 0.2s ease;
+#malath-screensaver.active-screensaver {
+    opacity: 1;
+    pointer-events: auto;
 }
-.ice-btn:active {
-    transform: scale(0.95);
-    background: #0b3f3b;
-    color: white;
+
+/* 2. النصوص الفنية بألوان تتماشى مع الزجاج المضيء */
+.ss-content {
+    text-align: center;
+    animation: elegant-breathe 4s infinite alternate ease-in-out;
+}
+
+.ss-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    /* لون الهوية الزمردي الغامق ليكون بارزاً على الزجاج الفاتح */
+    color: #0b3f3b; 
+    margin: 0;
+    letter-spacing: 1.5px;
+    /* لمعة بيضاء خلف النص لضمان قراءته مهما كانت خلفية الموقع */
+    text-shadow: 0 4px 15px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.ss-subtitle {
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a9c7d;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+}
+
+.ss-wakeup-hint {
+    position: absolute;
+    bottom: 40px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(11, 63, 59, 0.5);
+    letter-spacing: 1px;
+    animation: pulse-hint 2s infinite ease-in-out;
+}
+
+@keyframes elegant-breathe {
+    0% { transform: translateY(0) scale(0.98); }
+    100% { transform: translateY(-5px) scale(1); filter: drop-shadow(0 10px 20px rgba(255,255,255,0.6)); }
+}
+
+@keyframes pulse-hint {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
 }
 </style>
 
+<div id="malath-screensaver">
+    <div class="ss-content">
+        <h1 class="ss-title">مَلاذ Coffee</h1>
+        <p class="ss-subtitle">كافيه حكاية.. تُروى في كل كوب ✨</p>
+    </div>
+    <div class="ss-wakeup-hint">المس الشاشة للمتابعة</div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const cards = document.querySelectorAll('.premium-product-card');
+    let idleTimer;
+    const screensaver = document.getElementById('malath-screensaver');
+    let isSleeping = false;
+    let audioCtx = null; // متغير للتحكم المطلق بالصوت
+    
+    const IDLE_TIME = 15000; // 15 ثانية
 
-    // دالة لتحديث مظهر الكروت بناءً على الذاكرة ومحتويات السلة الحقيقية
-    const updateCardsMemory = () => {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        
-        cards.forEach(card => {
-            const productName = card.querySelector('h4')?.innerText?.trim();
+    // 🎵 محرك الصوت الأنيق
+    function playSoftCrystalChime() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
             
-            // فحص هل هذا المنتج موجود في السلة؟
-            const foundItem = cart.find(item => item.name && item.name.includes(productName));
+            // إنشاء بيئة صوتية جديدة في كل مرة
+            audioCtx = new AudioContext();
             
-            // إزالة الشارات القديمة لمنع التكرار
-            const oldBadge = card.querySelector('.proximity-badge');
-            if (oldBadge) oldBadge.remove();
-
-            if (foundItem) {
-                card.classList.add('remembered-card');
+            function createTone(freq) {
+                if(!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
                 
-                // إنشاء شارة الذاكرة الذكية
-                const badge = document.createElement('div');
-                badge.className = 'proximity-badge';
-                badge.innerText = foundItem.option || "بالسلة ✨";
-                card.appendChild(badge);
-            } else {
-                card.classList.remove('remembered-card');
+                osc.type = 'sine'; 
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1); 
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5); 
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 4);
             }
-        });
-    };
 
-    // بناء واجهة خيارات الثلج داخل كل كرت تلقائياً
-    cards.forEach(card => {
-        // منع تكرار إنشاء الأوفرلاي
-        if (card.querySelector('.ice-options-overlay')) return;
+            createTone(523.25); // C5
+            createTone(659.25); // E5
+            
+        } catch(e) {}
+    }
 
-        const overlay = document.createElement('div');
-        overlay.className = 'ice-options-overlay';
-        overlay.innerHTML = `
-            <span style="font-size:11px; font-weight:900; color:#0b3f3b; margin-bottom:5px;">اختر تخصيصك</span>
-            <button class="ice-btn" data-opt="مع ثلج 🧊">مع ثلج 🧊</button>
-            <button class="ice-btn" data-opt="بدون ثلج ✨">بدون ثلج ✨</button>
-            <button class="ice-btn" data-opt="إلغاء" style="background:transparent; border:none; color:red; font-size:10px;">إلغاء</button>
-        `;
-        card.appendChild(overlay);
-
-        // ربط زر الزائد لفتح قائمة الخيارات بدلاً من الإضافة الفورية الجافة
-        const addBtn = card.querySelector('.circle-add-btn');
-        if (addBtn) {
-            addBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                overlay.classList.add('show');
-            });
+    // 🛑 دالة الإيقاف الجبري للصوت
+    function forceStopAudio() {
+        if (audioCtx && audioCtx.state !== 'closed') {
+            audioCtx.close(); // إعدام الصوت تماماً وإغلاق الدائرة
+            audioCtx = null;
         }
+    }
 
-        // معالجة خيار الزبون عند الضغط
-        overlay.querySelectorAll('.ice-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const option = btn.getAttribute('data-opt');
-                overlay.classList.remove('show');
+    // 🌙 تفعيل الشاشة والصوت
+    function activateScreensaver() {
+        if (!isSleeping) {
+            isSleeping = true;
+            playSoftCrystalChime();
+            screensaver.classList.add('active-screensaver');
+        }
+    }
 
-                if (option === "إلغاء") return;
+    // ☀️ الاستيقاظ
+    function wakeUp() {
+        if (isSleeping) {
+            screensaver.classList.remove('active-screensaver');
+            isSleeping = false;
+        }
+        resetTimer();
+    }
 
-                // جلب اسم المنتج
-                const productName = card.querySelector('h4')?.innerText?.trim();
-                
-                // محاكاة إضافة المنتج بخياره إلى السلة ووضعها في الذاكرة المحلية
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                // إزالة النسخة القديمة إن وجدت واستبدالها بالخيار الجديد
-                cart = cart.filter(item => item.name !== productName);
-                cart.push({ name: productName, option: option });
-                localStorage.setItem('cart', JSON.stringify(cart));
+    function resetTimer() {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(activateScreensaver, IDLE_TIME);
+    }
 
-                // تحديث شكل الكروت فوراً ليعمل التوهج السحري
-                updateCardsMemory();
-
-                // تشغيل انيميشن الطيران الأصلي الموجود في موقعك تلقائياً
-                if (typeof window.animateFlyEffect === 'function') {
-                    window.animateFlyEffect(card);
-                } else {
-                    // إذا لم تكن الدالة عامة، نقوم بضغط زر الإضافة الفعلي خلف الكواليس لإتمام عملية الشراء في موقعك
-                    const realAddButton = card.querySelector('[onclick*="addToCart"]') || card.querySelector('.circle-add-btn');
-                    if (realAddButton && realAddButton !== addBtn) realAddButton.click();
-                }
-            });
-        });
+    // 🚨 استشعار خروج الزبون من الموقع أو قفل الشاشة
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            // الزبون خرج من المتصفح أو قفل الهاتف!
+            forceStopAudio(); // إيقاف الصوت فوراً
+            clearTimeout(idleTimer); // إيقاف عداد الانتظار لمنع عمله بالخلفية
+        } else {
+            // الزبون عاد للموقع
+            resetTimer();
+        }
     });
 
-    // تشغيل الفحص الذكي عند تحميل الصفحة مباشرة
-    updateCardsMemory();
+    // 🚨 استشعار إضافي لحالات تصغير المتصفح (Minimize)
+    window.addEventListener("blur", () => {
+        forceStopAudio();
+        clearTimeout(idleTimer);
+    });
+    
+    window.addEventListener("focus", resetTimer);
+
+    // مراقبة نشاط الزبون
+    ['touchstart', 'mousemove', 'scroll', 'click', 'keydown'].forEach(event => {
+        document.addEventListener(event, wakeUp, { passive: true });
+    });
+
+    resetTimer();
 });
 </script>
+
+
+
+
 
     <script>
         const menuExtras = {
