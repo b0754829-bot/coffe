@@ -1611,157 +1611,22 @@ header, [class*="header"], .store-header-wrapper {
 </footer>
 
 <style>
-/* ✨ 1. تأثير أزرار الشراء الحيوية والخفيفة (Pure CSS) */
-.single_add_to_cart_button, 
-.add_to_cart_button, 
-.checkout-btn,
-button[name="add"] {
-    position: relative !important;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
-}
-
-/* حركة ارتدادية ناعمة جداً ترحب بلمسة العميل */
-.single_add_to_cart_button:hover, 
-.add_to_cart_button:hover, 
-.checkout-btn:hover,
-button[name="add"]:hover {
-    transform: translateY(-2px) scale(1.01) !important;
-    box-shadow: 0 8px 20px rgba(11, 63, 59, 0.15) !important; /* ظل خفيف بلون البراند */
-}
-
-/* 🌧️ 2. ستايل السطر النصي الذكي داخل صفحة السلة */
-#maladh-cart-context-line {
-    font-family: 'Cairo', sans-serif !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    color: #0b3f3b !important; /* لون البراند الزيتوني العتيق */
-    text-align: center !important;
-    margin: 15px 0 !important;
-    padding: 10px !important;
-    border-radius: 12px !important;
-    background: rgba(11, 63, 59, 0.03) !important;
-    display: none; /* يظهر فقط عبر الجافاسكريبت بعد فحص الطقس */
-    animation: fadeInText 0.8s ease forwards;
-}
-
-@keyframes fadeInText { from { opacity: 0; } to { opacity: 1; } }
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-    // ==========================================
-    // 🧠 الفكرة الأولى: ذكاء عنوان المتصفح (Tab Title)
-    // ==========================================
-    const originalTitle = document.title;
-    let cartInterval = null;
-
-    window.addEventListener("blur", function() {
-        // إذا كان هناك منتجات في السلة (نقوم بفحص وجود عنصر السلة في المتجر)
-        const hasItems = document.querySelector('.cart-count, .cart-qty, .badge--cart') !== null; 
-        
-        if (hasItems) {
-            let toggle = true;
-            cartInterval = setInterval(() => {
-                document.title = toggle ? "⏳ كوبك ينتظرك بلهفة..." : "🌿 نجهز طلبك الآن؟";
-                toggle = !toggle;
-            }, 2500); // يتناوب النص كل ثانيتين ونصف بهدوء
-        }
-    });
-
-    window.addEventListener("focus", function() {
-        if (cartInterval) clearInterval(cartInterval);
-        document.title = originalTitle; // يعود الاسم الأصلي فوراً عند عودة العميل
-    });
-
-
-    // ==========================================
-    // 🌧️ الفكرة الثانية: محاكاة الطقس والوقت النصية بالسلة
-    // ==========================================
-    // نبحث عن حاوية السلة أو نضع النص في أسفل الجسم إذا لم نجدها
-    const cartPageContainer = document.querySelector('.cart-page, .cart-wrapper, #cart-form, .cart');
-    
-    if (cartPageContainer) {
-        const contextLine = document.createElement('div');
-        contextLine.id = 'maladh-cart-context-line';
-        cartPageContainer.appendChild(contextLine);
-
-        const now = new Date();
-        const hours = now.getHours();
-        
-        // النص الافتراضي بناءً على الوقت الحالي
-        let smartText = "طاب يومك.. طلبك الحالي يصنع أوقاتاً ممتعة وبديعة 🌿";
-        if (hours >= 17 || hours < 4) {
-            smartText = "✨ طاب مساؤك.. طلبك الحالي يصنع ليلة هادئة دافئة.";
-        } else if (hours >= 4 && hours < 7) {
-            smartText = "💧 طاب فجرك.. طلبك الحالي يفتتح يومك بنقاء الندى وسكونه.";
-        }
-
-        contextLine.innerText = smartText;
-        contextLine.style.display = 'block';
-
-        // فحص الطقس الحقيقي بطلب خفيف وسريع جداً لتبديل النص إذا كانت الأجواء ماطرة
-        fetch('https://wttr.in/?format=j1')
-            .then(response => response.json())
-            .then(data => {
-                const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
-                if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower") || weatherDesc.includes("thunder")) {
-                    contextLine.innerText = "🌧️ الأجواء حولك ماطرة عذبة.. طلبك الحالي هو الرفيق الدافئ المثالي الآن.";
-                }
-            }).catch(err => { /* يستمر النص الزمني الافتراضي بنجاح دون أخطاء */ });
-    }
-
-
-    // ==========================================
-    // 👤 الفكرة الثالثة: الترحيب الاسمي المخزن صامتاً
-    // ==========================================
-    // نقوم بالتقاط الاسم إذا كتبه العميل في حقل الاسم بصفحة الدفع أو حقول المتجر
-    const nameInput = document.querySelector('input[name="billing_first_name"], input[autocomplete="given-name"], #billing_first_name');
-    if (nameInput) {
-        nameInput.addEventListener('input', function() {
-            if (this.value.trim().length > 2) {
-                localStorage.setItem('maladh_customer_name', this.value.trim());
-            }
-        });
-    }
-
-    // إذا عاد العميل وكان اسمه مخزناً، نقوم بدمج اسمه في الكبسولة الترحيبية العلوية (إن وجدت)
-    const savedName = localStorage.getItem('maladh_customer_name');
-    const welcomeCloud = document.getElementById('smart-welcome-cloud'); // الكبسولة العلوية التي صممناها سابقاً
-    
-    if (savedName && welcomeCloud) {
-        const textSpan = welcomeCloud.querySelector('span');
-        if (textSpan) {
-            // إضافة الاسم بنعومة للنص الترحيبي الحالي
-            if (!textSpan.innerText.includes(savedName)) {
-                textSpan.innerText = savedName + "، " + textSpan.innerText;
-            }
-        }
-    }
-
-});
-</script>
-
-
-<style>
-/* ✨ هندسة العبارة لتكون متناسقة وأسفل اللوجو تماماً */
 #maladh-sub-logo-text {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 5px !important;
-    margin-top: 4px !important; /* مسافة رقيقة أسفل اللوجو */
+    margin-top: 4px !important;
     font-family: 'Cairo', sans-serif !important;
-    font-size: 10px !important; /* حجم صغير وناعم يناسب الهواتف */
+    font-size: 10px !important;
     font-weight: 600 !important;
-    color: #0b3f3b !important; /* لون البراند الزيتوني الفخم */
+    color: #0b3f3b !important;
     letter-spacing: 0.2px !important;
     opacity: 0;
     transform: translateY(-2px);
     animation: maladhLogoFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* 🎨 أيقونات خطية فائقة الرقة */
 .maladh-mini-icon {
     width: 12px !important;
     height: 12px !important;
@@ -1778,17 +1643,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 🧠 استهداف حاوية اللوجو الخاصة بك بدقة
     const logoContainer = document.querySelector(".brand-logo-container");
     if (!logoContainer) return;
 
+    // 🧠 1. جلب الاسم إذا كان محفوظاً من زيارة أو خطوة سابقة
+    let detectedName = localStorage.getItem('maladh_customer_name') || "";
+
+    // ⏰ 2. محرك التوقيت الفلكي والطقس
     const now = new Date();
     const decimalTime = now.getHours() + (now.getMinutes() / 60);
     
     let greetingText = "أهلاً بك في مَلاذ 🌿";
     let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
 
-    // 🔬 التعديل الفلكي الزمني (يتغير تلقائياً حسب وقت العميل)
     if (decimalTime >= 3.5 && decimalTime < 6) { 
         greetingText = "طاب فجرك بنقاء الندى وسكون كوبك";
         iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
@@ -1803,29 +1670,63 @@ document.addEventListener("DOMContentLoaded", function() {
         iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
 
-    // دمج اسم العميل إذا كان مخزناً صامتاً سابقاً
-    const savedName = localStorage.getItem('maladh_customer_name');
-    if (savedName) { greetingText = savedName + "، " + greetingText; }
+    if (detectedName) { greetingText = detectedName + "، " + greetingText; }
 
-    // إنشاء عنصر النص الجديد وحقنه أسفل اللوجو مباشرة كابن داخل الحاوية
+    // حقن العنصر الذكي تحت اللوجو المركزي
     const subTextElement = document.createElement("div");
     subTextElement.id = "maladh-sub-logo-text";
     subTextElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
     logoContainer.appendChild(subTextElement);
 
-    // 🌧️ مستشعر الطقس الصامت (يحدث النص فوراً إذا كانت الأجواء ماطرة عند العميل)
+    // 🌧️ مستشعر الطقس الصامت
     fetch('https://wttr.in/?format=j1')
         .then(response => response.json())
         .then(data => {
             const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
             if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
                 const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
-                subTextElement.innerHTML = `<span>أجواء ماطرة عذبة.. دافئ كوبك الآن</span>${rainIcon}`;
+                let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
+                if (detectedName) { rainText = detectedName + "، " + rainText; }
+                subTextElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
             }
         }).catch(err => {});
+
+
+    // 🎯 3. الرقابة المستمرة الذكية لاقتناص الاسم فور ظهوره وكتابته
+    document.addEventListener('input', function(e) {
+        if (!e.target) return;
+        
+        // فحص شامل لخصائص الحقل للتأكد أنه حقل الاسم (يدعم العربية والإنجليزية)
+        const targetAttr = (e.target.name || e.target.id || e.target.placeholder || e.target.className || "").toLowerCase();
+        
+        if (targetAttr.includes('name') || targetAttr.includes('اسم') || targetAttr.includes('الاسم') || e.target.type === 'text') {
+            let fullValue = e.target.value.trim();
+            let firstName = fullValue.split(' ')[0]; // اقتطاع الاسم الأول فقط ليكون ترحيباً رقيقاً
+            
+            if (firstName.length > 2 && !/[0-9]/.test(firstName)) { // التأكد أنه اسم وليس رقم جوال أو كود
+                localStorage.setItem('maladh_customer_name', firstName);
+            }
+        }
+    });
+
+    // خطوة أمان إضافية: اقتناص الاسم عند الضغط على زر الإرسال النهائي للواتساب
+    document.addEventListener('click', function(e) {
+        if (!e.target) return;
+        const btnText = (e.target.innerText || e.target.value || "").toLowerCase();
+        
+        if (btnText.includes('واتس') || btnText.includes('إرسال') || btnText.includes('تأكيد') || btnText.includes('confirm')) {
+            // البحث عن أي حقل نصي مكتوب فيه اسم وحفظه قبل الخروج للواتساب
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach(input => {
+                const attr = (input.name || input.id || input.placeholder || "").toLowerCase();
+                if ((attr.includes('name') || attr.includes('اسم')) && input.value.trim().length > 2) {
+                    localStorage.setItem('maladh_customer_name', input.value.trim().split(' ')[0]);
+                }
+            });
+        }
+    });
 });
 </script>
-
 
 
 
@@ -2305,7 +2206,7 @@ function sendCartToWhatsApp() {
         if (!name) { alert("يرجى كتابة الاسم"); return; }
         if (!customerWazeURL) { alert("يرجى تحديد الموقع أولاً!"); return; }
 
-        let messageText = `*طلب جديد من كافيه حكاية*\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
+        let messageText = `*طلب جديد من كافيه مَلاذ*\n الاسم: ${name}\n📍 الخريطة: ${customerWazeURL}\n\n🛒 الطلبات:\n`;
         let total = 0;
 
      userCartList.forEach((item, i) => {
