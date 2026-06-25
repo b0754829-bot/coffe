@@ -1360,6 +1360,51 @@ header, [class*="header"], .store-header-wrapper {
     margin-bottom: 0px !important;
 }
 
+/* 📱 هندسة الهيدر الذكي المطور خصيصاً لشاشات الهواتف */
+@media (max-width: 768px) {
+    
+    .custom-premium-header {
+        /* ✂️ تصفير الهوامش الجانبية تماماً ليلتصق المنيو والسلة بالحواف */
+        padding: 0 10px !important; 
+        height: 60px !important;
+        display: flex !important;
+        justify-content: space-between !important; /* دفع العناصر للأطراف وتفريغ المنتصف */
+        align-items: center !important;
+    }
+
+    /* 🍔 تكبير زر المنيو (أياً كان نوعه أو كلاسه) ودقعه للحافة */
+    .custom-premium-header .menu-toggle, 
+    .custom-premium-header .menu-btn,
+    .custom-premium-header .nav-icon,
+    .custom-premium-header button:first-of-type {
+        font-size: 22px !important; /* حجم فخم وواضح جداً */
+        width: auto !important;
+        height: auto !important;
+        padding: 6px !important; /* مساحة لمس مريحة للإصبع */
+        margin: 0 !important;
+    }
+
+    /* 🛒 تكبير زر السلة ودقعه للحافة المقابلة تماماً */
+    .custom-premium-header .cart-btn, 
+    .custom-premium-header .cart-icon-container,
+    .custom-premium-header .minicart-wrapper,
+    .custom-premium-header a:last-of-type,
+    .custom-premium-header div:last-of-type {
+        font-size: 22px !important; /* حجم متناسق مع المنيو */
+        width: auto !important;
+        height: auto !important;
+        padding: 6px !important;
+        margin: 0 !important;
+    }
+
+    /* ☁️ إعادة موازنة الغيمة الترحيبية لتأخذ راحتها الكاملة في المنتصف المفتوح */
+    #maladh-sub-logo-text {
+        top: 42px !important; /* الارتفاع المثالي لتقبع بنعومة أسفل الهيدر المحدث */
+        font-size: clamp(12px, 3.2vw, 14px) !important; /* تكبير الخط ليكون مقروءاً ومميزاً على الهاتف */
+        max-width: 60% !important; /* إعطائها مساحة عرض أكبر بعد أن فرغنا الأطراف */
+        letter-spacing: 0.5px !important;
+    }
+}
 </style>
 
 
@@ -1454,8 +1499,9 @@ header, [class*="header"], .store-header-wrapper {
     <h3 class="title-decorated">المشروبات الساخنة </h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">لاتيه وكابتشينو وموكا</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">شاي فاخر وأعشاب طبيعية</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">  قهوة بالحليب</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">  قهوة سادة </button>
+         <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')"> شاي وأعشاب </button>
     </div>
     <div class="products-showcase" id="container-hot"></div>
 </div>
@@ -1465,9 +1511,9 @@ header, [class*="header"], .store-header-wrapper {
     <h3 class="title-decorated">المشروبات الباردة والمنعشة</h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')">آيس لاتيه وموكا باردة</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')">موهيتو حكاية المنعش</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">سموذي وميلك شيك</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')"> قهوة مُثلجة  </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')"> مخيتو </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')"> ميلك شيك وفواكة </button>
     </div>
     <div class="products-showcase" id="container-cold"></div>
 </div>
@@ -1477,19 +1523,19 @@ header, [class*="header"], .store-header-wrapper {
     <h3 class="title-decorated">الكيك والحلوى </h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'desserts', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')">كيك (زعفران، تشيز كيك، شوكولاتة)</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')">وافل وبانكيك</button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'cakes')"> كيك بقوام وخفيف </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'desserts', 'waffles')"> كيك بقوام ثقيل  </button>
     </div>
     <div class="products-showcase" id="container-desserts"></div>
 </div>
 
 <div id="breakfast-anchor">
     <h3 class="title-decorated">  الكرواسون وباستريز</h3>
-    <div class="subcategory-filters">...</div>
+    <div class="subcategory-filters"></div>
     <div class="products-showcase" id="container-breakfast"></div>
 </div> 
 <div id="specialty-coffee-anchor">
-    <h3 class="title-decorated"> جديدنا (Specialty Coffee)</h3>
+    <h3 class="title-decorated">  جديدنا  </h3>
     <div class="subcategory-filters">...</div>
     <div class="products-showcase" id="container-specialty"></div>
 </div> ```
@@ -1653,11 +1699,11 @@ header, [class*="header"], .store-header-wrapper {
         </a>
         
         <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" class="cloud-glass-btn">
-             <span class="premium-text">الحلويات الفاخرة</span>
+             <span class="premium-text"> الكيك والحلوى</span>
         </a>
         
         <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" class="cloud-glass-btn">
-             <span class="premium-text">وجبات الفطور والكرواسون</span>
+             <span class="premium-text">  الكرواسون وباستريس</span>
         </a>
         
     </div>
@@ -1684,7 +1730,7 @@ header, [class*="header"], .store-header-wrapper {
         </a>
 
         <a href="waze://?ll=31.2825,34.8252&navigate=yes" class="premium-btn waze">
-            <span></span> توجّه عبر Waze
+            <span></span> توجه عبر Waze
         </a>
     </div>
 </footer>
