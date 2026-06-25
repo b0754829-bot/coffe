@@ -2000,7 +2000,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <style>
-/* 1. تصميم شاشة التوقف الزجاجية الشفافة والفائقة النقاء */
+/* 1. تصميم شاشة التوقف الزجاجية */
 #malath-screensaver {
     position: fixed;
     top: 0;
@@ -2008,13 +2008,10 @@ document.addEventListener("DOMContentLoaded", function() {
     width: 100%;
     height: 100%;
     
-    /* 🪞 السر هنا: شفافية عالية جداً ليمر لون الموقع من خلالها */
-    background: rgba(255, 255, 255, 0.15); 
-    backdrop-filter: blur(35px) saturate(180%);
-    -webkit-backdrop-filter: blur(35px) saturate(180%);
-    
-    /* إضاءة مجهرية حول حواف الشاشة لتبدو كلوح زجاجي حقيقي */
-    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.6);
     
     z-index: 999999;
     display: flex;
@@ -2024,7 +2021,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     opacity: 0;
     pointer-events: none;
-    transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #malath-screensaver.active-screensaver {
@@ -2032,53 +2029,64 @@ document.addEventListener("DOMContentLoaded", function() {
     pointer-events: auto;
 }
 
-/* 2. النصوص الفنية بألوان تتماشى مع الزجاج المضيء */
+/* 2. نصوص مستوحاة من نعومة (Dynamic Island) من آبل */
 .ss-content {
     text-align: center;
+    /* حاوية تشبه الجزيرة الديناميكية تعطي نعومة واحتواء للنص */
+    background: rgba(255, 255, 255, 0.5);
+    padding: 30px 40px;
+    border-radius: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 2px 10px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     animation: elegant-breathe 4s infinite alternate ease-in-out;
 }
 
 .ss-title {
-    font-family: 'Cairo', sans-serif;
-    font-size: 42px;
-    font-weight: 900;
-    /* لون الهوية الزمردي الغامق ليكون بارزاً على الزجاج الفاتح */
+    /* دمج خطوط نظام آبل الأصلية مع خط كايرو ليعطي النعومة المطلقة */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", sans-serif;
+    font-size: 38px;
+    font-weight: 900; /* عريض جداً */
     color: #0b3f3b; 
     margin: 0;
-    letter-spacing: 1.5px;
-    /* لمعة بيضاء خلف النص لضمان قراءته مهما كانت خلفية الموقع */
-    text-shadow: 0 4px 15px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(0, 0, 0, 0.05);
+    letter-spacing: -1.5px; /* تقارب الأحرف يعطي المظهر العصري (Dynamic Island) */
+    -webkit-font-smoothing: antialiased; /* تنعيم حواف الخط بقوة */
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .ss-subtitle {
-    font-family: 'Cairo', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
+    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
+    font-size: 17px;
+    font-weight: 800; /* ناعم وعريض */
     color: #1a9c7d;
-    margin-top: 10px;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    letter-spacing: -0.5px;
+    -webkit-font-smoothing: antialiased;
 }
 
 .ss-wakeup-hint {
     position: absolute;
-    bottom: 40px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(11, 63, 59, 0.5);
-    letter-spacing: 1px;
-    animation: pulse-hint 2s infinite ease-in-out;
+    bottom: 50px;
+    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(11, 63, 59, 0.6);
+    letter-spacing: -0.5px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 10px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: pulse-hint 2.5s infinite ease-in-out;
 }
 
 @keyframes elegant-breathe {
     0% { transform: translateY(0) scale(0.98); }
-    100% { transform: translateY(-5px) scale(1); filter: drop-shadow(0 10px 20px rgba(255,255,255,0.6)); }
+    100% { transform: translateY(-5px) scale(1); box-shadow: 0 15px 40px rgba(11, 63, 59, 0.08), inset 0 2px 10px rgba(255, 255, 255, 1); }
 }
 
 @keyframes pulse-hint {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
+    0%, 100% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1); opacity: 1; }
 }
 </style>
 
@@ -2095,7 +2103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let idleTimer;
     const screensaver = document.getElementById('malath-screensaver');
     let isSleeping = false;
-    let audioCtx = null; // متغير للتحكم المطلق بالصوت
+    let audioCtx = null; 
     
     const IDLE_TIME = 15000; // 15 ثانية
 
@@ -2105,7 +2113,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (!AudioContext) return;
             
-            // إنشاء بيئة صوتية جديدة في كل مرة
             audioCtx = new AudioContext();
             
             function createTone(freq) {
@@ -2136,13 +2143,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🛑 دالة الإيقاف الجبري للصوت
     function forceStopAudio() {
         if (audioCtx && audioCtx.state !== 'closed') {
-            audioCtx.close(); // إعدام الصوت تماماً وإغلاق الدائرة
+            audioCtx.close(); 
             audioCtx = null;
         }
     }
 
-    // 🌙 تفعيل الشاشة والصوت
+    // 🌙 تفعيل الشاشة والصوت (مع قفل أمان ذكي)
     function activateScreensaver() {
+        // ⭐ قفل الأمان: إذا كانت الصفحة مخفية (الزبون في تطبيق آخر)، نلغي التفعيل فوراً! ⭐
+        if (document.hidden || document.visibilityState !== 'visible') {
+            return; 
+        }
+
         if (!isSleeping) {
             isSleeping = true;
             playSoftCrystalChime();
@@ -2166,23 +2178,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🚨 استشعار خروج الزبون من الموقع أو قفل الشاشة
     document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
+        if (document.hidden || document.visibilityState !== 'visible') {
             // الزبون خرج من المتصفح أو قفل الهاتف!
-            forceStopAudio(); // إيقاف الصوت فوراً
-            clearTimeout(idleTimer); // إيقاف عداد الانتظار لمنع عمله بالخلفية
+            forceStopAudio(); // إيقاف الصوت فوراً وبشكل قاطع
+            clearTimeout(idleTimer); // تدمير العداد حتى لا يعمل في الخلفية
         } else {
             // الزبون عاد للموقع
-            resetTimer();
+            if (!isSleeping) resetTimer();
         }
     });
-
-    // 🚨 استشعار إضافي لحالات تصغير المتصفح (Minimize)
-    window.addEventListener("blur", () => {
-        forceStopAudio();
-        clearTimeout(idleTimer);
-    });
-    
-    window.addEventListener("focus", resetTimer);
 
     // مراقبة نشاط الزبون
     ['touchstart', 'mousemove', 'scroll', 'click', 'keydown'].forEach(event => {
