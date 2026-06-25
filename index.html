@@ -40,12 +40,86 @@
     background: rgba(var(--primary-emerald), var(--glass-opacity));
 }
 
-        #loader-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #ecefed; /* نفس لون خلفية الموقع */
-    display: flex; justify-content: center; align-items: center;
-    z-index: 999999; transition: opacity 0.8s ease;
+/* ⏳ شاشة التحميل الهادئة بنمط التنفس الضوئي لـ مَلاذ */
+#loader-screen {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: #ecefed; /* لون خلفية التيتانيوم الهادئ للموقع */
+    display: flex; 
+    flex-direction: column; /* ترتيب اللوجو والنص عمودياً بدقة */
+    justify-content: center; 
+    align-items: center;
+    gap: 15px; /* مسافة مريحة وثابتة بين اللوجو والنص الترحيبي */
+    z-index: 999999; 
+    
+    /* تلاشي مخملي ناعم للغاية عند اختفاء الشاشة بالكامل */
+    transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1), transform 1.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
+
+/* 🌿 اللوجو: حركة تنفس هادئة جداً لا تشتت النص */
+#loader-screen .brand-title, 
+#loader-screen img, 
+#loader-screen svg {
+    font-family: 'Cairo', sans-serif !important;
+    color: #0b3f3b !important; /* لون البراند الزيتوني الفخم */
+    font-weight: 700;
+    font-size: 28px; /* حجم متناسق */
+    letter-spacing: 0.5px;
+    
+    /* أنيميشن التنفس البطيء الفاخر (يستغرق 4 ثوانٍ كاملة للدورة الواحدة) */
+    animation: maladhLogoBreath 4s ease-in-out infinite alternate !important;
+    will-change: transform, opacity, filter;
+}
+
+/* 💬 النص السفلي: يظهر بنعومة بالغة ومستقلة ليكون مقروءاً ومريحاً */
+#loader-screen .loader-text,
+#loader-screen p {
+    font-family: 'Cairo', sans-serif !important;
+    color: rgba(11, 63, 59, 0.7) !important; /* لون أخف وأكثر هدوءاً ليعطي مساحة للوجو */
+    font-size: 11px !important;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    
+    /* أنيميشن ناعم وخاص بالنص ليبدو مستقراً ومريحاً للعين */
+    animation: maladhTextFade 2.5s ease-in-out infinite alternate !important;
+}
+
+/* 🎬 هندسة فيزياء الحركات الناعمة المطلقة */
+@keyframes maladhLogoBreath {
+    0% {
+        transform: scale(0.98);
+        opacity: 0.4;
+        filter: blur(0.4px) drop-shadow(0 2px 4px rgba(11, 63, 59, 0.01));
+    }
+    100% {
+        transform: scale(1.01);
+        opacity: 0.85;
+        filter: blur(0px) drop-shadow(0 8px 16px rgba(11, 63, 59, 0.06));
+    }
+}
+
+@keyframes maladhTextFade {
+    0% {
+        opacity: 0.4;
+        transform: translateY(1px);
+    }
+    100% {
+        opacity: 0.75;
+        transform: translateY(0px);
+    }
+}
+
+/* التأثير السحري عند مغادرة الشاشة وبدء تصفح المتجر */
+#loader-screen.fade-out {
+    opacity: 0 !important;
+    transform: scale(1.02); /* يرتفع للخلف قليلاً كأنه يذوب بداخل الشاشة */
+    pointer-events: none;
+}
+
+
 .logo-box { text-align: center; }
 .logo-text { font-size: 40px; font-weight: 800; color: #0b3f3b; margin-bottom: 10px; }
 .loader-line { 
@@ -1552,18 +1626,18 @@ header, [class*="header"], .store-header-wrapper {
 
 <div class="cart-overlay" id="nav-menu-overlay" onclick="toggleNavMenu(false)" style="display: none; opacity: 0; transition: opacity 0.4s ease; z-index: 99998; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.1); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"></div>
 
-<div class="sidebar-cart ultra-glass-panel" id="sidebar-nav-menu" style="position: fixed; top: 15px; bottom: 15px; right: 15px; width: 310px; transform: translateX(120%); z-index: 99999 !important; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+<div class="sidebar-cart ultra-glass-panel" id="sidebar-nav-menu" style="position: fixed; top: 15px; bottom: 15px; right: 15px; width: 310px; transform: translateX(120%); z-index: 99999 !important; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden !important; border-radius: 20px !important;">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px 25px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px 25px; flex-shrink: 0;">
         <h3 style="font-weight: 800; margin: 0; font-size: 18px;">
             <span class="premium-text" style="background: linear-gradient(90deg, #126b56, #0b3f3b); -webkit-background-clip: text;">تصفح أقسام المنيو</span>
         </h3>
-        <button onclick="toggleNavMenu(false)" class="cloud-close">
+        <button onclick="toggleNavMenu(false)" class="cloud-close" style="cursor: pointer;">
             <span class="premium-text" style="font-size: 14px;">✕</span>
         </button>
     </div>
     
-    <div class="glass-scroll" style="padding: 10px 20px 25px 20px; display: flex; flex-direction: column; gap: 14px; height: 100%; overflow-y: auto;">
+    <div class="glass-scroll" style="padding: 10px 20px 20px 20px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
         
         <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="cloud-glass-btn">
              <span class="premium-text">جديدنا (Specialty Coffee)</span>
@@ -1585,10 +1659,14 @@ header, [class*="header"], .store-header-wrapper {
              <span class="premium-text">وجبات الفطور والكرواسون</span>
         </a>
         
-        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="cloud-glass-btn cloud-glass-dark">
-             <span class="premium-text">تواصل معنا وموقعنا</span>
+    </div>
+
+    <div style="padding: 15px 20px 25px 20px; flex-shrink: 0; background: linear-gradient(to top, rgba(236, 239, 237, 0.95), rgba(236, 239, 237, 0.7)); backdrop-filter: blur(5px); border-top: 1px solid rgba(11, 63, 59, 0.05);">
+        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="cloud-glass-btn cloud-glass-dark" style="margin: 0 !important; width: 100%; display: flex; justify-content: center; align-items: center;">
+             <span class="premium-text" style="font-weight: 700;">تواصل معنا وموقعنا 🌿</span>
         </a>
     </div>
+
 </div>
 
 
@@ -1609,36 +1687,60 @@ header, [class*="header"], .store-header-wrapper {
         </a>
     </div>
 </footer>
-
 <style>
+/* 🌬️ غيمة ترحيبية شفافة ومرنة تحافظ على مساحة الهيدر الصغيرة */
 #maladh-sub-logo-text {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 5px !important;
-    margin-top: 4px !important;
+    gap: 4px !important;
+    margin-top: 3px !important;
     font-family: 'Cairo', sans-serif !important;
-    font-size: 10px !important;
     font-weight: 600 !important;
     color: #0b3f3b !important;
-    letter-spacing: 0.2px !important;
+    letter-spacing: 0.1px !important;
+    
+    /* 📱 مساحة مرنة بالكامل بدون أي اختصار أو نقاط تشويه */
+    width: 100% !important;
+    max-width: 100% !important; 
+    white-space: nowrap !important; /* يمنع نزول النص لسطر جديد */
+    
+    /* 📐 خط ناعم جداً ومدروس يتكيف تلقائياً ليناسب شاشات الهواتف */
+    font-size: clamp(8px, 2.3vw, 10px) !important; 
+
+    /* 💎 تصميم الغيمة الشفافة بالكامل لتندمج بذكاء في كل مكان */
+    background: transparent !important;
+    mix-blend-mode: multiply; 
+    
     opacity: 0;
     transform: translateY(-2px);
     animation: maladhLogoFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
+#maladh-sub-logo-text span {
+    display: inline-block !important;
+    white-space: nowrap !important;
+}
+
+/* 🎨 الأيقونة الخطية النحيفة */
 .maladh-mini-icon {
-    width: 12px !important;
-    height: 12px !important;
+    width: 11px !important;
+    height: 11px !important;
     stroke: #0b3f3b !important;
-    stroke-width: 1.4 !important;
+    stroke-width: 1.5 !important;
     fill: none !important;
     display: inline-block !important;
+    flex-shrink: 0 !important; /* يمنع انضغاط الأيقونة نهائياً */
 }
 
 .rotate-slow { animation: maladhSpin 16s infinite linear !important; }
 @keyframes maladhSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@keyframes maladhLogoFadeIn { to { opacity: 0.85; transform: translateY(0); } }
+@keyframes maladhLogoFadeIn { to { opacity: 0.82; transform: translateY(0); } }
+/* إجبار الأيقونات الجانبية على الحفاظ على مساحتها وعدم الانضغاط أو التزحزح */
+.menu-toggle-btn, .cart-toggle-btn, .header-icon-wrapper {
+    flex-shrink: 0 !important;
+    z-index: 10 !important;
+}
 </style>
 
 <script>
@@ -1646,8 +1748,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const logoContainer = document.querySelector(".brand-logo-container");
     if (!logoContainer) return;
 
-    // 🧠 1. جلب الاسم إذا كان محفوظاً من زيارة أو خطوة سابقة
+    // 🧠 1. جلب الاسم إذا كان محفوظاً من قبل
     let detectedName = localStorage.getItem('maladh_customer_name') || "";
+    
+    // شرط ذكي: إذا تم العثور على اسم محفوظ مسبقاً وتعدى 10 حروف يتم تجاهله وتصفيره
+    if (detectedName.length > 10) {
+        detectedName = "";
+    }
 
     // ⏰ 2. محرك التوقيت الفلكي والطقس
     const now = new Date();
@@ -1670,9 +1777,12 @@ document.addEventListener("DOMContentLoaded", function() {
         iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
 
-    if (detectedName) { greetingText = detectedName + "، " + greetingText; }
+    // وضع الاسم قبل العبارة مباشرة وبعده فاصلة رقيقة (فقط إذا كان 10 حروف أو أقل)
+    if (detectedName && detectedName.length <= 10) { 
+        greetingText = detectedName + "، " + greetingText; 
+    }
 
-    // حقن العنصر الذكي تحت اللوجو المركزي
+    // حقن العنصر الذكي والشفاف تحت اللوجو المركزي
     const subTextElement = document.createElement("div");
     subTextElement.id = "maladh-sub-logo-text";
     subTextElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
@@ -1686,47 +1796,56 @@ document.addEventListener("DOMContentLoaded", function() {
             if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
                 const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
                 let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
-                if (detectedName) { rainText = detectedName + "، " + rainText; }
+                if (detectedName && detectedName.length <= 10) { rainText = detectedName + "، " + rainText; }
                 subTextElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
             }
         }).catch(err => {});
 
 
-    // 🎯 3. الرقابة المستمرة الذكية لاقتناص الاسم فور ظهوره وكتابته
+    // 🎯 3. الرقابة المستمرة الذكية لاقتناص وحقن الاسم بحد أقصى 10 حروف
     document.addEventListener('input', function(e) {
         if (!e.target) return;
         
-        // فحص شامل لخصائص الحقل للتأكد أنه حقل الاسم (يدعم العربية والإنجليزية)
         const targetAttr = (e.target.name || e.target.id || e.target.placeholder || e.target.className || "").toLowerCase();
         
         if (targetAttr.includes('name') || targetAttr.includes('اسم') || targetAttr.includes('الاسم') || e.target.type === 'text') {
             let fullValue = e.target.value.trim();
-            let firstName = fullValue.split(' ')[0]; // اقتطاع الاسم الأول فقط ليكون ترحيباً رقيقاً
+            let firstName = fullValue.split(' ')[0]; // استخلاص الاسم الأول فقط
             
-            if (firstName.length > 2 && !/[0-9]/.test(firstName)) { // التأكد أنه اسم وليس رقم جوال أو كود
-                localStorage.setItem('maladh_customer_name', firstName);
+            if (firstName.length > 2 && !/[0-9]/.test(firstName)) { 
+                // 🛑 الفلتر الذكي: إذا كان الاسم 10 حروف أو أقل يتم حفظه، وإذا كان أكبر من 10 حروف يتم تجاهله وحذفه لحماية الهيدر
+                if (firstName.length <= 10) {
+                    localStorage.setItem('maladh_customer_name', firstName);
+                } else {
+                    localStorage.removeItem('maladh_customer_name');
+                }
             }
         }
     });
 
-    // خطوة أمان إضافية: اقتناص الاسم عند الضغط على زر الإرسال النهائي للواتساب
+    // خطوة أمان إضافية عند الضغط على زر الإرسال النهائي للواتساب
     document.addEventListener('click', function(e) {
         if (!e.target) return;
         const btnText = (e.target.innerText || e.target.value || "").toLowerCase();
         
-        if (btnText.includes('واتس') || btnText.includes('إرسال') || btnText.includes('تأكيد') || btnText.includes('confirm')) {
-            // البحث عن أي حقل نصي مكتوب فيه اسم وحفظه قبل الخروج للواتساب
+        if (btnText.includes('واتس') || btnText.includes('إرسال') || btnText.includes('تأكيد')) {
             const inputs = document.querySelectorAll('input[type="text"]');
             inputs.forEach(input => {
                 const attr = (input.name || input.id || input.placeholder || "").toLowerCase();
                 if ((attr.includes('name') || attr.includes('اسم')) && input.value.trim().length > 2) {
-                    localStorage.setItem('maladh_customer_name', input.value.trim().split(' ')[0]);
+                    let finalName = input.value.trim().split(' ')[0];
+                    if (finalName.length <= 10) {
+                        localStorage.setItem('maladh_customer_name', finalName);
+                    } else {
+                        localStorage.removeItem('maladh_customer_name');
+                    }
                 }
             });
         }
     });
 });
 </script>
+
 
 
 
