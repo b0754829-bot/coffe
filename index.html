@@ -234,50 +234,49 @@ header {
             transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease;
         }
 
+/* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
+.cart-trigger, .premium-load-more-btn, .filter-btn, .category-toggle-btn,
+.checkout-btn, .continue-shopping-btn, .phone-call-btn-link, .waze-premium-btn,
+.working-hours-capsule {
+    background: var(--primary-solid) !important; /* لون التميز القوي الواضح جداً */
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(11, 63, 59, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
+    border-radius: 40px !important; 
+    font-weight: 800;
+    position: relative; overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1; cursor: pointer; text-decoration: none;
+    display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+}
 
-        /* 🎛️ الأزرار شبه اللامعة ذات اللون القوي والمميز (الاستجابة التفاعلية الذكية) */
-        .cart-trigger, .premium-load-more-btn, .filter-btn, .category-toggle-btn,
-        .checkout-btn, .continue-shopping-btn, .phone-call-btn-link, .waze-premium-btn,
-        .working-hours-capsule {
-            background: var(--primary-solid) !important; /* لون التميز القوي الواضح جداً */
-            color: white !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            box-shadow: 0 4px 15px rgba(11, 63, 59, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
-            border-radius: 40px !important; 
-            font-weight: 800;
-            position: relative; overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 1; cursor: pointer; text-decoration: none;
-            display: inline-flex; justify-content: center; align-items: center; gap: 8px;
-        }
+/* لمعان شبه معدني يمر بسرعة على الزر ليلفت الانتباه فورا */
+.cart-trigger::after, .premium-load-more-btn::after, .filter-btn::after, .category-toggle-btn::after,
+.checkout-btn::after, .continue-shopping-btn::after, .phone-call-btn-link::after, .waze-premium-btn::after {
+    content: ''; position: absolute;
+    top: 0; left: -150%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: skewX(-20deg); transition: all 0.7s ease; z-index: -1;
+}
 
-        /* لمعان شبه معدني يمر بسرعة على الزر ليلفت الانتباه فورا */
-        .cart-trigger::after, .premium-load-more-btn::after, .filter-btn::after, .category-toggle-btn::after,
-        .checkout-btn::after, .continue-shopping-btn::after, .phone-call-btn-link::after, .waze-premium-btn::after {
-            content: ''; position: absolute;
-            top: 0; left: -150%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            transform: skewX(-20deg); transition: all 0.7s ease; z-index: -1;
-        }
+/* 📱 حركة الضغط والارتداد السريع عند النقر (Micro-interaction) */
+/* 🛑 تم إزالة .circle-add-btn:active من هنا لضمان عدم تعارضه مع أي قسم آخر 🛑 */
+.cart-trigger:active, .premium-load-more-btn:active, .filter-btn:active, .category-toggle-btn:active,
+.checkout-btn:active, .continue-shopping-btn:active, .phone-call-btn-link:active, .waze-premium-btn:active {
+    transform: scale(0.94) !important; /* يتقلص الزر برقة ليوحي بالضغط الميكانيكي */
+    opacity: 0.9;
+}
 
-        /* 📱 حركة الضغط والارتداد السريع عند النقر (Micro-interaction) */
-        .cart-trigger:active, .premium-load-more-btn:active, .filter-btn:active, .category-toggle-btn:active,
-        .checkout-btn:active, .continue-shopping-btn:active, .phone-call-btn-link:active, .waze-premium-btn:active,
-        .circle-add-btn:active {
-            transform: scale(0.94) !important; /* يتقلص الزر برقة ليوحي بالضغط الميكانيكي */
-            opacity: 0.9;
-        }
+.cart-trigger:hover, .premium-load-more-btn:hover, .filter-btn:hover:not(.active), .category-toggle-btn:hover,
+.continue-shopping-btn:hover, .phone-call-btn-link:hover, .waze-premium-btn:hover {
+    box-shadow: 0 8px 25px rgba(11, 63, 59, 0.35) !important;
+    background: #0f4f4a !important; /* تفتيح بسيط جداً عند تمرير الماوس للتفاعل */
+}
 
-        .cart-trigger:hover, .premium-load-more-btn:hover, .filter-btn:hover:not(.active), .category-toggle-btn:hover,
-        .continue-shopping-btn:hover, .phone-call-btn-link:hover, .waze-premium-btn:hover {
-            box-shadow: 0 8px 25px rgba(11, 63, 59, 0.35) !important;
-            background: #0f4f4a !important; /* تفتيح بسيط جداً عند تمرير الماوس للتفاعل */
-        }
-
-        .cart-trigger:hover::after, .premium-load-more-btn:hover::after, .filter-btn:hover::after, .category-toggle-btn:hover::after,
-        .checkout-btn:hover::after, .continue-shopping-btn:hover::after, .phone-call-btn-link:hover::after, .waze-premium-btn:hover::after {
-            left: 150%;
-        }
+.cart-trigger:hover::after, .premium-load-more-btn:hover::after, .filter-btn:hover::after, .category-toggle-btn:hover::after,
+.checkout-btn:hover::after, .continue-shopping-btn:hover::after, .phone-call-btn-link:hover::after, .waze-premium-btn:hover::after {
+    left: 150%;
+}
 
     
 /* 4. تثبيت زر الزائد والسعر في القاع */
@@ -984,11 +983,7 @@ header {
 .category-wrapper {
     scroll-margin-top: 100px;
 }
-/* 1. قسم القهوة المختصة - ذهبي كهرماني ملكي دافئ */
-.node-specialty:hover { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 25px 45px rgba(251, 191, 36, 0.22); }
-.node-specialty:hover .neon-halo-wrapper { background: linear-gradient(135deg, #fbbf24, #b45309); box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
-.node-specialty:hover h3 { color: #b45309; }
-.node-specialty::after { background: #fbbf24; }
+
 
 /* 2. قسم المشروبات الساخنة - بني دافئ مريح */
 .node-hot:hover { border-color: rgba(180, 83, 9, 0.5); box-shadow: 0 25px 45px rgba(180, 83, 9, 0.22); }
@@ -1360,51 +1355,130 @@ header, [class*="header"], .store-header-wrapper {
     margin-bottom: 0px !important;
 }
 
-/* 📱 هندسة الهيدر الذكي المطور خصيصاً لشاشات الهواتف */
-@media (max-width: 768px) {
+/* ==================================================================
+   💎 الكود الأسطوري: نظام المظهر الزجاجي السائل المصقول الفاخر 💎
+   (يحافظ على توزيع العمودين بدقة متناهية ويمنحك روعة بصرية لا مثيل لها)
+   ================================================================== */
+
+.premium-product-card {
+    /* 🏛️ الحفاظ الصارم على هيكل وعمودين التصميم الأصلي للموبايل لمنع تداخل الكروت */
+    flex: 0 0 calc(50% - 10px) !important;
+    max-width: 200px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
     
-    .custom-premium-header {
-        /* ✂️ تصفير الهوامش الجانبية تماماً ليلتصق المنيو والسلة بالحواف */
-        padding: 0 10px !important; 
-        height: 60px !important;
-        display: flex !important;
-        justify-content: space-between !important; /* دفع العناصر للأطراف وتفريغ المنتصف */
-        align-items: center !important;
-    }
-
-    /* 🍔 تكبير زر المنيو (أياً كان نوعه أو كلاسه) ودقعه للحافة */
-    .custom-premium-header .menu-toggle, 
-    .custom-premium-header .menu-btn,
-    .custom-premium-header .nav-icon,
-    .custom-premium-header button:first-of-type {
-        font-size: 22px !important; /* حجم فخم وواضح جداً */
-        width: auto !important;
-        height: auto !important;
-        padding: 6px !important; /* مساحة لمس مريحة للإصبع */
-        margin: 0 !important;
-    }
-
-    /* 🛒 تكبير زر السلة ودقعه للحافة المقابلة تماماً */
-    .custom-premium-header .cart-btn, 
-    .custom-premium-header .cart-icon-container,
-    .custom-premium-header .minicart-wrapper,
-    .custom-premium-header a:last-of-type,
-    .custom-premium-header div:last-of-type {
-        font-size: 22px !important; /* حجم متناسق مع المنيو */
-        width: auto !important;
-        height: auto !important;
-        padding: 6px !important;
-        margin: 0 !important;
-    }
-
-    /* ☁️ إعادة موازنة الغيمة الترحيبية لتأخذ راحتها الكاملة في المنتصف المفتوح */
-    #maladh-sub-logo-text {
-        top: 42px !important; /* الارتفاع المثالي لتقبع بنعومة أسفل الهيدر المحدث */
-        font-size: clamp(12px, 3.2vw, 14px) !important; /* تكبير الخط ليكون مقروءاً ومميزاً على الهاتف */
-        max-width: 60% !important; /* إعطائها مساحة عرض أكبر بعد أن فرغنا الأطراف */
-        letter-spacing: 0.5px !important;
-    }
+    /* 🪞 خامة الزجاج البلوري السائل فائقة النقاء والسلاسة */
+    background: rgba(255, 255, 255, 0.45) !important; /* شفافية مائية غنية تمرر ألوان الخلفية بنعومة */
+    backdrop-filter: blur(25px) saturate(190%) !important; /* تغبيش زجاجي ملكي يعزل المكونات بالخلف */
+    -webkit-backdrop-filter: blur(25px) saturate(190%) !important;
+    
+    /* 📐 انحناءات وحواف مصقولة ومريحة جداً لمحاكاة شاشات الـ iOS الحديثة */
+    border-radius: 24px !important; 
+    padding: 12px !important;
+    margin-bottom: 12px !important;
+    
+    /* ✨ شطاف ضوئي مجهري (Micro-Bevel) يحاكي انعكاس النور على أطراف قطع الكريستال */
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-top: 1.8px solid rgba(255, 255, 255, 0.85) !important;
+    border-left: 1.5px solid rgba(255, 255, 255, 0.65) !important;
+    
+    /* 🌌 عمق ثلاثي الأبعاد ناعم جداً ممتد بانسيابية حرة */
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.6),
+        0 8px 24px rgba(12, 13, 14, 0.02) !important;
+        
+    /* 🚀 محرك النعومة المطلقة بالحركات التفاعلية الفاخرة */
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    position: relative;
+    overflow: hidden;
 }
+
+/* 🛸 تأثير الطفو واللمعان المائي اللامع عند لمس الكرت باليد أو تمرير الماوس */
+.premium-product-card:hover {
+    transform: translateY(-6px) scale(1.02) !important;
+    background: rgba(255, 255, 255, 0.65) !important; /* يضيء الزجاج كأنه استقبل ضوءاً مباشراً */
+    border-color: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 
+        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+        0 20px 38px rgba(11, 63, 59, 0.08) !important; /* ظل عميق مشبع بهوية الموقع الزمردية الفاخرة */
+    z-index: 10 !important;
+}
+
+/* ☕ طفو فنجان القهوة بشكل مستقل كأنه يسبح فوق السطح المرآتي */
+.premium-product-card img {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important; 
+    object-fit: cover !important;
+    border-radius: 18px !important;
+    margin-bottom: 10px !important;
+    
+    /* ظل ناعم ومعزول خلف كوب القهوة ليفصله عن الزجاج ويعطيه طابعاً واقعياً حياً */
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.06)) !important;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* حركة الفنجان الراقية عند لمسه */
+.premium-product-card:hover img {
+    transform: translateY(-5px) scale(1.03) !important;
+    filter: drop-shadow(0 15px 24px rgba(11, 63, 59, 0.14)) !important;
+}
+
+/* 🏷️ هندسة نصوص وعناوين الكوب لتتناغم مع روح الفخامة الحديثة */
+.premium-product-card h4 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: var(--black-premium) !important; /* لون الأسود الفخم للنصوص الأساسية */
+    line-height: 1.4 !important;
+    margin: 0 0 6px 0 !important;
+    transition: color 0.3s ease !important;
+}
+
+.premium-product-card:hover h4 {
+    color: var(--primary-solid) !important; /* يضيء النص بلون الزمرد البترولي الساحر عند اللمس */
+}
+
+/* 💰 تجميل منطقة السعر وزر الإضافة الغاطس */
+.premium-product-card .card-footer {
+    margin-top: auto !important; /* يضمن بقاء الفوتر دائماً ثابتًا بالأسفل بانتظام */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(11, 63, 59, 0.04) !important; /* خط فاصل ناعم مجهري */
+}
+
+.premium-product-card .card-footer .price-tag {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: var(--primary-solid) !important; /* تميز وبروز السعر بلون العلامة الرئيسي */
+    letter-spacing: -0.2px !important;
+}
+
+/* 💧 زر الزائد الدائري (القطرة الزمردية الذكية) */
+.premium-product-card .circle-add-btn {
+    position: static !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: var(--primary-solid) !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 10px rgba(11, 63, 59, 0.15) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* فيزياء الارتداد والتدوير المذهل للزر عند التفاعل */
+.premium-product-card .circle-add-btn:hover {
+    transform: scale(1.15) rotate(90deg) !important;
+    background: #0f4f4a !important; /* تفتيح هادئ وعميق للزر */
+    box-shadow: 0 6px 16px rgba(11, 63, 59, 0.3) !important;
+}
+
 </style>
 
 
@@ -1921,7 +1995,191 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+<style>
+/* 1. تأثير الكرت عندما يتذكر أن المنتج مضاف مسبقاً (توهج مائي نابض) */
+.premium-product-card.remembered-card {
+    border-color: rgba(26, 156, 125, 0.6) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    /* توهج زمردي خفيف يشبه موجة الماء المتنفسة */
+    box-shadow: 
+        inset 0 0 15px rgba(26, 156, 125, 0.2), 
+        inset 0 1px 3px rgba(255, 255, 255, 0.6),
+        0 15px 35px rgba(11, 63, 59, 0.08) !important;
+    animation: liquid-breath 3s infinite alternate ease-in-out !important;
+}
 
+@keyframes liquid-breath {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.015); border-color: rgba(26, 156, 125, 0.9) !important; }
+}
+
+/* 2. الشارة الكريستالية العائمة التي تعرض خيار الزبون السابق */
+.proximity-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(11, 63, 59, 0.85);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.premium-product-card.remembered-card .proximity-badge {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 3. نافذة الخيارات المائية السريعة التي تظهر داخل الكرت بسلاسة */
+.ice-options-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100%);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ice-options-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* أزرار الخيارات الزجاجية الناعمة */
+.ice-btn {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.6);
+    color: #0b3f3b;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+}
+.ice-btn:active {
+    transform: scale(0.95);
+    background: #0b3f3b;
+    color: white;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll('.premium-product-card');
+
+    // دالة لتحديث مظهر الكروت بناءً على الذاكرة ومحتويات السلة الحقيقية
+    const updateCardsMemory = () => {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        cards.forEach(card => {
+            const productName = card.querySelector('h4')?.innerText?.trim();
+            
+            // فحص هل هذا المنتج موجود في السلة؟
+            const foundItem = cart.find(item => item.name && item.name.includes(productName));
+            
+            // إزالة الشارات القديمة لمنع التكرار
+            const oldBadge = card.querySelector('.proximity-badge');
+            if (oldBadge) oldBadge.remove();
+
+            if (foundItem) {
+                card.classList.add('remembered-card');
+                
+                // إنشاء شارة الذاكرة الذكية
+                const badge = document.createElement('div');
+                badge.className = 'proximity-badge';
+                badge.innerText = foundItem.option || "بالسلة ✨";
+                card.appendChild(badge);
+            } else {
+                card.classList.remove('remembered-card');
+            }
+        });
+    };
+
+    // بناء واجهة خيارات الثلج داخل كل كرت تلقائياً
+    cards.forEach(card => {
+        // منع تكرار إنشاء الأوفرلاي
+        if (card.querySelector('.ice-options-overlay')) return;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'ice-options-overlay';
+        overlay.innerHTML = `
+            <span style="font-size:11px; font-weight:900; color:#0b3f3b; margin-bottom:5px;">اختر تخصيصك</span>
+            <button class="ice-btn" data-opt="مع ثلج 🧊">مع ثلج 🧊</button>
+            <button class="ice-btn" data-opt="بدون ثلج ✨">بدون ثلج ✨</button>
+            <button class="ice-btn" data-opt="إلغاء" style="background:transparent; border:none; color:red; font-size:10px;">إلغاء</button>
+        `;
+        card.appendChild(overlay);
+
+        // ربط زر الزائد لفتح قائمة الخيارات بدلاً من الإضافة الفورية الجافة
+        const addBtn = card.querySelector('.circle-add-btn');
+        if (addBtn) {
+            addBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                overlay.classList.add('show');
+            });
+        }
+
+        // معالجة خيار الزبون عند الضغط
+        overlay.querySelectorAll('.ice-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const option = btn.getAttribute('data-opt');
+                overlay.classList.remove('show');
+
+                if (option === "إلغاء") return;
+
+                // جلب اسم المنتج
+                const productName = card.querySelector('h4')?.innerText?.trim();
+                
+                // محاكاة إضافة المنتج بخياره إلى السلة ووضعها في الذاكرة المحلية
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                // إزالة النسخة القديمة إن وجدت واستبدالها بالخيار الجديد
+                cart = cart.filter(item => item.name !== productName);
+                cart.push({ name: productName, option: option });
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // تحديث شكل الكروت فوراً ليعمل التوهج السحري
+                updateCardsMemory();
+
+                // تشغيل انيميشن الطيران الأصلي الموجود في موقعك تلقائياً
+                if (typeof window.animateFlyEffect === 'function') {
+                    window.animateFlyEffect(card);
+                } else {
+                    // إذا لم تكن الدالة عامة، نقوم بضغط زر الإضافة الفعلي خلف الكواليس لإتمام عملية الشراء في موقعك
+                    const realAddButton = card.querySelector('[onclick*="addToCart"]') || card.querySelector('.circle-add-btn');
+                    if (realAddButton && realAddButton !== addBtn) realAddButton.click();
+                }
+            });
+        });
+    });
+
+    // تشغيل الفحص الذكي عند تحميل الصفحة مباشرة
+    updateCardsMemory();
+});
+</script>
 
     <script>
         const menuExtras = {
@@ -2731,6 +2989,7 @@ function triggerCartAnimation(element) {
         }
     }, 1200); 
 }
+
    </script>
     
 </body>
