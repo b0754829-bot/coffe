@@ -1308,14 +1308,7 @@ header, [class*="header"], .store-header-wrapper {
         
         
        <div class="brand-logo-container">
-    <h1 class="brand-title">مَلاذ Coffee </h1>
-    <span class="brand-slogan">
-        لَذَّةاليوم تَبدَأ بِفِنُجَانِ قَهُوَةٍ
-        <svg class="glow-line" viewBox="0 0 200 30">
-            <path d="M 190 5 Q 100 25 10 5" fill="none" stroke="#0b3f3b" stroke-width="2" />
-        </svg>
-    </span>
-</div>
+    <h1 class="brand-title">مَلاذ Coffee </h1></div>
 
 
 </style>
@@ -1748,194 +1741,88 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 </script>
+
+
 <style>
-/* ☁️ هندسة الجملة المدمجة بالكامل مع الهيدر الحية */
-#smart-welcome-cloud {
-    position: fixed !important;
-    width: max-content !important;
-    height: auto !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    padding: 10px 20px !important;
-    border-radius: 30px !important; 
-    
-    /* خط مَلاذ الفخم والوقور */
-    font-family: 'Cairo', sans-serif !important;
-    font-size: 11px !important; 
-    font-weight: 700 !important;
-    letter-spacing: 0.3px !important;
-    color: #0b3f3b !important; /* لون البراند العتيق */
-    
-    pointer-events: none !important;
-    z-index: 999999 !important;
-    opacity: 0;
-    transform: scale(0.95) !important;
-    
-    transition: opacity 1.5s ease, transform 1.5s ease !important;
-    display: inline-flex !important;
+/* ✨ هندسة العبارة لتكون متناسقة وأسفل اللوجو تماماً */
+#maladh-sub-logo-text {
+    display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
-    overflow: visible !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    margin-top: 4px !important; /* مسافة رقيقة أسفل اللوجو */
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 10px !important; /* حجم صغير وناعم يناسب الهواتف */
+    font-weight: 600 !important;
+    color: #0b3f3b !important; /* لون البراند الزيتوني الفخم */
+    letter-spacing: 0.2px !important;
+    opacity: 0;
+    transform: translateY(-2px);
+    animation: maladhLogoFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* 🌟 ستايل الأيقونات الفائقة الرقة */
-.maladh-svg-icon {
-    width: 14px !important;
-    height: 14px !important;
+/* 🎨 أيقونات خطية فائقة الرقة */
+.maladh-mini-icon {
+    width: 12px !important;
+    height: 12px !important;
     stroke: #0b3f3b !important;
-    stroke-width: 1.2 !important;
+    stroke-width: 1.4 !important;
     fill: none !important;
     display: inline-block !important;
 }
 
-/* 🌀 محرك المؤثرات الطبيعية الخلفية المفتوحة (تتحرك خلف النص) */
-.ambient-nature-canvas {
-    position: absolute !important;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: -1 !important;
-    border-radius: 30px !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
-}
-
-/* ⚡ تفعيل الحركات الفيزيائية الحية */
 .rotate-slow { animation: maladhSpin 16s infinite linear !important; }
-.float-slow { animation: maladhFloat 5s infinite ease-in-out !important; }
-
 @keyframes maladhSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@keyframes maladhFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
-
-/* 🎬 الأنيميشن الفيزيائي للأشعة والشفق (حقيقي 100%) */
-@keyframes sunRaysEffect {
-    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.12; }
-    50% { transform: scale(1.15) rotate(15deg); opacity: 0.18; }
-}
-@keyframes auroraMistEffect {
-    0%, 100% { filter: blur(12px); opacity: 0.08; transform: translateX(-5px) scaleY(0.9); }
-    50% { filter: blur(16px); opacity: 0.15; transform: translateX(5px) scaleY(1.1); }
-}
-@keyframes dewShimmerEffect {
-    0%, 100% { opacity: 0.1; filter: drop-shadow(0 0 0px #fff); }
-    50% { opacity: 0.4; filter: drop-shadow(0 0 3px #fff); }
-}
-@keyframes rainDropEffect {
-    0% { transform: translateY(-20px) translateX(0); opacity: 0; }
-    30% { opacity: 0.25; }
-    100% { transform: translateY(20px) translateX(-5px); opacity: 0; }
-}
-
-/* ✅ تفعيل الظهور */
-#smart-welcome-cloud.floating-now {
-    opacity: 1 !important;
-    transform: scale(1) !important;
-}
-
-@media (max-width: 480px) { #smart-welcome-cloud { display: none !important; } }
+@keyframes maladhLogoFadeIn { to { opacity: 0.85; transform: translateY(0); } }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const targetBtn = document.querySelector(".menu-trigger-btn");
-    if (!targetBtn) return;
+    // 🧠 استهداف حاوية اللوجو الخاصة بك بدقة
+    const logoContainer = document.querySelector(".brand-logo-container");
+    if (!logoContainer) return;
 
     const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const decimalTime = hours + (minutes / 60);
+    const decimalTime = now.getHours() + (now.getMinutes() / 60);
     
-    let greetingText = "";
-    let iconSvg = "";
-    let effectHtml = ""; // لحقن الجزيئات الفيزيائية خلف الكلمة
+    let greetingText = "أهلاً بك في مَلاذ 🌿";
+    let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
 
-    // الأيقونات الفاخرة
-    const dewIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/><circle cx="10.5" cy="13.5" r="1" style="fill: #0b3f3b; stroke: none; opacity: 0.7;"/></svg>`;
-    const sunIcon = `<svg class="maladh-svg-icon rotate-slow" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
-    const leafIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
-    const moonIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
-    const candleIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`;
-
-    // 🔬 بناء الطبيعة الحية ثلاثية الأبعاد حسب التوقيت الفلكي الدقيق
+    // 🔬 التعديل الفلكي الزمني (يتغير تلقائياً حسب وقت العميل)
     if (decimalTime >= 3.5 && decimalTime < 6) { 
-        // 🌌 فترة الندى الباكر (ومضات تلمع كبلورات الماء الحقيقية)
         greetingText = "طاب فجرك بنقاء الندى وسكون كوبك";
-        iconSvg = dewIcon;
-        effectHtml = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);">
-            <div style="position:absolute; top:20%; left:30%; width:3px; height:3px; background:#fff; border-radius:50%; animation: dewShimmerEffect 2s infinite ease-in-out;"></div>
-            <div style="position:absolute; top:60%; left:75%; width:2px; height:2px; background:#fff; border-radius:50%; animation: dewShimmerEffect 3s infinite ease-in-out 0.5s;"></div>
-            <div style="position:absolute; top:40%; left:50%; width:4px; height:4px; background:#fff; border-radius:50%; animation: dewShimmerEffect 2.5s infinite ease-in-out 1s;"></div>
-        </div>`;
+        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
     } else if (decimalTime >= 6 && decimalTime < 12) {
-        // ☀️ الصباح المشرق (أشعة شمس متحركة ومخترقة للنص)
-        greetingText = "صباح الخير";
-        iconSvg = sunIcon;
-        effectHtml = `<div class="ambient-nature-canvas">
-            <div style="position:absolute; top:-20px; left:20px; width:120px; height:120px; background:repeating-conic-gradient(from 0deg, rgba(245,158,11,0.08) 0deg 15deg, transparent 15deg 30deg); border-radius:50%; filter:blur(4px); animation: sunRaysEffect 8s infinite ease-in-out;"></div>
-            <div style="position:absolute; width:100%; height:100%; background:radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 60%);"></div>
-        </div>`;
+        greetingText = "صباح الخير والمسرات";
+        iconSvg = `<svg class="maladh-mini-icon rotate-slow" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
     } else if (decimalTime >= 12 && decimalTime < 17) {
-        // 🌿 توازن النهار والعصر
         greetingText = "طاب يومك بمَلاذ وجمال فنجانك";
-        iconSvg = leafIcon;
-        effectHtml = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 65%);"></div>`;
+        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
     } else if (decimalTime >= 17 && decimalTime < 22) {
-        // 🌙 أول الليل وأشعة القمر (شفق فضي متموج ناعم)
-        greetingText = "مساء الخير";
-        iconSvg = moonIcon;
-        effectHtml = `<div class="ambient-nature-canvas">
-            <div style="position:absolute; width:150%; height:100%; background:linear-gradient(90deg, transparent, rgba(226,232,240,0.12), transparent); animation: auroraMistEffect 7s infinite ease-in-out;"></div>
-            <div style="position:absolute; width:100%; height:100%; background:radial-gradient(circle, rgba(226,232,240,0.1) 0%, transparent 60%);"></div>
-        </div>`;
-    } else {
-        // 🕯️ سكون الليل العتيق
-        greetingText = "أهلاً بك في سكون مَلاذ العتيق";
-        iconSvg = candleIcon;
-        effectHtml = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(226,232,240,0.06) 0%, transparent 60%);"></div>`;
+        greetingText = "مساء الخير والسكينة";
+        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
 
-    // بناء الكبسولة الحرة وحقن جزيئات الطبيعة في عمقها
-    const cloud = document.createElement("div");
-    cloud.id = "smart-welcome-cloud";
-    cloud.innerHTML = `${effectHtml}<span>${greetingText}</span>${iconSvg}`;
-    document.body.appendChild(cloud);
+    // دمج اسم العميل إذا كان مخزناً صامتاً سابقاً
+    const savedName = localStorage.getItem('maladh_customer_name');
+    if (savedName) { greetingText = savedName + "، " + greetingText; }
 
-    // دالة التموضع بجانب المنيو
-    function positionCloud() {
-        const rect = targetBtn.getBoundingClientRect();
-        cloud.style.top = (rect.top + (rect.height / 2) - (cloud.offsetHeight / 2)) + "px";
-        cloud.style.left = (rect.left - cloud.offsetWidth - 6) + "px";
-    }
+    // إنشاء عنصر النص الجديد وحقنه أسفل اللوجو مباشرة كابن داخل الحاوية
+    const subTextElement = document.createElement("div");
+    subTextElement.id = "maladh-sub-logo-text";
+    subTextElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
+    logoContainer.appendChild(subTextElement);
 
-    // 🧠 مستشعر الطقس الخارق (إذا كشف أمطار حقيقية، يستبدل الخلفية بقطرات تساقط حية فوراً)
+    // 🌧️ مستشعر الطقس الصامت (يحدث النص فوراً إذا كانت الأجواء ماطرة عند العميل)
     fetch('https://wttr.in/?format=j1')
         .then(response => response.json())
         .then(data => {
             const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
-            
-            if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower") || weatherDesc.includes("thunder")) {
-                const rainIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6M8 16v3M16 16v3"/></svg>`;
-                greetingText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
-                
-                // محاكاة خطوط المطر الفيزيائية الساقطة خلف الحروف
-                const rainEffect = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 65%);">
-                    <div style="position:absolute; left:20%; width:1px; height:12px; background:rgba(56,189,248,0.4); animation: rainDropEffect 1s infinite linear;"></div>
-                    <div style="position:absolute; left:50%; width:1px; height:15px; background:rgba(56,189,248,0.4); animation: rainDropEffect 1.2s infinite linear 0.3s;"></div>
-                    <div style="position:absolute; left:80%; width:1px; height:10px; background:rgba(56,189,248,0.4); animation: rainDropEffect 0.8s infinite linear 0.6s;"></div>
-                </div>`;
-                
-                cloud.innerHTML = `${rainEffect}<span>${greetingText}</span>${rainIcon}`;
-                positionCloud();
+            if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
+                const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
+                subTextElement.innerHTML = `<span>أجواء ماطرة عذبة.. دافئ كوبك الآن</span>${rainIcon}`;
             }
-        })
-        .catch(err => { console.log("محاكاة فيزيائية مستقرة بنجاح."); });
-
-    // ظهور النص ليستقر في مكانه كجزء أصيل من الهيدر
-    setTimeout(() => {
-        positionCloud();
-        cloud.classList.add("floating-now");
-    }, 1200);
-
-    window.addEventListener("resize", positionCloud);
+        }).catch(err => {});
 });
 </script>
 
