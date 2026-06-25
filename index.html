@@ -1045,38 +1045,82 @@ button[onclick*="saveAndAddToCart"] {
         50% { box-shadow: 0 0 0 8px rgba(15, 118, 110, 0); } /* نبضة سريعة واحدة */
         100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
     }
-    /* تنسيق الـ Footer كجزيرة زمردية مخملية */
+   /* تنسيق الـ Footer كجزيرة زمردية مخملية طافية */
 .premium-footer {
-    padding: 30px 20px;
-    margin-top: 40px;
+    padding: 40px 20px;
+    margin-top: 50px;
     display: flex;
     justify-content: center;
+    perspective: 1000px; /* يعطي عمقاً بصرياً خفيفاً */
 }
 
 .footer-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 20px;
     width: 100%;
     max-width: 420px;
+    text-align: center;
     
-    /* خلفية زجاجية سائلة بمسحة زمردية */
-    background: rgba(4, 47, 46, 0.4); /* لون زمردي عميق شفاف */
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 50px; /* حواف انسيابية فائقة */
-    padding: 25px;
-    box-shadow: 0 15px 40px rgba(4, 47, 46, 0.3);
+    /* خلفية زجاجية سائلة بمسحة زمردية مخملية مهدأة */
+    background: linear-gradient(135deg, rgba(4, 47, 46, 0.45) 0%, rgba(2, 44, 34, 0.6) 100%);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    
+    /* حواف انسيابية مدروسة هندسياً لتناسب أبعاد الحاوية */
+    border-radius: 32px; 
+    
+    /* حافة ضوئية علوية تعطي ملمس الزجاج الحقيقي */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(16, 185, 129, 0.3);
+    
+    padding: 30px 24px;
+    
+    /* ظلال ناعمة ومتدرجة تمنع ظهور بقع داكنة قبيحة */
+    box-shadow: 
+        0 25px 50px rgba(2, 44, 34, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        
+    /* سلاسة الحركة عند تفاعل الصفحة */
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* تنسيق الخط الزمردي المخملي */
-.footer-grid p, .footer-grid h3 {
-    color: #d1fae5; /* زمردي فاتح جداً (Emerald Mist) */
-    text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+/* حركة ذكية للجزيرة عند التمرير أو التحويم فوقها */
+.footer-grid:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px rgba(2, 44, 34, 0.35);
+    border-top: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+/* تنسيق الخط الزمردي المخملي المريح للعين */
+.footer-grid h3 {
+    color: #f0fdf4; /* لون حليبي بلمحة خضراء، ناعم جداً وقراءته ممتازة */
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+}
+
+.footer-grid p {
+    color: rgba(209, 250, 229, 0.75); /* تقليل التوهج الصاخب واستبداله بنعومة شفافة */
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
     margin: 0;
+    /* تنعيم حواف الحروف داخل المتصفحات */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+/* إضافة لمسة تفاعلية سلسة للروابط داخل الـ Footer إذا وُجدت */
+.footer-grid a {
+    color: #10b981;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.footer-grid a:hover {
+    color: #34d399;
+}
 /* الأزرار: زجاج سائل مائي */
 .premium-btn {
     display: flex;
@@ -1222,6 +1266,26 @@ button[onclick*="saveAndAddToCart"] {
     opacity: 1;
     visibility: visible;
 }
+
+/* 1. تصفير شامل للفراغات الهيكلية بين أقسام الصفحة الرئيسية */
+body, main, .main-content, #app, .app-content, .home-sections, [class*="main"] {
+    gap: 0px !important;
+    row-gap: 0px !important;
+}
+
+/* 2. الجذب السلبي القوي للسلايدر (لسحب السلايدر للأعلى رغماً عن القالب) */
+.slider-section, .main-slider, .home-slider, .swiper-container, .slick-slider, 
+.carousel, .slider-wrapper, [class*="slider"], [class*="carousel"] {
+    margin-top: -30px !important; /* يقوم برفع السلايدر 30 بكسل للأعلى ليغطي الفجوة */
+    padding-top: 0px !important;
+}
+
+/* 3. تصفير إضافي لأسفل الهيدر */
+header, [class*="header"], .store-header-wrapper {
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
 </style>
 
 
@@ -1389,25 +1453,151 @@ button[onclick*="saveAndAddToCart"] {
     </div>
 
     </div>
+<style>
+    /* الحاوية الرئيسية */
+    .ultra-glass-panel {
+        background: rgba(255, 255, 255, 0.02) !important; 
+        backdrop-filter: blur(35px) saturate(110%) !important; 
+        -webkit-backdrop-filter: blur(35px) saturate(110%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+        border-radius: 40px !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04) !important; 
+    }
 
-<div class="cart-overlay" id="nav-menu-overlay" onclick="toggleNavMenu(false)" style="display: none; opacity: 0; transition: opacity 0.4s ease; z-index: 99998;"></div>
+    /* تخصيص شريط التمرير ليكون ناعماً ومندمجاً مع التصميم */
+    .glass-scroll::-webkit-scrollbar {
+        width: 4px; /* نحيف وأنيق */
+    }
+    .glass-scroll::-webkit-scrollbar-track {
+        background: transparent; /* مسار مخفي تماماً */
+        margin-block: 15px; /* إبعاد التمرير عن الحواف العلوية والسفلية */
+    }
+    .glass-scroll::-webkit-scrollbar-thumb {
+        background: rgba(18, 107, 86, 0.15); /* لون زمردي شفاف جداً */
+        border-radius: 10px;
+        transition: background 0.3s ease;
+    }
+    .glass-scroll::-webkit-scrollbar-thumb:hover {
+        background: rgba(18, 107, 86, 0.3); /* يغمق قليلاً عند لمسه */
+    }
 
-<div class="sidebar-cart" id="sidebar-nav-menu" style="right: 15px; left: auto; transform: translateX(110%); z-index: 99999 !important; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(30px); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
-    <div class="cart-top-bar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid rgba(0,0,0,0.05);">
-        <h3 style="font-weight: 900; color: #0b3f3b; margin: 0; font-size: 18px;">📋 تصفح أقسام المنيو</h3>
-        <button onclick="toggleNavMenu(false)" style="background: rgba(0,0,0,0.05); border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+    /* الأزرار الزجاجية الناعمة */
+    .cloud-glass-btn {
+        position: relative;
+        text-decoration: none;
+        padding: 16px 20px;
+        border-radius: 100px; 
+        text-align: center;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.0) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0, 0, 0, 0.01);             
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* تأثير الزر عند التمرير */
+    .cloud-glass-btn:hover {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+        transform: scale(1.01); 
+        box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.25), 0 5px 15px rgba(0, 0, 0, 0.02);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* الإضافة الفريدة: نص بتدرج لوني ولمعة معدنية */
+    .premium-text {
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.3px; /* تباعد بسيط يزيد من أناقة القراءة */
+        
+        /* تدرج لوني (زمردي غامق -> زمردي فاتح مائل للذهبي/النعناعي -> زمردي غامق) */
+        background: linear-gradient(90deg, #0b3f3b 0%, #1a9c7d 50%, #0b3f3b 100%);
+        background-size: 200% auto; /* تكبير الخلفية للسماح بالحركة */
+        
+        color: transparent; /* إخفاء اللون الأساسي لإظهار التدرج */
+        -webkit-background-clip: text; /* تطبيق التدرج على النص فقط */
+        background-clip: text;
+        
+        transition: background-position 0.5s ease;
+    }
+
+    /* حركة اللمعة الساحرة للنص عند التمرير على الزر */
+    .cloud-glass-btn:hover .premium-text {
+        background-position: 100% center; 
+    }
+
+    /* الزر الداكن (تواصل معنا) */
+    .cloud-glass-dark {
+        background: linear-gradient(180deg, rgba(18, 107, 86, 0.06) 0%, rgba(18, 107, 86, 0.01) 100%);
+        border: 1px solid rgba(18, 107, 86, 0.1);
+        margin-top: auto;
+    }
+
+    .cloud-glass-dark:hover {
+        background: linear-gradient(180deg, rgba(18, 107, 86, 0.1) 0%, rgba(18, 107, 86, 0.03) 100%);
+        border-color: rgba(18, 107, 86, 0.15);
+    }
+
+    /* زر الإغلاق */
+    .cloud-close {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .cloud-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="cart-overlay" id="nav-menu-overlay" onclick="toggleNavMenu(false)" style="display: none; opacity: 0; transition: opacity 0.4s ease; z-index: 99998; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.1); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"></div>
+
+<div class="sidebar-cart ultra-glass-panel" id="sidebar-nav-menu" style="position: fixed; top: 15px; bottom: 15px; right: 15px; width: 310px; transform: translateX(120%); z-index: 99999 !important; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px 25px;">
+        <h3 style="font-weight: 800; margin: 0; font-size: 18px;">
+            <span class="premium-text" style="background: linear-gradient(90deg, #126b56, #0b3f3b); -webkit-background-clip: text;">تصفح أقسام المنيو</span>
+        </h3>
+        <button onclick="toggleNavMenu(false)" class="cloud-close">
+            <span class="premium-text" style="font-size: 14px;">✕</span>
+        </button>
     </div>
     
-    <div class="cart-scroll-area" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
-        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">✨ جديدنا (Specialty Coffee)</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">☕ المشروبات الساخنة والدافئة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">🍹 المشروبات الباردة والمنعشة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">🍰 الحلويات الفاخرة</a>
-        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" style="text-decoration: none; color: #0c0d0e; font-weight: 700; padding: 14px 18px; background: rgba(11, 63, 59, 0.04); border-radius: 20px; border-right: 4px solid #0b3f3b; font-size: 14px;">🥐 وجبات الفطور والكرواسون</a>
+    <div class="glass-scroll" style="padding: 10px 20px 25px 20px; display: flex; flex-direction: column; gap: 14px; height: 100%; overflow-y: auto;">
         
-        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" style="text-decoration: none; color: #ffffff; font-weight: 800; padding: 15px 18px; background: #1f2937; border-radius: 20px; margin-top: 15px; text-align: center; box-shadow: 0 8px 20px rgba(31, 41, 55, 0.2); font-size: 14px; display: block;">📞 تواصل معنا وموقعنا</a>
+        <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="cloud-glass-btn">
+             <span class="premium-text">جديدنا (Specialty Coffee)</span>
+        </a>
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" class="cloud-glass-btn">
+             <span class="premium-text">المشروبات الساخنة والدافئة</span>
+        </a>
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('cold-drinks-anchor')" class="cloud-glass-btn">
+             <span class="premium-text">المشروبات الباردة والمنعشة</span>
+        </a>
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('desserts-anchor')" class="cloud-glass-btn">
+             <span class="premium-text">الحلويات الفاخرة</span>
+        </a>
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('breakfast-anchor')" class="cloud-glass-btn">
+             <span class="premium-text">وجبات الفطور والكرواسون</span>
+        </a>
+        
+        <a href="javascript:void(0)" onclick="handleNavClick('phone-footer')" class="cloud-glass-btn cloud-glass-dark">
+             <span class="premium-text">تواصل معنا وموقعنا</span>
+        </a>
     </div>
 </div>
+
 
 
 <footer class="premium-footer" id="phone-footer">
@@ -1418,14 +1608,336 @@ button[onclick*="saveAndAddToCart"] {
         </div>
 
         <a href="tel:+972500000000" class="premium-btn phone">
-            <span>📞</span> اتصل الآن
+            <span></span> اتصل الآن
         </a>
 
         <a href="waze://?ll=31.2825,34.8252&navigate=yes" class="premium-btn waze">
-            <span>📍</span> توجّه عبر Waze
+            <span></span> توجّه عبر Waze
         </a>
     </div>
 </footer>
+
+<style>
+/* ✨ 1. تأثير أزرار الشراء الحيوية والخفيفة (Pure CSS) */
+.single_add_to_cart_button, 
+.add_to_cart_button, 
+.checkout-btn,
+button[name="add"] {
+    position: relative !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
+}
+
+/* حركة ارتدادية ناعمة جداً ترحب بلمسة العميل */
+.single_add_to_cart_button:hover, 
+.add_to_cart_button:hover, 
+.checkout-btn:hover,
+button[name="add"]:hover {
+    transform: translateY(-2px) scale(1.01) !important;
+    box-shadow: 0 8px 20px rgba(11, 63, 59, 0.15) !important; /* ظل خفيف بلون البراند */
+}
+
+/* 🌧️ 2. ستايل السطر النصي الذكي داخل صفحة السلة */
+#maladh-cart-context-line {
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #0b3f3b !important; /* لون البراند الزيتوني العتيق */
+    text-align: center !important;
+    margin: 15px 0 !important;
+    padding: 10px !important;
+    border-radius: 12px !important;
+    background: rgba(11, 63, 59, 0.03) !important;
+    display: none; /* يظهر فقط عبر الجافاسكريبت بعد فحص الطقس */
+    animation: fadeInText 0.8s ease forwards;
+}
+
+@keyframes fadeInText { from { opacity: 0; } to { opacity: 1; } }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    // ==========================================
+    // 🧠 الفكرة الأولى: ذكاء عنوان المتصفح (Tab Title)
+    // ==========================================
+    const originalTitle = document.title;
+    let cartInterval = null;
+
+    window.addEventListener("blur", function() {
+        // إذا كان هناك منتجات في السلة (نقوم بفحص وجود عنصر السلة في المتجر)
+        const hasItems = document.querySelector('.cart-count, .cart-qty, .badge--cart') !== null; 
+        
+        if (hasItems) {
+            let toggle = true;
+            cartInterval = setInterval(() => {
+                document.title = toggle ? "⏳ كوبك ينتظرك بلهفة..." : "🌿 نجهز طلبك الآن؟";
+                toggle = !toggle;
+            }, 2500); // يتناوب النص كل ثانيتين ونصف بهدوء
+        }
+    });
+
+    window.addEventListener("focus", function() {
+        if (cartInterval) clearInterval(cartInterval);
+        document.title = originalTitle; // يعود الاسم الأصلي فوراً عند عودة العميل
+    });
+
+
+    // ==========================================
+    // 🌧️ الفكرة الثانية: محاكاة الطقس والوقت النصية بالسلة
+    // ==========================================
+    // نبحث عن حاوية السلة أو نضع النص في أسفل الجسم إذا لم نجدها
+    const cartPageContainer = document.querySelector('.cart-page, .cart-wrapper, #cart-form, .cart');
+    
+    if (cartPageContainer) {
+        const contextLine = document.createElement('div');
+        contextLine.id = 'maladh-cart-context-line';
+        cartPageContainer.appendChild(contextLine);
+
+        const now = new Date();
+        const hours = now.getHours();
+        
+        // النص الافتراضي بناءً على الوقت الحالي
+        let smartText = "طاب يومك.. طلبك الحالي يصنع أوقاتاً ممتعة وبديعة 🌿";
+        if (hours >= 17 || hours < 4) {
+            smartText = "✨ طاب مساؤك.. طلبك الحالي يصنع ليلة هادئة دافئة.";
+        } else if (hours >= 4 && hours < 7) {
+            smartText = "💧 طاب فجرك.. طلبك الحالي يفتتح يومك بنقاء الندى وسكونه.";
+        }
+
+        contextLine.innerText = smartText;
+        contextLine.style.display = 'block';
+
+        // فحص الطقس الحقيقي بطلب خفيف وسريع جداً لتبديل النص إذا كانت الأجواء ماطرة
+        fetch('https://wttr.in/?format=j1')
+            .then(response => response.json())
+            .then(data => {
+                const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
+                if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower") || weatherDesc.includes("thunder")) {
+                    contextLine.innerText = "🌧️ الأجواء حولك ماطرة عذبة.. طلبك الحالي هو الرفيق الدافئ المثالي الآن.";
+                }
+            }).catch(err => { /* يستمر النص الزمني الافتراضي بنجاح دون أخطاء */ });
+    }
+
+
+    // ==========================================
+    // 👤 الفكرة الثالثة: الترحيب الاسمي المخزن صامتاً
+    // ==========================================
+    // نقوم بالتقاط الاسم إذا كتبه العميل في حقل الاسم بصفحة الدفع أو حقول المتجر
+    const nameInput = document.querySelector('input[name="billing_first_name"], input[autocomplete="given-name"], #billing_first_name');
+    if (nameInput) {
+        nameInput.addEventListener('input', function() {
+            if (this.value.trim().length > 2) {
+                localStorage.setItem('maladh_customer_name', this.value.trim());
+            }
+        });
+    }
+
+    // إذا عاد العميل وكان اسمه مخزناً، نقوم بدمج اسمه في الكبسولة الترحيبية العلوية (إن وجدت)
+    const savedName = localStorage.getItem('maladh_customer_name');
+    const welcomeCloud = document.getElementById('smart-welcome-cloud'); // الكبسولة العلوية التي صممناها سابقاً
+    
+    if (savedName && welcomeCloud) {
+        const textSpan = welcomeCloud.querySelector('span');
+        if (textSpan) {
+            // إضافة الاسم بنعومة للنص الترحيبي الحالي
+            if (!textSpan.innerText.includes(savedName)) {
+                textSpan.innerText = savedName + "، " + textSpan.innerText;
+            }
+        }
+    }
+
+});
+</script>
+<style>
+/* ☁️ هندسة الجملة المدمجة بالكامل مع الهيدر الحية */
+#smart-welcome-cloud {
+    position: fixed !important;
+    width: max-content !important;
+    height: auto !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 10px 20px !important;
+    border-radius: 30px !important; 
+    
+    /* خط مَلاذ الفخم والوقور */
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 11px !important; 
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    color: #0b3f3b !important; /* لون البراند العتيق */
+    
+    pointer-events: none !important;
+    z-index: 999999 !important;
+    opacity: 0;
+    transform: scale(0.95) !important;
+    
+    transition: opacity 1.5s ease, transform 1.5s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow: visible !important;
+}
+
+/* 🌟 ستايل الأيقونات الفائقة الرقة */
+.maladh-svg-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: #0b3f3b !important;
+    stroke-width: 1.2 !important;
+    fill: none !important;
+    display: inline-block !important;
+}
+
+/* 🌀 محرك المؤثرات الطبيعية الخلفية المفتوحة (تتحرك خلف النص) */
+.ambient-nature-canvas {
+    position: absolute !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1 !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* ⚡ تفعيل الحركات الفيزيائية الحية */
+.rotate-slow { animation: maladhSpin 16s infinite linear !important; }
+.float-slow { animation: maladhFloat 5s infinite ease-in-out !important; }
+
+@keyframes maladhSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes maladhFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+
+/* 🎬 الأنيميشن الفيزيائي للأشعة والشفق (حقيقي 100%) */
+@keyframes sunRaysEffect {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.12; }
+    50% { transform: scale(1.15) rotate(15deg); opacity: 0.18; }
+}
+@keyframes auroraMistEffect {
+    0%, 100% { filter: blur(12px); opacity: 0.08; transform: translateX(-5px) scaleY(0.9); }
+    50% { filter: blur(16px); opacity: 0.15; transform: translateX(5px) scaleY(1.1); }
+}
+@keyframes dewShimmerEffect {
+    0%, 100% { opacity: 0.1; filter: drop-shadow(0 0 0px #fff); }
+    50% { opacity: 0.4; filter: drop-shadow(0 0 3px #fff); }
+}
+@keyframes rainDropEffect {
+    0% { transform: translateY(-20px) translateX(0); opacity: 0; }
+    30% { opacity: 0.25; }
+    100% { transform: translateY(20px) translateX(-5px); opacity: 0; }
+}
+
+/* ✅ تفعيل الظهور */
+#smart-welcome-cloud.floating-now {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+@media (max-width: 480px) { #smart-welcome-cloud { display: none !important; } }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const targetBtn = document.querySelector(".menu-trigger-btn");
+    if (!targetBtn) return;
+
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const decimalTime = hours + (minutes / 60);
+    
+    let greetingText = "";
+    let iconSvg = "";
+    let effectHtml = ""; // لحقن الجزيئات الفيزيائية خلف الكلمة
+
+    // الأيقونات الفاخرة
+    const dewIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/><circle cx="10.5" cy="13.5" r="1" style="fill: #0b3f3b; stroke: none; opacity: 0.7;"/></svg>`;
+    const sunIcon = `<svg class="maladh-svg-icon rotate-slow" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
+    const leafIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
+    const moonIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+    const candleIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`;
+
+    // 🔬 بناء الطبيعة الحية ثلاثية الأبعاد حسب التوقيت الفلكي الدقيق
+    if (decimalTime >= 3.5 && decimalTime < 6) { 
+        // 🌌 فترة الندى الباكر (ومضات تلمع كبلورات الماء الحقيقية)
+        greetingText = "طاب فجرك بنقاء الندى وسكون كوبك";
+        iconSvg = dewIcon;
+        effectHtml = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);">
+            <div style="position:absolute; top:20%; left:30%; width:3px; height:3px; background:#fff; border-radius:50%; animation: dewShimmerEffect 2s infinite ease-in-out;"></div>
+            <div style="position:absolute; top:60%; left:75%; width:2px; height:2px; background:#fff; border-radius:50%; animation: dewShimmerEffect 3s infinite ease-in-out 0.5s;"></div>
+            <div style="position:absolute; top:40%; left:50%; width:4px; height:4px; background:#fff; border-radius:50%; animation: dewShimmerEffect 2.5s infinite ease-in-out 1s;"></div>
+        </div>`;
+    } else if (decimalTime >= 6 && decimalTime < 12) {
+        // ☀️ الصباح المشرق (أشعة شمس متحركة ومخترقة للنص)
+        greetingText = "صباح الخير";
+        iconSvg = sunIcon;
+        effectHtml = `<div class="ambient-nature-canvas">
+            <div style="position:absolute; top:-20px; left:20px; width:120px; height:120px; background:repeating-conic-gradient(from 0deg, rgba(245,158,11,0.08) 0deg 15deg, transparent 15deg 30deg); border-radius:50%; filter:blur(4px); animation: sunRaysEffect 8s infinite ease-in-out;"></div>
+            <div style="position:absolute; width:100%; height:100%; background:radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 60%);"></div>
+        </div>`;
+    } else if (decimalTime >= 12 && decimalTime < 17) {
+        // 🌿 توازن النهار والعصر
+        greetingText = "طاب يومك بمَلاذ وجمال فنجانك";
+        iconSvg = leafIcon;
+        effectHtml = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 65%);"></div>`;
+    } else if (decimalTime >= 17 && decimalTime < 22) {
+        // 🌙 أول الليل وأشعة القمر (شفق فضي متموج ناعم)
+        greetingText = "مساء الخير";
+        iconSvg = moonIcon;
+        effectHtml = `<div class="ambient-nature-canvas">
+            <div style="position:absolute; width:150%; height:100%; background:linear-gradient(90deg, transparent, rgba(226,232,240,0.12), transparent); animation: auroraMistEffect 7s infinite ease-in-out;"></div>
+            <div style="position:absolute; width:100%; height:100%; background:radial-gradient(circle, rgba(226,232,240,0.1) 0%, transparent 60%);"></div>
+        </div>`;
+    } else {
+        // 🕯️ سكون الليل العتيق
+        greetingText = "أهلاً بك في سكون مَلاذ العتيق";
+        iconSvg = candleIcon;
+        effectHtml = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(226,232,240,0.06) 0%, transparent 60%);"></div>`;
+    }
+
+    // بناء الكبسولة الحرة وحقن جزيئات الطبيعة في عمقها
+    const cloud = document.createElement("div");
+    cloud.id = "smart-welcome-cloud";
+    cloud.innerHTML = `${effectHtml}<span>${greetingText}</span>${iconSvg}`;
+    document.body.appendChild(cloud);
+
+    // دالة التموضع بجانب المنيو
+    function positionCloud() {
+        const rect = targetBtn.getBoundingClientRect();
+        cloud.style.top = (rect.top + (rect.height / 2) - (cloud.offsetHeight / 2)) + "px";
+        cloud.style.left = (rect.left - cloud.offsetWidth - 6) + "px";
+    }
+
+    // 🧠 مستشعر الطقس الخارق (إذا كشف أمطار حقيقية، يستبدل الخلفية بقطرات تساقط حية فوراً)
+    fetch('https://wttr.in/?format=j1')
+        .then(response => response.json())
+        .then(data => {
+            const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
+            
+            if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower") || weatherDesc.includes("thunder")) {
+                const rainIcon = `<svg class="maladh-svg-icon float-slow" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6M8 16v3M16 16v3"/></svg>`;
+                greetingText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
+                
+                // محاكاة خطوط المطر الفيزيائية الساقطة خلف الحروف
+                const rainEffect = `<div class="ambient-nature-canvas" style="background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 65%);">
+                    <div style="position:absolute; left:20%; width:1px; height:12px; background:rgba(56,189,248,0.4); animation: rainDropEffect 1s infinite linear;"></div>
+                    <div style="position:absolute; left:50%; width:1px; height:15px; background:rgba(56,189,248,0.4); animation: rainDropEffect 1.2s infinite linear 0.3s;"></div>
+                    <div style="position:absolute; left:80%; width:1px; height:10px; background:rgba(56,189,248,0.4); animation: rainDropEffect 0.8s infinite linear 0.6s;"></div>
+                </div>`;
+                
+                cloud.innerHTML = `${rainEffect}<span>${greetingText}</span>${rainIcon}`;
+                positionCloud();
+            }
+        })
+        .catch(err => { console.log("محاكاة فيزيائية مستقرة بنجاح."); });
+
+    // ظهور النص ليستقر في مكانه كجزء أصيل من الهيدر
+    setTimeout(() => {
+        positionCloud();
+        cloud.classList.add("floating-now");
+    }, 1200);
+
+    window.addEventListener("resize", positionCloud);
+});
+</script>
 
 
 
@@ -1607,7 +2119,7 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
     </svg>
 </button>
-          <button class="circle-add-btn" onclick="addNewProductToCart(${product.id}); triggerCartAnimation();">+</button>
+          <button class="circle-add-btn" onclick="addNewProductToCart(${product.id}); triggerCartAnimation(this);">+</button>
             
         </div>
     </div>
@@ -1864,7 +2376,7 @@ function sendCartToWhatsApp() {
     const modalHTML = `
     <div id="hikaya-sky-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 26, 17, 0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; direction: rtl; font-family: 'Cairo', sans-serif;">
         <div style="background: #fdfbf7; border: 2px solid rgba(217, 119, 6, 0.3); width: 95%; max-width: 430px; padding: 35px 25px; border-radius: 28px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من كافيه حكاية </h3>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 900; color: #2c1a11;"> تفاصيل طلبك من مَلاذ </h3>
             <div style="width: 60px; height: 4px; background: #d97706; margin: 0 auto 25px auto; border-radius: 2px;"></div>
             <div style="margin-bottom: 22px; text-align: right;">
                 <label style="display: block; font-size: 14px; font-weight: 700; color: #2c1a11; margin-bottom: 8px;">الأسم:</label>
@@ -1948,8 +2460,7 @@ window.location.href = whatsappURL;
             // سلايدر خلفيات حية ومتحركة تلقائياً
             const images = [
                 "https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1287&auto=format&fit=crop", 
-                "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop", 
-                "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1287&auto=format&fit=crop"
+              
             ];
             let currentImgIndex = 0;
             const imgElement = document.getElementById('main-dynamic-slide');
@@ -2052,25 +2563,98 @@ function openExtrasModal(productId, category) {
         `).join('')
         : '<p style="text-align:center; color:#94a3b8;">لا توجد إضافات لهذا القسم</p>';
 
-    let modalHTML = `
-    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); z-index:999999; display:flex; justify-content:center; align-items:center; padding:20px;">
-        <div class="glass-island" style="background:rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.5); padding:25px; border-radius:24px; width:100%; max-width:320px; box-shadow:0 20px 40px rgba(0,0,0,0.1); text-align:right;">
-            <h3 style="font-size:20px; color:#064e3b; margin-bottom:20px; font-weight:700;">اختر إضافاتك ✨</h3>
+let modalHTML = `
+    <style>
+        /* أنيميشن الانبثاق العضوي الفاخر */
+        @keyframes danishIslandPop {
+            0% { opacity: 0; transform: scale(0.95) translateY(15px); filter: blur(4px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+
+        /* نافذة متطورة فائقة النعومة */
+        .danish-island-modal {
+            animation: danishIslandPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            /* خلفية زجاجية رخامية هادئة جداً بنسبة شفافية ذكية */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 251, 249, 0.88) 100%);
+            backdrop-filter: blur(24px) saturate(120%);
+            -webkit-backdrop-filter: blur(24px) saturate(120%);
             
-            <div style="max-height:220px; overflow-y:auto; margin-bottom:20px; padding-left:10px;">
+            /* حواف ناعمة جداً ومدروسة هندسياً */
+            border-radius: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            
+            /* ظلال مركبة تمنح النافذة عمقاً حقيقياً كأنها تطفو فوق المتجر */
+            box-shadow: 
+                0 30px 70px rgba(6, 28, 24, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        /* تأثيرات الأزرار الذكية فائقة النعومة */
+        .smart-island-btn {
+            transition: all 0.3s cubic-bezier(0.215, 0.610, 0.355, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* تأثير ذكي عند تمرير الماوس (Hover) يعطي إحساساً بالحيوية */
+        @media (hover: hover) {
+            .smart-island-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(15, 118, 110, 0.25);
+                filter: brightness(1.05);
+            }
+        }
+        
+        /* تفاعل حسي ناعم جداً عند الضغط الفعلي (Click/Touch) */
+        .smart-island-btn:active {
+            transform: scale(0.96) translateY(0);
+            box-shadow: 0 4px 10px rgba(15, 118, 110, 0.15);
+            filter: brightness(0.95);
+        }
+
+        /* زر الإلغاء الشفاف الأنيق */
+        .smart-cancel-btn {
+            transition: all 0.25s ease;
+        }
+        .smart-cancel-btn:hover {
+            background: rgba(100, 116, 139, 0.05);
+            color: #475569;
+        }
+        .smart-cancel-btn:active {
+            transform: scale(0.97);
+        }
+    </style>
+
+    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at center, rgba(20, 50, 45, 0.2) 0%, rgba(10, 20, 18, 0.45) 100%); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:999998; display:flex; justify-content:center; align-items:center; padding:20px; font-family: system-ui, -apple-system, sans-serif;">
+        
+        <div class="danish-island-modal" style="padding:32px 26px; width:100%; max-width:345px; text-align:right; display:flex; flex-direction:column; gap:22px; position:relative;">
+            
+            <button onclick="closeModal()" class="smart-cancel-btn" style="position:absolute; left:22px; top:26px; background:rgba(15, 118, 110, 0.06); border:none; width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; color:#0f766e; z-index: 10;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <h3 style="font-size:20px; color:#0f766e; margin:0; font-weight:700; text-align:center; width:100%; letter-spacing:-0.3px;">
+           نقي اضافتك بكل راحة
+            </h3>
+            
+            <div style="max-height:210px; overflow-y:auto; padding:5px 2px;">
                 ${extrasHTML}
             </div>
 
-            <button onclick="saveAndAddToCart()" style="width:100%; padding:14px; border:none; border-radius:16px; background:#064e3b; color:#0b3f3b; font-size:16px; font-weight:600; cursor:pointer; transition:0.3s; box-shadow:0 4px 12px rgba(6,78,59,0.2);">
-                إضافة للسلة 🛒
-            </button>
-            
-            <button onclick="closeModal()" style="width:100%; padding:12px; background:transparent; border:none; color:#64748b; font-size:14px; margin-top:10px; cursor:pointer;">
-                إلغاء
-            </button>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <button class="smart-island-btn" onclick="triggerCartAnimation(this); setTimeout(() => { saveAndAddToCart(); }, 150);" style="width:100%; padding:16px; border:none; border-radius:22px; background:linear-gradient(135deg, #11847b 0%, #0f766e 100%); color:#64748b; font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 6px 18px rgba(15, 118, 110, 0.2), inset 0 1px 0 rgba(255,255,255,0.25);">
+                    تأكيد وإضافة للسلة 🛒
+                </button>
+                
+                <button class="smart-cancel-btn" onclick="closeModal()" style="width:100%; padding:13px; background:transparent; border:1px solid rgba(15, 118, 110, 0.15); border-radius:22px; color:#64748b; font-size:14px; font-weight:500; cursor:pointer;">
+                    إلغاء
+                </button>
+            </div>
+
         </div>
     </div>
-    `;
+`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 // دالة الإغلاق الموحدة (تحافظ على حذف العنصر لضمان تنظيف الذاكرة)
@@ -2105,15 +2689,16 @@ function saveAndAddToCart() {
 }
 
 
-function triggerCartAnimation() {
+function triggerCartAnimation(element) {
     let cartIcon = document.getElementById('main-basket-btn'); 
-    if (!cartIcon) return;
+    if (!cartIcon || !element) return;
 
+    // 1. أخذ إحداثيات الزر بدقة
+    let startRect = element.getBoundingClientRect();
     let flyElement = document.createElement('div');
     
-    // 1. استبدال الإيموجي العادي برسمة SVG فخمة وملونة بلون موقعك الأنيق (#0f766e)
     flyElement.innerHTML = `
-        <svg width="45" height="45" viewBox="0 0 24 24" fill="#0f766e" stroke="#064e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="#0f766e" stroke="#064e3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
             <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
             <path d="M6 2v3"/>
@@ -2122,45 +2707,49 @@ function triggerCartAnimation() {
         </svg>
     `; 
     
+    // 2. إعدادات الطبقة (أعلى من النافذة المنبثقة بكثير)
     flyElement.style.position = 'fixed';
-    flyElement.style.zIndex = '999999';
-    // الانطلاق من منتصف الشاشة
-    flyElement.style.left = '50%';
-    flyElement.style.top = '50%';
+    flyElement.style.zIndex = '2147483647'; // أعلى رقم طبقة ممكن في المتصفحات
+    flyElement.style.pointerEvents = 'none'; 
     
-    // 2. تبطيء الحركة هنا (جعلناها 1.5 ثانية بدلاً من 0.8 ثانية)
-    flyElement.style.transition = 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    
-    // إضافة ظل فخم أسفل الفنجان أثناء طيرانه
+    // 3. وضع الفنجان في نقطة البداية (بدون أي Transition بعد)
+    flyElement.style.left = (startRect.left + (startRect.width / 2) - 25) + 'px';
+    flyElement.style.top = (startRect.top + (startRect.height / 2) - 25) + 'px';
+    flyElement.style.opacity = '1';
     flyElement.style.filter = 'drop-shadow(0 15px 15px rgba(15, 118, 110, 0.4))';
     
     document.body.appendChild(flyElement);
 
+    // 4. 🌟 السطر السحري (Force Reflow): يجبر المتصفح على رسم الفنجان فوراً في مكانه 🌟
+    void flyElement.offsetWidth;
+
+    // 5. الآن نضيف سرعة الحركة (1 ثانية)
+    flyElement.style.transition = 'all 1s cubic-bezier(0.25, 0.8, 0.25, 1)';
+
+    // 6. توجيه الفنجان نحو السلة
+    let endRect = cartIcon.getBoundingClientRect();
+    flyElement.style.left = (endRect.left + (endRect.width / 2) - 25) + 'px'; 
+    flyElement.style.top = (endRect.top + (endRect.height / 2) - 25) + 'px';
+    
+    flyElement.style.transform = 'scale(0.3) rotate(15deg)';
+    flyElement.style.opacity = '0.3'; 
+    
+    // نبض زر السلة ليتزامن مع الوصول
     setTimeout(() => {
-        let rect = cartIcon.getBoundingClientRect();
-        // توجيه الفنجان بدقة نحو السلة
-        flyElement.style.left = (rect.left + (rect.width / 2) - 22) + 'px'; 
-        flyElement.style.top = (rect.top + (rect.height / 2) - 22) + 'px';
-        
-        // تصغير الفنجان ببطء وإخفاؤه عند وصوله للسلة
-        flyElement.style.transform = 'scale(0.15) rotate(15deg)';
-        flyElement.style.opacity = '0';
-        
-        // نبض زر السلة ليتناسب مع الحركة البطيئة
-        cartIcon.style.transition = 'transform 0.4s ease';
-        cartIcon.style.transform = 'scale(1.15)';
+        cartIcon.style.transition = 'transform 0.3s ease';
+        cartIcon.style.transform = 'scale(1.2)';
         setTimeout(() => {
             cartIcon.style.transform = 'scale(1)';
-        }, 500);
-        
-    }, 50);
+        }, 300);
+    }, 800);
 
-    // 3. زيادة وقت إزالة العنصر من الذاكرة ليتناسب مع السرعة الجديدة (1600 ملي ثانية)
+    // تنظيف الكود وإزالة الفنجان
     setTimeout(() => {
-        flyElement.remove();
-    }, 1600); 
+        if (document.body.contains(flyElement)) {
+            flyElement.remove();
+        }
+    }, 1200); 
 }
-
    </script>
     
 </body>
