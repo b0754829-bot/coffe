@@ -1629,6 +1629,8 @@ header, [class*="header"], .store-header-wrapper {
 <div class="sidebar-cart ultra-glass-panel" id="sidebar-nav-menu" style="position: fixed; top: 15px; bottom: 15px; right: 15px; width: 310px; transform: translateX(120%); z-index: 99999 !important; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden !important; border-radius: 20px !important;">
     
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px 25px; flex-shrink: 0;">
+
+        
         <h3 style="font-weight: 800; margin: 0; font-size: 18px;">
             <span class="premium-text" style="background: linear-gradient(90deg, #126b56, #0b3f3b); -webkit-background-clip: text;">تصفح أقسام المنيو</span>
         </h3>
@@ -1773,6 +1775,14 @@ header, [class*="header"], .store-header-wrapper {
 .brand-logo-container span {
     margin-top: 0 !important;
     padding-top: 0 !important;
+}
+/* 📐 دفع شريط فئات المنيو للأسفل بمسافة آمنة ومريحة لظهور الغيمة */
+.luxury-categories-bar {
+    /* 🚀 السطر السحري: إضافة مسافة علوية مناسبة جداً لمنع التداخل */
+    margin-top: 25px !important; 
+    
+    /* الحفاظ على باقي الخصائص مستقرة تماماً */
+    transition: margin-top 0.3s ease !important;
 }
 </style>
 
