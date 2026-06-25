@@ -1630,15 +1630,14 @@ header, [class*="header"], .store-header-wrapper {
     
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 25px 15px 25px; flex-shrink: 0;">
 
-        
-        <h3 style="font-weight: 800; margin: 0; font-size: 18px;">
-            <span class="premium-text" style="background: linear-gradient(90deg, #126b56, #0b3f3b); -webkit-background-clip: text;">تصفح أقسام المنيو</span>
-        </h3>
+       
         <button onclick="toggleNavMenu(false)" class="cloud-close" style="cursor: pointer;">
             <span class="premium-text" style="font-size: 14px;">✕</span>
         </button>
     </div>
-    
+    <h3 style="font-weight: 800; margin: 0; font-size: 18px; text-align: center; width: 100%;">
+    <span class="premium-text" style="background: linear-gradient(90deg, #126b56, #0b3f3b); -webkit-background-clip: text; display: inline-block;">تصفح أقسام المنيو</span>
+</h3>
     <div class="glass-scroll" style="padding: 10px 20px 20px 20px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
         
         <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="cloud-glass-btn">
@@ -2004,7 +2003,7 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     });
 
     if (productsToRender.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#94a3b8; width:100%; padding: 20px;">قريباً في منيو حكاية...</p>`;
+        container.innerHTML = `<p style="text-align:center; color:#94a3b8; width:100%; padding: 20px;">قريباً في منيو مَلاذ...</p>`;
         // إزالة زر عرض المزيد إذا أصبح القسم فارغاً
         const oldBtn = container.parentElement.querySelector('.dynamic-view-container');
         if (oldBtn) oldBtn.remove();
