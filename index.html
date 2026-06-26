@@ -1643,7 +1643,7 @@ header, [class*="header"], .store-header-wrapper {
 
     </div>
 
-    /* اللمنيو وتصميمه*/
+  
 <style>
     /* الحاوية الرئيسية */
     .ultra-glass-panel {
@@ -1812,394 +1812,7 @@ header, [class*="header"], .store-header-wrapper {
         </a>
     </div>
 </footer>
-<style>
-/* ☁️ هندسة الغيمة الطائرة فوق جميع طبقات الموقع بحرية مطلقة */
-#maladh-sub-logo-text {
-    position: fixed !important; /* تثبيت حر ومستقل للشاشة بالكامل خارج الهيدر */
-    top: 45px !important; /* الارتفاع المثالي لتقبع العبارة تحت كلمة ملاذ بدقة */
-    left: 50% !important;
-    transform: translateX(-50%) translateY(0) !important; /* التوسط في منتصف الشاشة أفقياً */
-    
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    
-    font-family: 'Cairo', sans-serif !important;
-    font-weight: 700 !important; /* خط عريض فاخر وواضح جداً للعين */
-    color: #0b3f3b !important;
-    letter-spacing: 0.1px !important;
-    
-    /* 📱 مصدات الأمان لحماية الأزرار الجانبية من التداخل في الهواتف */
-    width: auto !important;
-    max-width: 250px !important;
-    white-space: nowrap !important; /* يمنع انقسام النص أو نزوله لسطر ثانٍ */
-    
-    /* 📐 حجم خط مدروس، مريح جداً للعين وليس صغيراً */
-    font-size: clamp(11px, 2.8vw, 13px) !important; 
 
-    /* 💎 حصانة الطفو المطلقة فوق السلة وطبقة التعتيم والمنيو */
-    z-index: 9999999 !important; /* أعلى طبقة ظهور ممكنة في المتصفح */
-    
-    /* 🔮 نفاذية الضغط الكاملة: تطفو بصرياً ولا تحجب أي زر خلفها */
-    pointer-events: none !important; 
-    background: transparent !important;
-    
-    /* أنيميشن الاختفاء والظهور الناعم عند سحب الصفحة */
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    
-    opacity: 0;
-    animation: maladhCloudFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-}
-
-/* 🎨 هندسة الأيقونات الخطية النحيفة المتناغمة مع الغيمة */
-.maladh-mini-icon {
-    width: 14px !important;
-    height: 14px !important;
-    stroke: #0b3f3b !important;
-    stroke-width: 1.6 !important;
-    fill: none !important;
-    display: inline-block !important;
-    flex-shrink: 0 !important;
-}
-
-/* 🔄 1. أنيميشن دوران أشعة الشمس الناعم */
-.rotate-sun { animation: maladhSunSpin 20s infinite linear !important; }
-@keyframes maladhSunSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-/* 🌟 2. أنيميشن وميض نجوم الليل الساحر */
-.pulse-stars { animation: maladhStarsPulse 2s infinite ease-in-out !important; }
-@keyframes maladhStarsPulse { 0%, 100% { opacity: 0.4; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } }
-
-/* 💧 3. أنيميشن قطرات الندى المتساقطة بنعومة */
-.drop-dew { animation: maladhDewDrop 2.5s infinite ease-in-out !important; }
-@keyframes maladhDewDrop { 0%, 100% { transform: translateY(-1px); opacity: 0.6; } 50% { transform: translateY(1.5px); opacity: 1; } }
-
-@keyframes maladhCloudFadeIn { to { opacity: 0.85; transform: translateX(-50%) translateY(0); } }
-
-/* 📐 سحب اللوجو ليلتصق بأعلى الهيدر تماماً دون التأثير على أي عنصر آخر */
-.brand-logo-container {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-start !important; /* إجبار اللوجو على الالتصاق بالقمة */
-    
-    /* 🚀 السطر السحري: سحب اللوجو للأعلى وتقليل الفراغ العلوي الافتراضي */
-    margin-top: -12px !important; 
-    padding-top: 0 !important;
-    
-    /* حماية أبعاد الحاوية لكي لا تؤثر على حركة باقي الهيدر */
-    height: auto !important; 
-}
-
-/* 🎨 تأمين أن صورة اللوجو أو النص نفسه لا يملك هوامش افتراضية تدفعه للأسفل */
-.brand-logo-container img, 
-.brand-logo-container h1, 
-.brand-logo-container span {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-/* 📐 دفع شريط فئات المنيو للأسفل بمسافة آمنة ومريحة لظهور الغيمة */
-.luxury-categories-bar {
-    /* 🚀 السطر السحري: إضافة مسافة علوية مناسبة جداً لمنع التداخل */
-    margin-top: 25px !important; 
-    
-    /* الحفاظ على باقي الخصائص مستقرة تماماً */
-    transition: margin-top 0.3s ease !important;
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 🧠 جلب اسم العميل إذا تم اقتناصه سابقاً بحد أقصى 10 حروف
-    let detectedName = localStorage.getItem('maladh_customer_name') || "";
-    if (detectedName.length > 10) { detectedName = ""; }
-
-    // ⏰ محرك التوقيت الفلكي الشامل والدقيق 100%
-    const now = new Date();
-    const decimalTime = now.getHours() + (now.getMinutes() / 60);
-    
-    let greetingText = "أهلاً بك في مَلاذ 🌿";
-    // الأيقونة الافتراضية: غصن ملاذ النقي
-    let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
-
-    // 🌌 1. بين الفجر والشروق (قطرات الندى وسكون الكوب)
-    if (decimalTime >= 3.5 && decimalTime < 6) { 
-        greetingText = "طاب فجرك";
-        // أيقونة قطرة الندى العذبة مع حركة تساقط ناعمة (drop-dew)
-        iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
-    } 
-    // ☀️ 2. الصباح (أشعة الشمس المشرقة والمسرات)
-    else if (decimalTime >= 6 && decimalTime < 12) {
-        greetingText = "صباح الخير ";
-        // أيقونة الشمس المشرقة مع حركة دوران بطيئة ومبهرة لأشعتها (rotate-sun)
-        iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
-    } 
-    // ☕ 3. الظهيرة (جمال الفنجان وطاب يومك)
-    else if (decimalTime >= 12 && decimalTime < 17) {
-        greetingText = "طاب يومك بمَلاذ  ";
-        // أيقونة خطوط تبخر القهوة الفاخرة
-        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
-    } 
-    // 🌙 4. الليل والمساء (وميض الليل والسكينة)
-    else if (decimalTime >= 17 || decimalTime < 3.5) {
-        greetingText = "مساءالخير ";
-        // أيقونة الهلال مع نجوم الليل التي تومض ذكياً بنبضات ناعمة (pulse-stars)
-        iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
-    }
-
-    // صياغة التركيبة الفخمة: الاسم في البداية وبعده فاصلة
-    if (detectedName && detectedName.length <= 10) { greetingText = detectedName + "، " + greetingText; }
-
-    // إنشاء الغيمة المستقلة وحقنها في الـ body مباشرة
-    const cloudElement = document.createElement("div");
-    cloudElement.id = "maladh-sub-logo-text";
-    cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
-    document.body.appendChild(cloudElement); 
-
-    // 🌧️ مستشعر الطقس الصامت (الظروف الماطرة الاستثنائية تكسر التوقيت لتعطي شعور الأجواء الماطرة)
-    fetch('https://wttr.in/?format=j1')
-        .then(response => response.json())
-        .then(data => {
-            const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
-            if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
-                const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
-                let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
-                if (detectedName && detectedName.length <= 10) { rainText = detectedName + "، " + rainText; }
-                cloudElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
-            }
-        }).catch(err => {});
-
-    // 🎯 الرادار الذكي: إخفاء الغيمة بسلاسة عند نزول الصفحة لتفريغ المساحة للمنتجات
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 30) {
-            cloudElement.style.opacity = "0";
-            cloudElement.style.transform = "translateX(-50%) translateY(-5px)";
-        } else {
-            cloudElement.style.opacity = "0.85";
-            cloudElement.style.transform = "translateX(-50%) translateY(0)";
-        }
-    });
-
-    // مراقبة حقول الإدخال لاقتناص اسم العميل الأول
-    document.addEventListener('input', function(e) {
-        if (!e.target) return;
-        const targetAttr = (e.target.name || e.target.id || e.target.placeholder || e.target.className || "").toLowerCase();
-        if (targetAttr.includes('name') || targetAttr.includes('اسم') || targetAttr.includes('الاسم') || e.target.type === 'text') {
-            let fullValue = e.target.value.trim();
-            let firstName = fullValue.split(' ')[0];
-            if (firstName.length > 2 && !/[0-9]/.test(firstName)) { 
-                if (firstName.length <= 10) {
-                    localStorage.setItem('maladh_customer_name', firstName);
-                } else {
-                    localStorage.removeItem('maladh_customer_name');
-                }
-            }
-        }
-    });
-});
-</script>
-
-
-
-
-<style>
-/* 1. تصميم شاشة التوقف الزجاجية */
-#malath-screensaver {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    background: rgba(255, 255, 255, 0.2); 
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.6);
-    
-    z-index: 999999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-#malath-screensaver.active-screensaver {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* 2. نصوص مستوحاة من نعومة (Dynamic Island) من آبل */
-.ss-content {
-    text-align: center;
-    /* حاوية تشبه الجزيرة الديناميكية تعطي نعومة واحتواء للنص */
-    background: rgba(255, 255, 255, 0.5);
-    padding: 30px 40px;
-    border-radius: 40px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 2px 10px rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    animation: elegant-breathe 4s infinite alternate ease-in-out;
-}
-
-.ss-title {
-    /* دمج خطوط نظام آبل الأصلية مع خط كايرو ليعطي النعومة المطلقة */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", sans-serif;
-    font-size: 38px;
-    font-weight: 900; /* عريض جداً */
-    color: #0b3f3b; 
-    margin: 0;
-    letter-spacing: -1.5px; /* تقارب الأحرف يعطي المظهر العصري (Dynamic Island) */
-    -webkit-font-smoothing: antialiased; /* تنعيم حواف الخط بقوة */
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.ss-subtitle {
-    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
-    font-size: 17px;
-    font-weight: 800; /* ناعم وعريض */
-    color: #1a9c7d;
-    margin-top: 5px;
-    letter-spacing: -0.5px;
-    -webkit-font-smoothing: antialiased;
-}
-
-.ss-wakeup-hint {
-    position: absolute;
-    bottom: 50px;
-    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(11, 63, 59, 0.6);
-    letter-spacing: -0.5px;
-    background: rgba(255, 255, 255, 0.4);
-    padding: 10px 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    animation: pulse-hint 2.5s infinite ease-in-out;
-}
-
-@keyframes elegant-breathe {
-    0% { transform: translateY(0) scale(0.98); }
-    100% { transform: translateY(-5px) scale(1); box-shadow: 0 15px 40px rgba(11, 63, 59, 0.08), inset 0 2px 10px rgba(255, 255, 255, 1); }
-}
-
-@keyframes pulse-hint {
-    0%, 100% { transform: scale(0.95); opacity: 0.5; }
-    50% { transform: scale(1); opacity: 1; }
-}
-</style>
-
-<div id="malath-screensaver">
-    <div class="ss-content">
-        <h1 class="ss-title">مَلاذ Coffee</h1>
-        <p class="ss-subtitle">كافيه حكاية.. تُروى في كل كوب ✨</p>
-    </div>
-    <div class="ss-wakeup-hint">المس الشاشة للمتابعة</div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    let idleTimer;
-    const screensaver = document.getElementById('malath-screensaver');
-    let isSleeping = false;
-    let audioCtx = null; 
-    
-    const IDLE_TIME = 15000; // 15 ثانية
-
-    // 🎵 محرك الصوت الأنيق
-    function playSoftCrystalChime() {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContext) return;
-            
-            audioCtx = new AudioContext();
-            
-            function createTone(freq) {
-                if(!audioCtx) return;
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                
-                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1); 
-                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5); 
-                
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 4);
-            }
-
-            createTone(523.25); // C5
-            createTone(659.25); // E5
-            
-        } catch(e) {}
-    }
-
-    // 🛑 دالة الإيقاف الجبري للصوت
-    function forceStopAudio() {
-        if (audioCtx && audioCtx.state !== 'closed') {
-            audioCtx.close(); 
-            audioCtx = null;
-        }
-    }
-
-    // 🌙 تفعيل الشاشة والصوت (مع قفل أمان ذكي)
-    function activateScreensaver() {
-        // ⭐ قفل الأمان: إذا كانت الصفحة مخفية (الزبون في تطبيق آخر)، نلغي التفعيل فوراً! ⭐
-        if (document.hidden || document.visibilityState !== 'visible') {
-            return; 
-        }
-
-        if (!isSleeping) {
-            isSleeping = true;
-            playSoftCrystalChime();
-            screensaver.classList.add('active-screensaver');
-        }
-    }
-
-    // ☀️ الاستيقاظ
-    function wakeUp() {
-        if (isSleeping) {
-            screensaver.classList.remove('active-screensaver');
-            isSleeping = false;
-        }
-        resetTimer();
-    }
-
-    function resetTimer() {
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(activateScreensaver, IDLE_TIME);
-    }
-
-    // 🚨 استشعار خروج الزبون من الموقع أو قفل الشاشة
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden || document.visibilityState !== 'visible') {
-            // الزبون خرج من المتصفح أو قفل الهاتف!
-            forceStopAudio(); // إيقاف الصوت فوراً وبشكل قاطع
-            clearTimeout(idleTimer); // تدمير العداد حتى لا يعمل في الخلفية
-        } else {
-            // الزبون عاد للموقع
-            if (!isSleeping) resetTimer();
-        }
-    });
-
-    // مراقبة نشاط الزبون
-    ['touchstart', 'mousemove', 'scroll', 'click', 'keydown'].forEach(event => {
-        document.addEventListener(event, wakeUp, { passive: true });
-    });
-
-    resetTimer();
-});
-</script>
 
     <script>
        const menuExtras = {
@@ -2230,28 +1843,28 @@ const storeProductsDatabase = {
     ],
     hot: [
         // قهوتك اليومية والإسبريسو (milk_base)
-        { id: 201, name: "   اسبريسو سينجل/אספרסו קצר", price: 16.00, sub: "milk_base", hasExtras: true, img: "https://images.unsplash.com/photo-1510707577719-17ebd3394414?auto=format&fit=crop&w=500&q=80" },
-        { id: 202, name: "  اسبريسو دبل/אספרסו כפול", price: 14.00, sub: "milk_base", hasExtras: true, img: "https://images.unsplash.com/photo-1560159858-69cb8939c18f?auto=format&fit=crop&w=500&q=80" },
+        { id: 201, name: "   اسبريسو سينجل/אספרסו קצר", price: 16.00, sub: "milk_base", hasExtras: true, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" },
+        { id: 202, name: "  اسبريسو دبل/אספרסו כפול", price: 14.00, sub: "milk_base", hasExtras: true, img: "https://images.unsplash.com/photo-1579992357154-faf4bde95b3d?auto=format&fit=crop&w=500&q=80" },
         // مشروبات كريمية ثقيلة (dblmilk)
-        { id: 203, name: "  هافوخ/הפוך", price: 15.00, sub: "dblmilk", hasExtras: true, img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=500&q=80" },
-        { id: 204, name: "   فلات وايت/ شوت دبل مع حليب مبخر", price: 18.00, sub: "dblmilk", hasExtras: true, img: "https://images.unsplash.com/photo-1572442388796-11668a720eb9?auto=format&fit=crop&w=500&q=80" },
+        { id: 203, name: "  هافوخ/הפוך", price: 15.00, sub: "dblmilk", hasExtras: true, img: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=500&q=80" },
+        { id: 204, name: "   فلات وايت/ شوت دبل مع حليب مبخر", price: 18.00, sub: "dblmilk", hasExtras: true, img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=500&q=80" },
         // شاي وأعشاب (tea_herbs)
-        { id: 205, name: "  شاي كرك ", price: 16.00, sub: "tea_herbs", hasExtras: true, img: "https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=500&q=80" }
+        { id: 205, name: "  شاي كرك ", price: 16.00, sub: "tea_herbs", hasExtras: true, img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" }
     ],
     cold: [
         // قهوة مثلجة (iced_coffee)
-        { id: 306, name: "  ايس كافيه ", price: 19.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" },
-        { id: 307, name: "    ايس لاتيه سادة", price: 17.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" },
-        { id: 308, name: "  ايس امريكانو  ", price: 17.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" },
+        { id: 306, name: "  ايس كافيه ", price: 19.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=500&q=80" },
+        { id: 307, name: "    ايس لاتيه سادة", price: 17.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" },
+        { id: 308, name: "  ايس امريكانو  ", price: 17.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" },
         // مخيتو (mojito)
-        { id: 301, name: "  مخيتو بطيخ ", price: 18.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=500&q=80" },
-        { id: 302, name: " مخيتو صودا ", price: 12.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
-        { id: 303, name: "  مخيتو سبرايت ", price: 19.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1625772299848-391b6a87d4b3?auto=format&fit=crop&w=500&q=80" },
-        { id: 304, name: "  لموناضة بالنعناع مثلجة ", price: 15.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
+        { id: 301, name: "  مخيتو بطيخ ", price: 18.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1532117892888-3769c0d4a969?auto=format&fit=crop&w=500&q=80" },
+        { id: 302, name: " مخيتو صودا ", price: 12.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=500&q=80" },
+        { id: 303, name: "  مخيتو سبرايت ", price: 19.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
+        { id: 304, name: "  لموناضة بالنعناع مثلجة ", price: 15.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1523371054106-bbf80586c38c?auto=format&fit=crop&w=500&q=80" },
         // كوكتيل وعصائر (cocktail)
         { id: 305, name: " عصير برتقال طبيعي ", price: 15.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=500&q=80" },
-        { id: 3020, name: "  عنب طبيعي  ", price: 17.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=500&q=80" },
-        { id: 3021, name: "  مانجو طبيعي  ", price: 17.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=500&q=80" },
+        { id: 3020, name: "  عنب طبيعي  ", price: 17.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1568561300118-868bfeb3ce29?auto=format&fit=crop&w=500&q=80" },
+        { id: 3021, name: "  مانجو طبيعي  ", price: 17.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1546171753-97d7676e4602?auto=format&fit=crop&w=500&q=80" },
         // ميلك شيك وايس كريم (smoothie)
         { id: 309, name: "  ميلك شيك أوريو   ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" },
         { id: 3010, name: "   ميلك شيك لوتس ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=500&q=80" },
@@ -2265,31 +1878,30 @@ const storeProductsDatabase = {
         { id: 3017, name: " فانتا برتقال   ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=500&q=80" },
         { id: 3018, name: "   مياه معدنية طبيعية ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=500&q=80" },
         { id: 3019, name: "   صودا زجاجة ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1606851094655-b25cb56dd0b4?auto=format&fit=crop&w=500&q=80" },
-        { id: 3023, name: "  XL  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
-        { id: 3024, name: "   BLU ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
+        { id: 3023, name: "  XL  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=500&q=80" },
+        { id: 3024, name: "   BLU ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1581006852262-e4307cf6283a?auto=format&fit=crop&w=500&q=80" },
     ],
     desserts: [
         // كيك خفيف (cakes)
         { id: 401, name: " تيراميسو  ", price: 24.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=500&q=80" },
-        { id: 404, name: "   ريد فيلفيت ", price: 20.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?auto=format&fit=crop&w=500&q=80" },
-        { id: 406, name: "   ترليتشا  ", price: 20.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80" },
+        { id: 404, name: "   ريد فيلفيت ", price: 20.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?auto=format&fit=crop&w=500&q=80" },
+        { id: 406, name: "   ترليتشا  ", price: 20.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=500&q=80" },
         // كيك ثقيل (waffles)
-        { id: 402, name: " بودينج شوكولاتة ", price: 25.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=500&q=80" },
-        { id: 403, name: " لوتس ", price: 22.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=500&q=80" },
-        { id: 405, name: "   اسطنبول  ", price: 20.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=500&q=80" }
+        { id: 402, name: " بودينج شوكولاتة ", price: 25.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=500&q=80" },
+        { id: 403, name: " لوتس ", price: 22.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=500&q=80" },
+        { id: 405, name: "   اسطنبول  ", price: 20.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=500&q=80" }
     ],
     breakfast: [
         // كرواسون (croissant)
         { id: 501, name: "كرواسون شوكولاتة", price: 12.00, sub: "croissant", hasExtras: false, img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80" },
-        { id: 502, name: "كرواسون بحشوة النوتيلا الغنية", price: 14.00, sub: "croissant", hasExtras: false, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" },
+        { id: 502, name: "كرواسون بحشوة النوتيلا الغنية", price: 14.00, sub: "croissant", hasExtras: false, img: "https://images.unsplash.com/photo-1620921575298-5082e6cd9158?auto=format&fit=crop&w=500&q=80" },
         // موالح وباستريس (light_meals)
-        { id: 503, name: "   بوركس كريم كاسترد", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1626082895617-2c6ad3ed28e9?auto=format&fit=crop&w=500&q=80" },
-        { id: 504, name: "     بوريكس بطاطا", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80" },
-        { id: 505, name: "     بوريكس جبنة", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80" },
-        { id: 506, name: "  ميني بيتزا  ", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80" }
+        { id: 503, name: "   بوركس كريم كاسترد", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80" },
+        { id: 504, name: "     بوريكس بطاطا", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=500&q=80" },
+        { id: 505, name: "     بوريكس جبنة", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1585227361486-5d625d9b508f?auto=format&fit=crop&w=500&q=80" },
+        { id: 506, name: "  ميني بيتزا  ", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80" }
     ]
 };
-
 // الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
 const MAX_VISIBLE_ITEMS = 2;
 
@@ -3043,336 +2655,656 @@ function triggerCartAnimation(element) {
 }
 
    </script>
-    <style>
-    /* ------ الحركات والأنيميشن الاحترافي من جهة اليمين ------ */
-    @keyframes slideUpPremium {
-        0% { transform: translate(-50%, 150%); opacity: 0; filter: blur(10px); }
-        100% { transform: translate(-50%, 0); opacity: 1; filter: blur(0); }
-    }
-    @keyframes slideDownPremium {
-        0% { transform: translate(-50%, 0); opacity: 1; filter: blur(0); }
-        100% { transform: translate(-50%, 150%); opacity: 0; filter: blur(10px); }
-    }
-    @keyframes tabEnterRight {
-        0% { transform: translateX(150%) scale(0.7); opacity: 0; }
-        100% { transform: translateX(0) scale(1); opacity: 1; }
-    }
-    @keyframes tabExitRight {
-        0% { transform: translateX(0) scale(1); opacity: 1; }
-        100% { transform: translateX(150%) scale(0.7); opacity: 0; }
-    }
-    @keyframes glassPulse {
-        0% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2), 0 0 0 0 rgba(16, 185, 129, 0.2); }
-        70% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3), 0 0 0 12px rgba(16, 185, 129, 0); }
-        100% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2), 0 0 0 0 rgba(16, 185, 129, 0); }
+
+
+<style>
+/* ☁️ هندسة الغيمة الطائرة فوق جميع طبقات الموقع بحرية مطلقة */
+#maladh-sub-logo-text {
+    position: fixed !important; /* تثبيت حر ومستقل للشاشة بالكامل خارج الهيدر */
+    top: 45px !important; /* الارتفاع المثالي لتقبع العبارة تحت كلمة ملاذ بدقة */
+    left: 50% !important;
+    transform: translateX(-50%) translateY(0) !important; /* التوسط في منتصف الشاشة أفقياً */
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: 700 !important; /* خط عريض فاخر وواضح جداً للعين */
+    color: #0b3f3b !important;
+    letter-spacing: 0.1px !important;
+    
+    /* 📱 مصدات الأمان لحماية الأزرار الجانبية من التداخل في الهواتف */
+    width: auto !important;
+    max-width: 250px !important;
+    white-space: nowrap !important; /* يمنع انقسام النص أو نزوله لسطر ثانٍ */
+    
+    /* 📐 حجم خط مدروس، مريح جداً للعين وليس صغيراً */
+    font-size: clamp(11px, 2.8vw, 13px) !important; 
+
+    /* 💎 حصانة الطفو المطلقة فوق السلة وطبقة التعتيم والمنيو */
+    z-index: 9999999 !important; /* أعلى طبقة ظهور ممكنة في المتصفح */
+    
+    /* 🔮 نفاذية الضغط الكاملة: تطفو بصرياً ولا تحجب أي زر خلفها */
+    pointer-events: none !important; 
+    background: transparent !important;
+    
+    /* أنيميشن الاختفاء والظهور الناعم عند سحب الصفحة */
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    
+    opacity: 0;
+    animation: maladhCloudFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* 🎨 هندسة الأيقونات الخطية النحيفة المتناغمة مع الغيمة */
+.maladh-mini-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: #0b3f3b !important;
+    stroke-width: 1.6 !important;
+    fill: none !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+}
+
+/* 🔄 1. أنيميشن دوران أشعة الشمس الناعم */
+.rotate-sun { animation: maladhSunSpin 20s infinite linear !important; }
+@keyframes maladhSunSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* 🌟 2. أنيميشن وميض نجوم الليل الساحر */
+.pulse-stars { animation: maladhStarsPulse 2s infinite ease-in-out !important; }
+@keyframes maladhStarsPulse { 0%, 100% { opacity: 0.4; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } }
+
+/* 💧 3. أنيميشن قطرات الندى المتساقطة بنعومة */
+.drop-dew { animation: maladhDewDrop 2.5s infinite ease-in-out !important; }
+@keyframes maladhDewDrop { 0%, 100% { transform: translateY(-1px); opacity: 0.6; } 50% { transform: translateY(1.5px); opacity: 1; } }
+
+@keyframes maladhCloudFadeIn { to { opacity: 0.85; transform: translateX(-50%) translateY(0); } }
+
+/* 📐 سحب اللوجو ليلتصق بأعلى الهيدر تماماً دون التأثير على أي عنصر آخر */
+.brand-logo-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important; /* إجبار اللوجو على الالتصاق بالقمة */
+    
+    /* 🚀 السطر السحري: سحب اللوجو للأعلى وتقليل الفراغ العلوي الافتراضي */
+    margin-top: -12px !important; 
+    padding-top: 0 !important;
+    
+    /* حماية أبعاد الحاوية لكي لا تؤثر على حركة باقي الهيدر */
+    height: auto !important; 
+}
+
+/* 🎨 تأمين أن صورة اللوجو أو النص نفسه لا يملك هوامش افتراضية تدفعه للأسفل */
+.brand-logo-container img, 
+.brand-logo-container h1, 
+.brand-logo-container span {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+/* 📐 دفع شريط فئات المنيو للأسفل بمسافة آمنة ومريحة لظهور الغيمة */
+.luxury-categories-bar {
+    /* 🚀 السطر السحري: إضافة مسافة علوية مناسبة جداً لمنع التداخل */
+    margin-top: 25px !important; 
+    
+    /* الحفاظ على باقي الخصائص مستقرة تماماً */
+    transition: margin-top 0.3s ease !important;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 🧠 جلب اسم العميل إذا تم اقتناصه سابقاً بحد أقصى 10 حروف
+    let detectedName = localStorage.getItem('maladh_customer_name') || "";
+    if (detectedName.length > 10) { detectedName = ""; }
+
+    // ⏰ محرك التوقيت الفلكي الشامل والدقيق 100%
+    const now = new Date();
+    const decimalTime = now.getHours() + (now.getMinutes() / 60);
+    
+    let greetingText = "أهلاً بك في مَلاذ 🌿";
+    // الأيقونة الافتراضية: غصن ملاذ النقي
+    let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
+
+    // 🌌 1. بين الفجر والشروق (قطرات الندى وسكون الكوب)
+    if (decimalTime >= 3.5 && decimalTime < 6) { 
+        greetingText = "طاب فجرك";
+        // أيقونة قطرة الندى العذبة مع حركة تساقط ناعمة (drop-dew)
+        iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
+    } 
+    // ☀️ 2. الصباح (أشعة الشمس المشرقة والمسرات)
+    else if (decimalTime >= 6 && decimalTime < 12) {
+        greetingText = "صباح الخير ";
+        // أيقونة الشمس المشرقة مع حركة دوران بطيئة ومبهرة لأشعتها (rotate-sun)
+        iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
+    } 
+    // ☕ 3. الظهيرة (جمال الفنجان وطاب يومك)
+    else if (decimalTime >= 12 && decimalTime < 17) {
+        greetingText = "طاب يومك بمَلاذ  ";
+        // أيقونة خطوط تبخر القهوة الفاخرة
+        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
+    } 
+    // 🌙 4. الليل والمساء (وميض الليل والسكينة)
+    else if (decimalTime >= 17 || decimalTime < 3.5) {
+        greetingText = "مساءالخير ";
+        // أيقونة الهلال مع نجوم الليل التي تومض ذكياً بنبضات ناعمة (pulse-stars)
+        iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
 
-    /* 1️⃣ تصميم البطاقة الكبيرة الافتراضية */
+    // صياغة التركيبة الفخمة: الاسم في البداية وبعده فاصلة
+    if (detectedName && detectedName.length <= 10) { greetingText = detectedName + "، " + greetingText; }
+
+    // إنشاء الغيمة المستقلة وحقنها في الـ body مباشرة
+    const cloudElement = document.createElement("div");
+    cloudElement.id = "maladh-sub-logo-text";
+    cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
+    document.body.appendChild(cloudElement); 
+
+    // 🌧️ مستشعر الطقس الصامت (الظروف الماطرة الاستثنائية تكسر التوقيت لتعطي شعور الأجواء الماطرة)
+    fetch('https://wttr.in/?format=j1')
+        .then(response => response.json())
+        .then(data => {
+            const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
+            if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
+                const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
+                let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
+                if (detectedName && detectedName.length <= 10) { rainText = detectedName + "، " + rainText; }
+                cloudElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
+            }
+        }).catch(err => {});
+
+    // 🎯 الرادار الذكي: إخفاء الغيمة بسلاسة عند نزول الصفحة لتفريغ المساحة للمنتجات
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 30) {
+            cloudElement.style.opacity = "0";
+            cloudElement.style.transform = "translateX(-50%) translateY(-5px)";
+        } else {
+            cloudElement.style.opacity = "0.85";
+            cloudElement.style.transform = "translateX(-50%) translateY(0)";
+        }
+    });
+
+    // مراقبة حقول الإدخال لاقتناص اسم العميل الأول
+    document.addEventListener('input', function(e) {
+        if (!e.target) return;
+        const targetAttr = (e.target.name || e.target.id || e.target.placeholder || e.target.className || "").toLowerCase();
+        if (targetAttr.includes('name') || targetAttr.includes('اسم') || targetAttr.includes('الاسم') || e.target.type === 'text') {
+            let fullValue = e.target.value.trim();
+            let firstName = fullValue.split(' ')[0];
+            if (firstName.length > 2 && !/[0-9]/.test(firstName)) { 
+                if (firstName.length <= 10) {
+                    localStorage.setItem('maladh_customer_name', firstName);
+                } else {
+                    localStorage.removeItem('maladh_customer_name');
+                }
+            }
+        }
+    });
+});
+</script>
+
+
+
+
+<style>
+/* 1. تصميم شاشة التوقف الزجاجية */
+#malath-screensaver {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.6);
+    
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#malath-screensaver.active-screensaver {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 2. نصوص مستوحاة من نعومة (Dynamic Island) من آبل */
+.ss-content {
+    text-align: center;
+    /* حاوية تشبه الجزيرة الديناميكية تعطي نعومة واحتواء للنص */
+    background: rgba(255, 255, 255, 0.5);
+    padding: 30px 40px;
+    border-radius: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 2px 10px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    animation: elegant-breathe 4s infinite alternate ease-in-out;
+}
+
+.ss-title {
+    /* دمج خطوط نظام آبل الأصلية مع خط كايرو ليعطي النعومة المطلقة */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", sans-serif;
+    font-size: 38px;
+    font-weight: 900; /* عريض جداً */
+    color: #0b3f3b; 
+    margin: 0;
+    letter-spacing: -1.5px; /* تقارب الأحرف يعطي المظهر العصري (Dynamic Island) */
+    -webkit-font-smoothing: antialiased; /* تنعيم حواف الخط بقوة */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ss-subtitle {
+    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
+    font-size: 17px;
+    font-weight: 800; /* ناعم وعريض */
+    color: #1a9c7d;
+    margin-top: 5px;
+    letter-spacing: -0.5px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.ss-wakeup-hint {
+    position: absolute;
+    bottom: 50px;
+    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(11, 63, 59, 0.6);
+    letter-spacing: -0.5px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 10px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: pulse-hint 2.5s infinite ease-in-out;
+}
+
+@keyframes elegant-breathe {
+    0% { transform: translateY(0) scale(0.98); }
+    100% { transform: translateY(-5px) scale(1); box-shadow: 0 15px 40px rgba(11, 63, 59, 0.08), inset 0 2px 10px rgba(255, 255, 255, 1); }
+}
+
+@keyframes pulse-hint {
+    0%, 100% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1); opacity: 1; }
+}
+</style>
+
+<div id="malath-screensaver">
+    <div class="ss-content">
+        <h1 class="ss-title">مَلاذ Coffee</h1>
+        <p class="ss-subtitle">كافيه حكاية.. تُروى في كل كوب ✨</p>
+    </div>
+    <div class="ss-wakeup-hint">المس الشاشة للمتابعة</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    let idleTimer;
+    const screensaver = document.getElementById('malath-screensaver');
+    let isSleeping = false;
+    let audioCtx = null; 
+    
+    const IDLE_TIME = 15000; // 15 ثانية
+
+    // 🎵 محرك الصوت الأنيق
+    function playSoftCrystalChime() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            
+            audioCtx = new AudioContext();
+            
+            function createTone(freq) {
+                if(!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine'; 
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1); 
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5); 
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 4);
+            }
+
+            createTone(523.25); // C5
+            createTone(659.25); // E5
+            
+        } catch(e) {}
+    }
+
+    // 🛑 دالة الإيقاف الجبري للصوت
+    function forceStopAudio() {
+        if (audioCtx && audioCtx.state !== 'closed') {
+            audioCtx.close(); 
+            audioCtx = null;
+        }
+    }
+
+    // 🌙 تفعيل الشاشة والصوت (مع قفل أمان ذكي)
+    function activateScreensaver() {
+        // ⭐ قفل الأمان: إذا كانت الصفحة مخفية (الزبون في تطبيق آخر)، نلغي التفعيل فوراً! ⭐
+        if (document.hidden || document.visibilityState !== 'visible') {
+            return; 
+        }
+
+        if (!isSleeping) {
+            isSleeping = true;
+            playSoftCrystalChime();
+            screensaver.classList.add('active-screensaver');
+        }
+    }
+
+    // ☀️ الاستيقاظ
+    function wakeUp() {
+        if (isSleeping) {
+            screensaver.classList.remove('active-screensaver');
+            isSleeping = false;
+        }
+        resetTimer();
+    }
+
+    function resetTimer() {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(activateScreensaver, IDLE_TIME);
+    }
+
+    // 🚨 استشعار خروج الزبون من الموقع أو قفل الشاشة
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden || document.visibilityState !== 'visible') {
+            // الزبون خرج من المتصفح أو قفل الهاتف!
+            forceStopAudio(); // إيقاف الصوت فوراً وبشكل قاطع
+            clearTimeout(idleTimer); // تدمير العداد حتى لا يعمل في الخلفية
+        } else {
+            // الزبون عاد للموقع
+            if (!isSleeping) resetTimer();
+        }
+    });
+
+    // مراقبة نشاط الزبون
+    ['touchstart', 'mousemove', 'scroll', 'click', 'keydown'].forEach(event => {
+        document.addEventListener(event, wakeUp, { passive: true });
+    });
+
+    resetTimer();
+});
+</script>
+
+
+
+
+  <style>
+    /* أنيميشن فائق الخفة يعتمد على كرت الشاشة GPU */
+    @keyframes pwaSlideUp {
+        0% { transform: translate(-50%, 140%); opacity: 0; }
+        100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+    @keyframes pwaSlideDown {
+        0% { transform: translate(-50%, 0); opacity: 1; }
+        100% { transform: translate(-50%, 140%); opacity: 0; }
+    }
+    @keyframes pwaTabIn {
+        0% { transform: translateX(120%); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+    }
+
+    /* 1️⃣ تصميم البطاقة الكبيرة الافتراضية (زجاجي فاخر وأنيق) */
     .pwa-glass-prompt {
         position: fixed;
-        bottom: 25px;
+        bottom: 20px;
         left: 50%;
-        transform: translate(-50%, 150%);
+        transform: translate(-50%, 140%);
         width: 92%;
-        max-width: 420px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(245, 251, 249, 0.78) 100%);
-        backdrop-filter: blur(30px) saturate(160%);
-        -webkit-backdrop-filter: blur(30px) saturate(160%);
-        border: 1px solid rgba(255, 255, 255, 0.9);
-        border-radius: 32px;
-        box-shadow: 0 25px 50px rgba(11, 63, 59, 0.15), inset 0 2px 4px rgba(255, 255, 255, 1);
-        padding: 22px 25px;
+        max-width: 400px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 252, 250, 0.92) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(11, 63, 59, 0.12);
+        padding: 18px;
         display: none;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
         z-index: 9999999;
         direction: rtl;
+        will-change: transform, opacity;
     }
+    .pwa-glass-prompt.show-card { display: flex; animation: pwaSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .pwa-glass-prompt.hide-card { animation: pwaSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-    .pwa-glass-prompt.show-action {
-        display: flex;
-        animation: slideUpPremium 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .pwa-glass-prompt.hide-action {
-        animation: slideDownPremium 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    /* 💎 تصميم أيقونة التطبيق ثلاثية الأبعاد (مَلاذ COFFEE) */
-    .pwa-custom-app-icon {
-        width: 68px;
-        height: 68px;
-        border-radius: 16px;
+    /* 💎 أيقونة التطبيق (مَلاذ) */
+    .pwa-app-icon {
+        width: 58px; height: 58px; border-radius: 14px;
         background: linear-gradient(135deg, #10b981 0%, #064e3b 100%);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0 10px 20px rgba(11, 63, 59, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -3px 6px rgba(0,0,0,0.3);
-        border: 2.5px solid #ffffff;
-        flex-shrink: 0;
-        position: relative;
-        overflow: hidden;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        box-shadow: 0 6px 12px rgba(11, 63, 59, 0.15); border: 2px solid #ffffff; flex-shrink: 0;
     }
-    .pwa-custom-app-icon::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; height: 45%;
-        background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 100%);
-    }
-    .pwa-custom-app-icon .icon-en {
-        font-family: 'Cairo', sans-serif;
-        color: #ffffff;
-        font-size: 10px;
-        font-weight: 400;
-        letter-spacing: 1px;
-        line-height: 1;
-        margin-bottom: 1px;
-        z-index: 1;
-    }
-    .pwa-custom-app-icon .icon-ar {
-        font-family: 'Cairo', sans-serif;
-        color: #ffffff;
-        font-size: 15px;
-        font-weight: 900;
-        line-height: 1.1;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        z-index: 1;
-    }
+    .pwa-app-icon .icon-en { font-family: 'Cairo', sans-serif; color: #fff; font-size: 8px; letter-spacing: 0.5px; opacity: 0.9; }
+    .pwa-app-icon .icon-ar { font-family: 'Cairo', sans-serif; color: #fff; font-size: 14px; font-weight: 900; line-height: 1.2; }
 
-    .pwa-text-container { flex: 1; }
-    .pwa-title { font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 900; color: #0b3f3b; margin: 0 0 4px 0; }
-    .pwa-desc { font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 600; color: #475569; margin: 0; line-height: 1.5; }
+    .pwa-text-box { flex: 1; }
+    .pwa-main-title { font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 800; color: #0b3f3b; margin: 0 0 2px 0; }
+    .pwa-sub-desc { font-family: 'Cairo', sans-serif; font-size: 11.5px; font-weight: 600; color: #475569; margin: 0; line-height: 1.4; }
     
-    .pwa-buttons-group { display: flex; flex-direction: column; gap: 8px; }
-    .pwa-install-btn {
-        background: linear-gradient(135deg, #16b981, #0b3f3b);
-        color: white; border: none; padding: 8px 18px; border-radius: 30px;
-        font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 13px;
-        box-shadow: 0 6px 15px rgba(11, 63, 59, 0.25); cursor: pointer; transition: 0.3s; white-space: nowrap;
+    .pwa-btn-holder { display: flex; flex-direction: column; gap: 6px; }
+    .pwa-btn-go {
+        background: linear-gradient(135deg, #10b981, #0b3f3b);
+        color: white; border: none; padding: 7px 14px; border-radius: 20px;
+        font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11.5px;
+        box-shadow: 0 4px 8px rgba(11, 63, 59, 0.15); cursor: pointer; white-space: nowrap; transition: opacity 0.2s;
     }
-    .pwa-dismiss-btn {
-        background: rgba(0, 0, 0, 0.05); color: #475569; border: none; padding: 6px 14px;
-        border-radius: 30px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11px; cursor: pointer; transition: 0.2s; text-align: center;
+    .pwa-btn-go:active { opacity: 0.85; }
+    .pwa-btn-close {
+        background: rgba(0, 0, 0, 0.04); color: #64748b; border: none; padding: 5px 10px;
+        border-radius: 20px; font-family: 'Cairo', sans-serif; font-weight: 600; font-size: 10.5px; cursor: pointer; text-align: center;
     }
-    .pwa-dismiss-btn:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
 
-    /* 2️⃣ تصميم التبويب الزجاجي الجانبي المثبت في أقصى اليمين */
-    .pwa-docked-tab {
+    /* 2️⃣ تصميم التبويب الجانبي الصغير الموفر للطاقة (يظهر أقصى اليمين) */
+    .pwa-side-tab {
         position: fixed;
-        bottom: 30px;
-        right: 15px; /* تم التعديل ليكون في جهة اليمين */
+        bottom: 25px;
+        right: 12px;
         display: none;
         align-items: center;
         justify-content: center;
         z-index: 9999998;
         cursor: pointer;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 245, 245, 0.65) 100%);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: 6px;
-        border-radius: 20px;
-        border: 1.5px solid rgba(255, 255, 255, 0.8);
-        box-shadow: 0 10px 30px rgba(11, 63, 59, 0.15);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        animation: glassPulse 3s infinite;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 4px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 6px 20px rgba(11, 63, 59, 0.08);
         user-select: none;
-        touch-action: none;
+        will-change: transform;
     }
-    
-    .pwa-docked-tab.show-tab {
-        display: flex;
-        animation: tabEnterRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, glassPulse 3s infinite;
-    }
-    
-    .pwa-docked-tab.hide-tab {
-        animation: tabExitRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+    .pwa-side-tab.show-tab { display: flex; animation: pwaTabIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .pwa-side-tab.hide-tab { display: none; }
 
-    .pwa-docked-tab:active { transform: scale(0.92); }
-
-    .pwa-mini-icon {
-        width: 44px; height: 44px; border-radius: 12px;
+    .pwa-mini-box {
+        width: 36px; height: 36px; border-radius: 10px;
         background: linear-gradient(135deg, #10b981 0%, #064e3b 100%);
         display: flex; flex-direction: column; justify-content: center; align-items: center;
-        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4); border: 1.5px solid #ffffff;
+        border: 1px solid #ffffff;
     }
-    .pwa-mini-icon .mini-en { font-size: 6px; color: #fff; font-weight: 400; letter-spacing: 0.5px; line-height: 1; }
-    .pwa-mini-icon .mini-ar { font-size: 10px; color: #fff; font-weight: 900; line-height: 1; margin-top: 1px; }
-
-    /* تعديل مؤشر السهم ليوجه النظر إلى اليسار (عمق الشاشة) */
-    .pwa-pull-indicator {
-        color: #0b3f3b; font-size: 12px; font-weight: 900; margin-right: 4px; margin-left: 2px;
-        animation: arrowBlink 1.5s infinite ease-in-out;
-    }
-    @keyframes arrowBlink {
-        0%, 100% { transform: translateX(0); opacity: 0.4; }
-        50% { transform: translateX(-3px); opacity: 1; } /* ينبض باتجاه اليسار */
-    }
-    .ios-share-icon {
-        display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin: 0 3px;
-        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%230b3f3b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>') no-repeat center;
-    }
+    .pwa-mini-box .mini-en { font-size: 5px; color: #fff; opacity: 0.8; }
+    .pwa-mini-box .mini-ar { font-size: 9px; color: #fff; font-weight: 800; }
+    .pwa-tab-arrow { color: #0b3f3b; font-size: 10px; font-weight: 900; margin-right: 3px; margin-left: 1px; }
+    
+    .pwa-svg-icon { display: inline-block; width: 13px; height: 13px; vertical-align: middle; margin: 0 2px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 
-<div id="pwa-premium-card" class="pwa-glass-prompt">
-    <div class="pwa-custom-app-icon">
+<div id="pwa-unified-card" class="pwa-glass-prompt">
+    <div class="pwa-app-icon">
         <span class="icon-en">COFFEE</span>
         <span class="icon-ar">مَلاذ</span>
     </div>
-    <div class="pwa-text-container" id="pwa-text-content">
-        <h4 class="pwa-title">تطبيق مَلاذ كافيه</h4>
-        <p class="pwa-desc" id="pwa-instruction-text">جاري فحص النظام...</p>
+    <div class="pwa-text-box">
+        <h4 class="pwa-main-title">تطبيق مَلاذ كافيه</h4>
+        <p class="pwa-sub-desc" id="pwa-dynamic-text">جاري إعداد التطبيق للعمل الفوري...</p>
     </div>
-    <div class="pwa-buttons-group" id="pwa-action-container">
-        </div>
+    <div class="pwa-btn-holder" id="pwa-btn-container"></div>
 </div>
 
-<div id="pwa-minimized-tab" class="pwa-docked-tab" onclick="window.restoreFullPrompt()">
-    <div class="pwa-mini-icon">
+<div id="pwa-unified-tab" class="pwa-side-tab" onclick="window.pwaOpenFullPrompt()">
+    <div class="pwa-mini-box">
         <span class="mini-en">COFFEE</span>
         <span class="mini-ar">مَلاذ</span>
     </div>
-    <span class="pwa-pull-indicator">❮</span> </div>
+    <span class="pwa-tab-arrow">❮</span>
+</div>
 
 <script>
 (function() {
-    // لمنع حدوث أي تكرار أو تعارض مع سكربتات الصفحة الأخرى
-    if (window.hasPWAPremiumScriptInstalled) return;
-    window.hasPWAPremiumScriptInstalled = true;
+    if (window.isPWAUnifiedScriptActive) return;
+    window.isPWAUnifiedScriptActive = true;
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        });
+    }
 
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        window.pwaPremiumPromptEvent = e;
+        window.pwaNativeAndroidPrompt = e;
     });
 
-    function initPWASystem() {
-        const pwaStatus = localStorage.getItem('pwa_premium_status');
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+    const execOnIdle = window.requestIdleCallback || function(f) { setTimeout(f, 1); };
+    
+    window.addEventListener('load', () => {
+        execOnIdle(() => {
+            pwaEvaluateSystemState();
+        });
+    });
+
+    function pwaEvaluateSystemState() {
+        const currentStatus = localStorage.getItem('pwa_premium_status');
         
-        if (isStandalone || pwaStatus === 'installed') {
-            cleanPWASystem(); 
-            return; 
+        // فحص صارم وموسع للتأكد هل المستخدم يفتح الموقع كـ تطبيق مثبت أم لا
+        const isAppMode = window.matchMedia('(display-mode: standalone)').matches || 
+                          window.navigator.standalone || 
+                          window.location.search.includes('utm_source=pwa') ||
+                          document.referrer.includes('android-app://');
+        
+        // إذا كان داخل التطبيق أو مسجل كـ "مخفي للأبد"، احذف العناصر فوراً لراحة المعالج ولن يظهر شيئاً بتاتاً
+        if (isAppMode || currentStatus === 'installed' || currentStatus === 'hidden_forever') {
+            pwaCleanDOM();
+            return;
         }
 
-        if (!pwaStatus) {
-            setTimeout(() => {
-                window.triggerFullPrompt();
-            }, 5000);
-        } else if (pwaStatus === 'minimized') {
-            setTimeout(() => {
-                const tab = document.getElementById('pwa-minimized-tab');
-                if(tab) {
-                    tab.classList.remove('hide-tab');
-                    tab.classList.add('show-tab');
-                }
-            }, 1500);
-        }
-
-        // تعديل ميزة اللمس التفاعلي لتتناسب مع السحب من اليمين إلى اليسار
-        const tabEl = document.getElementById('pwa-minimized-tab');
-        if (tabEl) {
-            let touchStartX = 0;
-            tabEl.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].clientX;
-            }, { passive: true });
-
-            tabEl.addEventListener('touchend', (e) => {
-                let touchEndX = e.changedTouches[0].clientX;
-                // إذا سحب المستخدم من اليمين باتجاه اليسار (لعمق الشاشة) يفتح المنبثق
-                if (touchEndX < touchStartX - 30) { 
-                    window.restoreFullPrompt();
-                }
-            }, { passive: true });
+        if (!currentStatus) {
+            setTimeout(() => { window.pwaRenderCardUI(); }, 4000);
+        } else if (currentStatus === 'minimized') {
+            const sideTab = document.getElementById('pwa-unified-tab');
+            if (sideTab) sideTab.classList.add('show-tab');
         }
     }
 
-    window.triggerFullPrompt = function() {
-        if (localStorage.getItem('pwa_premium_status') === 'installed') return;
+    window.pwaRenderCardUI = function() {
+        if (localStorage.getItem('pwa_premium_status') === 'hidden_forever') return;
 
-        const pwaCard = document.getElementById('pwa-premium-card');
-        const instructionText = document.getElementById('pwa-instruction-text');
-        const actionContainer = document.getElementById('pwa-action-container');
-        if (!pwaCard) return;
-        
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const card = document.getElementById('pwa-unified-card');
+        const textElement = document.getElementById('pwa-dynamic-text');
+        const btnElement = document.getElementById('pwa-btn-container');
+        if (!card) return;
 
-        if (isIOS) {
-            instructionText.innerHTML = `أضف التطبيق لشاشتك! اضغط على أيقونة المشاركة <span class="ios-share-icon"></span> ثم اختر <b>"إضافة للشاشة الرئيسية"</b>.`;
-            actionContainer.innerHTML = `<button class="pwa-dismiss-btn" onclick="window.minimizePWAPrompt()">إغلاق</button>`;
+        const isAppleDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+        if (isAppleDevice) {
+            textElement.innerHTML = `تصفح أسرع وطلب فوري! اضغط على زر المشاركة <svg class="pwa-svg-icon" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg> ثم اختر <b>"إضافة للشاشة الرئيسية"</b>.`;
+            btnElement.innerHTML = `
+                <button class="pwa-btn-go" onclick="window.pwaHideForever()">أضفت التطبيق بنجاح</button>
+                <button class="pwa-btn-close" onclick="window.pwaMinimizeCard()">ليس الآن</button>
+            `;
         } else {
-            instructionText.innerHTML = `ثبّت تطبيقنا الآن للوصول السريع، وطلب قهوتك المفضلة بضغطة زر وبدون إنترنت!`;
-            actionContainer.innerHTML = `
-                <button class="pwa-install-btn" onclick="window.executePWAInstall()">تثبيت الآن</button>
-                <button class="pwa-dismiss-btn" onclick="window.minimizePWAPrompt()">ليس الآن</button>
+            textElement.innerHTML = `ثبّت تطبيق مَلاذ كافيه على شاشتك للوصول السريع والطلب بدون إنترنت!`;
+            btnElement.innerHTML = `
+                <button class="pwa-btn-go" onclick="window.pwaProcessInstallation()">تثبيت الآن</button>
+                <button class="pwa-btn-close" onclick="window.pwaMinimizeCard()">ليس الآن</button>
             `;
         }
 
-        pwaCard.classList.remove('hide-action');
-        pwaCard.classList.add('show-action');
+        card.classList.remove('hide-card');
+        card.classList.add('show-card');
     };
 
-    window.minimizePWAPrompt = function() {
-        const pwaCard = document.getElementById('pwa-premium-card');
-        const pwaTab = document.getElementById('pwa-minimized-tab');
+    window.pwaMinimizeCard = function() {
+        const card = document.getElementById('pwa-unified-card');
+        const sideTab = document.getElementById('pwa-unified-tab');
         
-        if(pwaCard) {
-            pwaCard.classList.remove('show-action');
-            pwaCard.classList.add('hide-action');
-        }
-        
+        if (card) card.classList.replace('show-card', 'hide-card');
         localStorage.setItem('pwa_premium_status', 'minimized');
         
         setTimeout(() => {
-            if(pwaTab && localStorage.getItem('pwa_premium_status') !== 'installed') {
-                pwaTab.classList.remove('hide-tab');
-                pwaTab.classList.add('show-tab');
+            if (sideTab && localStorage.getItem('pwa_premium_status') === 'minimized') {
+                sideTab.classList.add('show-tab');
             }
-        }, 400);
+        }, 350);
     };
 
-    window.restoreFullPrompt = function() {
-        const pwaTab = document.getElementById('pwa-minimized-tab');
-        if(pwaTab) {
-            pwaTab.classList.remove('show-tab');
-            pwaTab.classList.add('hide-tab');
-        }
-        setTimeout(() => {
-            window.triggerFullPrompt();
-        }, 200);
+    window.pwaHideForever = function() {
+        // دالة مبتكرة لحظر المنبثق نهائياً بعد اتخاذ إجراء التثبيت المباشر أو اليدوي
+        localStorage.setItem('pwa_premium_status', 'hidden_forever');
+        pwaCleanDOM();
     };
 
-    window.executePWAInstall = function() {
-        if (window.pwaPremiumPromptEvent) {
-            window.pwaPremiumPromptEvent.prompt();
-            window.pwaPremiumPromptEvent.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
+    window.pwaOpenFullPrompt = function() {
+        const sideTab = document.getElementById('pwa-unified-tab');
+        if (sideTab) sideTab.classList.remove('show-tab');
+        setTimeout(() => { window.pwaRenderCardUI(); }, 150);
+    };
+
+    window.pwaProcessInstallation = function() {
+        if (window.pwaNativeAndroidPrompt) {
+            window.pwaNativeAndroidPrompt.prompt();
+            window.pwaNativeAndroidPrompt.userChoice.then((res) => {
+                if (res.outcome === 'accepted') {
                     localStorage.setItem('pwa_premium_status', 'installed');
-                    cleanPWASystem();
+                    pwaCleanDOM();
+                } else {
+                    window.pwaMinimizeCard();
                 }
-                window.pwaPremiumPromptEvent = null;
+                window.pwaNativeAndroidPrompt = null;
             });
         } else {
-            alert("يرجى الضغط على خيارات المتصفح (الـ 3 نقاط المجاورة للرابط فوق) ثم اختيار 'تثبيت التطبيق' أو 'إضافة إلى الشاشة الرئيسية' 📱");
-            window.minimizePWAPrompt();
+            const textElement = document.getElementById('pwa-dynamic-text');
+            const btnElement = document.getElementById('pwa-btn-container');
+            if (textElement && btnElement) {
+                textElement.innerHTML = `للتثبيت المباشر: اضغط على زر خيارات المتصفح <svg class="pwa-svg-icon" viewBox="0 0 24 24" stroke-width="3"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg> (الـ 3 نقاط بالأعلى) ثم اختر <b>"تثبيت"</b> أو <b>"إضافة للشاشة الرئيسية"</b>.`;
+                btnElement.innerHTML = `<button class="pwa-btn-go" onclick="window.pwaHideForever()">فهمت، تم التثبيت</button>`;
+            }
         }
     };
 
-    window.addEventListener('appinstalled', (evt) => {
+    window.addEventListener('appinstalled', () => {
         localStorage.setItem('pwa_premium_status', 'installed');
-        cleanPWASystem();
+        pwaCleanDOM();
     });
 
-    function cleanPWASystem() {
-        const pwaCard = document.getElementById('pwa-premium-card');
-        const pwaTab = document.getElementById('pwa-minimized-tab');
-        if(pwaCard) pwaCard.style.display = 'none';
-        if(pwaTab) pwaTab.style.display = 'none';
-    }
-
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        initPWASystem();
-    } else {
-        document.addEventListener('DOMContentLoaded', initPWASystem);
+    function pwaCleanDOM() {
+        const card = document.getElementById('pwa-unified-card');
+        const sideTab = document.getElementById('pwa-unified-tab');
+        if (card) card.remove(); // حذف كامل من المتصفح لتوفر الـ RAM تماماً
+        if (sideTab) sideTab.remove();
     }
 })();
 </script>
