@@ -1478,7 +1478,21 @@ header, [class*="header"], .store-header-wrapper {
     background: #0f4f4a !important; /* تفتيح هادئ وعميق للزر */
     box-shadow: 0 6px 16px rgba(11, 63, 59, 0.3) !important;
 }
+/* تسريع حركة المتصفح ومنع ثقل التأثيرات الزجاجية */
+* {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden; /* يمنع تهنيج الشاشة أثناء التمرير */
+}
 
+/* تسريع تحميل صور المنتجات عند تحديث الموقع */
+img {
+    loading: lazy; /* عدم تحميل الصور الفروعية إلا عند اقتراب المستخدم منها */
+    content-visibility: auto;
+}
+.product-card {
+    content-visibility: auto; /* 🧠 الخاصية الأكثر ذكاءً في الـ CSS الحديث */
+    contain-intrinsic-size: auto 150px; /* تخبر المتصفح بالارتفاع التقريبي للبطاقة قبل ظهورها */
+}
 </style>
 
 
@@ -1746,6 +1760,11 @@ header, [class*="header"], .store-header-wrapper {
         background: rgba(255, 255, 255, 0.1);
         transform: scale(1.05);
     }
+
+
+
+
+    
 </style>
 
 <div class="cart-overlay" id="nav-menu-overlay" onclick="toggleNavMenu(false)" style="display: none; opacity: 0; transition: opacity 0.4s ease; z-index: 99998; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.1); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"></div>
@@ -1815,12 +1834,39 @@ header, [class*="header"], .store-header-wrapper {
 
 
     <script>
-       const menuExtras = {
-    'specialty': ['صوص كراميل', 'حليب لوز', 'دبل شوت'],
-    'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
-    'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
-    'desserts': ['توت', 'فانيليا'],
-    'breakfast': ['جبنة', 'زيتون']
+  const menuExtras = {
+    // المشروبات المختصة والتريند (إضافات مميزة وغنية)
+    'specialty': [
+        'شوت إسبريسو إضافي', 
+        'حليب شوفان', 
+        'حليب لوز', 
+        'صوص بستاشيو', 
+        'كريمة مخفوقة'
+    ],
+    
+    // المشروبات الساخنة (خيارات الحليب، السيرب، والقهوة)
+    'hot': [
+        'شوت إسبريسو إضافي', 
+        'حليب شوفان', 
+        'حليب لوز', 
+        'حليب خالي الدسم', 
+        'سيرب فانيليا', 
+        'سيرب كراميل', 
+        'بدون كافيين (Decaf)', 
+        'سكر دايت'
+    ],
+    
+    // المشروبات الباردة (تشمل الآيس كوفي، الموهيتو، والميلك شيك)
+    'cold': [
+        'ثلج خفيف', 
+        'بدون ثلج', 
+        'شوت إسبريسو إضافي', 
+        'حليب شوفان', 
+        'كريمة مخفوقة', 
+        'صوص كراميل', 
+        'صوص شوكولاتة', 
+        'نعناع إضافي (للموهيتو)'
+    ]
 };
 
 function filterCategoryProducts(btn, mainCategory, subCategory) {
@@ -2532,19 +2578,17 @@ let modalHTML = `
     <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at center, rgba(20, 50, 45, 0.2) 0%, rgba(10, 20, 18, 0.45) 100%); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:999998; display:flex; justify-content:center; align-items:center; padding:20px; font-family: system-ui, -apple-system, sans-serif;">
         
         <div class="danish-island-modal" style="padding:32px 26px; width:100%; max-width:345px; text-align:right; display:flex; flex-direction:column; gap:22px; position:relative;">
-            
-            <button onclick="closeModal()" class="smart-cancel-btn" style="position:absolute; left:22px; top:26px; background:rgba(15, 118, 110, 0.06); border:none; width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; color:#0f766e; z-index: 10;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
+            <button onclick="closeModal()" class="smart-cancel-btn" style="position:absolute; left:22px; top:26px; background:rgba(15, 118, 110, 0.06); border:none; width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; color:#0f766e; z-index: 100;">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+</button>
 
-            <h3 style="font-size:20px; color:#0f766e; margin:0; font-weight:700; text-align:center; width:100%; letter-spacing:-0.3px;">
-           نقي اضافتك بكل راحة
-            </h3>
-            
-            <div style="max-height:210px; overflow-y:auto; padding:5px 2px;">
-                ${extrasHTML}
-            </div>
+<h3 style="font-size:20px; color:#0f766e; margin:0 0 20px 0; font-weight:700; text-align:center; width:100%; letter-spacing:-0.3px; position: sticky; top: 0; background: #ffffff; z-index: 90; display: block; clear: both; padding-top: 5px;">
+نقي اضافتك بكل راحة
+</h3>
 
+<div style="max-height:210px; overflow-y:auto; padding:5px 2px; display: flex !important; flex-direction: column !important; gap: 12px; width: 100%; clear: both;">
+    ${extrasHTML}
+</div>
             <div style="display:flex; flex-direction:column; gap:12px;">
                 <button class="smart-island-btn" onclick="triggerCartAnimation(this); setTimeout(() => { saveAndAddToCart(); }, 150);" style="width:100%; padding:16px; border:none; border-radius:22px; background:linear-gradient(135deg, #11847b 0%, #0f766e 100%); color:#64748b; font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 6px 18px rgba(15, 118, 110, 0.2), inset 0 1px 0 rgba(255,255,255,0.25);">
                     تأكيد وإضافة للسلة 🛒
@@ -2596,8 +2640,10 @@ function triggerCartAnimation(element) {
     let cartIcon = document.getElementById('main-basket-btn'); 
     if (!cartIcon || !element) return;
 
-    // 1. أخذ إحداثيات الزر بدقة
+    // 1. أخذ إحداثيات البداية والنهاية فوراً لمنع التكرار
     let startRect = element.getBoundingClientRect();
+    let endRect = cartIcon.getBoundingClientRect();
+    
     let flyElement = document.createElement('div');
     
     flyElement.innerHTML = `
@@ -2610,48 +2656,58 @@ function triggerCartAnimation(element) {
         </svg>
     `; 
     
-    // 2. إعدادات الطبقة (أعلى من النافذة المنبثقة بكثير)
+    // 2. إعدادات الموقع الثابت بأعلى طبقة بدون حجب النقرات
     flyElement.style.position = 'fixed';
-    flyElement.style.zIndex = '2147483647'; // أعلى رقم طبقة ممكن في المتصفحات
+    flyElement.style.zIndex = '2147483647'; 
     flyElement.style.pointerEvents = 'none'; 
     
-    // 3. وضع الفنجان في نقطة البداية (بدون أي Transition بعد)
-    flyElement.style.left = (startRect.left + (startRect.width / 2) - 25) + 'px';
-    flyElement.style.top = (startRect.top + (startRect.height / 2) - 25) + 'px';
+    // حساب نقطة البداية والنهاية الدقيقة
+    let startX = startRect.left + (startRect.width / 2) - 25;
+    let startY = startRect.top + (startRect.height / 2) - 25;
+    let endX = endRect.left + (endRect.width / 2) - 25;
+    let endY = endRect.top + (endRect.height / 2) - 25;
+
+    // تثبيت مكان العنصر الأصلي في نقطة البداية
+    flyElement.style.left = startX + 'px';
+    flyElement.style.top = startY + 'px';
     flyElement.style.opacity = '1';
-    flyElement.style.filter = 'drop-shadow(0 15px 15px rgba(15, 118, 110, 0.4))';
     
+    // ⚡ تسريع عتادي لمنع التهنيج في الهواتف والآيفون
+    flyElement.style.willChange = 'transform, opacity';
+    flyElement.style.transform = 'translate3d(0, 0, 0) scale(1)';
+
     document.body.appendChild(flyElement);
 
-    // 4. 🌟 السطر السحري (Force Reflow): يجبر المتصفح على رسم الفنجان فوراً في مكانه 🌟
-    void flyElement.offsetWidth;
+    // 3. 🌟 البديل السريع والآمن للـ Reflow متوافق مع الآيفون الحديث والقديم
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // تحريك الخصائص المدعومة بكرت الشاشة فقط ومنع كلمة all
+            flyElement.style.transition = 'transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease';
+            
+            // حساب مسافة النقل بدقة عمودياً وأفقياً بدلاً من تغيير left و top
+            let moveX = endX - startX;
+            let moveY = endY - startY;
+            
+            flyElement.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(0.3) rotate(15deg)`;
+            flyElement.style.opacity = '0.2';
+        });
+    });
 
-    // 5. الآن نضيف سرعة الحركة (1 ثانية)
-    flyElement.style.transition = 'all 1s cubic-bezier(0.25, 0.8, 0.25, 1)';
-
-    // 6. توجيه الفنجان نحو السلة
-    let endRect = cartIcon.getBoundingClientRect();
-    flyElement.style.left = (endRect.left + (endRect.width / 2) - 25) + 'px'; 
-    flyElement.style.top = (endRect.top + (endRect.height / 2) - 25) + 'px';
-    
-    flyElement.style.transform = 'scale(0.3) rotate(15deg)';
-    flyElement.style.opacity = '0.3'; 
-    
-    // نبض زر السلة ليتزامن مع الوصول
+    // 4. نبض زر السلة عبر كلاس مخصص بدلاً من تكرار كود الـ Transition برمجياً
     setTimeout(() => {
-        cartIcon.style.transition = 'transform 0.3s ease';
+        cartIcon.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         cartIcon.style.transform = 'scale(1.2)';
         setTimeout(() => {
             cartIcon.style.transform = 'scale(1)';
-        }, 300);
-    }, 800);
+        }, 250);
+    }, 700);
 
-    // تنظيف الكود وإزالة الفنجان
+    // 5. تنظيف فوري ومضمون للكود من الذاكرة (تقليل الوقت لثانية واحدة)
     setTimeout(() => {
-        if (document.body.contains(flyElement)) {
-            flyElement.remove();
+        if (flyElement && flyElement.parentNode) {
+            flyElement.parentNode.removeChild(flyElement);
         }
-    }, 1200); 
+    }, 950); 
 }
 
    </script>
@@ -2809,7 +2865,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
             if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
                 const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
-                let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
+                let rainText = "لا تفوت غروب الشمس مع مَلاذ     ";
                 if (detectedName && detectedName.length <= 10) { rainText = detectedName + "، " + rainText; }
                 cloudElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
             }
@@ -2942,7 +2998,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="malath-screensaver">
     <div class="ss-content">
         <h1 class="ss-title">مَلاذ Coffee</h1>
-        <p class="ss-subtitle">كافيه حكاية.. تُروى في كل كوب ✨</p>
+        <p class="ss-subtitle">كافيه مَلاذ.. تُروى في كل كوب </p>
     </div>
     <div class="ss-wakeup-hint">المس الشاشة للمتابعة</div>
 </div>
@@ -3307,6 +3363,45 @@ document.addEventListener("DOMContentLoaded", () => {
         if (sideTab) sideTab.remove();
     }
 })();
+</script>
+<script>
+// 🍏 كود الحماية السحري لمنع تعطل السلة والعداد في الهواتف والآيفون
+document.addEventListener('DOMContentLoaded', () => {
+    // مراقبة جميع نقرات زر الزائد بشكل مباشر ومستقل
+    document.addEventListener('click', function(e) {
+        const addBtn = e.target.closest('.circle-add-btn');
+        if (!addBtn) return;
+
+        // منع السلوك الافتراضي المسبب للتأخير في متصفحات سفاري وآبل
+        if(e.pointerType === 'touch' || 'ontouchstart' in window) {
+            // معالجة فورية سريعة للنقرة
+            addBtn.style.transform = "scale(0.92)";
+            setTimeout(() => addBtn.style.transform = "", 100);
+        }
+
+        // عازل أمان: إذا حدث خطأ برمي في كود الأنيميشن لا تدعه يوقف إضافة السلة
+        window.onerror = function(message, source, lineno, colno, error) {
+            if (message.includes('flying') || message.includes('getBoundingClientRect')) {
+                console.log("تم اكتشاف تعطل في الفنجان، تفعيل الوضع الآمن وتحديث العداد يدوياً...");
+                
+                // تحديث العداد برمجياً فوراً كخطة بديلة
+                const countBadge = document.getElementById('main-basket-count');
+                if (countBadge) {
+                    let currentCount = parseInt(countBadge.innerText) || 0;
+                    countBadge.innerText = currentCount + 1;
+                    
+                    // إضاءة نبضية سريعة للسلة لتأكيد الإضافة للزبون
+                    const basketBtn = document.getElementById('main-basket-btn');
+                    if(basketBtn) {
+                        basketBtn.style.transform = "scale(1.1)";
+                        setTimeout(() => basketBtn.style.transform = "", 150);
+                    }
+                }
+                return true; // منع ظهور الخطأ الأحمر في المتصفح واستمرار الكود بسلاسة
+            }
+        };
+    }, { passive: true });
+});
 </script>
 </body>
 </html>
