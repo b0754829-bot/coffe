@@ -1552,7 +1552,7 @@ header, [class*="header"], .store-header-wrapper {
         <div class="crystal-shape-wrapper">
             <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80">
         </div>
-        <span>الكراسون بانواعه</span>
+        <span>الكراسون وباستريس</span>
         </a>
     </div>
     <div class="exclusive-cat-item" onclick="handleLuxuryNav('specialty-coffee-anchor')">
@@ -1573,8 +1573,8 @@ header, [class*="header"], .store-header-wrapper {
     <h3 class="title-decorated">المشروبات الساخنة </h3>
     <div class="subcategory-filters">
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'hot', 'all')">الكل</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">  قهوة بالحليب</button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')">  قهوة سادة </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'milk_base')">  قهوتك اليومية واللإسبريسو  </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'dblmilk')">   مشروبات كريمية ثقيلة  </button>
          <button class="filter-btn" onclick="filterCategoryProducts(this, 'hot', 'tea_herbs')"> شاي وأعشاب </button>
     </div>
     <div class="products-showcase" id="container-hot"></div>
@@ -1587,7 +1587,9 @@ header, [class*="header"], .store-header-wrapper {
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')"> قهوة مُثلجة  </button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')"> مخيتو </button>
-        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')"> ميلك شيك وفواكة </button>
+                <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')"> كوكتيل </button>
+        <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">   ايس كريم وميلك شيك </button>
+         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">   مشروبات معبأة في زجاجات والمزيد </button>
     </div>
     <div class="products-showcase" id="container-cold"></div>
 </div>
@@ -1604,15 +1606,15 @@ header, [class*="header"], .store-header-wrapper {
 </div>
 
 <div id="breakfast-anchor">
-    <h3 class="title-decorated">  الكرواسون وباستريز</h3>
+    <h3 class="title-decorated">  الكرواسون وباستريس</h3>
     <div class="subcategory-filters"></div>
     <div class="products-showcase" id="container-breakfast"></div>
 </div> 
 <div id="specialty-coffee-anchor">
-    <h3 class="title-decorated">  جديدنا  </h3>
-    <div class="subcategory-filters">...</div>
+    <h3 class="title-decorated">  جديدنا/التريند </h3>
+    <div class="subcategory-filters"></div>
     <div class="products-showcase" id="container-specialty"></div>
-</div> ```
+</div> 
 
 
 
@@ -1640,6 +1642,8 @@ header, [class*="header"], .store-header-wrapper {
     </div>
 
     </div>
+
+    /* اللمنيو وتصميمه*/
 <style>
     /* الحاوية الرئيسية */
     .ultra-glass-panel {
@@ -1761,7 +1765,7 @@ header, [class*="header"], .store-header-wrapper {
     <div class="glass-scroll" style="padding: 10px 20px 20px 20px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
         
         <a href="javascript:void(0)" onclick="handleNavClick('specialty-coffee-anchor')" class="cloud-glass-btn">
-             <span class="premium-text">جديدنا (Specialty Coffee)</span>
+             <span class="premium-text">جديدنا /التريند </span>
         </a>
         
         <a href="javascript:void(0)" onclick="handleNavClick('hot-drinks-anchor')" class="cloud-glass-btn">
@@ -2197,55 +2201,94 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-
-
-
-
     <script>
-        const menuExtras = {
+       const menuExtras = {
     'specialty': ['صوص كراميل', 'حليب لوز', 'دبل شوت'],
     'hot': ['سكر زيادة', 'حليب صويا', 'قرفة'],
     'cold': ['ثلج إضافي', 'صوص شوكولاتة', 'كريمة'],
     'desserts': ['توت', 'فانيليا'],
     'breakfast': ['جبنة', 'زيتون']
 };
+
+function filterCategoryProducts(btn, mainCategory, subCategory) {
+    // إزالة كلاس التفعيل من جميع الأزرار
+    const buttons = btn.parentElement.querySelectorAll('.filter-btn');
+    buttons.forEach(b => b.classList.remove('active'));
+    
+    // تفعيل الزر الذي تم الضغط عليه
+    btn.classList.add('active');
+    
+    // استدعاء محركك الخاص لتحديث الكروت
+    if (typeof renderCategorySection === 'function') {
+        renderCategorySection(mainCategory, subCategory);
+    }
+}
+
 const storeProductsDatabase = {
     specialty: [
-        { id: 101, name: "قهوة مقطرة V60 إثيوبية", price: 18.00, sub: "v60", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" },
-        { id: 102, name: "كيمックス مقطر كولومبي فاخر", price: 20.00, sub: "v60", img: "https://images.unsplash.com/photo-1545665225-b23b99e4d45e?auto=format&fit=crop&w=500&q=80" },
-        { id: 103, name: "إسبريسو سينجل شوت", price: 10.00, sub: "espresso_base", img: "https://images.unsplash.com/photo-1510707577719-17ebd3394414?auto=format&fit=crop&w=500&q=80" },
-        { id: 104, name: "كورتادو إسبريسو مثالي", price: 14.00, sub: "espresso_base", img: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=500&q=80" },
-        { id: 105, name: "كولد برو كلاسيك مقطر بارد", price: 22.00, sub: "cold_brew", img: "https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" }
+        // قسم التريند فارغ حالياً وتظهر مكانه عبارة "قريباً جداً"
     ],
     hot: [
-        { id: 201, name: "سبانش لاتيه ساخن مميز", price: 16.00, sub: "milk_base", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=500&q=80" },
-        { id: 202, name: "كابتشينو برغوة كثيفة", price: 14.00, sub: "milk_base", img: "https://images.unsplash.com/photo-1572442388796-11668a720eb9?auto=format&fit=crop&w=500&q=80" },
-        { id: 203, name: "فلات وايت متوازن", price: 15.00, sub: "milk_base", img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=500&q=80" },
-        { id: 204, name: "شاي مغربي فاخر بالنعناع", price: 8.00, sub: "tea_herbs", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" },
-        { id: 205, name: "شاي إنجليزي أحمر ممتاز", price: 6.00, sub: "tea_herbs", img: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=500&q=80" }
+        // قهوتك اليومية والإسبريسو (milk_base)
+        { id: 201, name: "   اسبريسو سينجل/אספרסו קצר", price: 16.00, sub: "milk_base", hasExtras: true, img: "https://images.unsplash.com/photo-1510707577719-17ebd3394414?auto=format&fit=crop&w=500&q=80" },
+        { id: 202, name: "  اسبريسو دبل/אספרסו כפול", price: 14.00, sub: "milk_base", hasExtras: true, img: "https://images.unsplash.com/photo-1560159858-69cb8939c18f?auto=format&fit=crop&w=500&q=80" },
+        // مشروبات كريمية ثقيلة (dblmilk)
+        { id: 203, name: "  هافوخ/הפוך", price: 15.00, sub: "dblmilk", hasExtras: true, img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=500&q=80" },
+        { id: 204, name: "   فلات وايت/ شوت دبل مع حليب مبخر", price: 18.00, sub: "dblmilk", hasExtras: true, img: "https://images.unsplash.com/photo-1572442388796-11668a720eb9?auto=format&fit=crop&w=500&q=80" },
+        // شاي وأعشاب (tea_herbs)
+        { id: 205, name: "  شاي كرك ", price: 16.00, sub: "tea_herbs", hasExtras: true, img: "https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=500&q=80" }
     ],
     cold: [
-        { id: 301, name: "آيس سبانش لاتيه حكاية", price: 18.00, sub: "iced_coffee", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" },
-        { id: 302, name: "آيس أمريكانو كلاسيك", price: 12.00, sub: "iced_coffee", img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" },
-        { id: 303, name: "موهيتو بلو بيري المنعش", price: 15.00, sub: "mojito", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
-        { id: 304, name: "موهيتو الفراولة والنعناع", price: 15.00, sub: "mojito", img: "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80" },
-        { id: 305, name: "ميلك شيك شوكولاتة نوتيلا", price: 19.00, sub: "smoothie", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" },
-        { id: 306, name: "سموذي مانجو و فواكه استوائية", price: 17.00, sub: "smoothie", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80" }
+        // قهوة مثلجة (iced_coffee)
+        { id: 306, name: "  ايس كافيه ", price: 19.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" },
+        { id: 307, name: "    ايس لاتيه سادة", price: 17.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" },
+        { id: 308, name: "  ايس امريكانو  ", price: 17.00, sub: "iced_coffee", hasExtras: true, img: "https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" },
+        // مخيتو (mojito)
+        { id: 301, name: "  مخيتو بطيخ ", price: 18.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=500&q=80" },
+        { id: 302, name: " مخيتو صودا ", price: 12.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
+        { id: 303, name: "  مخيتو سبرايت ", price: 19.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1625772299848-391b6a87d4b3?auto=format&fit=crop&w=500&q=80" },
+        { id: 304, name: "  لموناضة بالنعناع مثلجة ", price: 15.00, sub: "mojito", hasExtras: true, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" },
+        // كوكتيل وعصائر (cocktail)
+        { id: 305, name: " عصير برتقال طبيعي ", price: 15.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=500&q=80" },
+        { id: 3020, name: "  عنب طبيعي  ", price: 17.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=500&q=80" },
+        { id: 3021, name: "  مانجو طبيعي  ", price: 17.00, sub: "cocktail", hasExtras: true, img: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=500&q=80" },
+        // ميلك شيك وايس كريم (smoothie)
+        { id: 309, name: "  ميلك شيك أوريو   ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" },
+        { id: 3010, name: "   ميلك شيك لوتس ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=500&q=80" },
+        { id: 3011, name: "  ميلك شيك شوكلاتة  ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1553787762-b5f52ce1523b?auto=format&fit=crop&w=500&q=80" },
+        { id: 3012, name: "   ميلك شيك كندر وفراولة ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1579954115567-d8c9735d1eb5?auto=format&fit=crop&w=500&q=80" },
+        { id: 3013, name: "   ميلك شيك فستق حلبي ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1557142046-c704a3adf8ac?auto=format&fit=crop&w=500&q=80" },
+        // مشروبات معبأة (bottled)
+        { id: 3014, name: "  كوكا كولا زجاجة  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" },
+        { id: 3015, name: "  كوكا كولا زيرو  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=500&q=80" },
+        { id: 3016, name: "   سبرايت ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1625772299848-391b6a87d4b3?auto=format&fit=crop&w=500&q=80" },
+        { id: 3017, name: " فانتا برتقال   ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=500&q=80" },
+        { id: 3018, name: "   مياه معدنية طبيعية ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=500&q=80" },
+        { id: 3019, name: "   صودا زجاجة ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1606851094655-b25cb56dd0b4?auto=format&fit=crop&w=500&q=80" },
+        { id: 3023, name: "  XL  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
+        { id: 3024, name: "   BLU ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
     ],
     desserts: [
-        { id: 401, name: "تشيز كيك سان سيباستيان", price: 24.00, sub: "cakes", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" },
-        { id: 402, name: "كيكة الزعفران بالحليب", price: 25.00, sub: "cakes", img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=500&q=80" },
-        { id: 403, name: "وافل بلجيكي بالنوتيلا", price: 22.00, sub: "waffles", img: "https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=500&q=80" },
-        { id: 404, name: "بانكيك كلاسيك مع سيرب دافئ", price: 20.00, sub: "waffles", img: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=500&q=80" }
+        // كيك خفيف (cakes)
+        { id: 401, name: " تيراميسو  ", price: 24.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=500&q=80" },
+        { id: 404, name: "   ريد فيلفيت ", price: 20.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?auto=format&fit=crop&w=500&q=80" },
+        { id: 406, name: "   ترليتشا  ", price: 20.00, sub: "cakes", hasExtras: false, img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80" },
+        // كيك ثقيل (waffles)
+        { id: 402, name: " بودينج شوكولاتة ", price: 25.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=500&q=80" },
+        { id: 403, name: " لوتس ", price: 22.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=500&q=80" },
+        { id: 405, name: "   اسطنبول  ", price: 20.00, sub: "waffles", hasExtras: false, img: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=500&q=80" }
     ],
     breakfast: [
-        { id: 501, name: "كرواسون فرنسي بالجبنة", price: 12.00, sub: "croissant", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" },
-        { id: 502, name: "كرواسون بحشوة النوتيلا الغنية", price: 14.00, sub: "croissant", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80" },
-        { id: 503, name: "كلوب ساندوتش حكاية المميز", price: 18.00, sub: "light_meals", img: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80" }
+        // كرواسون (croissant)
+        { id: 501, name: "كرواسون شوكولاتة", price: 12.00, sub: "croissant", hasExtras: false, img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80" },
+        { id: 502, name: "كرواسون بحشوة النوتيلا الغنية", price: 14.00, sub: "croissant", hasExtras: false, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" },
+        // موالح وباستريس (light_meals)
+        { id: 503, name: "   بوركس كريم كاسترد", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1626082895617-2c6ad3ed28e9?auto=format&fit=crop&w=500&q=80" },
+        { id: 504, name: "     بوريكس بطاطا", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80" },
+        { id: 505, name: "     بوريكس جبنة", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80" },
+        { id: 506, name: "  ميني بيتزا  ", price: 18.00, sub: "light_meals", hasExtras: false, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80" }
     ]
-    
 };
-
 
 // الحد الأقصى للمنتجات الظاهرة افتراضياً لكل قسم
 const MAX_VISIBLE_ITEMS = 2;
@@ -2343,46 +2386,35 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
         if (index >= MAX_VISIBLE_ITEMS && !sectionsExpandedState[mainCategory]) {
             productCard.style.display = 'none';
         }
-
-      productCard.innerHTML = `
-    <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
-    </div>
-    <div class="product-details" style="padding:15px; text-align:right;">
-        <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
-        
-        <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
-          
-            <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center;">
+// 1. التحقق من وجود إضافات لإظهار النجمة أو ترك مساحة فارغة للحفاظ على التصميم
+        const magicButtonHTML = product.hasExtras ? `
         <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" 
-    class="magic-btn"
-    style="
-        width: 32px; 
-        height: 32px; 
-        border-radius: 50%; 
-        border: none;
-        background: rgba(15, 118, 110, 0.15);
-        backdrop-filter: blur(5px);
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        cursor: pointer; 
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
-    "
->
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-    </svg>
-</button>
-          <button class="circle-add-btn" onclick="addNewProductToCart(${product.id}); triggerCartAnimation(this);">+</button>
-            
+            class="magic-btn"
+            style="width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(15, 118, 110, 0.15); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+        </button>
+        ` : `<div style="width: 32px; height: 32px;"></div>`;
+
+        // 2. تصميمك الأصلي تماماً مع إضافة المتغير الجديد
+        productCard.innerHTML = `
+        <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
+            <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
         </div>
-    </div>
-`;
+        <div class="product-details" style="padding:15px; text-align:right;">
+            <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
+            
+            <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
+                <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                ${magicButtonHTML}
+                <button class="circle-add-btn" onclick="addNewProductToCart(${product.id}); triggerCartAnimation(this);">+</button>
+            </div>
+        </div>
+        `;
         container.appendChild(productCard);
     });
 
@@ -3011,6 +3043,338 @@ function triggerCartAnimation(element) {
 }
 
    </script>
+    <style>
+    /* ------ الحركات والأنيميشن الاحترافي من جهة اليمين ------ */
+    @keyframes slideUpPremium {
+        0% { transform: translate(-50%, 150%); opacity: 0; filter: blur(10px); }
+        100% { transform: translate(-50%, 0); opacity: 1; filter: blur(0); }
+    }
+    @keyframes slideDownPremium {
+        0% { transform: translate(-50%, 0); opacity: 1; filter: blur(0); }
+        100% { transform: translate(-50%, 150%); opacity: 0; filter: blur(10px); }
+    }
+    @keyframes tabEnterRight {
+        0% { transform: translateX(150%) scale(0.7); opacity: 0; }
+        100% { transform: translateX(0) scale(1); opacity: 1; }
+    }
+    @keyframes tabExitRight {
+        0% { transform: translateX(0) scale(1); opacity: 1; }
+        100% { transform: translateX(150%) scale(0.7); opacity: 0; }
+    }
+    @keyframes glassPulse {
+        0% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2), 0 0 0 0 rgba(16, 185, 129, 0.2); }
+        70% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3), 0 0 0 12px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2), 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* 1️⃣ تصميم البطاقة الكبيرة الافتراضية */
+    .pwa-glass-prompt {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translate(-50%, 150%);
+        width: 92%;
+        max-width: 420px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(245, 251, 249, 0.78) 100%);
+        backdrop-filter: blur(30px) saturate(160%);
+        -webkit-backdrop-filter: blur(30px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 32px;
+        box-shadow: 0 25px 50px rgba(11, 63, 59, 0.15), inset 0 2px 4px rgba(255, 255, 255, 1);
+        padding: 22px 25px;
+        display: none;
+        align-items: center;
+        gap: 16px;
+        z-index: 9999999;
+        direction: rtl;
+    }
+
+    .pwa-glass-prompt.show-action {
+        display: flex;
+        animation: slideUpPremium 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .pwa-glass-prompt.hide-action {
+        animation: slideDownPremium 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* 💎 تصميم أيقونة التطبيق ثلاثية الأبعاد (مَلاذ COFFEE) */
+    .pwa-custom-app-icon {
+        width: 68px;
+        height: 68px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #10b981 0%, #064e3b 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 10px 20px rgba(11, 63, 59, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -3px 6px rgba(0,0,0,0.3);
+        border: 2.5px solid #ffffff;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .pwa-custom-app-icon::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 45%;
+        background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 100%);
+    }
+    .pwa-custom-app-icon .icon-en {
+        font-family: 'Cairo', sans-serif;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        line-height: 1;
+        margin-bottom: 1px;
+        z-index: 1;
+    }
+    .pwa-custom-app-icon .icon-ar {
+        font-family: 'Cairo', sans-serif;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 900;
+        line-height: 1.1;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        z-index: 1;
+    }
+
+    .pwa-text-container { flex: 1; }
+    .pwa-title { font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 900; color: #0b3f3b; margin: 0 0 4px 0; }
+    .pwa-desc { font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 600; color: #475569; margin: 0; line-height: 1.5; }
     
+    .pwa-buttons-group { display: flex; flex-direction: column; gap: 8px; }
+    .pwa-install-btn {
+        background: linear-gradient(135deg, #16b981, #0b3f3b);
+        color: white; border: none; padding: 8px 18px; border-radius: 30px;
+        font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 13px;
+        box-shadow: 0 6px 15px rgba(11, 63, 59, 0.25); cursor: pointer; transition: 0.3s; white-space: nowrap;
+    }
+    .pwa-dismiss-btn {
+        background: rgba(0, 0, 0, 0.05); color: #475569; border: none; padding: 6px 14px;
+        border-radius: 30px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 11px; cursor: pointer; transition: 0.2s; text-align: center;
+    }
+    .pwa-dismiss-btn:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+    /* 2️⃣ تصميم التبويب الزجاجي الجانبي المثبت في أقصى اليمين */
+    .pwa-docked-tab {
+        position: fixed;
+        bottom: 30px;
+        right: 15px; /* تم التعديل ليكون في جهة اليمين */
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999998;
+        cursor: pointer;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 245, 245, 0.65) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 6px;
+        border-radius: 20px;
+        border: 1.5px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 30px rgba(11, 63, 59, 0.15);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: glassPulse 3s infinite;
+        user-select: none;
+        touch-action: none;
+    }
+    
+    .pwa-docked-tab.show-tab {
+        display: flex;
+        animation: tabEnterRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, glassPulse 3s infinite;
+    }
+    
+    .pwa-docked-tab.hide-tab {
+        animation: tabExitRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .pwa-docked-tab:active { transform: scale(0.92); }
+
+    .pwa-mini-icon {
+        width: 44px; height: 44px; border-radius: 12px;
+        background: linear-gradient(135deg, #10b981 0%, #064e3b 100%);
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4); border: 1.5px solid #ffffff;
+    }
+    .pwa-mini-icon .mini-en { font-size: 6px; color: #fff; font-weight: 400; letter-spacing: 0.5px; line-height: 1; }
+    .pwa-mini-icon .mini-ar { font-size: 10px; color: #fff; font-weight: 900; line-height: 1; margin-top: 1px; }
+
+    /* تعديل مؤشر السهم ليوجه النظر إلى اليسار (عمق الشاشة) */
+    .pwa-pull-indicator {
+        color: #0b3f3b; font-size: 12px; font-weight: 900; margin-right: 4px; margin-left: 2px;
+        animation: arrowBlink 1.5s infinite ease-in-out;
+    }
+    @keyframes arrowBlink {
+        0%, 100% { transform: translateX(0); opacity: 0.4; }
+        50% { transform: translateX(-3px); opacity: 1; } /* ينبض باتجاه اليسار */
+    }
+    .ios-share-icon {
+        display: inline-block; width: 16px; height: 16px; vertical-align: middle; margin: 0 3px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%230b3f3b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>') no-repeat center;
+    }
+</style>
+
+<div id="pwa-premium-card" class="pwa-glass-prompt">
+    <div class="pwa-custom-app-icon">
+        <span class="icon-en">COFFEE</span>
+        <span class="icon-ar">مَلاذ</span>
+    </div>
+    <div class="pwa-text-container" id="pwa-text-content">
+        <h4 class="pwa-title">تطبيق مَلاذ كافيه</h4>
+        <p class="pwa-desc" id="pwa-instruction-text">جاري فحص النظام...</p>
+    </div>
+    <div class="pwa-buttons-group" id="pwa-action-container">
+        </div>
+</div>
+
+<div id="pwa-minimized-tab" class="pwa-docked-tab" onclick="window.restoreFullPrompt()">
+    <div class="pwa-mini-icon">
+        <span class="mini-en">COFFEE</span>
+        <span class="mini-ar">مَلاذ</span>
+    </div>
+    <span class="pwa-pull-indicator">❮</span> </div>
+
+<script>
+(function() {
+    // لمنع حدوث أي تكرار أو تعارض مع سكربتات الصفحة الأخرى
+    if (window.hasPWAPremiumScriptInstalled) return;
+    window.hasPWAPremiumScriptInstalled = true;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.pwaPremiumPromptEvent = e;
+    });
+
+    function initPWASystem() {
+        const pwaStatus = localStorage.getItem('pwa_premium_status');
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+        
+        if (isStandalone || pwaStatus === 'installed') {
+            cleanPWASystem(); 
+            return; 
+        }
+
+        if (!pwaStatus) {
+            setTimeout(() => {
+                window.triggerFullPrompt();
+            }, 5000);
+        } else if (pwaStatus === 'minimized') {
+            setTimeout(() => {
+                const tab = document.getElementById('pwa-minimized-tab');
+                if(tab) {
+                    tab.classList.remove('hide-tab');
+                    tab.classList.add('show-tab');
+                }
+            }, 1500);
+        }
+
+        // تعديل ميزة اللمس التفاعلي لتتناسب مع السحب من اليمين إلى اليسار
+        const tabEl = document.getElementById('pwa-minimized-tab');
+        if (tabEl) {
+            let touchStartX = 0;
+            tabEl.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].clientX;
+            }, { passive: true });
+
+            tabEl.addEventListener('touchend', (e) => {
+                let touchEndX = e.changedTouches[0].clientX;
+                // إذا سحب المستخدم من اليمين باتجاه اليسار (لعمق الشاشة) يفتح المنبثق
+                if (touchEndX < touchStartX - 30) { 
+                    window.restoreFullPrompt();
+                }
+            }, { passive: true });
+        }
+    }
+
+    window.triggerFullPrompt = function() {
+        if (localStorage.getItem('pwa_premium_status') === 'installed') return;
+
+        const pwaCard = document.getElementById('pwa-premium-card');
+        const instructionText = document.getElementById('pwa-instruction-text');
+        const actionContainer = document.getElementById('pwa-action-container');
+        if (!pwaCard) return;
+        
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+        if (isIOS) {
+            instructionText.innerHTML = `أضف التطبيق لشاشتك! اضغط على أيقونة المشاركة <span class="ios-share-icon"></span> ثم اختر <b>"إضافة للشاشة الرئيسية"</b>.`;
+            actionContainer.innerHTML = `<button class="pwa-dismiss-btn" onclick="window.minimizePWAPrompt()">إغلاق</button>`;
+        } else {
+            instructionText.innerHTML = `ثبّت تطبيقنا الآن للوصول السريع، وطلب قهوتك المفضلة بضغطة زر وبدون إنترنت!`;
+            actionContainer.innerHTML = `
+                <button class="pwa-install-btn" onclick="window.executePWAInstall()">تثبيت الآن</button>
+                <button class="pwa-dismiss-btn" onclick="window.minimizePWAPrompt()">ليس الآن</button>
+            `;
+        }
+
+        pwaCard.classList.remove('hide-action');
+        pwaCard.classList.add('show-action');
+    };
+
+    window.minimizePWAPrompt = function() {
+        const pwaCard = document.getElementById('pwa-premium-card');
+        const pwaTab = document.getElementById('pwa-minimized-tab');
+        
+        if(pwaCard) {
+            pwaCard.classList.remove('show-action');
+            pwaCard.classList.add('hide-action');
+        }
+        
+        localStorage.setItem('pwa_premium_status', 'minimized');
+        
+        setTimeout(() => {
+            if(pwaTab && localStorage.getItem('pwa_premium_status') !== 'installed') {
+                pwaTab.classList.remove('hide-tab');
+                pwaTab.classList.add('show-tab');
+            }
+        }, 400);
+    };
+
+    window.restoreFullPrompt = function() {
+        const pwaTab = document.getElementById('pwa-minimized-tab');
+        if(pwaTab) {
+            pwaTab.classList.remove('show-tab');
+            pwaTab.classList.add('hide-tab');
+        }
+        setTimeout(() => {
+            window.triggerFullPrompt();
+        }, 200);
+    };
+
+    window.executePWAInstall = function() {
+        if (window.pwaPremiumPromptEvent) {
+            window.pwaPremiumPromptEvent.prompt();
+            window.pwaPremiumPromptEvent.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    localStorage.setItem('pwa_premium_status', 'installed');
+                    cleanPWASystem();
+                }
+                window.pwaPremiumPromptEvent = null;
+            });
+        } else {
+            alert("يرجى الضغط على خيارات المتصفح (الـ 3 نقاط المجاورة للرابط فوق) ثم اختيار 'تثبيت التطبيق' أو 'إضافة إلى الشاشة الرئيسية' 📱");
+            window.minimizePWAPrompt();
+        }
+    };
+
+    window.addEventListener('appinstalled', (evt) => {
+        localStorage.setItem('pwa_premium_status', 'installed');
+        cleanPWASystem();
+    });
+
+    function cleanPWASystem() {
+        const pwaCard = document.getElementById('pwa-premium-card');
+        const pwaTab = document.getElementById('pwa-minimized-tab');
+        if(pwaCard) pwaCard.style.display = 'none';
+        if(pwaTab) pwaTab.style.display = 'none';
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initPWASystem();
+    } else {
+        document.addEventListener('DOMContentLoaded', initPWASystem);
+    }
+})();
+</script>
 </body>
 </html>
