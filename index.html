@@ -2882,6 +2882,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <style>
+    .success-capsule {
+        position: fixed;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-200px);
+        /* ... باقي الستاينق الخاص بك ... */
+        
+        /* 🛡️ حماية إضافية تمنع اللمس كلياً وهي مخفية */
+        visibility: hidden !important;
+        pointer-events: none !important;
+        
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.8s;
+    }
+    .success-capsule.show {
+        transform: translateX(-50%) translateY(0);
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
 /* 1. تصميم شاشة التوقف الزجاجية */
 #malath-screensaver {
     position: fixed;
@@ -3268,10 +3286,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    let deferredPrompt;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    // 1. فحص ما إذا كان المتجر مفتوحاً كـ تطبيق مثبت من الشاشة الرئيسية
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-
+    
     const a2hsModal = document.getElementById('a2hs-modal');
     const a2hsClose = document.getElementById('a2hs-close');
     const a2hsInstallBtn = document.getElementById('a2hs-install-btn');
@@ -3280,16 +3297,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const a2hsInstructions = document.getElementById('a2hs-instructions');
     const successCapsule = document.getElementById('success-capsule');
 
+    // 🌟 الحل المضمون والمطلق لعقدة الآيفون 🌟
+    if (isStandalone) {
+        // إذا كان مفتوحاً من الشاشة الرئيسية، احذف كل عناصر التثبيت كلياً من صفحة الموقع
+        if(successCapsule) successCapsule.remove();
+        if(floatingIcon) floatingIcon.remove();
+        if(a2hsModal) a2hsModal.remove();
+        return; // توقف هنا تماماً واخرج من السكريبت لتبقى الأزرار والسلة حرة وطليقة
+    }
+
+    // --- الكود الطبيعي الذي يعمل فقط داخل المتصفح العادي قبل التثبيت ---
+    let deferredPrompt;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
     });
 
     function triggerSuccessBroadcast() {
-        successCapsule.classList.add('show');
-        a2hsModal.classList.remove('show');
-        floatingIcon.style.display = 'none';
-        setTimeout(() => { successCapsule.classList.remove('show'); }, 5000);
+        if(successCapsule) {
+            successCapsule.classList.add('show');
+            setTimeout(() => { successCapsule.classList.remove('show'); }, 5000);
+        }
+        if(a2hsModal) a2hsModal.classList.remove('show');
+        if(floatingIcon) floatingIcon.style.display = 'none';
     }
 
     window.addEventListener('appinstalled', () => { 
@@ -3297,59 +3329,67 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     setTimeout(() => {
-        if (!isStandalone) { showA2HSModal(); }
+        showA2HSModal();
     }, 1000);
 
     function showA2HSModal() {
         if (isIOS) {
-            a2hsInstallBtn.style.display = 'none';
-            a2hsInstructions.style.display = 'none';
-            manualInstructionImg.innerHTML = `
-                لتثبيت التطبيق على آيفون:<br>
-                اضغط على زر المشاركة بالأسفل <svg style="display:inline; width:18px; height:18px; vertical-align:middle; color:#06b6d4;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg><br> 
-                ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>`;
-            manualInstructionImg.style.display = 'block';
+            if(a2hsInstallBtn) a2hsInstallBtn.style.display = 'none';
+            if(a2hsInstructions) a2hsInstructions.style.display = 'none';
+            if(manualInstructionImg) {
+                manualInstructionImg.innerHTML = `
+                    لتثبيت التطبيق على آيفون:<br>
+                    اضغط على زر المشاركة بالأسفل <svg style="display:inline; width:18px; height:18px; vertical-align:middle; color:#06b6d4;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg><br> 
+                    ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>`;
+                manualInstructionImg.style.display = 'block';
+            }
         } else {
-            a2hsInstallBtn.style.display = 'block';
-            a2hsInstructions.style.display = 'block';
-            manualInstructionImg.style.display = 'none';
-            // إعادة ضبط النص للوضع الافتراضي للأندرويد
-            a2hsInstructions.innerText = "أضف متجر مَلاذ إلى شاشتك الرئيسية لتجربة تسوق أسرع وفخامة في كل تفصيلة!";
+            if(a2hsInstallBtn) a2hsInstallBtn.style.display = 'block';
+            if(a2hsInstructions) {
+                a2hsInstructions.style.display = 'block';
+                a2hsInstructions.innerText = "أضف متجر مَلاذ إلى شاشتك الرئيسية لتجربة تسوق أسرع وفخامة في كل تفصيلة!";
+            }
+            if(manualInstructionImg) manualInstructionImg.style.display = 'none';
         }
-        a2hsModal.classList.add('show');
-        floatingIcon.style.display = 'none';
+        if(a2hsModal) a2hsModal.classList.add('show');
+        if(floatingIcon) floatingIcon.style.display = 'none';
     }
 
-    // التعديل الذكي لزر التثبيت
-    a2hsInstallBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            // الخطة أ: التثبيت المباشر متاح
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if(outcome === 'accepted') { 
-                triggerSuccessBroadcast();
+    if(a2hsInstallBtn) {
+        a2hsInstallBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if(outcome === 'accepted') { 
+                    triggerSuccessBroadcast();
+                }
+                deferredPrompt = null;
+            } else {
+                if(a2hsInstallBtn) a2hsInstallBtn.style.display = 'none';
+                if(a2hsInstructions) a2hsInstructions.innerText = "لضمان أمانك، نظام هاتفك يتطلب إضافة التطبيق بالخطوات التالية:";
+                if(manualInstructionImg) {
+                    manualInstructionImg.innerHTML = `
+                        لتثبيت التطبيق بسهولة:<br>
+                        1️⃣ اضغط على <b>الثلاث نقاط ⋮</b> في أعلى المتصفح.<br> 
+                        2️⃣ ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>`;
+                    manualInstructionImg.style.display = 'block';
+                }
             }
-            deferredPrompt = null;
-        } else {
-            // الخطة ب: المتصفح يمنع التثبيت المباشر، نعطيه الطريقة اليدوية للأندرويد
-            a2hsInstallBtn.style.display = 'none';
-            a2hsInstructions.innerText = "لضمان أمانك، نظام هاتفك يتطلب إضافة التطبيق بالخطوات التالية:";
-            manualInstructionImg.innerHTML = `
-                لتثبيت التطبيق بسهولة:<br>
-                1️⃣ اضغط على <b>الثلاث نقاط ⋮</b> في أعلى المتصفح.<br> 
-                2️⃣ ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>`;
-            manualInstructionImg.style.display = 'block';
-        }
-    });
+        });
+    }
 
-    a2hsClose.addEventListener('click', () => {
-        a2hsModal.classList.remove('show');
-        setTimeout(() => { floatingIcon.style.display = 'flex'; }, 300);
-    });
+    if(a2hsClose) {
+        a2hsClose.addEventListener('click', () => {
+            if(a2hsModal) a2hsModal.classList.remove('show');
+            setTimeout(() => { if(floatingIcon) floatingIcon.style.display = 'flex'; }, 300);
+        });
+    }
 
-    floatingIcon.addEventListener('click', () => {
-        showA2HSModal();
-    });
+    if(floatingIcon) {
+        floatingIcon.addEventListener('click', () => {
+            showA2HSModal();
+        });
+    }
 });
 </script>
 
