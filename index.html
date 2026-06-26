@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link rel="manifest" href="manifest.json">
+
+<meta name="apple-mobile-web-app-title" content="مَلاذ">
+    <meta name="application-name" content="مَلاذ">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#2c1a11">
     <meta name="apple-mobile-web-app-status-bar-style" content="#0b3f3b">
-    <meta name="apple-mobile-web-app-title" content="مَلاذ"> <link rel="apple-touch-icon" href="icon-512.png"> <meta name="theme-color" content="#0b3f3b">
+    <meta name="theme-color" content="#06b6d4">
+
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230b3f3b;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2306b6d4;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='url(%23grad)'/%3E%3Ctext x='50%25' y='55%25' font-size='140' font-family='Arial, sans-serif' font-weight='900' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3E%D9%85%D9%8E%D9%84%D8%A7%D8%B0%3C/text%3E%3C/svg%3E">
+    
+    <link rel="apple-touch-icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230b3f3b;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2306b6d4;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='url(%23grad)'/%3E%3Ctext x='50%25' y='55%25' font-size='140' font-family='Arial, sans-serif' font-weight='900' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3E%D9%85%D9%8E%D9%84%D8%A7%D8%B0%3C/text%3E%3C/svg%3E">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2c1a11">
+
     <meta name="apple-mobile-web-app-title" content="كافيه مَلاذ">
-    <link rel="apple-touch-icon" href="icon-192.png">
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
@@ -1645,7 +1654,6 @@ header, [class*="header"], .store-header-wrapper {
 
     </div>
 
-    /* اللمنيو وتصميمه*/
 <style>
     /* الحاوية الرئيسية */
     .ultra-glass-panel {
@@ -3246,23 +3254,17 @@ document.addEventListener("DOMContentLoaded", () => {
         deferredPrompt = e;
     });
 
-    // دالة إطلاق كبسولة النجاح الأنيقة لـ 5 ثواني كاملة ليتأمل الزبون جمالها
     function triggerSuccessBroadcast() {
         successCapsule.classList.add('show');
         a2hsModal.classList.remove('show');
         floatingIcon.style.display = 'none';
-        
-        setTimeout(() => { 
-            successCapsule.classList.remove('show'); 
-        }, 5000);
+        setTimeout(() => { successCapsule.classList.remove('show'); }, 5000);
     }
 
-    // استشعار التثبيت الناجح التلقائي من النظام (للأندرويد)
     window.addEventListener('appinstalled', () => { 
         triggerSuccessBroadcast(); 
     });
 
-    // ظهور النافذة لأول مرة بعد ثانية واحدة فقط
     setTimeout(() => {
         if (!isStandalone) { showA2HSModal(); }
     }, 1000);
@@ -3271,35 +3273,49 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isIOS) {
             a2hsInstallBtn.style.display = 'none';
             a2hsInstructions.style.display = 'none';
+            manualInstructionImg.innerHTML = `
+                لتثبيت التطبيق على آيفون:<br>
+                اضغط على زر المشاركة بالأسفل <svg style="display:inline; width:18px; height:18px; vertical-align:middle; color:#06b6d4;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg><br> 
+                ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>`;
             manualInstructionImg.style.display = 'block';
         } else {
             a2hsInstallBtn.style.display = 'block';
             a2hsInstructions.style.display = 'block';
             manualInstructionImg.style.display = 'none';
+            // إعادة ضبط النص للوضع الافتراضي للأندرويد
+            a2hsInstructions.innerText = "أضف متجر مَلاذ إلى شاشتك الرئيسية لتجربة تسوق أسرع وفخامة في كل تفصيلة!";
         }
         a2hsModal.classList.add('show');
         floatingIcon.style.display = 'none';
     }
 
-    // التثبيت الفوري للأندرويد عند الضغط
+    // التعديل الذكي لزر التثبيت
     a2hsInstallBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
+            // الخطة أ: التثبيت المباشر متاح
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
             if(outcome === 'accepted') { 
                 triggerSuccessBroadcast();
             }
             deferredPrompt = null;
+        } else {
+            // الخطة ب: المتصفح يمنع التثبيت المباشر، نعطيه الطريقة اليدوية للأندرويد
+            a2hsInstallBtn.style.display = 'none';
+            a2hsInstructions.innerText = "لضمان أمانك، نظام هاتفك يتطلب إضافة التطبيق بالخطوات التالية:";
+            manualInstructionImg.innerHTML = `
+                لتثبيت التطبيق بسهولة:<br>
+                1️⃣ اضغط على <b>الثلاث نقاط ⋮</b> في أعلى المتصفح.<br> 
+                2️⃣ ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>`;
+            manualInstructionImg.style.display = 'block';
         }
     });
 
-    // إغلاق النافذة وتحويلها للأيقونة الفخمة
     a2hsClose.addEventListener('click', () => {
         a2hsModal.classList.remove('show');
         setTimeout(() => { floatingIcon.style.display = 'flex'; }, 300);
     });
 
-    // فتح الإشعار بلمسة واحدة سريعة جداً وذكية
     floatingIcon.addEventListener('click', () => {
         showA2HSModal();
     });
