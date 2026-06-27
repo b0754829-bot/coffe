@@ -47,6 +47,28 @@
     --glass-opacity: 0.4;
             
         }
+
+/* منع تكبير الشاشة (الزوم) عند الضغط المزدوج أو السريع على الأزرار في سفاري */
+button, 
+a, 
+.circle-add-btn, 
+.magic-btn,
+.premium-btn {
+    touch-action: manipulation !important; /* يمنع زوم النقر المزدوج */
+    -webkit-user-select: none !important; /* يمنع تظليل الزر باللون الأزرق عند النقر السريع */
+    user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+/* منع الأيقونات والنصوص الداخلية من سرقة النقرة في سفاري والآيفون */
+.circle-add-btn *, 
+.magic-btn *, 
+button[onclick*="saveAndAddToCart"] * {
+    pointer-events: none !important;
+}
+
+
+
+
         .product-card {
     background: rgba(var(--primary-emerald), var(--glass-opacity));
 }
