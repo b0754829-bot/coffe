@@ -846,7 +846,22 @@ header {
         padding: 10px 18px;
     }
 }
-
+/*الكود الجديد لتاكل النصنوص بالفلاتر*/
+/* أضف هذا الكود أسفل الكود الخاص بك مباشرة */
+.subcategory-filters .filter-btn {
+    /* 1. منع الزر تماماً من الانكماش أو ضغط النص بداخلها */
+    flex-shrink: 0; 
+    
+    /* 2. منع النص من الالتفاف أو الاختفاء */
+    white-space: nowrap; 
+    
+    /* 3. إلغاء أي عرض ثابت قد يكون محدداً مسبقاً */
+    width: auto; 
+    max-width: none;
+    
+    /* 4. مساحة داخلية (تنفس للنص) يمين ويسار وفوق وتحت */
+    padding: 8px 16px; 
+}
 
 /* تصميم شبكة عرض المنتجات */
 .products-showcase {
@@ -2886,407 +2901,202 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
+
+
+
+
+<div id="pwa-floating-cloud" class="pwa-cloud">
+    <div class="pwa-cloud-content">
+        <div class="pwa-cloud-icon">✨</div>
+        <div class="pwa-cloud-text">
+            <span class="pwa-cloud-title">أضف "مَلاذ" لشاشتك الرئيسية</span>
+            <span id="pwa-cloud-instruction" class="pwa-cloud-desc">لتصفح أسرع وأسهل كتطبيق مثبت ومستقل.</span>
+        </div>
+        <button id="pwa-cloud-action" class="pwa-cloud-btn">إضافة</button>
+        <button id="pwa-cloud-close" class="pwa-cloud-close-btn">×</button>
+    </div>
+</div>
+
 <style>
-    .success-capsule {
-        position: fixed;
-        top: 25px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-200px);
-        /* ... باقي الستاينق الخاص بك ... */
-        
-        /* 🛡️ حماية إضافية تمنع اللمس كلياً وهي مخفية */
-        visibility: hidden !important;
-        pointer-events: none !important;
-        
-        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.8s;
-    }
-    .success-capsule.show {
-        transform: translateX(-50%) translateY(0);
-        visibility: visible !important;
-        pointer-events: auto !important;
-    }
-/* 1. تصميم شاشة التوقف الزجاجية */
-#malath-screensaver {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    background: rgba(255, 255, 255, 0.2); 
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.6);
-    
-    z-index: 999999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
+.pwa-cloud {
+    position: fixed !important;
+    bottom: 25px !important;
+    left: 50% !important;
+    /* تبدأ مخفية بالكامل تحت الشاشة */
+    transform: translateX(-50%) translateY(150px) !important; 
+    width: 90% !important;
+    max-width: 420px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 12px 40px rgba(11, 63, 59, 0.2) !important;
+    z-index: 999999999 !important; /* قيمة قصوى لضمان ظهورها فوق أي عنصر في الموقع */
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s !important;
+    opacity: 0 !important;
+    direction: rtl !important;
+    padding: 14px 18px !important;
+    box-sizing: border-box !important;
+    display: block !important;
 }
 
-#malath-screensaver.active-screensaver {
-    opacity: 1;
-    pointer-events: auto;
+/* فئة التفعيل لإظهار الغيمة وتحريكها للأعلى */
+.pwa-cloud.show-cloud {
+    transform: translateX(-50%) translateY(0) !important;
+    opacity: 1 !important;
 }
 
-/* 2. نصوص مستوحاة من نعومة (Dynamic Island) من آبل */
-.ss-content {
-    text-align: center;
-    /* حاوية تشبه الجزيرة الديناميكية تعطي نعومة واحتواء للنص */
-    background: rgba(255, 255, 255, 0.5);
-    padding: 30px 40px;
-    border-radius: 40px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 2px 10px rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    animation: elegant-breathe 4s infinite alternate ease-in-out;
+.pwa-cloud-content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    position: relative !important;
 }
 
-.ss-title {
-    /* دمج خطوط نظام آبل الأصلية مع خط كايرو ليعطي النعومة المطلقة */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", sans-serif;
-    font-size: 38px;
-    font-weight: 900; /* عريض جداً */
-    color: #0b3f3b; 
-    margin: 0;
-    letter-spacing: -1.5px; /* تقارب الأحرف يعطي المظهر العصري (Dynamic Island) */
-    -webkit-font-smoothing: antialiased; /* تنعيم حواف الخط بقوة */
-    -moz-osx-font-smoothing: grayscale;
+.pwa-cloud-icon {
+    font-size: 24px !important;
+    background: linear-gradient(135deg, #0b3f3b, #06b6d4) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    animation: pwaCloudFloat 3s ease-in-out infinite !important;
 }
 
-.ss-subtitle {
-    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
-    font-size: 17px;
-    font-weight: 800; /* ناعم وعريض */
-    color: #1a9c7d;
-    margin-top: 5px;
-    letter-spacing: -0.5px;
-    -webkit-font-smoothing: antialiased;
+.pwa-cloud-text {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
 }
 
-.ss-wakeup-hint {
-    position: absolute;
-    bottom: 50px;
-    font-family: -apple-system, BlinkMacSystemFont, "Cairo", sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(11, 63, 59, 0.6);
-    letter-spacing: -0.5px;
-    background: rgba(255, 255, 255, 0.4);
-    padding: 10px 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    animation: pulse-hint 2.5s infinite ease-in-out;
+.pwa-cloud-title {
+    font-size: 14px !important;
+    font-weight: bold !important;
+    color: #0b3f3b !important;
+    margin-bottom: 2px !important;
 }
 
-@keyframes elegant-breathe {
-    0% { transform: translateY(0) scale(0.98); }
-    100% { transform: translateY(-5px) scale(1); box-shadow: 0 15px 40px rgba(11, 63, 59, 0.08), inset 0 2px 10px rgba(255, 255, 255, 1); }
+.pwa-cloud-desc {
+    font-size: 11px !important;
+    color: #444 !important;
+    line-height: 1.4 !important;
 }
 
-@keyframes pulse-hint {
-    0%, 100% { transform: scale(0.95); opacity: 0.5; }
-    50% { transform: scale(1); opacity: 1; }
+.pwa-cloud-btn {
+    background: linear-gradient(135deg, #0b3f3b, #06b6d4) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 6px 16px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2) !important;
+    transition: transform 0.2s !important;
+    white-space: nowrap !important;
+}
+
+.pwa-cloud-btn:active {
+    transform: scale(0.95) !important;
+}
+
+.pwa-cloud-close-btn {
+    background: transparent !important;
+    border: none !important;
+    font-size: 22px !important;
+    color: #999 !important;
+    cursor: pointer !important;
+    padding: 0 4px !important;
+    line-height: 1 !important;
+    transition: color 0.2s !important;
+}
+
+.pwa-cloud-close-btn:hover {
+    color: #0b3f3b !important;
+}
+
+@keyframes pwaCloudFloat {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
 }
 </style>
 
-<div id="malath-screensaver">
-    <div class="ss-content">
-        <h1 class="ss-title">مَلاذ Coffee</h1>
-        <p class="ss-subtitle">كافيه مَلاذ.. تُروى في كل كوب ✨</p>
-    </div>
-    <div class="ss-wakeup-hint">المس الشاشة للمتابعة</div>
-</div>
-
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    let idleTimer;
-    const screensaver = document.getElementById('malath-screensaver');
-    let isSleeping = false;
-    let audioCtx = null; 
-    
-    const IDLE_TIME = 15000; // 15 ثانية
+(function() {
+    function initPWACloud() {
+        var deferredPrompt;
+        var cloud = document.getElementById('pwa-floating-cloud');
+        var cloudAction = document.getElementById('pwa-cloud-action');
+        var cloudClose = document.getElementById('pwa-cloud-close');
+        var cloudDesc = document.getElementById('pwa-cloud-instruction');
 
-    // 🎵 محرك الصوت الأنيق
-    function playSoftCrystalChime() {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContext) return;
-            
-            audioCtx = new AudioContext();
-            
-            function createTone(freq) {
-                if(!audioCtx) return;
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                
-                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.1); 
-                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5); 
-                
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 4);
-            }
+        if (!cloud) return;
 
-            createTone(523.25); // C5
-            createTone(659.25); // E5
-            
-        } catch(e) {}
-    }
+        // فحص هل تم التثبيت مسبقاً ودخول العميل منه
+        var isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        if (isRunningStandalone) return;
 
-    // 🛑 دالة الإيقاف الجبري للصوت
-    function forceStopAudio() {
-        if (audioCtx && audioCtx.state !== 'closed') {
-            audioCtx.close(); 
-            audioCtx = null;
-        }
-    }
+        // فحص أجهزة الآيفون والـ iOS بدقة
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-    // 🌙 تفعيل الشاشة والصوت (مع قفل أمان ذكي)
-    function activateScreensaver() {
-        // ⭐ قفل الأمان: إذا كانت الصفحة مخفية (الزبون في تطبيق آخر)، نلغي التفعيل فوراً! ⭐
-        if (document.hidden || document.visibilityState !== 'visible') {
-            return; 
-        }
-
-        if (!isSleeping) {
-            isSleeping = true;
-            playSoftCrystalChime();
-            screensaver.classList.add('active-screensaver');
-        }
-    }
-
-    // ☀️ الاستيقاظ
-    function wakeUp() {
-        if (isSleeping) {
-            screensaver.classList.remove('active-screensaver');
-            isSleeping = false;
-        }
-        resetTimer();
-    }
-
-    function resetTimer() {
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(activateScreensaver, IDLE_TIME);
-    }
-
-    // 🚨 استشعار خروج الزبون من الموقع أو قفل الشاشة
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden || document.visibilityState !== 'visible') {
-            // الزبون خرج من المتصفح أو قفل الهاتف!
-            forceStopAudio(); // إيقاف الصوت فوراً وبشكل قاطع
-            clearTimeout(idleTimer); // تدمير العداد حتى لا يعمل في الخلفية
-        } else {
-            // الزبون عاد للموقع
-            if (!isSleeping) resetTimer();
-        }
-    });
-
-    // مراقبة نشاط الزبون
-    ['touchstart', 'mousemove', 'scroll', 'click', 'keydown'].forEach(event => {
-        document.addEventListener(event, wakeUp, { passive: true });
-    });
-
-    resetTimer();
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-
-<div id="pwa-safe-wrapper">
-    <style>
-        /* 1. الغلاف الآمن: يغطي الشاشة لكنه يسمح بمرور اللمسات من خلاله إلى السلة */
-        #pwa-safe-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 2147483647; 
-            pointer-events: none; /* 🌟 السر الأكبر: اللمس يخترقه ويصل لزر إضافة للسلة! */
-            display: block;
-        }
-
-        /* 2. فقط أجزاء الإشعار تستقبل اللمس */
-        .pwa-clickable {
-            pointer-events: auto;
-        }
-
-        /* تنسيق الكبسولة */
-        #pwa-capsule {
-            position: absolute; top: 25px; left: 50%;
-            transform: translate(-50%, -200px);
-            background: linear-gradient(135deg, #0b3f3b, #0c2a27);
-            color: #fff; padding: 15px 25px; border-radius: 40px;
-            font-family: 'Cairo', sans-serif; text-align: center;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0; visibility: hidden;
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            display: flex; flex-direction: column; gap: 5px;
-        }
-        #pwa-capsule.show-capsule {
-            transform: translate(-50%, 0); opacity: 1; visibility: visible;
-        }
-
-        /* تنسيق الأيقونة العائمة */
-        #pwa-floating-btn {
-            position: absolute; bottom: 85px; right: 20px;
-            width: 60px; height: 60px; border-radius: 18px;
-            background: linear-gradient(135deg, #0b3f3b, #06b6d4);
-            color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-family: 'Cairo', sans-serif; box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
-            cursor: pointer; transition: all 0.3s ease;
-            opacity: 0; visibility: hidden; border: 2px solid rgba(255,255,255,0.2);
-        }
-        #pwa-floating-btn.show-btn {
-            opacity: 1; visibility: visible;
-        }
-
-        /* تنسيق النافذة السفلية */
-        #pwa-bottom-sheet {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-family: 'Cairo', sans-serif; display: flex; flex-direction: column;
-            opacity: 0; visibility: hidden;
-        }
-        #pwa-bottom-sheet.show-sheet {
-            transform: translateY(0); opacity: 1; visibility: visible;
-        }
-
-        /* أزرار النافذة */
-        #pwa-close-btn { background: #f1f5f9; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 20px; cursor: pointer; color:#0b3f3b; }
-        #pwa-install-btn { background: linear-gradient(90deg, #0b3f3b, #06b6d4); color: #fff; border: none; padding: 15px; border-radius: 30px; font-weight: 800; font-size: 16px; cursor: pointer; width: 100%;}
-    </style>
-
-    <div id="pwa-capsule">
-        <strong style="color: #06b6d4; font-size: 16px;">شرفتنا في عائلة مَلاذ! 👏🤍</strong>
-        <span style="font-size: 13.5px;">تم إضافة التطبيق لشاشتك الرئيسية</span>
-    </div>
-
-    <div id="pwa-floating-btn" class="pwa-clickable">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-        <span style="font-size: 11px; margin-top:-2px;">مَلاذ</span>
-    </div>
-
-    <div id="pwa-bottom-sheet" class="pwa-clickable">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin: 0; color: #0b3f3b; font-size: 18px; font-weight: 900;">تطبيق مَلاذ كافيه 💎</h3>
-            <button id="pwa-close-btn">&times;</button>
-        </div>
-        <p id="pwa-text" style="color: #162437; font-size: 14.5px; font-weight: 600; margin-bottom:15px;">أضف متجر مَلاذ إلى شاشتك الرئيسية لتجربة تسوق أسرع في كل تفصيلة!</p>
-        
-        <div id="pwa-ios-guide" style="display: none; background: #f8fafc; padding: 15px; border-radius: 15px; text-align: center; font-size: 14px; margin-bottom:10px; line-height: 1.6;">
-            لتثبيت التطبيق على آيفون:<br>
-            اضغط على زر المشاركة بالأسفل <svg style="display:inline; width:18px; height:18px; vertical-align:middle; color:#06b6d4;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg><br> 
-            ثم اختر <b>"إضافة للشاشة الرئيسية" ➕</b>
-        </div>
-        <button id="pwa-install-btn">تثبيت التطبيق الآن</button>
-    </div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    var wrapper = document.getElementById('pwa-safe-wrapper');
-
-    // 🛑 الإبادة التامة النظيفة: إذا كان داخل التطبيق، نقتلع الغلاف من جذوره فوراً
-    if (isStandalone) {
-        if (wrapper && wrapper.parentNode) {
-            wrapper.parentNode.removeChild(wrapper);
-        }
-        return; // توقف تام هنا! السلة ستعمل بسرعة البرق.
-    }
-
-    // 2. برمجة التثبيت (تعمل فقط في المتصفح)
-    var btn = document.getElementById('pwa-floating-btn');
-    var sheet = document.getElementById('pwa-bottom-sheet');
-    var closeBtn = document.getElementById('pwa-close-btn');
-    var installBtn = document.getElementById('pwa-install-btn');
-    var capsule = document.getElementById('pwa-capsule');
-    var iosGuide = document.getElementById('pwa-ios-guide');
-    var pwaText = document.getElementById('pwa-text');
-
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    var deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', function(e) {
-        e.preventDefault();
-        deferredPrompt = e;
-    });
-
-    function showSheet() {
-        btn.classList.remove('show-btn');
         if (isIOS) {
-            installBtn.style.display = 'none';
-            pwaText.style.display = 'none';
-            iosGuide.style.display = 'block';
+            // كود مخصص بالكامل وتلقائي للآيفون (لاجكس)
+            cloudDesc.innerHTML = "اضغط على زر <b style='color:#06b6d4'>مشاركة ↑</b> بأسفل المتصفح ثم اختر <b style='color:#06b6d4'>إضافة للشاشة الرئيسية ⊕</b>";
+            cloudAction.innerText = "فهمت";
+            
+            cloudAction.addEventListener('click', function() {
+                cloudAction.style.background = "#0b3f3b";
+                cloudAction.innerText = "↑ اتبع السهم";
+                setTimeout(function() {
+                    cloud.classList.remove('show-cloud');
+                }, 3000);
+            });
+
+            // إظهار الغيمة فورياً بعد ثانية واحدة للآيفون للتأكد من رؤيتها
+            setTimeout(showPWACloud, 1000);
+
         } else {
-            installBtn.style.display = 'block';
-            pwaText.style.display = 'block';
-            iosGuide.style.display = 'none';
+            // بقية الأنظمة القياسية (أندرويد / كمبيوتر)
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                deferredPrompt = e;
+                setTimeout(showPWACloud, 1000);
+            });
+
+            cloudAction.addEventListener('click', async function() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    var choice = await deferredPrompt.userChoice;
+                    if (choice.outcome === 'accepted') {
+                        cloud.classList.remove('show-cloud');
+                    }
+                    deferredPrompt = null;
+                }
+            });
+            
+            // خطة بديلة للأنظمة في حال تم دعم التثبيت المباشر دون الحدث
+            setTimeout(showPWACloud, 2500);
         }
-        sheet.classList.add('show-sheet');
-    }
 
-    function hideSheet() {
-        sheet.classList.remove('show-sheet');
-        setTimeout(function() { btn.classList.add('show-btn'); }, 400);
-    }
-
-    function showSuccess() {
-        sheet.classList.remove('show-sheet');
-        btn.classList.remove('show-btn');
-        capsule.classList.add('show-capsule');
-        setTimeout(function() { capsule.classList.remove('show-capsule'); }, 5000);
-    }
-
-    // ظهور النافذة لأول مرة بعد ثانية
-    setTimeout(function() { showSheet(); }, 1000);
-
-    closeBtn.addEventListener('click', hideSheet);
-    btn.addEventListener('click', showSheet);
-
-    installBtn.addEventListener('click', async function() {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            var choice = await deferredPrompt.userChoice;
-            if (choice.outcome === 'accepted') { showSuccess(); }
-            deferredPrompt = null;
-        } else {
-            installBtn.style.display = 'none';
-            pwaText.innerText = "لضمان أمانك، نظام هاتفك يتطلب إضافة التطبيق بالخطوات التالية:";
-            iosGuide.innerHTML = "1️⃣ اضغط على <b>الثلاث نقاط ⋮</b> العلوية.<br>2️⃣ ثم اختر <b>إضافة للشاشة الرئيسية ➕</b>";
-            iosGuide.style.display = 'block';
+        function showPWACloud() {
+            // للتأكد من ظهورها أثناء التطوير، قمنا بتعطيل شرط التخزين مؤقتاً لكي تظهر لك الآن مباشرة وتختبرها
+            cloud.classList.add('show-cloud');
         }
-    });
 
-    window.addEventListener('appinstalled', showSuccess);
-});
+        cloudClose.addEventListener('click', function() {
+            cloud.classList.remove('show-cloud');
+            sessionStorage.setItem('pwa-cloud-dismissed', 'true');
+        });
+    }
+
+    // التأكد من تحميل الصفحة بالكامل قبل تشغيل الغيمة لعدم التأثير على الحركات
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPWACloud);
+    } else {
+        initPWACloud();
+    }
+})();
 </script>
-
-
-
-
-
 </body>
 </html>
