@@ -143,20 +143,21 @@
     100% { transform: scaleX(0); }
 }
 
-* {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
 /* إعدادات السكرول الأساسية والأسرع */
 html, body {
     margin: 0; padding: 0; width: 100%; height: 100%;
     background-color: var(--titanium-natural);
     font-family: 'Cairo', sans-serif;
     overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; /* سلاسة الآيفون */
     scroll-behavior: auto !important;
 }
 
+/* تنظيف الـ * من العمليات الثقيلة */
+* {
+    box-sizing: border-box;
+    max-width: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
 /* تنظيف الـ * من العمليات الثقيلة */
 * {
     box-sizing: border-box;
@@ -1605,6 +1606,8 @@ header, [class*="header"], .store-header-wrapper {
         background: rgba(255, 255, 255, 0.1);
         transform: scale(1.05);
     }
+
+
 </style>
 
 
