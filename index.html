@@ -2506,6 +2506,12 @@ function activateSubFilter(element) {
 
 let currentPID = null;
 
+// هذا الكود سيقوم باصطياد أي خطأ برمجي مخفي ويظهره لك على شاشة الآيفون فوراً
+window.onerror = function(message, source, lineno, colno, error) {
+    alert("🚨 تم اكتشاف خطأ برمجي!\nالسطر رقم: " + lineno + "\nتفاصيل الخطأ: " + message);
+    return true; 
+};
+
 function openExtrasModal(productId, category) {
     window.currentPID = productId; 
     
