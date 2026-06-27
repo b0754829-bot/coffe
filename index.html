@@ -143,9 +143,7 @@
     100% { transform: scaleX(0); }
 }
 
-* {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+
 html {
     scroll-behavior: smooth;
 }
@@ -872,12 +870,14 @@ header {
     gap: 15px;
     padding: 0 20px 40px 20px;
 }
+
 @media (min-width: 768px) {
     .products-showcase {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 25px;
     }
 }
+
 .product-card {
     background: white;
     border-radius: 16px;
@@ -886,13 +886,37 @@ header {
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
 }
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+
+/* الزر في حالته الطبيعية (ساكن) */
+.magic-btn {
+    transform: scale(1);
 }
-.product-card:hover img {
-    transform: scale(1.08);
+
+@keyframes pulse-trigger {
+    0% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(15, 118, 110, 0); } /* نبضة سريعة واحدة */
+    100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
 }
+
+/* منع تأثيرات الـ hover من تعطيل النقرات الأولى في متصفح Safari والآيفون لكروت المنتجات */
+@media (hover: none) {
+    .product-card:hover {
+        transform: none !important;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03) !important;
+    }
+    
+    .product-card:hover img {
+        transform: none !important;
+    }
+    
+    /* لقد قمت بنقل هذا الجزء ليكون داخل القوس لكي يعالج مشكلة الآيفون فقط */
+    .product-card:hover .magic-btn, .product-card:active .magic-btn {
+        animation: none !important;
+        transform: none !important;
+        background: rgba(15, 118, 110, 0.15) !important;
+    }
+}
+
        /* شريط الفئات الفخم العُلوي */
     .luxury-categories-bar {
         display: flex;
@@ -1123,25 +1147,7 @@ button[onclick*="saveAndAddToCart"] {
     /* box-shadow: 0 8px 20px rgba(6, 78, 59, 0.3) !important; */
 }
 
-   /* الزر في حالته الطبيعية (ساكن) */
-    .magic-btn {
-        transform: scale(1);
-    }
-
-    /* عندما يمر الماوس أو يلمس الزبون الكرت */
-    /* نضع التنسيق على مستوى الـ parent (الكرت) ليتفعل الزر */
-    .product-card:hover .magic-btn,
-    .product-card:active .magic-btn {
-        animation: pulse-trigger 0.8s ease-out;
-        background: rgba(15, 118, 110, 0.3); /* يتغير اللون ليصبح أكثر وضوحاً */
-        transform: scale(1.1); /* يكبر قليلاً عند التفاعل */
-    }
-
-    @keyframes pulse-trigger {
-        0% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.5); }
-        50% { box-shadow: 0 0 0 8px rgba(15, 118, 110, 0); } /* نبضة سريعة واحدة */
-        100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
-    }
+  
    /* تنسيق الـ Footer كجزيرة زمردية مخملية طافية */
 .premium-footer {
     padding: 40px 20px;
