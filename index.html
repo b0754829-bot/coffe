@@ -2174,31 +2174,27 @@ document.addEventListener("DOMContentLoaded", () => {
 let visibleCount = 4;
        
    function addNewProductToCart(productId, extras = "لا يوجد") {
-    // 1. استخراج المنتج الأصلي (استخدمنا == بدلاً من === لكي يتطابق النص مع الرقم)
-    const product = Object.values(storeProductsDatabase).flat().find(p => p.id == productId);
+    // 1. استخراج المنتج الأصلي
+    const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
     
-    // إذا لم يجد المنتج، أوقف العملية
     if(!product) return;
 
-    // 2. حماية مصفوفة السلة (إذا كانت فارغة نعتبرها مصفوفة جديدة)
-    const cartList = userCartList || [];
-
-    // 3. البحث عن المنتج بنفس الـ ID والإضافات (استخدمنا == أيضاً هنا)
-    const existingItem = cartList.find(item => item.id == productId && item.selectedExtras == extras);
+    // 2. البحث عن المنتج بنفس الـ ID وبنفس الإضافات لدمج الكمية
+    const existingItem = userCartList.find(item => item.id === productId && item.selectedExtras === extras);
     
-    if(existingItem) {
+   if(existingItem) {
         existingItem.qty += 1;
         // نقل المنتج المحدث إلى بداية المصفوفة (لضمان ظهوره في الأعلى)
-        userCartList = [existingItem, ...cartList.filter(item => item !== existingItem)];
+        userCartList = [existingItem, ...userCartList.filter(item => item !== existingItem)];
     } else {
+        // (الكود الخاص بك للإضافة الجديدة يبقى كما هو)
         const newItem = { 
             ...product, 
             qty: 1, 
             selectedExtras: extras,
-            menuExtras: (extras !== "لا يوجد" && extras) ? String(extras).split(", ") : [] 
+            menuExtras: (extras !== "لا يوجد") ? extras.split(", ") : [] 
         };
-        cartList.unshift(newItem);
-        userCartList = cartList; // تحديث السلة الرئيسية
+        userCartList.unshift(newItem); 
     }
     
     saveCartToLocalStorage();
@@ -2913,231 +2909,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<div id="pwa-floating-cloud" class="pwa-cloud">
-    <div class="pwa-cloud-content">
-        <div class="pwa-cloud-icon">✨</div>
-        <div class="pwa-cloud-text">
-            <span class="pwa-cloud-title">أضف "مَلاذ" لشاشتك الرئيسية</span>
-            <span id="pwa-cloud-instruction" class="pwa-cloud-desc">لتصفح أسرع وأسهل كتطبيق مثبت ومستقل.</span>
-        </div>
-        <button id="pwa-cloud-action" class="pwa-cloud-btn">إضافة</button>
-        <button id="pwa-cloud-close" class="pwa-cloud-close-btn">×</button>
-    </div>
-</div>
 
-<style>
-.pwa-cloud {
-    position: fixed !important;
-    bottom: 25px !important;
-    left: 50% !important;
-    transform: translateX(-50%) translateY(150px) !important; 
-    width: 90% !important;
-    max-width: 420px !important;
-    background: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(25px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    border-radius: 24px !important;
-    box-shadow: 0 12px 40px rgba(11, 63, 59, 0.2) !important;
-    z-index: 999999999 !important; /* فوق كل شيء لمنع التعارض */
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s !important;
-    opacity: 0 !important;
-    direction: rtl !important;
-    padding: 14px 18px !important;
-    box-sizing: border-box !important;
-    display: block !important;
-}
-
-.pwa-cloud.show-cloud {
-    transform: translateX(-50%) translateY(0) !important;
-    opacity: 1 !important;
-}
-
-.pwa-cloud-content {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    position: relative !important;
-}
-
-.pwa-cloud-icon {
-    font-size: 24px !important;
-    background: linear-gradient(135deg, #0b3f3b, #06b6d4) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    animation: pwaCloudFloat 3s ease-in-out infinite !important;
-}
-
-.pwa-cloud-text {
-    display: flex !important;
-    flex-direction: column !important;
-    flex-grow: 1 !important;
-}
-
-.pwa-cloud-title {
-    font-size: 14px !important;
-    font-weight: bold !important;
-    color: #0b3f3b !important;
-    margin-bottom: 2px !important;
-}
-
-.pwa-cloud-desc {
-    font-size: 11px !important;
-    color: #444 !important;
-    line-height: 1.4 !important;
-}
-
-.pwa-cloud-btn {
-    background: linear-gradient(135deg, #0b3f3b, #06b6d4) !important;
-    color: #fff !important;
-    border: none !important;
-    border-radius: 14px !important;
-    padding: 6px 16px !important;
-    font-size: 12px !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2) !important;
-    transition: transform 0.2s !important;
-    white-space: nowrap !important;
-}
-
-.pwa-cloud-btn:active { transform: scale(0.95) !important; }
-
-.pwa-cloud-close-btn {
-    background: transparent !important;
-    border: none !important;
-    font-size: 22px !important;
-    color: #999 !important;
-    cursor: pointer !important;
-    padding: 0 4px !important;
-    line-height: 1 !important;
-}
-
-@keyframes pwaCloudFloat {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
-    100% { transform: translateY(0px); }
-}
-</style>
-
-<script>
-(function() {
-    // ---- قسم أولاً: تشغيل ميزة التثبيت الذكية (آيفون + جالاكسي) ----
-    function initPWACloud() {
-        var deferredPrompt;
-        var cloud = document.getElementById('pwa-floating-cloud');
-        var cloudAction = document.getElementById('pwa-cloud-action');
-        var cloudClose = document.getElementById('pwa-cloud-close');
-        var cloudDesc = document.getElementById('pwa-cloud-instruction');
-
-        if (!cloud) return;
-
-        var isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-        if (isRunningStandalone) return;
-
-        // فحص الآيفون (iOS) بدقة
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-        if (isIOS) {
-            cloudDesc.innerHTML = "اضغط على زر <b style='color:#06b6d4'>مشاركة ↑</b> بأسفل المتصفح ثم اختر <b style='color:#06b6d4'>إضافة للشاشة الرئيسية ⊕</b>";
-            cloudAction.innerText = "فهمت";
-            
-            cloudAction.addEventListener('click', function() {
-                cloudAction.style.background = "#0b3f3b";
-                cloudAction.innerText = "↑ اتبع السهم";
-                setTimeout(function() { cloud.classList.remove('show-cloud'); }, 3000);
-            });
-            setTimeout(showPWACloud, 1500);
-        } else {
-            // كود مخصص بالكامل للجالاكسي والأنظمة الأخرى (Android)
-            window.addEventListener('beforeinstallprompt', function(e) {
-                e.preventDefault();
-                deferredPrompt = e;
-                setTimeout(showPWACloud, 1500);
-            });
-
-            cloudAction.addEventListener('click', async function() {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    var choice = await deferredPrompt.userChoice;
-                    if (choice.outcome === 'accepted') {
-                        cloud.classList.remove('show-cloud');
-                    }
-                    deferredPrompt = null;
-                }
-            });
-            // خطة بديلة للظهور التلقائي للأنظمة الأخرى
-            setTimeout(showPWACloud, 3000);
-        }
-
-        function showPWACloud() {
-            cloud.classList.add('show-cloud');
-        }
-
-        cloudClose.addEventListener('click', function() {
-            cloud.classList.remove('show-cloud');
-            sessionStorage.setItem('pwa-cloud-dismissed', 'true');
-        });
-    }
-
-    // ---- قسم ثانياً: إصلاح وتفعيل أزرار إضافة المنتجات للسلة والتأكد من عملها ----
-    function initCartFix() {
-        // البحث عن كافة أزرار الإضافة (سواء كانت داخل كلاس premium-product-card أو product-card)
-        var addButtons = document.querySelectorAll('.circle-add-btn, .product-card .add-to-cart, .premium-product-card .circle-add-btn');
-        
-        addButtons.forEach(function(btn) {
-            // إزالة أي مستمعات أحداث قديمة مسببة للمشاكل عبر استنساخ الزر
-            var newBtn = btn.cloneNode(true);
-            if(btn.parentNode) {
-                btn.parentNode.replaceChild(newBtn, btn);
-            }
-
-            // إضافة حدث النقر الجديد والنظيف تماماً
-            newBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation(); // منع أي تعارض مع كود آخر في الصفحة
-
-                // جلب بيانات المنتج من البطاقة الأب بشكل مرن لدعم التصميمين
-                var card = newBtn.closest('.premium-product-card') || newBtn.closest('.product-card');
-                if (!card) return;
-
-                var titleEl = card.querySelector('h4') || card.querySelector('.product-title');
-                var priceEl = card.querySelector('.price-tag') || card.querySelector('.product-price');
-                var imgEl = card.querySelector('img');
-
-                var title = titleEl ? titleEl.innerText.trim() : 'منتج مميز';
-                var price = priceEl ? priceEl.innerText.trim() : '0';
-                var imgUrl = imgEl ? imgEl.getAttribute('src') : '';
-
-                // استدعاء دالة إضافة السلة القياسية المعتمدة في موقعك
-                if (typeof window.addToCart === 'function') {
-                    window.addToCart(title, price, imgUrl);
-                } else if (typeof addToCart === 'function') {
-                    addToCart(title, price, imgUrl);
-                } else {
-                    // نظام إنقاذ بديل في حال اختفاء دالة السلة الأصلية تماماً
-                    console.log('تمت الإضافة بنجاح:', title, price);
-                    var countBadge = document.getElementById('main-basket-count');
-                    if (countBadge) {
-                        var currentCount = parseInt(countBadge.innerText) || 0;
-                        countBadge.innerText = currentCount + 1;
-                    }
-                }
-            });
-        });
-    }
-
-    // تشغيل العمليات فور اكتمال تحميل عناصر الصفحة بدقة
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            initPWACloud();
-            initCartFix();
-        });
-    } else {
-        initPWACloud();
-        initCartFix();
-    }
-})();
-</script>
 </body>
 </html>
