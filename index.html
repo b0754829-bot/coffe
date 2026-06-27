@@ -2835,6 +2835,9 @@ function triggerCartAnimation(element) {
     
     opacity: 0;
     animation: maladhCloudFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    
+    /* تسريع الأداء البرمجي في متصفح سفاري للآيفون */
+    will-change: opacity, transform !important;
 }
 
 /* 🎨 هندسة الأيقونات الخطية النحيفة المتناغمة مع الغيمة */
@@ -2869,11 +2872,9 @@ function triggerCartAnimation(element) {
     align-items: center !important;
     justify-content: flex-start !important; /* إجبار اللوجو على الالتصاق بالقمة */
     
-    /* 🚀 السطر السحري: سحب اللوجو للأعلى وتقليل الفراغ العلوي الافتراضي */
+    /* 🚀 سحب اللوجو للأعلى وتقليل الفراغ العلوي الافتراضي */
     margin-top: -12px !important; 
     padding-top: 0 !important;
-    
-    /* حماية أبعاد الحاوية لكي لا تؤثر على حركة باقي الهيدر */
     height: auto !important; 
 }
 
@@ -2886,103 +2887,68 @@ function triggerCartAnimation(element) {
 }
 /* 📐 دفع شريط فئات المنيو للأسفل بمسافة آمنة ومريحة لظهور الغيمة */
 .luxury-categories-bar {
-    /* 🚀 السطر السحري: إضافة مسافة علوية مناسبة جداً لمنع التداخل */
     margin-top: 25px !important; 
-    
-    /* الحفاظ على باقي الخصائص مستقرة تماماً */
     transition: margin-top 0.3s ease !important;
 }
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 🧠 جلب اسم العميل إذا تم اقتناصه سابقاً بحد أقصى 10 حروف
-    let detectedName = localStorage.getItem('maladh_customer_name') || "";
-    if (detectedName.length > 10) { detectedName = ""; }
+(function() {
+    // كبسولة مغلقة لحماية استقرار الموقع
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // ⏰ 1. محرك التوقيت الفلكي المحلي (آمن 100% لأنه يعمل داخلياً ولا يتصل بالإنترنت)
+        const now = new Date();
+        const decimalTime = now.getHours() + (now.getMinutes() / 60);
+        
+        let greetingText = "أهلاً بك في مَلاذ 🌿";
+        let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
 
-    // ⏰ محرك التوقيت الفلكي الشامل والدقيق 100%
-    const now = new Date();
-    const decimalTime = now.getHours() + (now.getMinutes() / 60);
-    
-    let greetingText = "أهلاً بك في مَلاذ 🌿";
-    // الأيقونة الافتراضية: غصن ملاذ النقي
-    let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
-
-    // 🌌 1. بين الفجر والشروق (قطرات الندى وسكون الكوب)
-    if (decimalTime >= 3.5 && decimalTime < 6) { 
-        greetingText = "طاب فجرك";
-        // أيقونة قطرة الندى العذبة مع حركة تساقط ناعمة (drop-dew)
-        iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
-    } 
-    // ☀️ 2. الصباح (أشعة الشمس المشرقة والمسرات)
-    else if (decimalTime >= 6 && decimalTime < 12) {
-        greetingText = "صباح الخير ";
-        // أيقونة الشمس المشرقة مع حركة دوران بطيئة ومبهرة لأشعتها (rotate-sun)
-        iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
-    } 
-    // ☕ 3. الظهيرة (جمال الفنجان وطاب يومك)
-    else if (decimalTime >= 12 && decimalTime < 17) {
-        greetingText = "طاب يومك بمَلاذ  ";
-        // أيقونة خطوط تبخر القهوة الفاخرة
-        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
-    } 
-    // 🌙 4. الليل والمساء (وميض الليل والسكينة)
-    else if (decimalTime >= 17 || decimalTime < 3.5) {
-        greetingText = "مساءالخير ";
-        // أيقونة الهلال مع نجوم الليل التي تومض ذكياً بنبضات ناعمة (pulse-stars)
-        iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
-    }
-
-    // صياغة التركيبة الفخمة: الاسم في البداية وبعده فاصلة
-    if (detectedName && detectedName.length <= 10) { greetingText = detectedName + "، " + greetingText; }
-
-    // إنشاء الغيمة المستقلة وحقنها في الـ body مباشرة
-    const cloudElement = document.createElement("div");
-    cloudElement.id = "maladh-sub-logo-text";
-    cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
-    document.body.appendChild(cloudElement); 
-
-    // 🌧️ مستشعر الطقس الصامت (الظروف الماطرة الاستثنائية تكسر التوقيت لتعطي شعور الأجواء الماطرة)
-    fetch('https://wttr.in/?format=j1')
-        .then(response => response.json())
-        .then(data => {
-            const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
-            if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
-                const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
-                let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
-                if (detectedName && detectedName.length <= 10) { rainText = detectedName + "، " + rainText; }
-                cloudElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
-            }
-        }).catch(err => {});
-
-    // 🎯 الرادار الذكي: إخفاء الغيمة بسلاسة عند نزول الصفحة لتفريغ المساحة للمنتجات
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 30) {
-            cloudElement.style.opacity = "0";
-            cloudElement.style.transform = "translateX(-50%) translateY(-5px)";
-        } else {
-            cloudElement.style.opacity = "0.85";
-            cloudElement.style.transform = "translateX(-50%) translateY(0)";
+        // 🌌 الفجر والشروق
+        if (decimalTime >= 3.5 && decimalTime < 6) { 
+            greetingText = "طاب فجرك بمَلاذ";
+            iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
+        } 
+        // ☀️ الصباح المشرق
+        else if (decimalTime >= 6 && decimalTime < 12) {
+            greetingText = "صباح الخير والمسرات";
+            iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
+        } 
+        // ☕ الظهيرة والمساء الباكر
+        else if (decimalTime >= 12 && decimalTime < 17) {
+            greetingText = "طاب يومك بمَلاذ";
+            iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
+        } 
+        // 🌙 الليل والسكينة
+        else if (decimalTime >= 17 || decimalTime < 3.5) {
+            greetingText = "مساء الخير والسكينة";
+            iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
         }
-    });
 
-    // مراقبة حقول الإدخال لاقتناص اسم العميل الأول
-    document.addEventListener('input', function(e) {
-        if (!e.target) return;
-        const targetAttr = (e.target.name || e.target.id || e.target.placeholder || e.target.className || "").toLowerCase();
-        if (targetAttr.includes('name') || targetAttr.includes('اسم') || targetAttr.includes('الاسم') || e.target.type === 'text') {
-            let fullValue = e.target.value.trim();
-            let firstName = fullValue.split(' ')[0];
-            if (firstName.length > 2 && !/[0-9]/.test(firstName)) { 
-                if (firstName.length <= 10) {
-                    localStorage.setItem('maladh_customer_name', firstName);
-                } else {
-                    localStorage.removeItem('maladh_customer_name');
-                }
+        // 🏗 * 2. بناء الغيمة وعزل النصوص لضمان سرعة تحميل البرمجيات
+        const cloudElement = document.createElement("div");
+        cloudElement.id = "maladh-sub-logo-text";
+        
+        const textSpan = document.createElement("span");
+        textSpan.textContent = greetingText; // استخدام textContent الأكثر أماناً للمتصفحات
+        
+        cloudElement.appendChild(textSpan);
+        cloudElement.insertAdjacentHTML('beforeend', iconSvg);
+        document.body.appendChild(cloudElement); 
+
+        // 🎯 3. رادار السحب الذكي الممتثل لمعايير أبل لسرعة تصفح الشاشة (passive)
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 30) {
+                cloudElement.style.opacity = "0";
+                cloudElement.style.transform = "translateX(-50%) translateY(-5px)";
+            } else {
+                cloudElement.style.opacity = "0.85";
+                cloudElement.style.transform = "translateX(-50%) translateY(0)";
             }
-        }
+        }, { passive: true }); // هذه الخاصية تزيد من سرعة استجابة المتجر وسلاسته في جوالات الآيفون
+        
     });
-});
+})();
 </script>
 
 
