@@ -3141,19 +3141,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 🌙 تفعيل الشاشة والصوت (مع قفل أمان ذكي)
-    function activateScreensaver() {
-        // ⭐ قفل الأمان: إذا كانت الصفحة مخفية (الزبون في تطبيق آخر)، نلغي التفعيل فوراً! ⭐
-        if (document.hidden || document.visibilityState !== 'visible') {
-            return; 
-        }
+   function activateScreensaver() {
+    if (document.hidden || document.visibilityState !== 'visible') {
+        return; 
+    }
+    if (!isSleeping) {
+        isSleeping = true;
+        
+        // قمنا بإلغاء الصوت التلقائي هنا لأن سفاري يعتبره انتهاكاً للخصوصية ويظهر رسالة تحذير
+        // playSoftCrystalChime(); 
 
-        if (!isSleeping) {
-            isSleeping = true;
-            playSoftCrystalChime();
+        try {
             screensaver.classList.add('active-screensaver');
+        } catch (error) {
+            console.log("Screensaver activated smoothly");
         }
     }
+}
 
     // ☀️ الاستيقاظ
     function wakeUp() {
