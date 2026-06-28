@@ -3,16 +3,14 @@
 <head>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#2c1a11">
-    <meta name="apple-mobile-web-app-title" content="كافيه حكاية">
+       <meta name="apple-mobile-web-app-title" content="كافيه مَلاذ">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <meta name="apple-mobile-web-app-status-bar-style" content="#06b6d4">
-<meta name="theme-color" content="#06b6d4">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <title> مَلاذ Coffee</title>
+    <title> مَلاذ ** Coffee</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +36,49 @@
         }
         .product-card {
     background: rgba(var(--primary-emerald), var(--glass-opacity));
+}
+
+.custom-premium-header {
+    position: fixed; 
+    top: 0 !important; 
+    left: 0;
+    right: 0;
+    
+    /* 🔒 إجبار الهيدر على عدم أخذ مساحة الشاشة بالكامل بشكل غير مرئي */
+    height: auto !important; 
+    
+    /* دفع المحتوى الداخلي فقط ليتفادى نوتش الآيفون */
+    padding-top: calc(12px + env(safe-area-inset-top)) !important;
+    padding-bottom: 12px !important; 
+    
+    /* منع الاهتزاز والوميض في سفاري */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+    
+    z-index: 1000 !important; 
+}
+
+
+/* تسريع الاستجابة الفورية للنقر في سفاري والآيفون */
+button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
+    -webkit-tap-highlight-color: transparent !important; /* إلغاء الوميض الرمادي المزعج */
+    touch-action: manipulation !important; /* إلغاء تأخير الـ 300ms فوراً */
+    cursor: pointer;
+}
+
+
+
+/* تسريع الاستجابة الفورية للنقر والتمرير في أجهزة آبل */
+html, body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* تمرير فائق النعومة في سفاري */
+}
+
+/* منع الوميض الرمادي المزعج في سفاري عند الضغط على الأزرار وتسريع الاستجابة */
+button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation; /* يلغي تأخير النقر الافتراضي (300ms) في سفاري */
 }
 
 /* ⏳ شاشة التحميل الهادئة بنمط التنفس الضوئي لـ مَلاذ */
@@ -131,10 +172,13 @@
     50% { transform: scaleX(1); }
     100% { transform: scaleX(0); }
 }
-
-* {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+/* تسريع الاستجابة ومنع تعليق الأزرار في سفاري */
+button, .premium-btn, .category-btn, .add-to-cart, [onclick] {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation;
 }
+
 
 /* إعدادات السكرول الأساسية والأسرع */
 html, body {
@@ -158,17 +202,40 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(236, 239, 237, 0.9); /* لون خلفية التيتانيوم بشفافية */
-    /* قم بإلغاء أو حذف هذا السطر مؤقتاً لتشعر بالفرق في السرعة */
-    /* backdrop-filter: blur(10px); */ 
+    
+    /* جعل الخلفية مصمتة (Solid) تماماً لراحة العين، أو رفع الشفافية لـ 1 لمنع تداخل الكلام خلف الساعة */
+    background: rgba(236, 239, 237, 1) !important; 
+    
+    /* 🛡️ الحل السحري: دفع محتويات الهيدر لتبتعد تلقائياً عن النوتش والجزيرة الديناميكية في الآيفون */
+    padding-top: env(safe-area-inset-top) !important; 
+    
+    /* إجبار سفاري على تسريع الهيدر عبر كرت الشاشة لمنع الوميض أو الاهتزاز أثناء السكرول */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
 }
-/* 4. السلايدر (سكرول أفقي سريع) */
+
+/* 4. السلايدر (سكرول أفقي سريع ومحصن لسفاري) */
 .horizontal-scroll {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden; /* منع أي تسريب حركة عمودية خاطئة */
     width: 100%;
     padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* تمرير ناعم كالحرير في الآيفون */
+    
+    /* 🔒 التعديل الجوهري: حصر الحركة أفقياً ومنع سفاري من سحب وهز كامل الصفحة عند نهاية السلايدر */
+    overscroll-behavior-x: contain !important; 
+    
+    /* إخفاء شريط السكرول السفلي الافتراضي المشوه في سفاري ليبقى المظهر فخماً ونظيفاً */
+    scrollbar-width: none; /* للمتصفحات الأخرى */
+}
+
+/* إخفاء شريط التمرير تماماً في سفاري */
+.horizontal-scroll::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
         /* 🧬 شبكة ظلال خفيفة ناعمة تسبح في الخلفية لتعطي عمقاً حيادياً */
@@ -222,7 +289,7 @@ header {
     height: 36px;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+  
     -webkit-box-orient: vertical;
 }
 /* تطاير المنتجات الخيالي */
@@ -475,15 +542,22 @@ header {
     opacity: 0.5; /* تخفيف شفافية الهيدر قليلاً عند فتح السلة للتركيز عليها */
     pointer-events: none; /* تعطيل الضغط على الهيدر والسلة مفتوحة */
 }
-  .sidebar-cart {
+.sidebar-cart {
     position: fixed; 
     top: 15px; 
     left: 15px;
     width: calc(100% - 30px); 
     max-width: 400px; 
-    height: calc(100vh - 30px);
+    
+    /* التعديل الأول: استخدام dvh بدلاً من vh ليتناسب تماماً مع شريط سفاري المتحرك */
+    height: calc(100dvh - 30px);
+    
     background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(30px);
+    
+    /* التعديل الثاني: إضافة البادئة الخاصة بآبل لتفعيل تأثير الزجاج الضبابي الفخم */
+    -webkit-backdrop-filter: blur(30px) !important;
+    backdrop-filter: blur(30px) !important;
+    
     border-radius: 35px;
     box-shadow: 0 25px 50px rgba(0,0,0,0.15);
     
@@ -492,8 +566,15 @@ header {
     
     display: flex; 
     flex-direction: column;
+    
+    /* التعديل الثالث: دعم الهواتف القديمة وتسريع الأنميشن */
+    -webkit-transform: translateX(-110%);
     transform: translateX(-110%); 
+    
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* التعديل الرابع: إجبار سفاري على استخدام كرت الشاشة (GPU) لتظهر السلة بنعومة فائقة كالزبدة */
+    will-change: transform;
 }
 
 /* التأكد من أن الهيدر لا يتجاوز السلة */
@@ -505,23 +586,34 @@ header {
     transform: translateX(0); 
 }
 
-/* منطقة التمرير مع تأثير التلاشي الذكي */
+/* منطقة التمرير مع تأثير التلاشي الذكي - النسخة المحصنة لسفاري الآيفون */
 .cart-scroll-area {
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    max-height: calc(100vh - 250px) !important;
+    
+    /* التعديل الأول: استخدام dvh بدلاً من vh لمنع قص المنتجات في أسفل الشاشة */
+    max-height: calc(100dvh - 250px) !important;
     flex: 1; /* لتأخذ المساحة المتبقية بذكاء */
     
-    /* تأثير الضوء الخافت (تلاشي تدريجي للأسفل) */
-    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    /* التعديل الثاني: حصر التمرير ومنع اهتزاز خلفية الموقع وتفعيل السكرول الفائق النعومة */
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
     
-    padding-bottom: 30px;
+    /* تأثير الضوء الخافت (تلاشي تدريجي للأسفل) مع دعم كامل لمتصفح آبل */
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    
+    padding-bottom: 40px; /* زيادة بسيطة لإعطاء مساحة أمان مريحة للعين */
+    
+    /* إجبار كرت الشاشة على معالجة الحركة لمنع أي تقطيع أثناء التمرير */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
-/* شريط التمرير (السكرول) ليصبح واضحاً وأنيقاً */
+/* شريط التمرير (السكرول) ليصبح واضحاً وأنيقاً ويقاوم الاختفاء في سفاري */
 .cart-scroll-area::-webkit-scrollbar {
     width: 6px !important;
+    display: block !important; /* إجبار سفاري على إظهار الشريط بالرغم من وجود الـ mask */
 }
 
 .cart-scroll-area::-webkit-scrollbar-thumb {
@@ -529,8 +621,6 @@ header {
     border-radius: 10px !important;
     border: 2px solid rgba(255, 255, 255, 0.5); /* تأثير زجاجي على السكرول */
 }
-
-
 
 
         /* 🔔 إعادة تصميم زر إنهاء الطلب: تيتانيوم ناعم شبه لامع بديل للداكن */
@@ -700,7 +790,7 @@ header {
     
     /* خلفية زجاجية معتمة (Deep Blur) */
     background: rgba(255, 255, 255, 0.03) !important; 
-    backdrop-filter: blur(50px) !important;
+    backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(50px) !important;
     
     /* هيكل الزر: انحناء آيفون 16 */
@@ -1479,6 +1569,13 @@ header, [class*="header"], .store-header-wrapper {
     box-shadow: 0 6px 16px rgba(11, 63, 59, 0.3) !important;
 }
 
+.circle-add-btn, .magic-btn, .smart-island-btn {
+    touch-action: manipulation; /* يلغي تأخير الـ 300ms في الهواتف */
+    -webkit-tap-highlight-color: transparent; /* يمنع الوميض الرمادي المزعج في سفاري */
+    position: relative;
+    z-index: 10; /* يضمن ظهور الزر فوق طبقات الـ Blur الزجاجية */
+}
+
 </style>
 
 
@@ -1643,7 +1740,7 @@ header, [class*="header"], .store-header-wrapper {
 
     </div>
 
-    /* اللمنيو وتصميمه*/
+
 <style>
     /* الحاوية الرئيسية */
     .ultra-glass-panel {
@@ -1760,7 +1857,7 @@ header, [class*="header"], .store-header-wrapper {
         </button>
     </div>
     <h3 style="font-weight: 800; margin: 0; font-size: 18px; text-align: center; width: 100%;">
-    <span class="premium-text" style="background: linear-gradient(90deg, #126b56, #0b3f3b); -webkit-background-clip: text; display: inline-block;">تصفح أقسام المنيو</span>
+    <span class="premium-text" style="background: (90deg, #126b56, #0b3f3b);  ">تصفح أقسام المنيو</span>
 </h3>
     <div class="glass-scroll" style="padding: 10px 20px 20px 20px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
         
@@ -2202,6 +2299,47 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
     <script>
+        // 🛡️ نظام التخزين الآمن والمستقر لمتصفح سفاري وأجهزة آبل
+const SafeStorage = {
+    virtualMemory: {}, // ذاكرة افتراضية فائقة السرعة تعمل كبديل آمن فوراً عند الحاجة
+
+    // دالة فحص المتصفح إذا كان يدعم الحفظ الدائم أو يمنعه (كالتصفح الخفي)
+    isSupported() {
+        try {
+            const testKey = '__safari_test__';
+            localStorage.setItem(testKey, testKey);
+            localStorage.removeItem(testKey);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
+
+    // دالة الحفظ الآمن
+    setItem(key, value) {
+        if (this.isSupported()) {
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {
+                this.virtualMemory[key] = value;
+            }
+        } else {
+            this.virtualMemory[key] = value;
+        }
+    },
+
+    // دالة القراءة الآمنة
+    getItem(key) {
+        if (this.isSupported()) {
+            try {
+                return localStorage.getItem(key);
+            } catch (e) {
+                return this.virtualMemory[key] || null;
+            }
+        }
+        return this.virtualMemory[key] || null;
+    }
+};
   const menuExtras = {
     // المشروبات المختصة والتريند (إضافات مميزة وغنية)
     'specialty': [
@@ -2365,10 +2503,6 @@ function handleNavClick(anchorId) {
 // 2. التحميل فوراً عند بدء تشغيل الملف
 loadCartFromLocalStorage();
 
-// ========================================================
-// 2. المحرك الموحد المطور لعرض المنتجات والتحكم بالأزرار والسحب
-// ========================================================
-
 function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
@@ -2399,53 +2533,58 @@ function renderCategorySection(mainCategory, subCategoryFilter = 'all') {
             productCard.style.display = 'none';
         }
 
-      productCard.innerHTML = `
-    <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
-        <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
-    </div>
-    <div class="product-details" style="padding:15px; text-align:right;">
-        <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
-        
-        <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
-          
-            <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
-        </div>
+        // بناء محتوى الكارت مع تحسين الأزرار وإضافة خصائص دعم اللمس السريع في سفاري الهواتف
+        productCard.innerHTML = `
+            <div class="product-image-wrapper" style="position:relative; overflow:hidden; border-radius:12px; height:180px;">
+                <img src="${product.img}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="product-details" style="padding:15px; text-align:right;">
+                <h4 style="font-size:16px; margin:0 0 10px 0; color:#0f172a;">${product.name}</h4>
+                
+                <div class="product-meta-container" style="display:flex; justify-content:space-between; align-items:center; background:#f8f9f9; padding:8px; border-radius:8px; margin-bottom:10px; font-size:11px;">
+                    <span style="font-weight:800; color:#0f766e;" class="price-text">${product.price.toFixed(2)} ₪</span>
+                </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-        <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" 
-    class="magic-btn"
-    style="
-        width: 32px; 
-        height: 32px; 
-        border-radius: 50%; 
-        border: none;
-        background: rgba(15, 118, 110, 0.15);
-        backdrop-filter: blur(5px);
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        cursor: pointer; 
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
-    "
->
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-    </svg>
-</button>
-          <button class="circle-add-btn" onclick="addNewProductToCart(${product.id}); triggerCartAnimation(this);">+</button>
-            
-        </div>
-    </div>
-`;
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <button onclick="openExtrasModal(${product.id}, '${mainCategory}')" 
+                            class="magic-btn"
+                            style="width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(15, 118, 110, 0.15); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2); touch-action: manipulation; -webkit-tap-highlight-color: transparent;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                        </svg>
+                    </button>
+                    
+                   <button class="circle-add-btn" onclick="handleSecureDirectAdd(this, ${product.id})" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;">+</button>
+                </div>
+            </div>
+        `;
         container.appendChild(productCard);
     });
-
-    // صناعة وإدارة زر "عرض المزيد / عرض أقل" ديناميكياً لهذا القسم بالتحديد
-    handleShowMoreButton(mainCategory, productsToRender.length, subCategoryFilter);
+}
+function handleSecureDirectAdd(btnElement, productId) {
+    // 1. تشغيل الأنميشن بمسار بصري فوري للزبون
+    if (typeof triggerCartAnimation === 'function') {
+        triggerCartAnimation(btnElement);
+    }
+    // 2. تنفيذ عملية الإضافة في الخلفية دون قفل المتصفح
+    if (typeof addNewProductToCart === 'function') {
+        addNewProductToCart(productId);
+    }
 }
 
 
+// دالة الحماية الموحدة لحل مشكلة تعليق زر (+) نهائياً على الآيفون وسفاري
+function handleSecureDirectAdd(btnElement, productId) {
+    // 1. تفعيل أنيميشن الطيران أولاً لضمان استجابة الواجهة البصرية فوراً للزبون
+    if (typeof triggerCartAnimation === 'function') {
+        triggerCartAnimation(btnElement);
+    }
+    
+    // 2. معالجة الإضافة البرمجية وتحديث البيانات فوراً وبسلاسة
+    if (typeof addNewProductToCart === 'function') {
+        addNewProductToCart(productId);
+    }
+}
 function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     const container = document.getElementById(`container-${mainCategory}`);
     if (!container) return;
@@ -2527,7 +2666,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // المتغيرات الأساسية
 let visibleCount = 4;
        
-   function addNewProductToCart(productId, extras = "لا يوجد") {
+ function addNewProductToCart(productId, extras = "لا يوجد") {
     // 1. استخراج المنتج الأصلي
     const product = Object.values(storeProductsDatabase).flat().find(p => p.id === productId);
     
@@ -2536,12 +2675,16 @@ let visibleCount = 4;
     // 2. البحث عن المنتج بنفس الـ ID وبنفس الإضافات لدمج الكمية
     const existingItem = userCartList.find(item => item.id === productId && item.selectedExtras === extras);
     
-   if(existingItem) {
+    if(existingItem) {
         existingItem.qty += 1;
-        // نقل المنتج المحدث إلى بداية المصفوفة (لضمان ظهوره في الأعلى)
-        userCartList = [existingItem, ...userCartList.filter(item => item !== existingItem)];
+        
+        // تعديل ذكي متوافق مع سفاري: نقل العنصر لأول المصفوفة بدون إعادة إنشائها بالكامل
+        const index = userCartList.indexOf(existingItem);
+        if (index > -1) {
+            userCartList.splice(index, 1); // حذفه من مكانه القديم
+            userCartList.unshift(existingItem); // وضعه في البداية فوراً
+        }
     } else {
-        // (الكود الخاص بك للإضافة الجديدة يبقى كما هو)
         const newItem = { 
             ...product, 
             qty: 1, 
@@ -2551,8 +2694,17 @@ let visibleCount = 4;
         userCartList.unshift(newItem); 
     }
     
-    saveCartToLocalStorage();
-    refreshCartInterface();
+    // 3. استدعاء آمن ومحمي للتخزين وتحديث الواجهة
+    try {
+        saveCartToLocalStorage();
+    } catch (e) {
+        console.error("سفاري في الوضع الخاص يمنع التخزين، ولكن سنستمر في تحديث السلة برمجياً:", e);
+    }
+    
+    // ضمان تحديث واجهة السلة حتى لو فشل التخزين المحلي
+    if (typeof refreshCartInterface === 'function') {
+        refreshCartInterface();
+    }
 }
 
 function refreshCartInterface() {
@@ -2625,10 +2777,15 @@ function refreshCartInterface() {
     saveCartToLocalStorage();
     refreshCartInterface();
 }
-
-        function saveCartToLocalStorage() {
-            localStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
-        }
+function saveCartToLocalStorage() {
+    try {
+        localStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
+    } catch (error) {
+        // في حال كان سفاري في الوضع الخفي أو الذاكرة ممتلئة
+        // سيستمر الموقع في العمل وإضافة المنتجات للسلة في الذاكرة المؤقتة بكل سلاسة دون أن يتجمد الزر
+        console.warn("تنبيه سفاري: تم الحفظ في الذاكرة المؤقتة بنجاح.", error);
+    }
+}
 
        function loadCartFromLocalStorage() {
     try {
@@ -2870,106 +3027,106 @@ function openExtrasModal(productId, category) {
     const extrasList = menuExtras[category] || []; 
     const extrasHTML = extrasList.length > 0 
         ? extrasList.map(extra => `
-            <label class="glass-option-label" style="display:flex; align-items:center; gap:10px; margin-bottom:12px; cursor:pointer; font-size:15px; color:#334155;">
+            <label class="glass-option-label" style="display:flex; align-items:center; gap:10px; margin-bottom:12px; cursor:pointer; font-size:15px; color:#334155; touch-action:manipulation; -webkit-tap-highlight-color:transparent;">
                 <input type="checkbox" class="extra-checkbox" value="${extra}" style="width:18px; height:18px; accent-color:#0f766e;"> 
                 <span>${extra}</span>
             </label>
         `).join('')
         : '<p style="text-align:center; color:#94a3b8;">لا توجد إضافات لهذا القسم</p>';
 
-let modalHTML = `
+    let modalHTML = `
     <style>
-        /* أنيميشن الانبثاق العضوي الفاخر */
+        /* أنيميشن الانبثاق العضوي المحسن ليتوافق مع الـ GPU بسفاري */
         @keyframes danishIslandPop {
-            0% { opacity: 0; transform: scale(0.95) translateY(15px); filter: blur(4px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+            0% { opacity: 0; transform: scale(0.96) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         /* نافذة متطورة فائقة النعومة */
         .danish-island-modal {
-            animation: danishIslandPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            /* خلفية زجاجية رخامية هادئة جداً بنسبة شفافية ذكية */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 251, 249, 0.88) 100%);
-            backdrop-filter: blur(24px) saturate(120%);
-            -webkit-backdrop-filter: blur(24px) saturate(120%);
-            
-            /* حواف ناعمة جداً ومدروسة هندسياً */
-            border-radius: 36px;
+            animation: danishIslandPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 251, 249, 0.92) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
             border: 1px solid rgba(255, 255, 255, 0.6);
-            
-            /* ظلال مركبة تمنح النافذة عمقاً حقيقياً كأنها تطفو فوق المتجر */
-            box-shadow: 
-                0 30px 70px rgba(6, 28, 24, 0.08),
-                0 10px 20px rgba(0, 0, 0, 0.02),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px rgba(6, 28, 24, 0.1);
+            will-change: transform, opacity; /* تلميح لسفاري لتسريع المعالجة */
         }
 
-        /* تأثيرات الأزرار الذكية فائقة النعومة */
+        /* تأثيرات الأزرار الذكية فائقة النعومة مع دعم اللمس */
         .smart-island-btn {
-            transition: all 0.3s cubic-bezier(0.215, 0.610, 0.355, 1);
+            transition: all 0.25s cubic-bezier(0.215, 0.610, 0.355, 1);
             position: relative;
-            overflow: hidden;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
-        /* تأثير ذكي عند تمرير الماوس (Hover) يعطي إحساساً بالحيوية */
         @media (hover: hover) {
             .smart-island-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(15, 118, 110, 0.25);
-                filter: brightness(1.05);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 15px rgba(15, 118, 110, 0.2);
             }
         }
         
-        /* تفاعل حسي ناعم جداً عند الضغط الفعلي (Click/Touch) */
         .smart-island-btn:active {
-            transform: scale(0.96) translateY(0);
-            box-shadow: 0 4px 10px rgba(15, 118, 110, 0.15);
+            transform: scale(0.97);
             filter: brightness(0.95);
         }
 
-        /* زر الإلغاء الشفاف الأنيق */
         .smart-cancel-btn {
-            transition: all 0.25s ease;
-        }
-        .smart-cancel-btn:hover {
-            background: rgba(100, 116, 139, 0.05);
-            color: #475569;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         .smart-cancel-btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
     </style>
 
-    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at center, rgba(20, 50, 45, 0.2) 0%, rgba(10, 20, 18, 0.45) 100%); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:999998; display:flex; justify-content:center; align-items:center; padding:20px; font-family: system-ui, -apple-system, sans-serif;">
+    <div id="extra-modal" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(10, 25, 22, 0.4); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); z-index:999998; display:flex; justify-content:center; align-items:center; padding:20px; font-family: system-ui, -apple-system, sans-serif;">
         
-        <div class="danish-island-modal" style="padding:32px 26px; width:100%; max-width:345px; text-align:right; display:flex; flex-direction:column; gap:22px; position:relative;">
+        <div class="danish-island-modal" style="padding:28px 24px; width:100%; max-width:345px; text-align:right; display:flex; flex-direction:column; gap:20px; position:relative;">
             
-            <button onclick="closeModal()" class="smart-cancel-btn" style="position:absolute; left:22px; top:26px; background:rgba(15, 118, 110, 0.06); border:none; width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; color:#0f766e; z-index: 10;">
+            <button onclick="closeModal()" class="smart-cancel-btn" style="position:absolute; left:20px; top:22px; background:rgba(15, 118, 110, 0.06); border:none; width:34px; height:34px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; color:#0f766e; z-index: 10;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
-            <h3 style="font-size:20px; color:#0f766e; margin:0; font-weight:700; text-align:center; width:100%; letter-spacing:-0.3px;">
-           نقي اضافتك بكل راحة
+            <h3 style="font-size:19px; color:#0f766e; margin:0; font-weight:700; text-align:center; width:100%;">
+               نقي إضافتك بكل راحة
             </h3>
             
-            <div style="max-height:210px; overflow-y:auto; padding:5px 2px;">
+            <div style="max-height:210px; overflow-y:auto; padding:5px 2px; -webkit-overflow-scrolling: touch; /* تمرير سلس في سفاري */">
                 ${extrasHTML}
             </div>
 
-            <div style="display:flex; flex-direction:column; gap:12px;">
-                <button class="smart-island-btn" onclick="triggerCartAnimation(this); setTimeout(() => { saveAndAddToCart(); }, 150);" style="width:100%; padding:16px; border:none; border-radius:22px; background:linear-gradient(135deg, #11847b 0%, #0f766e 100%); color:#64748b; font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 6px 18px rgba(15, 118, 110, 0.2), inset 0 1px 0 rgba(255,255,255,0.25);">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button class="smart-island-btn" onclick="handleSecureCartSubmission(this)" style="width:100%; padding:15px; border:none; border-radius:20px; background:linear-gradient(135deg, #11847b 0%, #0f766e 100%); color:#ffffff; font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 5px 15px rgba(15, 118, 110, 0.2);">
                     تأكيد وإضافة للسلة 🛒
                 </button>
                 
-                <button class="smart-cancel-btn" onclick="closeModal()" style="width:100%; padding:13px; background:transparent; border:1px solid rgba(15, 118, 110, 0.15); border-radius:22px; color:#64748b; font-size:14px; font-weight:500; cursor:pointer;">
+                <button class="smart-cancel-btn" onclick="closeModal()" style="width:100%; padding:12px; background:transparent; border:1px solid rgba(15, 118, 110, 0.15); border-radius:20px; color:#64748b; font-size:14px; font-weight:500; cursor:pointer;">
                     إلغاء
                 </button>
             </div>
 
         </div>
     </div>
-`;
+    `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// دالة الأمان الوسيطة التي تحل مشكلة تعليق الزر في سفاري
+function handleSecureCartSubmission(btnElement) {
+    // 1. تشغيل أنيميشن العربة الخاص بك أولاً
+    if (typeof triggerCartAnimation === 'function') {
+        triggerCartAnimation(btnElement);
+    }
+    
+    // 2. التنفيذ الفوري المنظم دون المخاطرة بقطع السياق في سفاري
+    if (typeof saveAndAddToCart === 'function') {
+        saveAndAddToCart();
+    }
 }
 // دالة الإغلاق الموحدة (تحافظ على حذف العنصر لضمان تنظيف الذاكرة)
 function closeModal() {
@@ -2981,25 +3138,15 @@ function closeModal() {
 }
 
 
-// 2. دالة الحفظ (لا تمرر productId هنا، بل اقرأه من المتغير العام)
-function saveAndAddToCart() {
-    let productId = window.currentPID; 
-    
-    // جمع الإضافات
-    let selected = [];
-    document.querySelectorAll('.extra-checkbox:checked').forEach(cb => {
-        selected.push(cb.value);
-    });
-    let extrasString = selected.length > 0 ? selected.join(", ") : "لا يوجد";
+// 1. دالة حفظ السلة الآمنة والمستقرة تماماً
+function saveCartToLocalStorage() {
+    SafeStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
+}
 
-    // استدعاء دالة الإضافة (تأكد أن اسمها مطابق تماماً لما هو لديك)
-    addNewProductToCart(productId, extrasString);
-
-    // إغلاق النافذة
-    closeModal();
-    
-    // تشغيل الحركة
-    triggerCartAnimation();
+// 2. دالة تحميل السلة الآمنة والمستقرة تماماً
+function loadCartFromLocalStorage() {
+    const savedCart = SafeStorage.getItem('hikaya_cafe_cart');
+    userCartList = savedCart ? JSON.parse(savedCart) : [];
 }
 
 
@@ -3309,22 +3456,21 @@ function triggerCartAnimation(element) {
         }, 8000); 
     }
 
-    // دالة الإغلاق اليدوي أو التلقائي وحفظ الاختيار لمنع الظهور مجدداً
-    function closePremiumPWA() {
-        const pwaCard = document.getElementById('pwa-premium-card');
-        
-        // تشغيل أنيميشن الخروج الناعم لأسفل الشاشة
-        pwaCard.classList.remove('show-animation');
-        pwaCard.classList.add('hide-animation');
-        
-        // 🔒 حفظ في ذاكرة المتصفح أن المستخدم شاهدها، فلن تظهر له مرة أخرى أبداً عند تصفح الموقع
-        localStorage.setItem('pwa_prompt_viewed_premium', 'true');
-        
-        setTimeout(() => {
-            pwaCard.style.display = 'none';
-        }, 6000);
-    }
-
+   // 3. دالة إغلاق نافذة الـ PWA الآمنة (التي كانت تسبب انهياراً بعد 8 ثوانٍ في سفاري)
+function closePremiumPWA() {
+    const pwaCard = document.getElementById('pwa-premium-card');
+    
+    // تشغيل أنيميشن الخروج الناعم لأسفل الشاشة
+    pwaCard.classList.remove('show-animation');
+    pwaCard.classList.add('hide-animation');
+    
+    // حفظ الخيار بشكل آمن عبر النظام الذكي
+    SafeStorage.setItem('pwa_prompt_viewed_premium', 'true');
+    
+    setTimeout(() => {
+        pwaCard.style.display = 'none';
+    }, 6000);
+}
     function installPremiumPWA() {
         if (deferredPrompt) {
             deferredPrompt.prompt();
