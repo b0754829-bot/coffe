@@ -38,26 +38,6 @@
     background: rgba(var(--primary-emerald), var(--glass-opacity));
 }
 
-.custom-premium-header {
-    position: fixed; 
-    top: 0 !important; 
-    left: 0;
-    right: 0;
-    
-    /* 🔒 إجبار الهيدر على عدم أخذ مساحة الشاشة بالكامل بشكل غير مرئي */
-    height: auto !important; 
-    
-    /* دفع المحتوى الداخلي فقط ليتفادى نوتش الآيفون */
-    padding-top: calc(12px + env(safe-area-inset-top)) !important;
-    padding-bottom: 12px !important; 
-    
-    /* منع الاهتزاز والوميض في سفاري */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    will-change: transform;
-    
-    z-index: 1000 !important; 
-}
 
 
 /* تسريع الاستجابة الفورية للنقر في سفاري والآيفون */
@@ -238,23 +218,48 @@ html, body {
     max-width: 100%;
     -webkit-tap-highlight-color: transparent;
 }
-
 header {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    /* الخصائص السابقة */
+    padding-top: env(safe-area-inset-top, 15px); /* لحماية المحتوى في الآيفون */
+}
+
+header, .custom-premium-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    height: auto !important;
+    border-radius: 0px !important;
+    margin: 0 !important;
+    padding: 10px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+
+    /* 🔮 النمط الزجاجي السائل: شفافية زجاجية متزنة لراحة العين */
+    background: rgba(236, 239, 237, 0.4) !important; /* تقليل التعتيم لـ 40% للحصول على الشفافية */
     
-    /* جعل الخلفية مصمتة (Solid) تماماً لراحة العين، أو رفع الشفافية لـ 1 لمنع تداخل الكلام خلف الساعة */
-    background: rgba(236, 239, 237, 1) !important; 
+    /* 🛡️ تأثير الضباب الزجاجي الآمن والمتوافق تماماً مع سفاري وأندرويد */
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important; /* ضروري جداً لتشغيل التأثير على الآيفون */
     
-    /* 🛡️ الحل السحري: دفع محتويات الهيدر لتبتعد تلقائياً عن النوتش والجزيرة الديناميكية في الآيفون */
-    padding-top: env(safe-area-inset-top) !important; 
-    
-    /* إجبار سفاري على تسريع الهيدر عبر كرت الشاشة لمنع الوميض أو الاهتزاز أثناء السكرول */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    will-change: transform;
+    /* خط سفلي ناعم جداً ومستوحى من تصميم iOS لتعزيز تأثير الزجاج */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+
+    /* 🛡️ حماية نوتش الآيفون (الجزيرة الديناميكية) لمنع تداخل النصوص مع الساعة والشحن */
+    padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important; 
+    padding-bottom: 12px !important;
+
+    /* 🚀 كود الأمان الرسومي المخصص لسفاري: يمنع الوميض أو الاهتزاز أو اختفاء الهيدر أثناء السكرول */
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    will-change: transform, backdrop-filter !important;
 }
 
 /* 4. السلايدر (سكرول أفقي سريع ومحصن لسفاري) */
@@ -272,6 +277,7 @@ header {
     /* إخفاء شريط السكرول السفلي الافتراضي المشوه في سفاري ليبقى المظهر فخماً ونظيفاً */
     scrollbar-width: none; /* للمتصفحات الأخرى */
 }
+
 
 /* إخفاء شريط التمرير تماماً في سفاري */
 .horizontal-scroll::-webkit-scrollbar {
@@ -414,23 +420,7 @@ header {
             box-shadow: 0 8px 22px rgba(11, 63, 59, 0.4) !important;
         }
 
-        /* 🏝️ الهيدر بنمط "الجزيرة الديناميكية" النحيفة والذكية المعلقة (Dynamic Island Header) */
-        .custom-premium-header {
-            position: fixed;
-            top: 12px; left: 5% !important;
-            width: 90% !important; min-width: 90vw !important; height: 60px; /* نحيف جداً وذكي */
-            z-index: 9999; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; box-sizing: border-box;
-            
-            /* تصميم الجزيرة الطافية المعزولة زجاجياً بفخامة */
-            background: rgba(59, 86, 115, 0.081) !important; /* تيتانيوم أسود فخم مائل للشفافية */
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 50px !important; /* حواف دائرية كاملة كالجزيرة الذكية */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            transition: var(--transition-smooth);
-        }
+        
 
         /* 🎛️ أزرار المنيو الثلاث المحدثة (واضحة، قوية وشبه لامعة) */
         .menu-trigger-btn {
@@ -562,9 +552,7 @@ header {
             color: white !important;
         }
 
-        .header-spacer {
-            height: 85px; width: 100%; display: block;
-        }
+       
 
         /* السلايدر المتكامل الفخم */
         .slider-container {
@@ -584,64 +572,83 @@ header {
             -webkit-overflow-scrolling: touch !important;
         }
 
- /* 👑 هندسة العنوان البلوري الفاخر المحمي لمنع اختفاء العبارة الترحيبية */
+/* 👑 هندسة لوح الزجاج المصنفر الممتد والخط الزمردي الناصع المتوافق مع سفاري */
 .title-decorated {
-    text-align: center; 
-    font-size: 23px; 
-    font-weight: 900; /* سمك ملكي عريض ومميز */
-    margin: 25px auto 8px; 
-    position: relative;
-    display: block;
-    width: auto;
-    max-width: fit-content; /* كبس الحاوية بدقة حول النص فقط لمنع تمددها الوهمي */
-    padding: 4px 16px;
-    letter-spacing: 0.5px;
-    z-index: 10; /* الحفاظ على رتبة الرؤية الأساسية */
+    text-align: center !important; 
+    font-size: 22px !important; 
+    font-weight: 500 !important; /* سماكة متزنة تضمن النعومة التامة والوضوح الفائق للخط */
+    letter-spacing: 2px !important; 
     
-    /* 👑 تأثير الكريستال السائل الفاخر للنص (Liquid Crystal Text) */
-    background: linear-gradient(135deg, #0b3f3b 0%, #1a5651 35%, #4a847e 50%, #1a5651 65%, #0b3f3b 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #0b3f3b; /* خط دفاع أمان لسفاري القديم */
+    /* الالتصاق الكامل بالفئات والمحتوى لقتل أي فراغات زائدة */
+    margin: 0px 0px 0px 0px !important; 
+    padding: 10px 20px !important; /* ارتفاع داخلي رشيق لفرش لوح الزجاج المصنفر */
     
-    /* ✨ حركة تموج مائي سائل بطيئة وناعمة جداً داخل الحروف */
-    animation: liquidGlow 7s ease-in-out infinite;
+    position: relative !important;
+    display: block !important;
+    
+    /* امتداد زجاجي ممتد بعرض الشاشة بالكامل دون فجوات */
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    
+    /* 🎨 لون الخط: زمردي ملكي ناصع، عميق ونقي 100% لراحة العين أثناء القراءة */
+    color: #0b3f3b !important; 
+    -webkit-text-fill-color: #0b3f3b !important; /* إجبار سفاري على صب اللون الزمردي المميز */
+    
+    /* ظل ناصع ومشرق خلف الحروف ليعطيها بريقاً يمنع البهتان فوق الزجاج الشفاف */
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    
+    /* تنعيم الحواف الفائق لشاشات الآيفون والموبايل */
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    background: transparent !important;
+    animation: none !important;
+    -webkit-animation: none !important;
 }
 
-/* 🪄 خيط زينة مائي ناعم جداً تحت الكلمة */
+/* 🪄 محو تام لأي زخارف قديمة */
 .title-decorated::after {
-    content: ''; 
-    display: block; 
-    width: 35px; 
-    height: 2px; 
-    background: linear-gradient(90deg, transparent, rgba(11, 63, 59, 0.6), transparent); 
-    margin: 6px auto 0; 
-    border-radius: 5px;
+    content: none !important; 
+    display: none !important;
 }
 
-/* 🌊 الهالة التوهجية البلورية خلف النص تم عزلها بـ z-index سلبي محكم لتتجنب حجب أي نصوص ترحيبية */
+/* 🌊 لوح الزجاج المصنفر السائل (تأثير التمويه الضبابي الذكي المتوافق 100% مع نظام iOS وسفاري) */
 .title-decorated::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, transparent 75%);
-    z-index: -1; /* حماية مطلقة: تسبح بالخلفية تماماً فلا تحجب العبارات الترحيبية */
-    pointer-events: none;
-}
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: 0px !important; /* اتصال كامل بأطراف الشاشة دون كبسولات */
+    
+    /* 🔮 تأثير الشفافية العالية: بياض بلوري ثلجي ناعم جداً ممتد لتشعر العين بنقاء الزجاج الحقيقي */
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.25) 20%, 
+        rgba(255, 255, 255, 0.45) 50%,   /* كثافة بلورية بالمنتصف ليعطي مظهر الزجاج المصنفر */
+        rgba(255, 255, 255, 0.25) 80%, 
+        rgba(255, 255, 255, 0.05) 100%) !important;
 
-/* حركة التموج البلوري السائل داخل الكلمة */
-@keyframes liquidGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+    /* ✨ خطوط ضوئية أفقية رقيقة جداً تحاكي حواف ألواح الزجاج المعمارية المصقولة */
+    border-top: 1px solid rgba(255, 255, 255, 0.45) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.45) !important;
+    border-left: none !important;
+    border-right: none !important;
 
+    /* 🛡️ السر البرمجي التام لسفاري: فلتر التمويه الضبابي العالي جداً لعزل وتسييل الألوان الخلفية */
+    backdrop-filter: blur(18px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(150%) !important; /* تفعيل معالج سفاري وكروم على الموبايل */
+    
+    z-index: -1 !important; 
+    pointer-events: none !important;
+
+    /* 🚀 كود الأمان الرسومي لمنع أي وميض أو اهتزاز مع سكرول النظام السلس */
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: backdrop-filter, transform !important;
+}
        
 
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
@@ -1323,103 +1330,47 @@ button[onclick*="saveAndAddToCart"] {
         50% { box-shadow: 0 0 0 8px rgba(15, 118, 110, 0); } /* نبضة سريعة واحدة */
         100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
     }
-   /* تنسيق الـ Footer كجزيرة زمردية مخملية طافية */
-.premium-footer {
-    padding: 40px 20px;
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    perspective: 1000px; /* يعطي عمقاً بصرياً خفيفاً */
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
-    
-    /* خلفية زجاجية سائلة بمسحة زمردية مخملية مهدأة */
-    background: linear-gradient(135deg, rgba(4, 47, 46, 0.45) 0%, rgba(2, 44, 34, 0.6) 100%);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    
-    /* حواف انسيابية مدروسة هندسياً لتناسب أبعاد الحاوية */
-    border-radius: 32px; 
-    
-    /* حافة ضوئية علوية تعطي ملمس الزجاج الحقيقي */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-top: 1px solid rgba(16, 185, 129, 0.3);
-    
-    padding: 30px 24px;
-    
-    /* ظلال ناعمة ومتدرجة تمنع ظهور بقع داكنة قبيحة */
-    box-shadow: 
-        0 25px 50px rgba(2, 44, 34, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        
-    /* سلاسة الحركة عند تفاعل الصفحة */
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* حركة ذكية للجزيرة عند التمرير أو التحويم فوقها */
-.footer-grid:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 30px 60px rgba(2, 44, 34, 0.35);
-    border-top: 1px solid rgba(16, 185, 129, 0.5);
-}
-
-/* تنسيق الخط الزمردي المخملي المريح للعين */
-.footer-grid h3 {
-    color: #f0fdf4; /* لون حليبي بلمحة خضراء، ناعم جداً وقراءته ممتازة */
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
-    letter-spacing: -0.3px;
-}
-
-.footer-grid p {
-    color: rgba(209, 250, 229, 0.75); /* تقليل التوهج الصاخب واستبداله بنعومة شفافة */
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.6;
-    margin: 0;
-    /* تنعيم حواف الحروف داخل المتصفحات */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* إضافة لمسة تفاعلية سلسة للروابط داخل الـ Footer إذا وُجدت */
-.footer-grid a {
-    color: #10b981;
-    text-decoration: none;
-    transition: color 0.25s ease;
-}
-.footer-grid a:hover {
-    color: #34d399;
-}
-/* الأزرار: زجاج سائل مائي */
+ 
+/* ==========================================================================
+   💎 هندسة أزرار الزجاج السائل القديمة (محفوظة الألوان ومحسنة الحركة)
+   ========================================================================== */
 .premium-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 18px;
-    border-radius: 40px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 16px;
-    color: #ffffff;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 13px 16px !important; /* حجم هندسي مصغر فائق الرشاقة لقبضة اليد */
+    border-radius: 40px !important; /* كبسولة دائرية ناعمة بالكامل */
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 14.5px !important;
+    color: #ffffff !important;
+    box-sizing: border-box !important;
     
-    /* تأثير الزجاج السائل */
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 78, 59, 0.3));
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* 🎨 الاحتفاظ بالألوان الفخمة القديمة التي طلبتها للزجاج السائل */
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 78, 59, 0.45)) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
     
-    /* لمعة حواف أنيقة */
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), 0 5px 15px rgba(0,0,0,0.1);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(4, 47, 46, 0.08) !important;
+    
+    /* ربط الأزرار بنفس منحنى الحركة السائل لنظام iOS */
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                background 0.3s ease, 
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ✨ تأثير النبض الارتدادي المرن والسلس للغاية عند نقر العميل بأصبعه */
+.premium-btn:active {
+    transform: scale(0.945) !important; /* ارتداد ناعم وسريع للداخل لكسر الجمود البصري */
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.40), rgba(6, 78, 59, 0.60)) !important; /* تكثيف التوهج ديناميكياً */
+    box-shadow: 0 2px 6px rgba(4, 47, 46, 0.15) !important;
+}
+
+.premium-btn a {
+    color: #ffffff !important;
+    text-decoration: none !important;
 }
 
 /* التفاعل: تأثير التغير وفق الخلفية */
@@ -2014,22 +1965,7 @@ header, [class*="header"], .store-header-wrapper {
 
 
 
-<footer class="premium-footer" id="phone-footer">
-    <div class="footer-grid">
-        <div style="text-align: center; color: #1f2937;">
-            <p style="font-weight: 800; margin-bottom: 5px;">🕒 ساعات العمل</p>
-            <p style="font-size: 14px; opacity: 0.8;">يوميًا | 08:00 - 23:00</p>
-        </div>
 
-        <a href="tel:+972500000000" class="premium-btn phone">
-            <span></span> اتصل الآن
-        </a>
-
-        <a href="waze://?ll=31.2825,34.8252&navigate=yes" class="premium-btn waze">
-            <span></span> توجه عبر Waze
-        </a>
-    </div>
-</footer>
 <style>
 /* ☁️ تموضع وتنسيق العبارة الترحيبية تحت اللوجو مباشرة */
 #maladh-sub-logo-text {
@@ -2727,24 +2663,32 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
             handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
         };
     } else {
-        btn.innerText = 'عرض أقل 🔼';
-        btn.style.backgroundColor = '#64748b'; // لون حيوي ومميز للرجوع
-        btn.style.color = '#ffffff';
+    btn.innerText = 'عرض أقل 🔼';
+    btn.style.backgroundColor = '#64748b'; // لون حيوي ومميز للرجوع
+    btn.style.color = '#ffffff';
+    
+    btn.onclick = function() {
+        sectionsExpandedState[mainCategory] = false;
         
-        btn.onclick = function() {
-            sectionsExpandedState[mainCategory] = false;
-            // إعادة التحديث لإخفاء الكروت الزائدة وتحويل الزر لـ عرض المزيد
-            handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
-
-            // 🌟 التوجيه السلس لمتصفح سفاري إلى العنوان الرئيسي للقسم والفلاتر الفرعية
-            setTimeout(() => {
+        // 🌌 استدعاء شريط الفئات العائم الفخم والمستقل بأمان تام
+        if (typeof window.toggleMaladhFloatingBar === 'function') {
+            window.toggleMaladhFloatingBar(true);
+        }
+        
+        // إعادة التحديث لإخفاء الكروت الزائدة وتحويل الزر لـ عرض المزيد
+        handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
+        
+        // 🌟 التوجيه السلس لمتصفح سفاري إلى العنوان الرئيسي للقسم والفلاتر الفرعية
+        setTimeout(() => {
+            if (parentSection) {
                 parentSection.scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'start' 
                 });
-            }, 60); // مهلة زمنية دقيقة لضمان انكماش الـ DOM أولاً في أجهزة iPhone
-        };
-    }
+            }
+        }, 60); // مهلة زمنية دقيقة لضمان انكماش الـ DOM أولاً في أجهزة iPhone
+    };
+}
 
     btnWrapper.appendChild(btn);
     parentSection.appendChild(btnWrapper);
@@ -3284,45 +3228,112 @@ function openExtrasModal(productId, category) {
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 
-// دالة الأمان الوسيطة التي تحل مشكلة تعليق الزر في سفاري
+// 1. دالة معالجة الأمان والضغط وإغلاق المودال تلقائياً
 function handleSecureCartSubmission(btnElement) {
-    // 1. تشغيل أنيميشن العربة الخاص بك أولاً
+    // تشغيل أنيميشن الفنجان الطائر أولاً
     if (typeof triggerCartAnimation === 'function') {
         triggerCartAnimation(btnElement);
     }
     
-    // 2. التنفيذ الفوري المنظم دون المخاطرة بقطع السياق في سفاري
-    if (typeof saveAndAddToCart === 'function') {
-        saveAndAddToCart();
+    // جلب معرف المنتج الحالي
+    const productId = window.currentPID;
+    if (!productId) {
+        closeModal();
+        return;
     }
+
+    // تجميع الإضافات التي حددها العميل بـ (صح)
+    const selectedExtrasArray = [];
+    const checkboxes = document.querySelectorAll('#extra-modal .extra-checkbox:checked');
+    checkboxes.forEach(cb => {
+        selectedExtrasArray.push(cb.value);
+    });
+
+    // تحويل المصفوفة إلى نص منسق لتقديمه في الفاتورة والواتساب
+    const extrasText = selectedExtrasArray.length > 0 ? selectedExtrasArray.join(' + ') : 'لا يوجد';
+
+    // البحث عن المنتج الأساسي داخل قاعدة بيانات المتجر
+    let foundProduct = null;
+    if (typeof storeProductsDatabase !== 'undefined') {
+        for (const cat in storeProductsDatabase) {
+            const prod = storeProductsDatabase[cat].find(p => p.id === productId);
+            if (prod) {
+                foundProduct = prod;
+                break;
+            }
+        }
+    }
+
+    // حقن وتحديث مصفوفة السلة لتقوم بالإضافة من الأعلى
+    if (foundProduct && typeof userCartList !== 'undefined') {
+        // التحقق مما إذا كان نفس المنتج مع نفس الإضافات تماماً مضافاً مسبقاً
+        const existingItem = userCartList.find(item => item.id === productId && item.selectedExtras === extrasText);
+        
+        if (existingItem) {
+            // سحب الصنف المتكرر من مكانه القديم
+            const index = userCartList.indexOf(existingItem);
+            userCartList.splice(index, 1);
+            // زيادة الكمية
+            existingItem.qty += 1;
+            // إعادته وضعه كأول عنصر في القمة (أعلى السلة)
+            userCartList.unshift(existingItem);
+        } else {
+            // 🌟 استخدام unshift للمنتج ذو الإضافات ليظهر في أعلى السلة مباشرة مثل المنتجات العادية
+            userCartList.unshift({
+                id: foundProduct.id,
+                name: foundProduct.name,
+                price: parseFloat(foundProduct.price),
+                img: foundProduct.img || foundProduct.image,
+                qty: 1,
+                selectedExtras: extrasText
+            });
+        }
+
+        // حفظ السلة وتحديث الواجهة والعدادات فوراً
+        if (typeof saveCartToLocalStorage === 'function') {
+            saveCartToLocalStorage();
+        } else if (typeof SafeStorage !== 'undefined') {
+            SafeStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
+        }
+    }
+
+    // 🚀 الإغلاق التلقائي الفوري والناعم لنافذة الإضافات بعد إنهاء العملية
+    closeModal();
 }
-// دالة الإغلاق الموحدة (تحافظ على حذف العنصر لضمان تنظيف الذاكرة)
+
+// 2. دالة الإغلاق الموحدة التي تقوم بتنظيف وتحديث الواجهات
 function closeModal() {
     const modal = document.getElementById('extra-modal');
-    if (modal) modal.remove();
+    if (modal) modal.remove(); // إزالة المودال تماماً من الصفحة
+    
+    window.currentPID = null; // تصفير معرف المنتج لعدم اللبس في العمليات القادمة
+
+    // إجبار واجهة السلة على إعادة الرسم وتحديث الأسعار والأصناف
     if (typeof refreshCartInterface === 'function') {
         refreshCartInterface(); 
     }
 }
 
-
-// 1. دالة حفظ السلة الآمنة والمستقرة تماماً
+// 3. دالة حفظ السلة الآمنة والمستقرة تماماً
 function saveCartToLocalStorage() {
-    SafeStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
+    if (typeof SafeStorage !== 'undefined') {
+        SafeStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
+    } else {
+        localStorage.setItem('hikaya_cafe_cart', JSON.stringify(userCartList));
+    }
 }
 
-// 2. دالة تحميل السلة الآمنة والمستقرة تماماً
+// 4. دالة تحميل السلة الآمنة والمستقرة تماماً
 function loadCartFromLocalStorage() {
-    const savedCart = SafeStorage.getItem('hikaya_cafe_cart');
+    const savedCart = typeof SafeStorage !== 'undefined' ? SafeStorage.getItem('hikaya_cafe_cart') : localStorage.getItem('hikaya_cafe_cart');
     userCartList = savedCart ? JSON.parse(savedCart) : [];
 }
 
-
+// 5. دالة حركة أنيميشن الفنجان
 function triggerCartAnimation(element) {
     let cartIcon = document.getElementById('main-basket-btn'); 
     if (!cartIcon || !element) return;
 
-    // 1. أخذ إحداثيات الزر بدقة
     let startRect = element.getBoundingClientRect();
     let flyElement = document.createElement('div');
     
@@ -3336,12 +3347,10 @@ function triggerCartAnimation(element) {
         </svg>
     `; 
     
-    // 2. إعدادات الطبقة (أعلى من النافذة المنبثقة بكثير)
     flyElement.style.position = 'fixed';
-    flyElement.style.zIndex = '2147483647'; // أعلى رقم طبقة ممكن في المتصفحات
+    flyElement.style.zIndex = '2147483647';
     flyElement.style.pointerEvents = 'none'; 
     
-    // 3. وضع الفنجان في نقطة البداية (بدون أي Transition بعد)
     flyElement.style.left = (startRect.left + (startRect.width / 2) - 25) + 'px';
     flyElement.style.top = (startRect.top + (startRect.height / 2) - 25) + 'px';
     flyElement.style.opacity = '1';
@@ -3349,13 +3358,10 @@ function triggerCartAnimation(element) {
     
     document.body.appendChild(flyElement);
 
-    // 4. 🌟 السطر السحري (Force Reflow): يجبر المتصفح على رسم الفنجان فوراً في مكانه 🌟
-    void flyElement.offsetWidth;
+    void flyElement.offsetWidth; // Force Reflow
 
-    // 5. الآن نضيف سرعة الحركة (1 ثانية)
     flyElement.style.transition = 'all 1s cubic-bezier(0.25, 0.8, 0.25, 1)';
 
-    // 6. توجيه الفنجان نحو السلة
     let endRect = cartIcon.getBoundingClientRect();
     flyElement.style.left = (endRect.left + (endRect.width / 2) - 25) + 'px'; 
     flyElement.style.top = (endRect.top + (endRect.height / 2) - 25) + 'px';
@@ -3363,7 +3369,6 @@ function triggerCartAnimation(element) {
     flyElement.style.transform = 'scale(0.3) rotate(15deg)';
     flyElement.style.opacity = '0.3'; 
     
-    // نبض زر السلة ليتزامن مع الوصول
     setTimeout(() => {
         cartIcon.style.transition = 'transform 0.3s ease';
         cartIcon.style.transform = 'scale(1.2)';
@@ -3372,14 +3377,12 @@ function triggerCartAnimation(element) {
         }, 300);
     }, 800);
 
-    // تنظيف الكود وإزالة الفنجان
     setTimeout(() => {
         if (document.body.contains(flyElement)) {
             flyElement.remove();
         }
     }, 1200); 
 }
-
    </script>
     
 
@@ -3540,5 +3543,478 @@ function triggerCartAnimation(element) {
     };
 })();
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="maladh-floating-categories-bar" class="floating-liquid-glass-bar">
+    <div class="floating-bar-header">
+        <span class="floating-bar-title">قائمة الأقسام</span>
+        <button class="floating-bar-close-btn" onclick="toggleMaladhFloatingBar(false)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <div id="floating-categories-container" class="floating-categories-grid"></div>
+</div>
+
+
+<style>
+.floating-liquid-glass-bar {
+    position: fixed;
+    bottom: -120%; 
+    left: 5%;
+    width: 90%;
+    max-width: 400px; 
+    
+    /* 🧊 زجاج مائي شفاف يمرر إضاءة الموقع خلفه بنعومة وبأعلى حماية لـ Safari */
+    background: rgba(255, 255, 255, 0.12) !important; 
+    backdrop-filter: blur(30px) saturate(210%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(210%) !important; 
+    
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border-radius: 28px !important; 
+    box-shadow: 0 20px 45px rgba(11, 63, 59, 0.04), inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
+    z-index: 999999 !important; 
+    padding: 10px 12px; 
+    direction: rtl;
+    
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, bottom;
+}
+
+.floating-liquid-glass-bar.active {
+    bottom: 15px; 
+}
+
+.floating-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0 4px;
+}
+
+.floating-bar-title {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    font-size: 11.5px; 
+    color: #0b3f3b; 
+    opacity: 0.9;
+}
+
+.floating-bar-close-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(11, 63, 59, 0.05) !important;
+    border: none !important;
+    color: #0b3f3b !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.floating-bar-close-btn svg {
+    width: 10px;
+    height: 10px;
+}
+
+.floating-categories-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important; 
+    gap: 8px 4px !important; 
+    max-height: 220px;
+    overflow-y: auto !important;
+    padding: 2px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.floating-categories-grid::-webkit-scrollbar {
+    display: none !important;
+}
+
+.floating-category-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    background: transparent !important; 
+    border: none !important;
+    padding: 2px 0;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.floating-category-item:active {
+    transform: scale(0.9);
+}
+
+.floating-category-icon {
+    width: 42px !important; 
+    height: 42px !important;
+    border-radius: 50% !important; 
+    border: 1.5px solid rgba(255, 255, 255, 0.85) !important; 
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    box-shadow: 0 4px 10px rgba(11, 63, 59, 0.04) !important;
+    transition: all 0.25s ease;
+}
+
+.floating-category-item.active-item .floating-category-icon {
+    border-color: #0b3f3b !important;
+    box-shadow: 0 0 0 2px rgba(11, 63, 59, 0.12) !important;
+}
+
+.floating-category-label {
+    margin-top: 5px !important;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 9px; 
+    color: #162437; 
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.floating-category-item.active-item .floating-category-label {
+    color: #0b3f3b !important;
+    font-weight: 800;
+}
+</style>
+
+
+<script>
+(function() {
+    window.toggleMaladhFloatingBar = function(show) {
+        const bar = document.getElementById('maladh-floating-categories-bar');
+        if (!bar) return;
+
+        if (show) {
+            buildFloatingExactSections();
+            bar.classList.add('active');
+        } else {
+            bar.classList.remove('active');
+        }
+    };
+
+    function buildFloatingExactSections() {
+        const container = document.getElementById('floating-categories-container');
+        if (!container) return;
+        
+        container.innerHTML = '';
+
+        // 🛠️ ضع روابط صور موقعك الحقيقية بين علامتي التنصيص '' هنا مباشرة وسيعمل الكود فوراً وبقوة!
+        const configSections = [
+            { 
+                id: 'hot-drinks-anchor', 
+                shortName: 'ساخن ', 
+                image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=150&q=80"
+            },
+            { 
+                id: 'cold-drinks-anchor', 
+                shortName: ' بارد', 
+                image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=150&q=80"
+            },
+            { 
+                id: 'desserts-anchor', 
+                shortName: ' الكيك والحلوى', 
+                image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80"
+            },
+            { 
+                id: 'breakfast-anchor', 
+                shortName: 'الكرواسون', 
+                image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=150&q=80"
+                        },
+            { 
+                id: 'specialty-coffee-anchor', 
+                shortName: 'جيدنا', 
+                image:     "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80"       }
+        ];
+
+        configSections.forEach((config) => {
+            const sectionEl = document.getElementById(config.id);
+            if (!sectionEl) return;
+
+            // استخدام الرابط المباشر المدخل يدويًا
+            const finalBgImage = `url('${config.image}')`;
+
+            const item = document.createElement('div');
+            item.className = 'floating-category-item';
+
+            // تتبع مكان الشاشة لإضاءة التبويب النشط
+            const rect = sectionEl.getBoundingClientRect();
+            if (rect.top >= -200 && rect.top <= (window.innerHeight / 2)) {
+                item.classList.add('active-item');
+            }
+
+            item.innerHTML = `
+                <div class="floating-category-icon" style="background-image: ${finalBgImage};"></div>
+                <div class="floating-category-label">${config.shortName}</div>
+            `;
+
+            // التنقل الانسيابي السلس
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.floating-category-item').forEach(i => i.classList.remove('active-item'));
+                item.classList.add('active-item');
+                sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            container.appendChild(item);
+        });
+    }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="premium-footer">
+    <div class="footer-grid-unified">
+        
+        <div class="working-hours-inline-bar">
+            <svg class="working-hours-nano-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="store-status-text" class="status-checking">جاري الفحص...</span>
+            <span class="status-space-dot">•</span>
+            <span id="store-time-countdown" class="status-countdown-nano">يرجى الانتظار</span>
+        </div>
+
+        <div class="footer-buttons-row">
+            <a href="tel:0524455806" class="phone-call-btn-link">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                اتصل الآن
+            </a>
+            
+            <a href="https://waze.com/ul?ll=31.2828,34.8465&navigate=yes" target="_blank" class="waze-premium-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                </svg>
+                توجيه عبر ويز
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<style>
+/* 🎨 الحاوية الموحدة لجميع عناصر الفوتر */
+.premium-footer {
+    padding: 12px 14px !important; /* تقليص الحواف لضمان عدم الضغط على المساحة السفلية */
+    margin-top: 20px !important;
+    margin-bottom: calc(env(safe-area-inset-bottom) + 10px) !important; /* حماية ذكية متوافقة مع إيماءات الآيفون والسفاري */
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.footer-grid-unified {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important; /* مسافة متناسقة لشد العناصر لبعضها بصرياً */
+    width: 100% !important;
+    max-width: 400px !important;
+    box-sizing: border-box !important;
+    
+    /* النمط الزجاجي الشفاف فائق النقاء التابع لهوية المتجر */
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.45) 0%,     
+        rgba(4, 47, 46, 0.04) 50%,        
+        rgba(255, 255, 255, 0.20) 100%) !important;
+        
+    /* العزل الضبابي الخاص بأجهزة آبل */
+    backdrop-filter: blur(25px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(160%) !important;
+    
+    border-radius: 24px !important; 
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-top: 1px solid rgba(52, 211, 153, 0.35) !important;
+    padding: 12px 14px !important; 
+    
+    box-shadow: 0 10px 25px rgba(4, 47, 46, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+}
+
+/* ⏰ شريط الوقت الحريري المدمج في سطر واحد */
+.working-hours-inline-bar {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    padding: 2px 0 4px 0 !important; /* مباعدة دقيقة تمنع الاحتكاك بالأزرار */
+}
+
+.working-hours-nano-icon {
+    width: 13px !important;
+    height: 13px !important;
+    color: #0b3f3b !important;
+    opacity: 0.8;
+}
+
+.status-checking { 
+    color: #0b3f3b !important; 
+    font-size: 12.5px !important; 
+    font-weight: 700 !important; 
+}
+
+/* رفع التباين اللوني للحالات لمنع التداخل والبهتان */
+.status-open { 
+    color: #10b981 !important; /* أخضر زمردي ناصع */
+    font-size: 12.5px !important; 
+    font-weight: 800 !important; 
+}
+
+.status-closed { 
+    color: #ef4444 !important; /* أحمر مرجاني واضح */
+    font-size: 12.5px !important; 
+    font-weight: 800 !important; 
+}
+
+.status-space-dot {
+    color: rgba(11, 63, 59, 0.25) !important;
+    font-size: 10px !important;
+}
+
+.status-countdown-nano {
+    color: #124d46 !important; /* لون داكن مريح ومقروء بوضوح */
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+/* توزيع الأزرار بشكل أفقي متناسق */
+.footer-buttons-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
+/* أزرار التواصل المعتمدة لبراند كافيه ملاذ */
+.phone-call-btn-link, .waze-premium-btn {
+    background: #0b3f3b !important; 
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 10px rgba(11, 63, 59, 0.12) !important;
+    border-radius: 40px !important; 
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    padding: 11px 0 !important; 
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.phone-call-btn-link:active, .waze-premium-btn:active {
+    transform: scale(0.96) !important; 
+}
+</style>
+
+<script>
+(function() {
+    function refreshSeamlessClock() {
+        const openHour = 6;   
+        const closeHour = 24; 
+
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+
+        const statusTextEl = document.getElementById('store-status-text');
+        const countdownEl = document.getElementById('store-time-countdown');
+
+        if (!statusTextEl || !countdownEl) return;
+
+        const currentTotalMinutes = (currentHour * 60) + currentMinute;
+        const openTotalMinutes = openHour * 60;
+        const closeTotalMinutes = closeHour * 60;
+
+        if (currentHour >= openHour && currentHour < closeHour) {
+            const minutesLeft = closeTotalMinutes - currentTotalMinutes;
+            const hours = Math.floor(minutesLeft / 60);
+            const minutes = minutesLeft % 60;
+
+            statusTextEl.textContent = "مفتوح الآن";
+            statusTextEl.className = "status-open";
+            countdownEl.textContent = hours > 0 ? `يغلق بعد ${hours} س و ${minutes} د` : `يغلق بعد ${minutes} د`;
+        } else {
+            let minutesLeft = currentTotalMinutes >= closeTotalMinutes ? (24 * 60 - currentTotalMinutes) + openTotalMinutes : openTotalMinutes - currentTotalMinutes;
+            const hours = Math.floor(minutesLeft / 60);
+            const minutes = minutesLeft % 60;
+
+            statusTextEl.textContent = "مغلق الآن";
+            statusTextEl.className = "status-closed";
+            countdownEl.textContent = hours > 0 ? `يفتح بعد ${hours} س و ${minutes} د` : `يفتح بعد ${minutes} د`;
+        }
+    }
+
+    refreshSeamlessClock();
+    setInterval(refreshSeamlessClock, 60000);
+})();
+</script>
+
 </body>
+</script>
 </html>
