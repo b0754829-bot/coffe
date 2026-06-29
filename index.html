@@ -996,61 +996,73 @@ header, .custom-premium-header {
 }
     
 
-/* 1. إصلاح تداخل الفلاتر وتوفير مساحة مريحة */
+/* 1. إصلاح تداخل الفلاتر وتوفير مساحة مريحة (شريط التمرير) */
 .subcategory-filters {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 10px; /* تقليل المسافة لضمان عدم التزاحم */
-    padding: 12px 15px; /* مسافة أمان من الجوانب */
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* إخفاء شريط التمرير */
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important; /* منع أي اهتزاز رأسي */
+    white-space: nowrap !important;
+    gap: 10px !important; 
+    padding: 12px 15px !important; 
+    -webkit-overflow-scrolling: touch !important; /* سحب مطاطي ناعم جداً على الآيفون */
+    scrollbar-width: none !important; /* إخفاء شريط التمرير لمتصفح فايرفوكس */
+    overscroll-behavior-x: contain !important; /* منع سحب الصفحة كاملة عند نهاية الفلتر */
 }
 
-/* 2. تنسيق الخط ليكون أنيقاً وواضحاً (System UI هو الأفضل للآيفون والأندرويد) */
+/* إخفاء شريط التمرير لمتصفحات جوجل كروم وسفاري */
+.subcategory-filters::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* 2. تنسيق الأزرار (أنيق، واضح، ومحصن ضد الانضغاط) */
 .sub-filter-item {
     background: rgba(16, 185, 129, 0.15) !important;
     border: 1px solid rgba(16, 185, 129, 0.4) !important;
     color: #064e3b !important;
     
-    /* تغيير الخط ليعتمد على النظام (يتناسب تلقائياً مع آيفون وجالكسي) */
+    /* نظام الخطوط الذكي المتوافق مع آبل وأندرويد */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    font-size: 13px !important; /* حجم متوازن لا يتداخل */
+    font-size: 13px !important; 
     font-weight: 600 !important;
+    line-height: 1.2 !important; /* موازنة النص رأسياً */
     
-    /* موازنة المسافات الداخلية لمنع ضغط النص */
+    /* محاذاة مرنة تضمن بقاء النص في المنتصف دائماً */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
     padding: 8px 16px !important; 
     border-radius: 20px !important;
     
-    /* منع التفاف النص داخل الزر */
-    white-space: nowrap !important;
-    flex-shrink: 0; /* منع الزر من الانضغاط */
+    white-space: nowrap !important; /* منع نزول الكلمات لسطر جديد */
+    flex-shrink: 0 !important;      /* منع المتصفح من عصر أو تشويه الزر */
     
-    transition: all 0.3s ease !important;
+    /* تسريع الحركة عبر كرت الشاشة في الهواتف */
+    transform: translate3d(0,0,0) !important;
+    -webkit-tap-highlight-color: transparent !important; /* إزالة الوميض الأزرق المزعج في سفاري عند النقر */
+    
+    transition: all 0.25s ease !important;
     cursor: pointer;
 }
 
-/* 3. تنسيق حالة التنشيط */
+/* 3. تنسيق حالة التنشيط (الزر النشط) */
 .sub-filter-item.active {
     background: #0f766e !important;
     color: #ffffff !important;
+    border-color: #0f766e !important;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2) !important; /* ظل خفيف وجميل للزر النشط */
 }
 
-/* 4. إضافات لضمان عدم حدوث تداخل في الشاشات الصغيرة جداً */
+/* 4. التجاوب الذكي للشاشات الصغيرة جداً (مثل iPhone SE و آيفون القديم) */
 @media (max-width: 375px) {
     .sub-filter-item {
-        font-size: 12px !important;
-        padding: 7px 14px !important;
+        font-size: 12px !important; /* تصغير الخط ميكرومترياً ليناسب الشاشة */
+        padding: 7px 14px !important; /* تقليص الحواف لتوفير مساحة */
     }
 }
-
-    
-    .sub-filter-item {
-        font-size: 14px; /* تصغير الخط قليلاً فقط في الشاشات الصغيرة جداً */
-        padding: 10px 18px;
-    }
-
 
 /* تصميم شبكة عرض المنتجات */
 .products-showcase {
@@ -2994,10 +3006,10 @@ function sendCartToWhatsApp() {
         let total = 0;
 
      userCartList.forEach((item, i) => {
-    messageText += `${i+1}) *${item.name}*\n`;
-    if (item.menuExtras && item.menuExtras.length > 0) {
-        messageText += `    إضافات: ${item.menuExtras.join(", ")}\n`;
-    }
+   const actualExtras = item.extras || item.menuExtras;
+if (actualExtras && actualExtras.length > 0) {
+    messageText += `   ➕ الإضافات: ${actualExtras.join(", ")}\n`;
+}
 
     // 1. حساب السعر الإجمالي للمنتج الحالي بناءً على كميته (داخل اللوب)
     const itemTotal = item.price * item.qty;
@@ -3891,7 +3903,6 @@ function triggerCartAnimation(element) {
     background: rgba(0, 0, 0, 0.1);
 }
 </style>
-
 <script>
 (function() {
     let savedPWAPrompt = null;
@@ -3911,28 +3922,31 @@ function triggerCartAnimation(element) {
         return;
     }
 
-    // كشف الأنظمة والمتصفحات لتطبيق شروط أمان سفاري وكروم بدقة
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    // كشف الأنظمة (الآيفون والآيباد)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-    // 🤖 أولاً: متصفح جوجل كروم وأجهزة الجالكسي/الأندرويد
+    // 🤖 أولاً: أجهزة الجالكسي/الأندرويد ومتصفح كروم
+    // (يعتمد على حدث المتصفح الرسمي، ويشترط وجود شهادة HTTPS وملف Manifest و Service worker ليعمل)
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         savedPWAPrompt = e;
         
-        // إظهار البطاقة الزجاجية بسلاسة بعد 3 ثوانٍ
+        // إظهار البطاقة الزجاجية بسلاسة بعد 3 ثوانٍ للأندرويد
         setTimeout(() => {
-            if (pwaCardElement) pwaCardElement.classList.add('active');
+            if (pwaCardElement && !isIOS) { // نضمن هنا عدم تداخله مع كود الآيفون
+                pwaCardElement.classList.add('active');
+            }
         }, 3000);
     });
 
-    // 🍏 ثانياً: متصفح سفاري وأجهزة الآيفون (حيث تمنع آبل التثبيت التلقائي برمجياً لأسباب أمنية)
-    if (isIOS && isSafari) {
+    // 🍏 ثانياً: أجهزة الآيفون (Safari والمتصفحات الأخرى على iOS)
+    // تم تبسيط الشرط وتأمينه ليظهر حتماً على أي جهاز آيفون لتوجيه المستخدم يدوياً دون تعقيد
+    if (isIOS) {
         setTimeout(() => {
             if (pwaCardElement) {
-                // تعديل النص والزر ليتوافق تماماً مع أمان سفاري ليوجه المستخدم خطوة بخطوة
-                pwaDescText.innerHTML = 'اضغط على زر المشاركة <span style="font-size:14px;">⎋</span> ثم اختر "إضافة إلى الشاشة الرئيسية ⊕"';
-                pwaMainBtn.style.display = 'none'; // إخفاء زر التثبيت التلقائي لأن النظام يمنعه، والاعتماد على توجيه سفاري
+                // تعديل النص والزر ليتوافق تماماً مع نظام آبل ليوجه المستخدم خطوة بخطوة
+                pwaDescText.innerHTML = 'اضغط على زر المشاركة <span style="font-size:14px; font-weight:bold;">⎋</span> بالأسفل ثم اختر "إضافة إلى الشاشة الرئيسية ⊕"';
+                pwaMainBtn.style.display = 'none'; // إخفاء زر التثبيت التلقائي لأن آبل تمنعه برمجياً
                 pwaCardElement.classList.add('active');
             }
         }, 3000);
@@ -3965,7 +3979,6 @@ function triggerCartAnimation(element) {
 })();
 </script>
 
-
 </body>
-</script>
+
 </html>
