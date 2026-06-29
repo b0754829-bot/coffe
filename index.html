@@ -33,12 +33,21 @@
             --primary-emerald: 16, 185, 129; /* قم بتغيير هذه الأرقام فقط */
     --glass-opacity: 0.4;
             
+    .hero-section {
+    height: 100dvh; /* تملأ الشاشة بدقة على كل الهواتف الذكية دون زيادة أو نقصان */
+}
         }
         .product-card {
     background: rgba(var(--primary-emerald), var(--glass-opacity));
 }
 
-
+@media (prefers-color-scheme: dark) {
+    :root {
+        --titanium-natural: #0c0d0e; /* يصبح الخلفية سوداء عميقة */
+        --black-premium: #ecefed;    /* تصبح النصوص فاتحة */
+        /* تعديل باقي الألوان الزجاجية هنا */
+    }
+}
 
 /* تسريع الاستجابة الفورية للنقر في سفاري والآيفون */
 button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
@@ -1453,7 +1462,8 @@ button[onclick*="saveAndAddToCart"] {
     right: 15px;
     width: calc(100% - 30px);
     max-width: 330px;
-    height: calc(100vh - 30px);
+    /* 🌟 تم التعديل هنا لضمان عدم تأثر القائمة بشريط أدوات المتصفح المتغير */
+    height: calc(100dvh - 30px); 
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
@@ -1747,9 +1757,9 @@ header, [class*="header"], .store-header-wrapper {
         <button class="filter-btn active" onclick="filterCategoryProducts(this, 'cold', 'all')">الكل</button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'iced_coffee')"> قهوة مُثلجة  </button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')"> مخيتو </button>
-                <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'mojito')"> كوكتيل </button>
+                <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'cocktail')"> كوكتيل </button>
         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">   ايس كريم وميلك شيك </button>
-         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'smoothie')">   مشروبات معبأة في زجاجات والمزيد </button>
+         <button class="filter-btn" onclick="filterCategoryProducts(this, 'cold', 'bottled')">   مشروبات معبأة في زجاجات والمزيد </button>
     </div>
     <div class="products-showcase" id="container-cold"></div>
 </div>
@@ -1958,49 +1968,48 @@ header, [class*="header"], .store-header-wrapper {
 
 
 <style>
-    
+/* حاوية اللوجو لتوسيط العناصر عمودياً */
+.brand-logo-container {
+    display: flex !important;
+    flex-direction: column !important; /* ترتيب عمودي: اللوجو وتحته النص مباشرة */
+    align-items: center !important; /* توسيط أفقي ممتاز في منتصف الهيدر */
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 1001 !important; 
+    gap: 2px !important; /* مسافة بسيطة جداً وانسيابية بين اللوجو والعبارة */
+}
+
+/* 🌿 العبارة الترحيبية: شفافة تماماً كجزء طبيعي من الهيدر */
 #maladh-sub-logo-text {
-    position: absolute !important; 
-    top: 100% !important; /* قمنا بضبطها لتكون أسفل اللوجو مباشرة */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 5px !important;
+    gap: 4px !important;
     
     font-family: 'Cairo', sans-serif !important;
-    font-weight: 600 !important; /* جعلناه أخف قليلاً ليتناسب مع الهيدر */
-    color: #0b3f3b !important;
+    font-weight: 600 !important; 
+    color: #0b3f3b !important; /* لون هوية كافيه ملاذ */
     
-    /* ❌ تم إلغاء خلفية الكبسولة والشفافية والبوردر */
-    background: transparent !important;
+    /* ❌ تم إزالة الكبسولة، الخلفية، والحدود تماماً ليكون شفافاً 100% */
+    background: transparent !important; 
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border: none !important;
-    padding: 5px 0 !important; /* مساحة بسيطة جداً حول النص */
+    padding: 0 !important; /* إلغاء المسافات الداخلية لتفادي شكل الحاوية */
+    margin-top: 2px !important; /* ضبط المسافة العلوية ليتناسق أسفل الشعار */
     
-    z-index: 2147483647 !important;
+    z-index: 1002 !important;
     pointer-events: none !important;
     
     white-space: nowrap !important;
-    font-size: clamp(10px, 2vw, 12px) !important;
+    font-size: clamp(10px, 2.2vw, 12px) !important; /* حجم متناسق وناعم للهيدر */
     
     opacity: 0;
     animation: maladhCloudFadeIn 1s ease forwards !important;
 }
-.brand-logo-container {
-    display: flex !important;
-    flex-direction: column !important; /* ترتيب عمودي: لوجو وفوقه/تحته العبارة */
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-    z-index: 1001 !important; /* أعلى من الهيدر لضمان الظهور */
-}
 
 @keyframes maladhCloudFadeIn { 
-    to { opacity: 0.95; } 
+    to { opacity: 0.90; } /* درجة وضوح النص لتناسب الهيدر */
 }
 
 /* 🎨 هندسة الأيقونات الخطية النحيفة المتناغمة مع الغيمة */
@@ -2024,7 +2033,6 @@ header, [class*="header"], .store-header-wrapper {
 .drop-dew { animation: maladhDewDrop 2.5s infinite ease-in-out !important; }
 @keyframes maladhDewDrop { 0%, 100% { transform: translateY(-1px); opacity: 0.6; } 50% { transform: translateY(1.5px); opacity: 1; } }
 </style>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // 1. جلب اسم العميل (حماية من القيم غير المنطقية)
@@ -2058,28 +2066,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (detectedName) greetingText = `${detectedName}، ${greetingText}`;
 
-    // 3. تحديث واجهة المستخدم بأمان
-    const brandLogoContainer = document.querySelector(".brand-logo-container");
-    if (brandLogoContainer) {
-        let cloudElement = document.getElementById("maladh-sub-logo-text");
-        if (!cloudElement) {
-            cloudElement = document.createElement("div");
-            cloudElement.id = "maladh-sub-logo-text";
-            brandLogoContainer.appendChild(cloudElement);
-        }
-        cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
-
-        // محاولة جلب الطقس مع ضمان عدم تعطل المتصفح عند الخطأ
-        fetch('https://wttr.in/?format=j1', { mode: 'cors', signal: AbortSignal.timeout(3000) })
-            .then(res => res.json())
-            .then(data => {
-                const desc = data?.current_condition?.[0]?.weatherDesc?.[0]?.value?.toLowerCase() || "";
-                if (desc.includes("rain") || desc.includes("shower")) {
-                    cloudElement.innerHTML = `<span>أجواء ماطرة.. دافئ كوبك الآن</span>`;
-                }
-            })
-            .catch(err => console.log("Weather service unreachable, proceeding with standard display."));
+   // 3. تحديث واجهة المستخدم بأمان داخل الهيدر
+const brandLogoContainer = document.querySelector(".brand-logo-container");
+if (brandLogoContainer) {
+    let cloudElement = document.getElementById("maladh-sub-logo-text");
+    if (!cloudElement) {
+        cloudElement = document.createElement("div");
+        cloudElement.id = "maladh-sub-logo-text";
+        brandLogoContainer.appendChild(cloudElement); // الإرجاع للحقن داخل حاوية الهيدر
     }
+    cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
+
+    // محاولة جلب الطقس مع ضمان عدم تعطل المتصفح عند الخطأ
+    fetch('https://wttr.in/?format=j1', { mode: 'cors', signal: AbortSignal.timeout(3000) })
+        .then(res => res.json())
+        .then(data => {
+            const desc = data?.current_condition?.[0]?.weatherDesc?.[0]?.value?.toLowerCase() || "";
+            if (desc.includes("rain") || desc.includes("shower")) {
+                cloudElement.innerHTML = `<span>أجواء ماطرة.. دافئ كوبك الآن 🌧️</span>`;
+            }
+        })
+        .catch(err => console.log("Weather service unreachable, proceeding with standard display."));
+}
 
     // 4. مراقبة المدخلات (مؤمنة)
     document.addEventListener('input', (e) => {
@@ -3094,21 +3102,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-function activateSubFilter(element) {
-    // 1. إزالة التفعيل عن الكل
-    document.querySelectorAll('.sub-filter-item').forEach(el => el.classList.remove('active'));
-    
-    // 2. تفعيل الزر المختار
-    element.classList.add('active');
-    
-    // 3. التمركز الذكي: جعل العنصر المختار في منتصف شريط التمرير
-    element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center' 
-    });
-}
 
+
+
+// دالة تغيير الفئات الفرعية النشطة (الكل، V60، إلخ) وإعادة الفلترة
+function filterCategoryProducts(buttonElement, mainCategory, subCategory) {
+    const parentContainer = buttonElement.parentElement;
+    const buttons = parentContainer.getElementsByClassName('filter-btn');
+    for (let btn of buttons) {
+        btn.classList.remove('active');
+    }
+    
+    buttonElement.classList.add('active');
+
+    // عند اختيار فئة فرعية جديدة، نعيد تهيئة حالة القسم للوضع الافتراضي (غير ممتد) لراحة العين
+    sectionsExpandedState[mainCategory] = false;
+    renderCategorySection(mainCategory, subCategory);
+}
 
 
 let currentPID = null;
@@ -3369,183 +3379,6 @@ function triggerCartAnimation(element) {
 }
    </script>
     
-
-
-
-</script>
-<div id="pwa-premium-card">
-    <div class="pwa-content">
-        <img src="icon-192.png" alt="App Icon" class="pwa-icon">
-        <div class="pwa-text">
-            <h5>كافيه مَلاذ</h5>
-            <p>تصفح أسرع واطلب بسهولة</p>
-        </div>
-    </div>
-    <div class="pwa-actions">
-        <button class="pwa-btn-install" onclick="triggerPWAInstall()">تثبيت</button>
-        <button class="pwa-btn-close" onclick="dismissPWACard()">✕</button>
-    </div>
-</div>
-
-<style>
-#pwa-premium-card {
-    position: fixed;
-    bottom: 25px;
-    left: 5%;
-    width: 90%;
-    max-width: 380px;
-    background: rgba(255, 255, 255, 0.95);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 24px;
-    padding: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    z-index: 100000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    direction: rtl;
-    
-    /* حركة مدعومة بكرت الشاشة مباشرة لتفادي الـ Crash أو البطء في iOS والسفاري */
-    transform: translateY(150%) translateZ(0);
-    opacity: 0;
-    will-change: transform, opacity;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s linear;
-}
-
-/* حالة الظهور المرن */
-#pwa-premium-card.active {
-    transform: translateY(0) translateZ(0);
-    opacity: 1;
-}
-
-.pwa-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.pwa-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    object-fit: cover;
-}
-
-.pwa-text h5 {
-    margin: 0 0 2px 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: #0b3f3b; /* لون الهوية الخاص بك */
-    font-family: 'Cairo', sans-serif;
-}
-
-.pwa-text p {
-    margin: 0;
-    font-size: 11px;
-    color: #64748b;
-    font-family: 'Cairo', sans-serif;
-}
-
-.pwa-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.pwa-btn-install {
-    background: #0b3f3b;
-    color: #ffffff;
-    border: none;
-    border-radius: 14px;
-    padding: 8px 14px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.pwa-btn-close {
-    background: rgba(0, 0, 0, 0.04);
-    color: #334155;
-    border: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    -webkit-tap-highlight-color: transparent;
-}
-</style>
-
-<script>
-(function() {
-    let savedPWAPrompt = null;
-    const pwaCardElement = document.getElementById('pwa-premium-card');
-
-    // الاستماع لحدث جاهزية التثبيت من المتصفح
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        savedPWAPrompt = e;
-        
-        // إظهار البطاقة بسلاسة بعد 3 ثوانٍ إذا لم يقم المستخدم بإغلاقها اليوم
-        if (!localStorage.getItem('pwa_dismissed_today')) {
-            setTimeout(() => {
-                if (pwaCardElement) pwaCardElement.classList.add('active');
-            }, 3000);
-        }
-    });
-
-    // تشغيل التثبيت
-    window.triggerPWAInstall = function() {
-        if (savedPWAPrompt) {
-            savedPWAPrompt.prompt();
-            savedPWAPrompt.userChoice.then((choice) => {
-                if (choice.outcome === 'accepted') {
-                    console.log('PWA Installed');
-                }
-                dismissPWACard();
-            });
-        }
-    };
-
-    // إغلاق وتفريغ الذاكرة فوراً لمنع أي ثقل
-    window.dismissPWACard = function() {
-        if (pwaCardElement) {
-            pwaCardElement.classList.remove('active');
-            localStorage.setItem('pwa_dismissed_today', Date.now());
-            setTimeout(() => {
-                savedPWAPrompt = null;
-            }, 400);
-        }
-    };
-})();
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3920,7 +3753,217 @@ function triggerCartAnimation(element) {
 
 
 
+<div id="pwa-premium-card">
+    <div class="pwa-content">
+        <img src="icon-192.png" alt="مَلاذ" class="pwa-icon">
+        <div class="pwa-text">
+            <h5>مَلاذ</h5>
+            <p id="pwa-desc-text">تصفح أسرع واطلب بسهولة</p>
+        </div>
+    </div>
+    <div class="pwa-actions">
+        <button class="pwa-btn-install" id="pwa-main-btn" onclick="triggerPWAInstall()">إضافة</button>
+        <button class="pwa-btn-close" onclick="dismissPWACard()">✕</button>
+    </div>
+</div>
 
+<style>
+#pwa-premium-card {
+    position: fixed;
+    bottom: calc(25px + env(safe-area-inset-bottom, 0px)); /* حماية تامة لنوتش الآيفون السفلي */
+    left: 5%;
+    width: 90%;
+    max-width: 380px;
+    
+    /* 💎 المظهر الزجاجي الشفاف الفاخر المتوافق 100% مع أجهزة الجالكسي والآيفون */
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(25px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(190%) !important; /* معالج سفاري آبل الخاص */
+    
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 24px !important; /* حواف ناعمة جداً ومريحة للعين */
+    padding: 16px;
+    box-shadow: 0 20px 40px rgba(11, 63, 59, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    direction: rtl;
+    
+    /* حركة مدعومة بكرت الشاشة مباشرة لتفادي البطء والثقل في الهواتف */
+    transform: translateY(150%) translateZ(0);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s linear;
+}
+
+/* حالة الظهور المرن والناعم */
+#pwa-premium-card.active {
+    transform: translateY(0) translateZ(0);
+    opacity: 1;
+}
+
+/* ➡️ حركة الإزاحة السريعة والسلسة لجهة اليمين تماماً عند الضغط على زر الإغلاق ✕ */
+#pwa-premium-card.dismissed-right {
+    transform: translateX(150%) translateZ(0) !important;
+    opacity: 0 !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+}
+
+.pwa-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* الأيقونة بحواف ناعمة تتناسق مع التصميم الزجاجي */
+.pwa-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(11, 63, 59, 0.15);
+}
+
+.pwa-text h5 {
+    margin: 0 0 2px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0b3f3b; /* اللون الزمردي المميز للموقع */
+    font-family: 'Cairo', sans-serif;
+}
+
+.pwa-text p {
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: 'Cairo', sans-serif;
+    line-height: 1.3;
+}
+
+.pwa-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* أزرار سلسة جداً وتعمل بسرعة فورية */
+.pwa-btn-install {
+    background: #0b3f3b; /* الزمردي المميز */
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 10px 18px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* إلغاء تأخير الـ 300ms في متصفح سفاري لسرعة الاستجابة */
+    transition: all 0.2s ease;
+}
+
+.pwa-btn-install:active {
+    transform: scale(0.95);
+    opacity: 0.9;
+}
+
+.pwa-btn-close {
+    background: rgba(0, 0, 0, 0.05);
+    color: #0b3f3b;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: background 0.2s ease;
+}
+
+.pwa-btn-close:active {
+    background: rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<script>
+(function() {
+    let savedPWAPrompt = null;
+    const pwaCardElement = document.getElementById('pwa-premium-card');
+    const pwaDescText = document.getElementById('pwa-desc-text');
+    const pwaMainBtn = document.getElementById('pwa-main-btn');
+
+    // 🔒 فحص الأمان الأول: إذا كان الزبون يتصفح الموقع بالفعل من الشاشة الرئيسية، لا يظهر له بتاتاً
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isStandalone) {
+        if (pwaCardElement) pwaCardElement.style.display = 'none';
+        return;
+    }
+
+    // فحص إذا كان الزبون قد أغلق الإشعار سابقاً لحفظ رغبته
+    if (localStorage.getItem('pwa_malath_dismissed')) {
+        return;
+    }
+
+    // كشف الأنظمة والمتصفحات لتطبيق شروط أمان سفاري وكروم بدقة
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    // 🤖 أولاً: متصفح جوجل كروم وأجهزة الجالكسي/الأندرويد
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        savedPWAPrompt = e;
+        
+        // إظهار البطاقة الزجاجية بسلاسة بعد 3 ثوانٍ
+        setTimeout(() => {
+            if (pwaCardElement) pwaCardElement.classList.add('active');
+        }, 3000);
+    });
+
+    // 🍏 ثانياً: متصفح سفاري وأجهزة الآيفون (حيث تمنع آبل التثبيت التلقائي برمجياً لأسباب أمنية)
+    if (isIOS && isSafari) {
+        setTimeout(() => {
+            if (pwaCardElement) {
+                // تعديل النص والزر ليتوافق تماماً مع أمان سفاري ليوجه المستخدم خطوة بخطوة
+                pwaDescText.innerHTML = 'اضغط على زر المشاركة <span style="font-size:14px;">⎋</span> ثم اختر "إضافة إلى الشاشة الرئيسية ⊕"';
+                pwaMainBtn.style.display = 'none'; // إخفاء زر التثبيت التلقائي لأن النظام يمنعه، والاعتماد على توجيه سفاري
+                pwaCardElement.classList.add('active');
+            }
+        }, 3000);
+    }
+
+    // تشغيل التثبيت الفوري لأجهزة الجالكسي وكروم
+    window.triggerPWAInstall = function() {
+        if (savedPWAPrompt) {
+            savedPWAPrompt.prompt();
+            savedPWAPrompt.userChoice.then((choice) => {
+                if (choice.outcome === 'accepted') {
+                    if (pwaCardElement) pwaCardElement.style.display = 'none';
+                }
+                dismissPWACard();
+            });
+        }
+    };
+
+    // ➡️ إغلاق وتمرير الإشعار لجهة اليمين بسلاسة فائقة وحفظ خيار عدم الرغبة
+    window.dismissPWACard = function() {
+        if (pwaCardElement) {
+            pwaCardElement.classList.add('dismissed-right'); // تفعيل أنميشن الإزاحة لليمين
+            localStorage.setItem('pwa_malath_dismissed', 'true'); // حفظ رغبة المستخدم لعدم إزعاجه مجدداً
+            setTimeout(() => {
+                pwaCardElement.style.display = 'none';
+                savedPWAPrompt = null;
+            }, 500); // تفريغ بعد اكتمال الأنميشن
+        }
+    };
+})();
+</script>
 
 
 </body>
