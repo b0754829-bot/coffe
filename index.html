@@ -57,13 +57,88 @@ button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
 }
 
 
-
-/* تسريع الاستجابة الفورية للنقر والتمرير في أجهزة آبل */
-html, body {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* تمرير فائق النعومة في سفاري */
+/* ============================================================
+   🍏 هندسة التمرير الموحدة والفاكة لقفل وثبات الشاشة (سفاري & كروم)
+   ============================================================ */
+html {
+    scroll-behavior: smooth !important; /* تفعيل التمرير الانسيابي الإجباري للمنيو والأزرار */
+    -webkit-overflow-scrolling: touch !important; /* التمرير المطاطي الأصلي الفاخر لنظام آبل */
+    height: auto !important; /* فك القفل البرمجي الذي كان يحبس الشاشة */
+    min-height: 100% !important;
 }
 
+body {
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    height: auto !important; /* تأكيد مرونة الارتفاع لفتح عمق الصفحة */
+    min-height: 100dvh; 
+    
+    background-color: var(--titanium-natural);
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden !important; /* حماية الأبعاد ومنع الاهتزاز الأفقي للموقع */
+    overflow-y: visible !important; /* إجبار المتصفح على عرض مسار السكرول العمودي للآيفون */
+    
+    /* 🚀 مسافة أمان علوية تعوض مساحة الهيدر الثابت لحماية أول عناصر موقعك من الاختفاء */
+    padding-top: calc(85px + env(safe-area-inset-top, 0px)) !important;
+}
+
+/* 🎯 نقطة التوقف البرمجية: تضمن توقف الصفحة قبل عنوان القسم بمسافة أنيقة تحترم الهيدر */
+[id$="-anchor"], #hot-drinks-anchor, #cold-drinks-anchor, #desserts-anchor, #breakfast-anchor {
+    scroll-margin-top: 130px !important; 
+}
+
+/* تنظيف النقرات السريعة للهواتف الذكية */
+* {
+    box-sizing: border-box;
+    max-width: 100%;
+    -webkit-tap-highlight-color: transparent !important; /* إلغاء الوميض الرمادي في سفاري */
+}
+
+/* ============================================================
+   🛡️ 2️⃣ الهيدر الثابت والمطهر 100% من مسببات الاهتزاز والارتجاج
+   ============================================================ */
+header, .custom-premium-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: fixed !important; /* 🚀 التثبيت الصلب كالحديد يمنع سفاري من تحريك الهيدر */
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    height: auto !important;
+    border-radius: 0px !important;
+    margin: 0 !important;
+    padding: 10px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+
+    /* 🔮 النمط الزجاجي السائل الفخم لـ مَلاذ */
+    background: rgba(236, 239, 237, 0.45) !important; 
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    
+    /* حماية نوتش الآيفون والجزيرة الديناميكية */
+    padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important; 
+    padding-bottom: 12px !important;
+
+    /* 🛑 التطهير الحاسم: إزالة الـ transform والـ translate3d والـ backface-visibility */
+    transform: none !important;
+    -webkit-transform: none !important;
+    will-change: backdrop-filter !important; 
+}
+
+/* ============================================================
+   🌊 3️⃣ تطهير لوح الزجاج المصنفر للعناوين من الاهتزاز الرسومي
+   ============================================================ */
+.title-decorated::before {
+    transform: none !important;
+    -webkit-transform: none !important;
+    will-change: backdrop-filter !important; /* حصر معالجة الكرت في الفلتر لمنع الرعشة والارتجاج */
+}
 /* منع الوميض الرمادي المزعج في سفاري عند الضغط على الأزرار وتسريع الاستجابة */
 button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
     -webkit-tap-highlight-color: transparent !important;
@@ -188,71 +263,6 @@ button, .premium-btn, .category-btn, .add-to-cart, [onclick] {
     touch-action: manipulation;
 }
 
-
-/* إعدادات السكرول الأساسية والأسرع والمحدثة للموبايل */
-html {
-    scroll-behavior: smooth !important; /* فرض الانتقال السلس بداخل النظام */
-}
-
-/* إعدادات السكرول الأساسية والأسرع */
-html, body {
-    margin: 0; padding: 0; width: 100%; height: 100%;
-    background-color: var(--titanium-natural);
-    font-family: 'Cairo', sans-serif;
-    overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; /* سلاسة الآيفون */
-    scroll-behavior: auto !important;
-}
-
-/* تنظيف الـ * من العمليات الثقيلة */
-* {
-    box-sizing: border-box;
-    max-width: 100%;
-    -webkit-tap-highlight-color: transparent;
-}
-header {
-    /* الخصائص السابقة */
-    padding-top: env(safe-area-inset-top, 15px); /* لحماية المحتوى في الآيفون */
-}
-
-header, .custom-premium-header {
-    width: 100% !important;
-    max-width: 100% !important;
-    position: sticky !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 1000 !important;
-    height: auto !important;
-    border-radius: 0px !important;
-    margin: 0 !important;
-    padding: 10px 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    box-sizing: border-box !important;
-
-    /* 🔮 النمط الزجاجي السائل: شفافية زجاجية متزنة لراحة العين */
-    background: rgba(236, 239, 237, 0.4) !important; /* تقليل التعتيم لـ 40% للحصول على الشفافية */
-    
-    /* 🛡️ تأثير الضباب الزجاجي الآمن والمتوافق تماماً مع سفاري وأندرويد */
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important; /* ضروري جداً لتشغيل التأثير على الآيفون */
-    
-    /* خط سفلي ناعم جداً ومستوحى من تصميم iOS لتعزيز تأثير الزجاج */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-
-    /* 🛡️ حماية نوتش الآيفون (الجزيرة الديناميكية) لمنع تداخل النصوص مع الساعة والشحن */
-    padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important; 
-    padding-bottom: 12px !important;
-
-    /* 🚀 كود الأمان الرسومي المخصص لسفاري: يمنع الوميض أو الاهتزاز أو اختفاء الهيدر أثناء السكرول */
-    -webkit-transform: translate3d(0, 0, 0) !important;
-    transform: translate3d(0, 0, 0) !important;
-    -webkit-backface-visibility: hidden !important;
-    backface-visibility: hidden !important;
-    will-change: transform, backdrop-filter !important;
-}
 
 /* 4. السلايدر (سكرول أفقي سريع ومحصن لسفاري) */
 .horizontal-scroll {
@@ -2509,38 +2519,37 @@ function smoothScrollTo(elementId) {
     }
 }
 
-// أبقينا على الدالة العلوية كما هي
-function handleLuxuryNav(anchorId) {
-    smoothScrollTo(anchorId);
-}
-
-function handleNavClick(anchorId) {
-    // 1. إغلاق القائمة الجانبية فوراً
-    if (typeof toggleNavMenu === "function") {
+// 🍏 الدالة الموحدة والمحمية تماماً للتنقل من القائمة الجانبية دون أي ارتجاج أو تجميد
+window.handleNavClick = function(anchorId) {
+    // 1️⃣ إغلاق القائمة الجانبية أولاً لبدء أنميشن الإخفاء السلس
+    if (typeof toggleNavMenu === 'function') {
         toggleNavMenu(false);
     }
 
-    // 2. إجبار المتصفح على الانتظار حتى تختفي القائمة
-    setTimeout(() => {
-        const targetSection = document.getElementById(anchorId);
-        
-        // 🚨 أداة كشف الخطأ: إذا كان الاسم غير متطابق سيظهر لك تنبيه!
-        if (!targetSection) {
-            alert("عذراً، المتصفح لم يجد قسماً يحمل الاسم: " + anchorId + " ... يرجى التأكد من تطابق الأسماء في كود الـ HTML.");
-            return; // نوقف الكود هنا
+    // 2️⃣ شبكة الأمان: إعطاء المتصفح 250 ملي ثانية لإنهاء حركة المنيو تماماً قبل بدء السكرول
+    setTimeout(function() {
+        // الاعتماد على الدالة الأصلية الفاخرة المدمجة في موقعك لمنع الارتجاج وحساب الأبعاد بالملي
+        if (typeof smoothScrollTo === 'function') {
+            smoothScrollTo(anchorId);
+        } else {
+            // حل احتياطي في حال عدم قراءة الدالة الأصلية لأي سبب
+            const targetElement = document.getElementById(anchorId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
+    }, 250); // المهلة الزمنية السحرية لفصل حركتي الإغلاق والتمرير في معالج الهاتف
+};
 
-        // 3. القفز الإجباري للقسم (بدون تأثير smooth الذي يسبب مشاكل في الآيفون)
-        targetSection.scrollIntoView({ behavior: 'auto', block: 'start' });
-        
-        // 4. إزاحة الشاشة قليلاً للأسفل لكي لا يغطي الهيدر على اسم القسم
-        setTimeout(() => {
-            window.scrollBy({ top: -110, behavior: 'smooth' });
-        }, 50);
-
-    }, 350);
+// أبقينا على الدالة العلوية كما هي ومحمية
+function handleLuxuryNav(anchorId) {
+    if (typeof smoothScrollTo === 'function') {
+        smoothScrollTo(anchorId);
+    }
 }
-
 
 
 
