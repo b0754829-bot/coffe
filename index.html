@@ -154,29 +154,7 @@ button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
    📐 هندسة صندوق لوجو "مَلاذ Coffee" المحصن والمشدود للأعلى
    ============================================================ */
 
-/* 1️⃣ ضبط الصندوق الرئيسي للوجو */
-.logo-box {
-    display: flex !important;
-    flex-direction: column !important;   /* ترتيب النص والخط عمودياً بدقة */
-    align-items: center !important;      /* التوسط الأفقي الرياضي المطلق في منتصف الهيدر */
-    justify-content: flex-start !important; /* 🚀 إجبار اللوجو على الالتصاق بأعلى نقطة في الشاشة */
-    
-    /* 🍏 التوافق مع سفاري: قراءة نوتش الآيفون ديناميكياً ودفع اللوجو مسافة أمان ميكرومترية */
-    padding-top: calc(env(safe-area-inset-top) + 2px) !important; 
-    
-    /* تصفير الشد العكسي والهوامش التي تسبب تفاوت الارتفاع بين المتصفحات */
-    margin-top: 0 !important; 
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    
-    /* جعل الارتفاع مرن تماماً ليتناسب مع حجم النص بداخل الصندوق */
-    height: auto !important; 
-    width: 100% !important;
-    
-    /* تحصين سفاري لمنع تذبذب الصندوق أثناء السحب أو التنقل */
-    -webkit-box-pack: start !important;
-    -webkit-box-align: center !important;
-}
+
 
 /* 2️⃣ تأمين نص "مَلاذ Coffee" ومنع المتصفح من إعطائه هوامش تلقائية */
 .logo-text {
@@ -307,20 +285,6 @@ header, .custom-premium-header {
 
 
 
-/* البطاقة - نحدد عرضاً مئويًا يضمن عمودين بالضبط في الهاتف */
-.premium-product-card {
-    flex: 0 0 calc(50% - 10px) !important; /* يضمن بالضبط عمودين */
-    max-width: 200px !important; /* يمنعها من أن تصبح عملاقة في الكمبيوتر */
-    
-    background: white;
-    border-radius: 20px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-}
 
 /* حركة التكبير الفاخرة */
 .premium-product-card:hover {
@@ -1003,8 +967,8 @@ header, .custom-premium-header {
     overflow-x: auto !important;
     overflow-y: hidden !important; /* منع أي اهتزاز رأسي */
     white-space: nowrap !important;
-    gap: 10px !important; 
-    padding: 12px 15px !important; 
+    gap: 12px !important; 
+    padding: 10px 15px !important; 
     -webkit-overflow-scrolling: touch !important; /* سحب مطاطي ناعم جداً على الآيفون */
     scrollbar-width: none !important; /* إخفاء شريط التمرير لمتصفح فايرفوكس */
     overscroll-behavior-x: contain !important; /* منع سحب الصفحة كاملة عند نهاية الفلتر */
@@ -1047,6 +1011,44 @@ header, .custom-premium-header {
     transition: all 0.25s ease !important;
     cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+.filter-btn, .sub-filter-item {
+    flex-shrink: 0 !important; /* 🔥 يمنع المتصفح نهائياً من "عصعصة" أو ضغط حجم الزر رغماً عنه */
+    white-space: nowrap !important; /* 🔥 يمنع انقسام النص أو التفافه على سطرين داخل الزر */
+    width: auto !important; /* جعل عرض الزر مرن وتلقائي يتوسع مع كبر حجم خطك الجديد */
+    min-width: max-content !important; /* إجبار الزر على أخذ المساحة الكاملة للنص المكتوب بداخلة */
+    
+    /* أبعاد وارتفاعات متناسقة مريحة للعين */
+    padding: 10px 20px !important; 
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 3. تنسيق حالة التنشيط (الزر النشط) */
 .sub-filter-item.active {
