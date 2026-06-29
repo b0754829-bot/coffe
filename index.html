@@ -189,14 +189,21 @@ button, .premium-btn, .category-btn, .add-to-cart, [onclick] {
 }
 
 
-/* إعدادات السكرول الأساسية والأسرع */
+/* إعدادات السكرول الأساسية والأسرع والمحدثة للموبايل */
+html {
+    scroll-behavior: smooth !important; /* فرض الانتقال السلس بداخل النظام */
+}
+
 html, body {
-    margin: 0; padding: 0; width: 100%; height: 100%;
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    /* تم إزالة height: 100% لتجنب مشاكل قفل السكرول في سفاري */
     background-color: var(--titanium-natural);
     font-family: 'Cairo', sans-serif;
-    overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; /* سلاسة الآيفون */
-    scroll-behavior: auto !important;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* تمرير مرن وسلس للآيفون */
 }
 
 /* تنظيف الـ * من العمليات الثقيلة */
@@ -2537,6 +2544,27 @@ function handleNavClick(anchorId) {
 }
 
 
+// دالة التحريك السلس المخصصة لمنيو مَلاذ لتعمل على الآيفون والأندرويد
+function handleLuxuryNav(sectionId) {
+    // 1. نبحث في الصفحة عن القسم باستخدام الـ ID الذي ضغط عليه المستخدم
+    const targetSection = document.getElementById(sectionId);
+    
+    if (targetSection) {
+        // 2. نحسب موقع القسم بالضبط في الصفحة
+        const sectionPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+        
+        // 3. نخصم 90 بكسل حتى لا يختفي عنوان القسم تحت الهيدر (الشريط العلوي الثابت)
+        const finalPosition = sectionPosition - 90;
+
+        // 4. نأمر متصفح الهاتف بالذهاب للموقع بحركة ناعمة جداً
+        window.scrollTo({
+            top: finalPosition,
+            behavior: "smooth"
+        });
+    }
+}
+
+
 // 2. التحميل فوراً عند بدء تشغيل الملف
 loadCartFromLocalStorage();
 
@@ -3401,6 +3429,7 @@ function triggerCartAnimation(element) {
     
 
 
+
 <div id="maladh-floating-categories-bar" class="floating-liquid-glass-bar">
     <div class="floating-bar-header">
         <span class="floating-bar-title">قائمة الأقسام</span>
@@ -3632,7 +3661,6 @@ function triggerCartAnimation(element) {
     }
 })();
 </script>
-
 
 
 
