@@ -987,70 +987,60 @@ header, .custom-premium-header {
 }
     
 
+/* 1. إصلاح تداخل الفلاتر وتوفير مساحة مريحة */
 .subcategory-filters {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
     white-space: nowrap;
-    gap: 12px;
-    padding: 12px 20px;
-    
-    /* خلفية زجاجية معتمة قليلاً لتأثير مائي */
-    background: rgba(255, 255, 255, 0.6); 
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    
-    /* قناع التلاشي */
-    mask-image: linear-gradient(to left, black 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to left, black 85%, transparent 100%);
+    gap: 10px; /* تقليل المسافة لضمان عدم التزاحم */
+    padding: 12px 15px; /* مسافة أمان من الجوانب */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* إخفاء شريط التمرير */
 }
-/* إخفاء شريط التمرير في متصفحات Webkit */
-.subcategory-filters::-webkit-scrollbar {
-    display: none;
-    
-}
+
+/* 2. تنسيق الخط ليكون أنيقاً وواضحاً (System UI هو الأفضل للآيفون والأندرويد) */
 .sub-filter-item {
-    /* نستخدم لون زمردي دافئ مع شفافية واضحة */
-    background: rgba(16, 185, 129, 0.2) !important;
-    
-    /* تأثير الضبابية */
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    
-    /* حدود زجاجية تعطي "لمعة" للون الزمردي */
-    border: 1px solid rgba(16, 185, 129, 0.6) !important;
-    
-    /* ظل داخلي يعطي إيحاء بأن الزر غائر قليلاً */
-    box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.2) !important;
-    
+    background: rgba(16, 185, 129, 0.15) !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
     color: #064e3b !important;
-    font-weight: 600;
-    border-radius: 30px !important;
-    transition: all 0.3s ease !important;
-}
-
-/* عند الضغط، اجعله يتوهج */
-.sub-filter-item.active {
-    background: rgba(16, 185, 129, 0.9) !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
-}
-
-@media (max-width: 480px) {
-    .subcategory-filters {
-        padding: 10px 15px; /* تقليل الـ padding قليلاً في الشاشات الصغيرة جداً */
-        gap: 8px; /* تقليل المسافة قليلاً لتوفير مساحة أكبر للأزرار */
-    }
     
+    /* تغيير الخط ليعتمد على النظام (يتناسب تلقائياً مع آيفون وجالكسي) */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 13px !important; /* حجم متوازن لا يتداخل */
+    font-weight: 600 !important;
+    
+    /* موازنة المسافات الداخلية لمنع ضغط النص */
+    padding: 8px 16px !important; 
+    border-radius: 20px !important;
+    
+    /* منع التفاف النص داخل الزر */
+    white-space: nowrap !important;
+    flex-shrink: 0; /* منع الزر من الانضغاط */
+    
+    transition: all 0.3s ease !important;
+    cursor: pointer;
+}
+
+/* 3. تنسيق حالة التنشيط */
+.sub-filter-item.active {
+    background: #0f766e !important;
+    color: #ffffff !important;
+}
+
+/* 4. إضافات لضمان عدم حدوث تداخل في الشاشات الصغيرة جداً */
+@media (max-width: 375px) {
+    .sub-filter-item {
+        font-size: 12px !important;
+        padding: 7px 14px !important;
+    }
+}
 
     
     .sub-filter-item {
         font-size: 14px; /* تصغير الخط قليلاً فقط في الشاشات الصغيرة جداً */
         padding: 10px 18px;
     }
-}
 
 
 /* تصميم شبكة عرض المنتجات */
@@ -1672,7 +1662,8 @@ header, [class*="header"], .store-header-wrapper {
         
         
        <div class="brand-logo-container">
-    <h1 class="brand-title">مَلاذ Coffee </h1></div>
+    <h1 class="brand-title">مَلاذ Coffee </h1>
+</div>
 
 
         <button id="main-basket-btn" onclick="toggleCartMenu(true)">
@@ -1967,39 +1958,45 @@ header, [class*="header"], .store-header-wrapper {
 
 
 <style>
-/* ☁️ تموضع وتنسيق العبارة الترحيبية تحت اللوجو مباشرة */
-#maladh-sub-logo-text {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    transform: none !important; 
     
-    /* 📐 التوسط الرياضي المرن */
+#maladh-sub-logo-text {
+    position: absolute !important; 
+    top: 100% !important; /* قمنا بضبطها لتكون أسفل اللوجو مباشرة */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 5px !important;
     
-    /* 🎨 تنسيق الفخامة والألوان */
     font-family: 'Cairo', sans-serif !important;
-    font-weight: 700 !important;
-    color: #0b3f3b !important; /* لون مَلاذ الزمردي الفخم */
+    font-weight: 600 !important; /* جعلناه أخف قليلاً ليتناسب مع الهيدر */
+    color: #0b3f3b !important;
     
-    /* 📱 حماية الأبعاد ومنع الهبوط أو الوميض */
-    margin-top: 4px !important;
-    margin-bottom: 0 !important;
-    width: auto !important;
-    white-space: nowrap !important;
-    font-size: clamp(9.5px, 2.5vw, 11px) !important;
-    
-    z-index: 5 !important;
-    pointer-events: none !important;
+    /* ❌ تم إلغاء خلفية الكبسولة والشفافية والبوردر */
     background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    padding: 5px 0 !important; /* مساحة بسيطة جداً حول النص */
     
-    /* أنيميشن الظهور الانسيابي المخملي */
+    z-index: 2147483647 !important;
+    pointer-events: none !important;
+    
+    white-space: nowrap !important;
+    font-size: clamp(10px, 2vw, 12px) !important;
+    
     opacity: 0;
     animation: maladhCloudFadeIn 1s ease forwards !important;
+}
+.brand-logo-container {
+    display: flex !important;
+    flex-direction: column !important; /* ترتيب عمودي: لوجو وفوقه/تحته العبارة */
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 1001 !important; /* أعلى من الهيدر لضمان الظهور */
 }
 
 @keyframes maladhCloudFadeIn { 
@@ -2030,99 +2027,86 @@ header, [class*="header"], .store-header-wrapper {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 🧠 1. جلب واقتناص اسم العميل بأمان
+    // 1. جلب اسم العميل (حماية من القيم غير المنطقية)
     let detectedName = localStorage.getItem('maladh_customer_name') || "";
-    if (detectedName.length > 10) { detectedName = ""; }
+    if (detectedName.length > 10 || /[^a-zA-Z\u0600-\u06FF\s]/.test(detectedName)) detectedName = "";
 
-    // ⏰ 2. محرك التوقيت الفلكي الشامل والدقيق لقائمة الطعام
+    // 2. حساب الوقت (استخدام توقيت النظام المحلي بدقة)
     const now = new Date();
-    const decimalTime = now.getHours() + (now.getMinutes() / 60);
-    
-    let greetingText = "أهلاً بك في مَلاذ 🌿";
-    let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`; 
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const decimalTime = hours + (minutes / 60);
 
-    // الفجر والشروق
-    if (decimalTime >= 3.5 && decimalTime < 6) { 
+    // تحديد الرسالة والأيقونة
+    let greetingText = "أهلاً بك في مَلاذ 🌿";
+    let iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 11v11M9 11h6"/></svg>`;
+
+    if (decimalTime >= 3.5 && decimalTime < 6) {
         greetingText = "طاب فجرك";
-        iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
-    } 
-    // الصباح
-    else if (decimalTime >= 6 && decimalTime < 12) {
+    } else if (decimalTime >= 6 && decimalTime < 12) {
         greetingText = "صباح الخير";
-        iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
-    } 
-    // الظهيرة
-    else if (decimalTime >= 12 && decimalTime < 17) {
+    } else if (decimalTime >= 12 && decimalTime < 17.5) {
         greetingText = "طاب يومك بمَلاذ";
-        iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
-    } 
-    // الليل والمساء
-    else if (decimalTime >= 17 || decimalTime < 3.5) {
+    } else {
         greetingText = "مساء الخير";
-        iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
 
-    if (detectedName && detectedName.length <= 10) { greetingText = detectedName + "، " + greetingText; }
+    // إضافة الغروب (من 5:30 م إلى 8:00 م)
+    if (decimalTime >= 17.5 && decimalTime < 20) {
+        greetingText = "لا تفوت غروب الشمس بمَلاذ 🌅";
+    }
 
-    // 🎯 3. الحقن الشرعي داخل حاوية اللوجو لمنع الاختفاء أو الطفو العشوائي خلف النوافذ
+    if (detectedName) greetingText = `${detectedName}، ${greetingText}`;
+
+    // 3. تحديث واجهة المستخدم بأمان
     const brandLogoContainer = document.querySelector(".brand-logo-container");
     if (brandLogoContainer) {
-        const cloudElement = document.createElement("div");
-        cloudElement.id = "maladh-sub-logo-text";
+        let cloudElement = document.getElementById("maladh-sub-logo-text");
+        if (!cloudElement) {
+            cloudElement = document.createElement("div");
+            cloudElement.id = "maladh-sub-logo-text";
+            brandLogoContainer.appendChild(cloudElement);
+        }
         cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
-        brandLogoContainer.appendChild(cloudElement);
 
-        // 🌧️ مستشعر الطقس الصامت للأجواء الماطرة الاستثنائية
-        fetch('https://wttr.in/?format=j1')
-            .then(response => response.json())
+        // محاولة جلب الطقس مع ضمان عدم تعطل المتصفح عند الخطأ
+        fetch('https://wttr.in/?format=j1', { mode: 'cors', signal: AbortSignal.timeout(3000) })
+            .then(res => res.json())
             .then(data => {
-                const weatherDesc = data.current_condition[0].weatherDesc[0].value.toLowerCase();
-                if (weatherDesc.includes("rain") || weatherDesc.includes("drizzle") || weatherDesc.includes("shower")) {
-                    const rainIcon = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M12 2v3M5 12h14M12 14v6"/></svg>`;
-                    let rainText = "أجواء ماطرة عذبة.. دافئ كوبك الآن";
-                    if (detectedName && detectedName.length <= 10) { rainText = detectedName + "، " + rainText; }
-                    cloudElement.innerHTML = `<span>${rainText}</span>${rainIcon}`;
+                const desc = data?.current_condition?.[0]?.weatherDesc?.[0]?.value?.toLowerCase() || "";
+                if (desc.includes("rain") || desc.includes("shower")) {
+                    cloudElement.innerHTML = `<span>أجواء ماطرة.. دافئ كوبك الآن</span>`;
                 }
-            }).catch(err => {});
+            })
+            .catch(err => console.log("Weather service unreachable, proceeding with standard display."));
     }
 
-    // 📝 4. مراقبة حقول الإدخال لاقتناص اسم العميل الأول ديناميكيًا
-    document.addEventListener('input', function(e) {
-        if (!e.target) return;
-        const targetAttr = (e.target.name || e.target.id || e.target.placeholder || e.target.className || "").toLowerCase();
-        if (targetAttr.includes('name') || targetAttr.includes('اسم') || targetAttr.includes('الاسم') || e.target.type === 'text') {
-            let fullValue = e.target.value.trim();
-            let firstName = fullValue.split(' ')[0];
-            if (firstName.length > 2 && !/[0-9]/.test(firstName) && firstName.length <= 10) { 
+    // 4. مراقبة المدخلات (مؤمنة)
+    document.addEventListener('input', (e) => {
+        if (!e.target || !e.target.value) return;
+        const attr = (e.target.name || e.target.placeholder || "").toLowerCase();
+        if (attr.includes('name') || attr.includes('اسم')) {
+            let firstName = e.target.value.trim().split(' ')[0];
+            if (firstName.length > 2 && firstName.length <= 10) {
                 localStorage.setItem('maladh_customer_name', firstName);
             }
         }
     });
 });
 
-// =======================================================================
-// 🛠️ 5. دالة الصعود الآمن والمحمي لزر "عرض أقل" (تم فصلها لمنع الأخطاء البرمجية)
-// =======================================================================
+// 5. دالة الصعود (متوافقة مع كل المتصفحات)
 function handleShowLessScroll(parentSection) {
-    window.requestAnimationFrame(() => {
-        setTimeout(() => {
-            const fixedHeader = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
-            const headerHeight = fixedHeader ? fixedHeader.offsetHeight : 110;
-            
-            const mainCategoryWrapper = parentSection.closest('[id$="-anchor"]') || parentSection.parentElement || parentSection;
-            const rect = mainCategoryWrapper.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // مسافة هروب جمالية مثالية تمنع تداخل العنوان البلوري الفخم خلف الهيدر
-            const offsetPosition = rect.top + scrollTop - headerHeight - 45; 
+    const header = document.querySelector('header, .header, .navbar');
+    const headerHeight = header ? header.offsetHeight : 110;
+    
+    // تأكد من وجود العنصر قبل محاولة الوصول لخصائصه
+    const wrapper = parentSection.closest('[id$="-anchor"]') || parentSection;
+    if (!wrapper) return;
 
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }, 65);
-    });
+    const top = wrapper.getBoundingClientRect().top + window.pageYOffset - headerHeight - 45;
+    window.scrollTo({ top: top, behavior: 'smooth' });
 }
 </script>
-
-
 
 
 <style>
@@ -3820,17 +3804,21 @@ function triggerCartAnimation(element) {
 
 
 
-<div class="premium-footer">
+<div id="phone-footer" class="premium-footer">
     <div class="footer-grid-unified">
         
         <div class="working-hours-inline-bar">
-            <svg class="working-hours-nano-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="working-hours-nano-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
             <span id="store-status-text" class="status-checking">جاري الفحص...</span>
             <span class="status-space-dot">•</span>
             <span id="store-time-countdown" class="status-countdown-nano">يرجى الانتظار</span>
+        </div>
+
+        <div class="working-hours-display">
+            ساعات الدوام: 6:00 ص - 23:00 م
         </div>
 
         <div class="footer-buttons-row">
@@ -3840,7 +3828,6 @@ function triggerCartAnimation(element) {
                 </svg>
                 اتصل الآن
             </a>
-            
             <a href="https://waze.com/ul?ll=31.2828,34.8465&navigate=yes" target="_blank" class="waze-premium-btn">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="3 11 22 2 13 21 11 13 3 11"/>
@@ -3848,140 +3835,33 @@ function triggerCartAnimation(element) {
                 توجيه عبر ويز
             </a>
         </div>
-
     </div>
 </div>
 
 <style>
-/* 🎨 الحاوية الموحدة لجميع عناصر الفوتر */
-.premium-footer {
-    padding: 12px 14px !important; /* تقليص الحواف لضمان عدم الضغط على المساحة السفلية */
-    margin-top: 20px !important;
-    margin-bottom: calc(env(safe-area-inset-bottom) + 10px) !important; /* حماية ذكية متوافقة مع إيماءات الآيفون والسفاري */
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.footer-grid-unified {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 10px !important; /* مسافة متناسقة لشد العناصر لبعضها بصرياً */
-    width: 100% !important;
-    max-width: 400px !important;
-    box-sizing: border-box !important;
-    
-    /* النمط الزجاجي الشفاف فائق النقاء التابع لهوية المتجر */
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.45) 0%,     
-        rgba(4, 47, 46, 0.04) 50%,        
-        rgba(255, 255, 255, 0.20) 100%) !important;
-        
-    /* العزل الضبابي الخاص بأجهزة آبل */
-    backdrop-filter: blur(25px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(160%) !important;
-    
-    border-radius: 24px !important; 
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    border-top: 1px solid rgba(52, 211, 153, 0.35) !important;
-    padding: 12px 14px !important; 
-    
-    box-shadow: 0 10px 25px rgba(4, 47, 46, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
-    -webkit-tap-highlight-color: transparent !important;
-    touch-action: manipulation !important;
-}
-
-/* ⏰ شريط الوقت الحريري المدمج في سطر واحد */
-.working-hours-inline-bar {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    width: 100% !important;
-    padding: 2px 0 4px 0 !important; /* مباعدة دقيقة تمنع الاحتكاك بالأزرار */
-}
-
-.working-hours-nano-icon {
-    width: 13px !important;
-    height: 13px !important;
-    color: #0b3f3b !important;
-    opacity: 0.8;
-}
-
-.status-checking { 
-    color: #0b3f3b !important; 
-    font-size: 12.5px !important; 
-    font-weight: 700 !important; 
-}
-
-/* رفع التباين اللوني للحالات لمنع التداخل والبهتان */
-.status-open { 
-    color: #10b981 !important; /* أخضر زمردي ناصع */
-    font-size: 12.5px !important; 
-    font-weight: 800 !important; 
-}
-
-.status-closed { 
-    color: #ef4444 !important; /* أحمر مرجاني واضح */
-    font-size: 12.5px !important; 
-    font-weight: 800 !important; 
-}
-
-.status-space-dot {
-    color: rgba(11, 63, 59, 0.25) !important;
-    font-size: 10px !important;
-}
-
-.status-countdown-nano {
-    color: #124d46 !important; /* لون داكن مريح ومقروء بوضوح */
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    -webkit-font-smoothing: antialiased !important;
-}
-
-/* توزيع الأزرار بشكل أفقي متناسق */
-.footer-buttons-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    width: 100% !important;
-}
-
-/* أزرار التواصل المعتمدة لبراند كافيه ملاذ */
-.phone-call-btn-link, .waze-premium-btn {
-    background: #0b3f3b !important; 
-    color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 4px 10px rgba(11, 63, 59, 0.12) !important;
-    border-radius: 40px !important; 
-    font-size: 12.5px !important;
-    font-weight: 700 !important;
-    padding: 11px 0 !important; 
-    display: inline-flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 6px !important;
-    text-decoration: none !important;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.phone-call-btn-link:active, .waze-premium-btn:active {
-    transform: scale(0.96) !important; 
-}
+.premium-footer { padding: 12px 14px !important; margin-top: 20px !important; margin-bottom: calc(env(safe-area-inset-bottom) + 10px) !important; display: flex !important; justify-content: center !important; width: 100% !important; box-sizing: border-box !important; }
+.footer-grid-unified { display: flex !important; flex-direction: column !important; align-items: center !important; gap: 10px !important; width: 100% !important; max-width: 400px !important; background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(4, 47, 46, 0.04) 50%, rgba(255, 255, 255, 0.20) 100%) !important; backdrop-filter: blur(25px) saturate(160%) !important; -webkit-backdrop-filter: blur(25px) saturate(160%) !important; border-radius: 24px !important; border: 1px solid rgba(255, 255, 255, 0.5) !important; padding: 12px 14px !important; box-shadow: 0 10px 25px rgba(4, 47, 46, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important; }
+.working-hours-inline-bar { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; width: 100% !important; }
+.working-hours-nano-icon { width: 13px !important; height: 13px !important; color: #0b3f3b !important; opacity: 0.8; }
+.working-hours-display { font-size: 11.5px !important; color: #0b3f3b !important; font-weight: 700 !important; margin: -5px 0 5px 0 !important; text-align: center !important; opacity: 0.85 !important; letter-spacing: 0.2px !important; }
+.status-checking { color: #0b3f3b !important; font-size: 12.5px !important; font-weight: 700 !important; }
+.status-open { color: #10b981 !important; font-size: 12.5px !important; font-weight: 800 !important; }
+.status-closed { color: #ef4444 !important; font-size: 12.5px !important; font-weight: 800 !important; }
+.status-space-dot { color: rgba(11, 63, 59, 0.25) !important; font-size: 10px !important; }
+.status-countdown-nano { color: #124d46 !important; font-size: 12px !important; font-weight: 600 !important; }
+.footer-buttons-row { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; width: 100% !important; }
+.phone-call-btn-link, .waze-premium-btn { background: #0b3f3b !important; color: white !important; border-radius: 40px !important; font-size: 12.5px !important; font-weight: 700 !important; padding: 11px 0 !important; display: inline-flex !important; justify-content: center !important; align-items: center !important; gap: 6px !important; text-decoration: none !important; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important; }
 </style>
 
 <script>
 (function() {
     function refreshSeamlessClock() {
-        const openHour = 6;   
-        const closeHour = 24; 
-
+        const openHour = 6;
+        const closeHour = 23; // 23:00 هو وقت الإغلاق
         const now = new Date();
         const currentHour = now.getHours();
         const currentMinute = now.getMinutes();
-
+        
         const statusTextEl = document.getElementById('store-status-text');
         const countdownEl = document.getElementById('store-time-countdown');
 
@@ -3992,28 +3872,56 @@ function triggerCartAnimation(element) {
         const closeTotalMinutes = closeHour * 60;
 
         if (currentHour >= openHour && currentHour < closeHour) {
+            // المحل مفتوح: نحسب الوقت المتبقي للإغلاق
             const minutesLeft = closeTotalMinutes - currentTotalMinutes;
             const hours = Math.floor(minutesLeft / 60);
             const minutes = minutesLeft % 60;
 
             statusTextEl.textContent = "مفتوح الآن";
             statusTextEl.className = "status-open";
+            
+            // هنا يظهر العد التنازلي للإغلاق
             countdownEl.textContent = hours > 0 ? `يغلق بعد ${hours} س و ${minutes} د` : `يغلق بعد ${minutes} د`;
         } else {
-            let minutesLeft = currentTotalMinutes >= closeTotalMinutes ? (24 * 60 - currentTotalMinutes) + openTotalMinutes : openTotalMinutes - currentTotalMinutes;
+            // المحل مغلق: نحسب الوقت المتبقي للفتح
+            let minutesLeft;
+            if (currentHour >= closeHour) {
+                // بعد الـ 11 مساءً، نحسب الوقت حتى 6 صباحاً
+                minutesLeft = (24 * 60 - currentTotalMinutes) + openTotalMinutes;
+            } else {
+                // قبل الـ 6 صباحاً
+                minutesLeft = openTotalMinutes - currentTotalMinutes;
+            }
+            
             const hours = Math.floor(minutesLeft / 60);
             const minutes = minutesLeft % 60;
 
             statusTextEl.textContent = "مغلق الآن";
             statusTextEl.className = "status-closed";
+            
+            // هنا يظهر العد التنازلي للفتح
             countdownEl.textContent = hours > 0 ? `يفتح بعد ${hours} س و ${minutes} د` : `يفتح بعد ${minutes} د`;
         }
     }
 
+    // تحديث الدقيقة الأولى فوراً ثم كل دقيقة
     refreshSeamlessClock();
     setInterval(refreshSeamlessClock, 60000);
 })();
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </script>
