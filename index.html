@@ -2065,17 +2065,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (decimalTime >= 3.5 && decimalTime < 6) {
         greetingText = "طاب فجرك";
+         iconSvg = `<svg class="maladh-mini-icon drop-dew" viewBox="0 0 24 24"><path d="M12 21a6.5 6.5 0 0 0 6.5-6.5c0-4-6.5-12.5-6.5-12.5S5.5 10.5 5.5 14.5A6.5 6.5 0 0 0 12 21z"/></svg>`;
     } else if (decimalTime >= 6 && decimalTime < 12) {
         greetingText = "صباح الخير";
+         iconSvg = `<svg class="maladh-mini-icon rotate-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>`;
     } else if (decimalTime >= 12 && decimalTime < 17.5) {
         greetingText = "طاب يومك بمَلاذ";
+         iconSvg = `<svg class="maladh-mini-icon" viewBox="0 0 24 24"><path d="M2 22c0-5.5 4.5-10 10-10h10M22 2c-5.5 0-10 4.5-10 10M12 12l-6 6"/></svg>`;
     } else {
         greetingText = "مساء الخير";
+        iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     }
 
     // إضافة الغروب (من 5:30 م إلى 8:00 م)
     if (decimalTime >= 17.5 && decimalTime < 20) {
-        greetingText = "لا تفوت غروب الشمس بمَلاذ 🌅";
+        greetingText = "لا تفوت غروب الشمس بمَلاذ ";
+        iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a4 4 0 0 1 4 4h-8a4 4 0 0 1 4-4Z"/><path d="M2 18h20"/><path d="M22 22H2"/><path d="M16 6l-1 1"/><path d="M12 2v2"/><path d="M8 6L9 7"/></svg>`;
+
     }
 
     if (detectedName) greetingText = `${detectedName}، ${greetingText}`;
@@ -3410,6 +3416,21 @@ function triggerCartAnimation(element) {
 </div>
 
 
+
+<div id="maladh-floating-categories-bar" class="floating-liquid-glass-bar">
+    <div class="floating-bar-header">
+        <span class="floating-bar-title">قائمة الأقسام</span>
+        <button class="floating-bar-close-btn" onclick="toggleMaladhFloatingBar(false)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <div id="floating-categories-container" class="floating-categories-grid"></div>
+</div>
+
+
 <style>
 .floating-liquid-glass-bar {
     position: fixed;
@@ -3627,6 +3648,7 @@ function triggerCartAnimation(element) {
     }
 })();
 </script>
+
 
 
 
