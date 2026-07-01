@@ -3,6 +3,7 @@
 <head>
    
     <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg width='512' height='512' xmlns='http://www.w3.org/2000/svg'><rect width='512' height='512' rx='120' ry='120' fill='%230b3f3b'/><text x='50%' y='55%' font-family='Arial, sans-serif' font-weight='bold' font-size='140' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'>مَلاذ</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgcnk9IjEyMCIgZmlsbD0iIzBiM2YzYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE0MCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+2YXYtNix2K88L3RleHQ+PC9zdmc+">
     <meta name="apple-mobile-web-app-capable" content="yes">
        <meta name="apple-mobile-web-app-title" content="كافيه مَلاذ">
@@ -4998,6 +4999,43 @@ function closeModal() {
 .pwa-btn-add { background: #0b3f3b; color: #fff; border: none; padding: 6px 16px; border-radius: 20px; font-size: 10px; font-weight: 600; cursor: pointer; }
 .pwa-btn-close { background: transparent; border: none; color: #aaa; font-size: 14px; cursor: pointer; margin-right: 5px; }
 </style>
+<script>
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // منع الظهور التلقائي الافتراضي العشوائي
+    e.preventDefault();
+    // تخزين الحدث ليتم تشغيله عند الضغط على زر "إضافة"
+    deferredPrompt = e;
+    
+    // إظهار كبسولة مَلاذ الفاخرة للزبون فوراً
+    const pwaCard = document.getElementById('pwa-premium-card');
+    if (pwaCard) {
+        pwaCard.style.display = 'flex';
+    }
+});
+
+function handleInstall() {
+    if (!deferredPrompt) return;
+    
+    // إظهار نافذة التثبيت الرسمية للنظام
+    deferredPrompt.prompt();
+    
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('وافق الزبون على التثبيت');
+        }
+        dismissPWA();
+    });
+}
+
+function dismissPWA() {
+    const pwaCard = document.getElementById('pwa-premium-card');
+    if (pwaCard) {
+        pwaCard.style.display = 'none';
+    }
+}
+</script>
 </body>
 
 </html>
