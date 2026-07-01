@@ -6,7 +6,7 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgcnk9IjEyMCIgZmlsbD0iIzBiM2YzYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE0MCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+2YXYtNix2K88L3RleHQ+PC9zdmc+">
     <meta name="apple-mobile-web-app-capable" content="yes">
        <meta name="apple-mobile-web-app-title" content="كافيه مَلاذ">
-    <link rel="apple-touch-icon" href="icon-192.png">
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
@@ -258,7 +258,7 @@ button, .premium-btn, .category-btn, .add-to-cart, .cart-icon, [onclick] {
     font-family: 'Cairo', sans-serif !important;
     font-weight: 700 !important;         /* خط عريض فاخر وواضح */
     color: #0b3f3b !important;           /* لون مَلاذ الزيتوني الفخم */
-    font-size: 16px !important;          /* حجم متناسق جداً للموبايل */
+    font-size: 35px !important;          /* حجم  عنوان شاشة الدخول  متناسق جداً للموبايل */
     line-height: 1.1 !important;         /* جعل النص مشدوداً وملموماً للأعلى بأناقة */
     margin: 0 !important;
     padding: 0 !important;
@@ -1713,18 +1713,135 @@ header, [class*="header"], .store-header-wrapper {
     display: none !important; 
 }
 
+/* الحاضن الرئيسي للعنوان والخط لمنع أي تداخل أو اهتزاز */
+.logo-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
 
+/* تأمين نص "مَلاذ Coffee" */
+.logo-text {
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: 700 !important;
+    color: #0b3f3b !important;          /* لون مَلاذ الزيتوني الفخم */
+    font-size: 35px !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    z-index: 2;                         /* يضمن بقاء الكلمة واضحة في المقدمة */
+}
+
+/* الحاوية الأفقية التي تتجمع فيها الحبيبات لتشكل الخط */
+.loader-line {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;                 /* المسافة بين الحبيبات لتعطي شكل خط مستقيم متناسق */
+    margin-top: 18px !important;         /* مباعدة ممتازة أسفل الكلمة مباشرة ليراها الزبون بوضوح */
+    margin-bottom: 0 !important;
+    height: 10px !important;             /* ارتفاع ثابت ومحصن للحبيبات المتوهجة */
+    width: 100% !important;
+}
+
+/* الخصائص الفيزيائية لحبيبات القهوة الساقطة مع دعم تأثير الإضاءة والتوهج */
+.coffee-grain {
+    width: 6px;
+    height: 6px;
+    background: #0b3f3b;                /* لون البراند الزيتوني الفاخر الأساسي */
+    border-radius: 50%;                 /* حبيبات دائرية أنيقة */
+    opacity: 0;
+    will-change: transform, opacity, filter;
+    
+    /* الحركة ممتدة لـ 5 ثوانٍ كاملة لتبطئ العملية ويظهر التأثير بوضوح */
+    animation: dropFormLineAndGlow 5s cubic-bezier(0.25, 1, 0.2, 1) infinite;
+}
+
+/* توزيع دقيق جداً بالتناوب لكي تسقط الحبيبات بترتيب ممتع بصرياً للعين قبل الاصطفاف */
+.coffee-grain:nth-child(1) { animation-delay: 0.0s; }
+.coffee-grain:nth-child(2) { animation-delay: 0.3s; }
+.coffee-grain:nth-child(3) { animation-delay: 0.6s; }
+.coffee-grain:nth-child(4) { animation-delay: 0.15s; }
+.coffee-grain:nth-child(5) { animation-delay: 0.45s; }
+.coffee-grain:nth-child(6) { animation-delay: 0.75s; }
+
+
+/* 🎬 محرك الأنيميشن الدقيق: هندسة التوقف الطويل والإضاءة المستمرة */
+@keyframes dropFormLineAndGlow {
+    0% {
+        /* البداية: سقوط سريع من الأعلى بدون إضاءة وبحجم صغير */
+        transform: translateY(-60px) scale(0.4);
+        opacity: 0;
+        background: #0b3f3b;
+        box-shadow: none;
+        filter: none;
+    }
+    25% {
+        /* وصول الحبيبات إلى أسفل الكلمة وبدء لمس خط الاصطفاف */
+        opacity: 0.9;
+        transform: translateY(0) scale(1);
+        background: #0b3f3b;
+        box-shadow: none;
+        filter: none;
+    }
+    /* 🌟 [مرحلة الثبات المطلق والتوهج الضوئي الفاخر - من 30% إلى 90%] 🌟 */
+    /* تم تثبيت هذه المرحلة لتأخذ 60% من إجمالي الوقت (حوالي 3 ثوانٍ كاملة من الإضاءة والاستقرار) */
+    30%, 90% {
+        transform: translateY(0) scale(1.1); /* تكبير طفيف جداً للحبيبة ليظهر التوهج */
+        opacity: 1;
+        background: #c5a880 !important;     /* إجبار اللون على التحول للذهبي الفخم المشرق */
+        
+        /* تأثير توهج ضوئي فائق القوة والوضوح (Neon Glow) */
+        box-shadow: 0 0 10px #c5a880, 0 0 20px #c5a880, 0 0 30px rgba(197, 168, 128, 0.5);
+        filter: drop-shadow(0 0 5px #c5a880);
+    }
+    100% {
+        /* التلاشي السلس السريع في نهاية الخمس ثوانٍ لإعادة الدورة */
+        transform: translateY(0) scale(0.3);
+        opacity: 0;
+        box-shadow: none;
+        filter: none;
+    }
+}
+
+
+/* استبدل .your-welcome-class باسم الكلاس الحقيقي للعبارة الترحيبية لديك */
+.brand-logo-container {
+    /* 🌟 التأثير السحري لرفع العبارة للأعلى وتقريبها من اللوجو */
+    margin-top: -12px !important; 
+    
+    /* لضمان ثباتها وعدم اهتزازها أثناء حركة الحبيبات */
+    position: relative;
+    z-index: 3;
+}
 </style>
 
 
 </head>
 <body>
-    <div id="loader-screen">
-
+<div id="loader-screen">
+    
     <div class="logo-box">
+        
         <div class="logo-text">مَلاذ Coffee</div>
-        <div class="loader-line"></div>
+        
+        <div class="loader-line">
+            <span class="coffee-grain"></span>
+            <span class="coffee-grain"></span>
+            <span class="coffee-grain"></span>
+            <span class="coffee-grain"></span>
+            <span class="coffee-grain"></span>
+            <span class="coffee-grain"></span>
+        </div>
+        
     </div>
+
+    <p class="loader-text">   أهلًا بك في مَلاذ</p>
+
 </div>
 
     <div class="custom-premium-header">
@@ -4125,7 +4242,7 @@ function executeSmartSearchLive() {
     if (!hasMatches) {
         resultsContainer.innerHTML = `
             <div class="no-results-msg">
-                <p>لم نجد هذا المنتج.. جرب مشروباً أو حلاك المفضل الآخر!</p>
+                <p>لم نجد هذا المنتج.. جرب مشروبًا أو حلاك المفضل الآخر!</p>
             </div>`;
     }
 }
@@ -4359,7 +4476,7 @@ function handleShowMoreButton(mainCategory, totalItems, currentSubFilter) {
     btn.style.cursor = 'pointer';
 
     if (!isExpanded) {
-        btn.innerText = 'عرض المزيد من المنتجات 🔽';
+        btn.innerText = 'عرض المزيد   🔽';
         btn.onclick = function() {
             window.sectionsExpandedState[mainCategory] = true;
             handleShowMoreButton(mainCategory, totalItems, currentSubFilter);
