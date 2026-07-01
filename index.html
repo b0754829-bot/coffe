@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link rel="manifest" href="manifest.json">
+   
+    <link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyMCIgcnk9IjEyMCIgZmlsbD0iIzBiM2YzYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE0MCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+2YXYtNix2K88L3RleHQ+PC9zdmc+">
     <meta name="apple-mobile-web-app-capable" content="yes">
        <meta name="apple-mobile-web-app-title" content="كافيه مَلاذ">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -32,7 +34,34 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* محرك النعومة الفائقة */
             --primary-emerald: 16, 185, 129; /* قم بتغيير هذه الأرقام فقط */
     --glass-opacity: 0.4;
-            
+          
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+body {
+    font-family: 'Tajawal', sans-serif !important;
+    -webkit-font-smoothing: antialiased; /* لجعل الخط أنعم في آيفون */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+h3, h4, .price-text, .filter-btn {
+    font-weight: 700; /* تجعل الخط بارزاً ومنظماً */
+    letter-spacing: -0.2px; /* الآيفون يحتاج لتقليل المسافات لتبدو الكلمات متماسكة */
+}p, h3, h4 {
+    line-height: 1.5; /* يعطي مساحة مريحة للعين */
+}
+p, h3, h4 {
+    line-height: 1.5; /* يعطي مساحة مريحة للعين */
+}html {
+    -webkit-text-size-adjust: 100%;
+}
+
+
+
+
     .hero-section {
     height: 100dvh; /* تملأ الشاشة بدقة على كل الهواتف الذكية دون زيادة أو نقصان */
 }
@@ -1675,6 +1704,16 @@ header, [class*="header"], .store-header-wrapper {
 
 
 
+/*اخفاء  النجمة للزجاجات المعباة*/
+
+
+/* إلغاء النجمة والخيارات المنبثقة وتحويل الأزرار لزائد (+) فقط في فلتر الزجاجات المعبأة */
+[data-sub="bottled"] .extra-star-icon, 
+[data-sub="bottled"] .option-badge { 
+    display: none !important; 
+}
+
+
 </style>
 
 
@@ -1701,7 +1740,8 @@ header, [class*="header"], .store-header-wrapper {
     <h1 class="brand-title">مَلاذ Coffee </h1>
 </div>
 <button onclick="toggleSmartSearch()" class="luxury-glass-search-btn" aria-label="بحث ذكي">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- رفعنا الحجم إلى 20x20 لتناسب الهواتف -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
@@ -2098,46 +2138,47 @@ document.addEventListener("DOMContentLoaded", function() {
     if (decimalTime >= 17.5 && decimalTime < 20) {
         greetingText = "لا تفوت غروب الشمس بمَلاذ ";
         iconSvg = `<svg class="maladh-mini-icon pulse-stars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a4 4 0 0 1 4 4h-8a4 4 0 0 1 4-4Z"/><path d="M2 18h20"/><path d="M22 22H2"/><path d="M16 6l-1 1"/><path d="M12 2v2"/><path d="M8 6L9 7"/></svg>`;
-
     }
 
     if (detectedName) greetingText = `${detectedName}، ${greetingText}`;
 
-   // 3. تحديث واجهة المستخدم بأمان داخل الهيدر
-const brandLogoContainer = document.querySelector(".brand-logo-container");
-if (brandLogoContainer) {
-    let cloudElement = document.getElementById("maladh-sub-logo-text");
-    if (!cloudElement) {
-        cloudElement = document.createElement("div");
-        cloudElement.id = "maladh-sub-logo-text";
-        brandLogoContainer.appendChild(cloudElement); // الإرجاع للحقن داخل حاوية الهيدر
+    // 3. تحديث واجهة المستخدم بأمان داخل الهيدر
+    const brandLogoContainer = document.querySelector(".brand-logo-container");
+    if (brandLogoContainer) {
+        let cloudElement = document.getElementById("maladh-sub-logo-text");
+        if (!cloudElement) {
+            cloudElement = document.createElement("div");
+            cloudElement.id = "maladh-sub-logo-text";
+            brandLogoContainer.appendChild(cloudElement);
+        }
+        cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
+
+        fetch('https://wttr.in/?format=j1', { mode: 'cors', signal: AbortSignal.timeout(3000) })
+            .then(res => res.json())
+            .then(data => {
+                const desc = data?.current_condition?.[0]?.weatherDesc?.[0]?.value?.toLowerCase() || "";
+                if (desc.includes("rain") || desc.includes("shower")) {
+                    cloudElement.innerHTML = `<span>أجواء ماطرة.. دافئ كوبك الآن 🌧️</span>`;
+                }
+            })
+            .catch(err => console.log("Weather service unreachable, proceeding with standard display."));
     }
-    cloudElement.innerHTML = `<span>${greetingText}</span>${iconSvg}`;
 
-    // محاولة جلب الطقس مع ضمان عدم تعطل المتصفح عند الخطأ
-    fetch('https://wttr.in/?format=j1', { mode: 'cors', signal: AbortSignal.timeout(3000) })
-        .then(res => res.json())
-        .then(data => {
-            const desc = data?.current_condition?.[0]?.weatherDesc?.[0]?.value?.toLowerCase() || "";
-            if (desc.includes("rain") || desc.includes("shower")) {
-                cloudElement.innerHTML = `<span>أجواء ماطرة.. دافئ كوبك الآن 🌧️</span>`;
-            }
-        })
-        .catch(err => console.log("Weather service unreachable, proceeding with standard display."));
-}
-
-    // 4. مراقبة المدخلات (مؤمنة)
+    // 4. مراقبة المدخلات (معدل: تم عزله ليعمل فقط مع حقل اسم المودال)
     document.addEventListener('input', (e) => {
-        if (!e.target || !e.target.value) return;
-        const attr = (e.target.name || e.target.placeholder || "").toLowerCase();
-        if (attr.includes('name') || attr.includes('اسم')) {
-            let firstName = e.target.value.trim().split(' ')[0];
+        // يتم الالتقاط فقط إذا كان الحقل هو حقل اسم العميل في مودال الواتساب
+        if (e.target.id === 'modal-cust-name') {
+            let val = e.target.value.trim();
+            if (!val) return;
+            
+            let firstName = val.split(' ')[0];
             if (firstName.length > 2 && firstName.length <= 10) {
                 localStorage.setItem('maladh_customer_name', firstName);
             }
         }
     });
 });
+</script>
 
 // 5. دالة الصعود (متوافقة مع كل المتصفحات)
 function handleShowLessScroll(parentSection) {
@@ -2463,14 +2504,13 @@ const storeProductsDatabase = {
         { id: 3012, name: "   ميلك شيك كندر وفراولة ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1579954115567-d8c9735d1eb5?auto=format&fit=crop&w=500&q=80" },
         { id: 3013, name: "   ميلك شيك فستق حلبي ", price: 17.00, sub: "smoothie", hasExtras: true, img: "https://images.unsplash.com/photo-1557142046-c704a3adf8ac?auto=format&fit=crop&w=500&q=80" },
         // مشروبات معبأة (bottled)
-        { id: 3014, name: "  كوكا كولا زجاجة  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" },
-        { id: 3015, name: "  كوكا كولا زيرو  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=500&q=80" },
-        { id: 3016, name: "   سبرايت ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1625772299848-391b6a87d4b3?auto=format&fit=crop&w=500&q=80" },
-        { id: 3017, name: " فانتا برتقال   ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=500&q=80" },
-        { id: 3018, name: "   مياه معدنية طبيعية ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=500&q=80" },
-        { id: 3019, name: "   صودا زجاجة ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1606851094655-b25cb56dd0b4?auto=format&fit=crop&w=500&q=80" },
-        { id: 3023, name: "  XL  ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
-        { id: 3024, name: "   BLU ", price: 17.00, sub: "bottled", hasExtras: false, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
+        { id: 3014, name: "  كوكا كولا زجاجة  ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" },
+        { id: 3015, name: "  كوكا كولا زيرو  ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=500&q=80" },
+        { id: 3016, name: "   سبرايت ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1625772299848-391b6a87d4b3?auto=format&fit=crop&w=500&q=80" },
+        { id: 3018, name: "   مياه معدنية طبيعية ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=500&q=80" },
+        { id: 3019, name: "   صودا زجاجة ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1606851094655-b25cb56dd0b4?auto=format&fit=crop&w=500&q=80" },
+        { id: 3023, name: "  XL  ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
+        { id: 3024, name: "   BLU ", price: 17.00, sub: "bottled", hasExtras: true, img: "https://images.unsplash.com/photo-1588661668884-d53956f4d3cb?auto=format&fit=crop&w=500&q=80" },
     ],
     desserts: [
         // كيك خفيف (cakes)
@@ -3825,28 +3865,42 @@ function triggerCartAnimation(element) {
 </div>
 
 <style>
-/* 💎 تنسيق زر البحث النحيف - شفاف 100% وبدون أي حواف */
 .luxury-glass-search-btn {
+    /* الشفافية التامة */
+    width: 44px;
+    height: 44px;
     background: transparent !important;
     border: none !important;
-    outline: none !important;
     box-shadow: none !important;
-    padding: 8px !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: var(--primary-solid, #0b3f3b) !important; /* لون الأيقونة */
-    margin: 0 10px !important;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    -webkit-tap-highlight-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* التوسيط */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* التفاعل عند النقر: تأثير حركي خفيف للحجم فقط دون أي خلفية */
+/* اللون الزمردي الغامق والناعم */
+.luxury-glass-search-btn svg {
+    stroke: #065f46; /* لون زمردي غامق ونقي */
+    stroke-width: 2.2; /* سمك أنعم قليلاً ليعطي مظهرًا راقيًا */
+    display: block;
+    pointer-events: none;
+    transition: stroke 0.3s ease;
+}
+
+/* تأثير التفاعل عند النقر */
 .luxury-glass-search-btn:active {
-    transform: scale(0.88) !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    transform: scale(0.9); 
+    opacity: 0.7;
+}
+
+/* تأثير إضافي: عند تمرير الماوس (في الكمبيوتر) يزداد اللون عمقاً */
+.luxury-glass-search-btn:hover svg {
+    stroke: #044b36; 
 }
 
 /* 🌐 الواجهة الخلفية الزجاجية المصنفرة للبحث */
@@ -4764,150 +4818,80 @@ function closeModal() {
 
 
 
-
+<div id="pwa-premium-card" class="pwa-capsule">
+    <!-- الأيقونة الزمردية الفخمة -->
+    <div class="pwa-logo">مَلاذ</div>
+    
+    <div class="pwa-text-wrap">
+        <div class="pwa-brand">مَلاذ</div>
+        <div class="pwa-msg">ثبّت التطبيق لسهولة الوصول</div>
+    </div>
+    
+    <div class="pwa-btns">
+        <button class="pwa-btn-add" onclick="handleInstall()">
+            إضافة <span class="soft-pulse"></span>
+        </button>
+        <button class="pwa-btn-close" onclick="dismissPWA()">✕</button>
+    </div>
+</div>
 
 <style>
-#pwa-premium-card {
+.pwa-capsule {
     position: fixed;
     bottom: 25px;
-    left: 5%;
-    width: 90%;
-    max-width: 380px;
-    background: rgba(255, 255, 255, 0.95);
-    -webkit-backdrop-filter: blur(20px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 24px;
-    padding: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    z-index: 100000;
-    display: flex;
+    border: 1px solid rgba(11, 63, 59, 0.1);
+    border-radius: 50px;
+    padding: 8px 20px;
+    display: none;
     align-items: center;
-    justify-content: space-between;
     gap: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    z-index: 999999;
     direction: rtl;
-    
-    /* حركة مدعومة بكرت الشاشة مباشرة لتفادي الـ Crash أو البطء في iOS والسفاري */
-    transform: translateY(150%) translateZ(0);
-    opacity: 0;
-    will-change: transform, opacity;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s linear;
 }
 
-/* حالة الظهور المرن */
-#pwa-premium-card.active {
-    transform: translateY(0) translateZ(0);
-    opacity: 1;
-}
-
-.pwa-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.pwa-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    object-fit: cover;
-}
-
-.pwa-text h5 {
-    margin: 0 0 2px 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: #0b3f3b; /* لون الهوية الخاص بك */
-    font-family: 'Cairo', sans-serif;
-}
-
-.pwa-text p {
-    margin: 0;
-    font-size: 11px;
-    color: #64748b;
-    font-family: 'Cairo', sans-serif;
-}
-
-.pwa-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.pwa-btn-install {
+/* الأيقونة الزمردية الفخمة */
+.pwa-logo {
+    width: 36px;
+    height: 36px;
     background: #0b3f3b;
-    color: #ffffff;
-    border: none;
-    border-radius: 14px;
-    padding: 8px 14px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.pwa-btn-close {
-    background: rgba(0, 0, 0, 0.04);
-    color: #334155;
-    border: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    font-size: 12px;
-    cursor: pointer;
+    color: #fff;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    -webkit-tap-highlight-color: transparent;
+    font-size: 10px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(11, 63, 59, 0.2);
 }
+
+.pwa-text-wrap { display: flex; flex-direction: column; }
+.pwa-brand { font-weight: 700; color: #0b3f3b; font-size: 13px; }
+.pwa-msg { font-size: 9px; color: #888; margin-top: -2px; }
+
+/* النبض الهادئ جداً */
+.soft-pulse {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: rgba(11, 63, 59, 0.4);
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: soft-fade 2s infinite;
+}
+
+@keyframes soft-fade {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+.pwa-btn-add { background: #0b3f3b; color: #fff; border: none; padding: 6px 16px; border-radius: 20px; font-size: 10px; font-weight: 600; cursor: pointer; }
+.pwa-btn-close { background: transparent; border: none; color: #aaa; font-size: 14px; cursor: pointer; margin-right: 5px; }
 </style>
-
-<script>
-(function() {
-    let savedPWAPrompt = null;
-    const pwaCardElement = document.getElementById('pwa-premium-card');
-
-    // الاستماع لحدث جاهزية التثبيت من المتصفح
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        savedPWAPrompt = e;
-        
-        // إظهار البطاقة بسلاسة بعد 3 ثوانٍ إذا لم يقم المستخدم بإغلاقها اليوم
-        if (!localStorage.getItem('pwa_dismissed_today')) {
-            setTimeout(() => {
-                if (pwaCardElement) pwaCardElement.classList.add('active');
-            }, 3000);
-        }
-    });
-
-    // تشغيل التثبيت
-    window.triggerPWAInstall = function() {
-        if (savedPWAPrompt) {
-            savedPWAPrompt.prompt();
-            savedPWAPrompt.userChoice.then((choice) => {
-                if (choice.outcome === 'accepted') {
-                    console.log('PWA Installed');
-                }
-                dismissPWACard();
-            });
-        }
-    };
-
-    // إغلاق وتفريغ الذاكرة فوراً لمنع أي ثقل
-    window.dismissPWACard = function() {
-        if (pwaCardElement) {
-            pwaCardElement.classList.remove('active');
-            localStorage.setItem('pwa_dismissed_today', Date.now());
-            setTimeout(() => {
-                savedPWAPrompt = null;
-            }, 400);
-        }
-    };
-})();
-</script>
-
-
 </body>
 
 </html>
