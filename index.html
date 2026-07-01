@@ -2297,18 +2297,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-// 5. دالة الصعود (متوافقة مع كل المتصفحات)
-function handleShowLessScroll(parentSection) {
-    const header = document.querySelector('header, .header, .navbar');
-    const headerHeight = header ? header.offsetHeight : 110;
-    
-    // تأكد من وجود العنصر قبل محاولة الوصول لخصائصه
-    const wrapper = parentSection.closest('[id$="-anchor"]') || parentSection;
-    if (!wrapper) return;
 
-    const top = wrapper.getBoundingClientRect().top + window.pageYOffset - headerHeight - 45;
-    window.scrollTo({ top: top, behavior: 'smooth' });
-}
 </script>
 
 
